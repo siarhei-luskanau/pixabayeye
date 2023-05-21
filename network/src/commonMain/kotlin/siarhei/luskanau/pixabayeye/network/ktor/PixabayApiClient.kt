@@ -46,7 +46,13 @@ internal class PixabayApiClient {
                 parameters.append("per_page", "3")
                 parameters.append("page", "1")
             }
-        }.status == HttpStatusCode.OK
+        }.let { response ->
+            if (response.status == HttpStatusCode.OK) {
+                true
+            } else {
+                throw Error(response.status.toString())
+            }
+        }
 
     internal suspend fun getImages(
         query: String? = null,
