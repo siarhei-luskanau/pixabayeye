@@ -1,11 +1,10 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.cocoapods)
-    alias(libs.plugins.jetbrains.compose)
-    alias(libs.plugins.kotlinx.serialization)
-    alias(libs.plugins.multiplatform)
+    id("com.android.application")
+    id("org.jetbrains.compose")
+    kotlin("multiplatform")
+    kotlin("native.cocoapods")
 }
 
 kotlin {
@@ -43,45 +42,23 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(compose.foundation)
-                implementation(compose.material)
-                implementation(compose.runtime)
+                implementation(project(":ui"))
                 implementation(libs.koin.core)
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.kotlinx.serialization.json)
-                implementation(libs.ktor.core)
             }
         }
-
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
-
         val androidMain by getting {
             dependencies {
                 implementation(libs.androidx.activityCompose)
                 implementation(libs.androidx.appcompat)
-                implementation(libs.compose.uitooling)
-                implementation(libs.kotlinx.coroutines.android)
-                implementation(libs.ktor.client.okhttp)
             }
         }
-
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.common)
                 implementation(compose.desktop.currentOs)
-                implementation(libs.ktor.client.okhttp)
             }
         }
-
-        val jsMain by getting {
-            dependencies {
-                implementation(compose.html.core)
-            }
-        }
+        val jsMain by getting
 
         val iosX64Main by getting
         val iosArm64Main by getting
@@ -91,31 +68,16 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
-            dependencies {
-                implementation(libs.ktor.client.darwin)
-            }
-        }
-
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
         }
     }
 }
 
 android {
     namespace = "siarhei.luskanau.compose.multiplatform.pixabayeye"
-    compileSdk = 33
-
+    compileSdk = libs.versions.build.compileSdk.get().toInt()
     defaultConfig {
-        minSdk = 21
-        targetSdk = 33
-
+        minSdk = libs.versions.build.minSdk.get().toInt()
+        targetSdk = libs.versions.build.targetSdk.get().toInt()
         applicationId = "siarhei.luskanau.compose.multiplatform.pixabayeye.androidApp"
         versionCode = 1
         versionName = "1.0.0"
@@ -130,7 +92,6 @@ android {
 compose.desktop {
     application {
         mainClass = "MainKt"
-
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "siarhei.luskanau.compose.multiplatform.pixabayeye.desktopApp"

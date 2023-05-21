@@ -3,8 +3,8 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import org.koin.dsl.module
-import siarhei.luskanau.compose.multiplatform.pixabayeye.App
-import siarhei.luskanau.compose.multiplatform.pixabayeye.di.initKoin
+import siarhei.luskanau.pixabayeye.di.initKoin
+import siarhei.luskanau.pixabayeye.ui.App
 
 fun main() = application {
     Window(
@@ -13,9 +13,9 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
     ) {
         App(
-            koin = initKoin(
+            appViewModel = initKoin(
                 module {},
-            ).koin,
+            ).koin.get(),
         )
     }
 }

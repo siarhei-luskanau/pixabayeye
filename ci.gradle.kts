@@ -86,7 +86,7 @@ tasks.register("ciIos") {
     }
 }
 
-tasks.register("ciAll") {
+tasks.register("devAll") {
     group = CI_GRADLE
     doLast {
         gradlew(

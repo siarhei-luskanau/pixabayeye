@@ -1,27 +1,33 @@
 [versions]
 
-build-jvmTarget = "1.8"
-build-javaVersion = "VERSION_1_8"
 agp = "8.0.1"
 androidx-activityCompose = "1.7.1"
 androidx-appcompat = "1.6.1"
-compose-uitooling = "1.4.3"
+androidx-datastore = "1.1.0-alpha04"
+build-compileSdk = "33"
+build-javaVersion = "VERSION_1_8"
+build-jvmTarget = "1.8"
+build-minSdk = "21"
+build-targetSdk = "33"
 detekt = "1.22.0"
 jetbrains-compose = "1.4.0"
 koin = "3.4.0"
 kotlin = "1.8.20"
-kotlinx-coroutines = "1.6.4"
+kotlinx-coroutines = "1.7.1"
 kotlinx-kover = "0.7.0-Beta"
 kotlinx-serialization = "1.5.1"
 ktor = "2.3.0"
 
 [libraries]
 
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
-compose-uitooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-uitooling" }
+androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "androidx-datastore" }
+androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "androidx-datastore" }
+jetbrains-compose-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "jetbrains-compose" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
-kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
@@ -30,10 +36,6 @@ ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 
 [plugins]
 
-android-application = { id = "com.android.application", version.ref = "agp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
-jetbrains-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
-jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
 kotlinx-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kotlinx-kover" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

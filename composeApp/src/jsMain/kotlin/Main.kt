@@ -1,15 +1,15 @@
 import org.jetbrains.skiko.wasm.onWasmReady
 import org.koin.dsl.module
-import siarhei.luskanau.compose.multiplatform.pixabayeye.App
-import siarhei.luskanau.compose.multiplatform.pixabayeye.di.initKoin
+import siarhei.luskanau.pixabayeye.di.initKoin
+import siarhei.luskanau.pixabayeye.ui.App
 
 fun main() {
     onWasmReady {
         BrowserViewportWindow("Compose App") {
             App(
-                koin = initKoin(
+                appViewModel = initKoin(
                     module {},
-                ).koin,
+                ).koin.get(),
             )
         }
     }

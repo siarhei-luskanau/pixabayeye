@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import org.koin.dsl.module
-import siarhei.luskanau.compose.multiplatform.pixabayeye.App
-import siarhei.luskanau.compose.multiplatform.pixabayeye.di.initKoin
+import siarhei.luskanau.pixabayeye.di.initKoin
+import siarhei.luskanau.pixabayeye.ui.App
 
 class AndroidApp : Application()
 
@@ -16,11 +16,11 @@ class AppActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             App(
-                koin = initKoin(
+                appViewModel = initKoin(
                     module {
                         single<Context> { applicationContext }
                     },
-                ).koin,
+                ).koin.get(),
             )
         }
     }

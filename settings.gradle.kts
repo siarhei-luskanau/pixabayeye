@@ -1,5 +1,9 @@
 rootProject.name = "PixabayEye"
-include(":composeApp")
+include(
+    ":composeApp",
+    ":network",
+    ":ui",
+)
 
 pluginManagement {
     repositories {
