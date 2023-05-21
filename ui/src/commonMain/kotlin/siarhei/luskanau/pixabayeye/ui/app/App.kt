@@ -1,4 +1,4 @@
-package siarhei.luskanau.pixabayeye.ui
+package siarhei.luskanau.pixabayeye.ui.app
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import siarhei.luskanau.pixabayeye.ui.AppTheme
 
 @Composable
 fun App(appViewModel: AppViewModel) = AppTheme {

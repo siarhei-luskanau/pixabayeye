@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.buildConfig).apply(false)
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotlinx.kover)
     alias(libs.plugins.kotlinx.serialization).apply(false)

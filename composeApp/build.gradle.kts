@@ -42,6 +42,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(project(":network"))
                 implementation(project(":ui"))
                 implementation(libs.koin.core)
             }

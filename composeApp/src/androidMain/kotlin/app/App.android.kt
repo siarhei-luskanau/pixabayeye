@@ -7,7 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import org.koin.dsl.module
 import siarhei.luskanau.pixabayeye.di.initKoin
-import siarhei.luskanau.pixabayeye.ui.App
+import siarhei.luskanau.pixabayeye.ui.app.App
 
 class AndroidApp : Application()
 
