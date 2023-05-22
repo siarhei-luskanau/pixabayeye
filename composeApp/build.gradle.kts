@@ -43,8 +43,10 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":network"))
+                implementation(project(":pref"))
                 implementation(project(":ui"))
                 implementation(libs.koin.core)
+                implementation(libs.okio)
             }
         }
         val androidMain by getting {

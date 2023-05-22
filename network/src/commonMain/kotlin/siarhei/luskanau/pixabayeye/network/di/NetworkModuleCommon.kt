@@ -7,7 +7,11 @@ import siarhei.luskanau.pixabayeye.network.ktor.PixabayApiClient
 
 val networkModule = module {
 
-    single { PixabayApiClient() }
+    single {
+        PixabayApiClient(
+            prefService = get(),
+        )
+    }
 
     single<PixabayApiService> {
         KtorPixabayApiService(
