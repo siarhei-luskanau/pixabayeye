@@ -14,11 +14,13 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.serialization.json.Json
+import siarhei.luskanau.pixabayeye.core.DispatcherSet
 import siarhei.luskanau.pixabayeye.network.ktor.model.ImagesResponse
 import siarhei.luskanau.pixabayeye.pref.PrefService
 
 internal class PixabayApiClient(
     private val prefService: PrefService,
+    private val dispatcherSet: DispatcherSet,
 ) {
 
     private val engine: HttpClientEngineFactory<HttpClientEngineConfig> by lazy {
@@ -28,12 +30,14 @@ internal class PixabayApiClient(
     private val httpClient: HttpClient by lazy {
         HttpClient(engine) {
             install(ContentNegotiation) {
-                json(
-                    Json {
-                        ignoreUnknownKeys = true
-                        prettyPrint = true
-                    },
-                )
+                dispatcherSet.runBlocking(dispatcherSet.ioDispatcher()) {
+                    json(
+                        Json {
+                            ignoreUnknownKeys = true
+                            prettyPrint = true
+                        },
+                    )
+                }
             }
             install(Logging) {
                 logger = Logger.SIMPLE

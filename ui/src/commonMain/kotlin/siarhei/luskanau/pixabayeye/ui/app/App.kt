@@ -21,10 +21,9 @@ fun App(appViewModel: AppViewModel) = AppTheme {
         AppViewState.Details -> DetailsView(detailsVewState = emptyFlow())
 
         AppViewState.Login -> LoginView(
-            loginVewState = emptyFlow(),
-            onClick = {
-                appViewState.value = AppViewState.Search
-            },
+            loginVewStateFlow = appViewModel.getLoginVewState(),
+            onTextUpdated = { apiKey -> appViewModel.updateApiKey(apiKey) },
+            onClick = { appViewState.value = AppViewState.Search },
         )
 
         AppViewState.Search -> SearchView(searchVewState = emptyFlow())

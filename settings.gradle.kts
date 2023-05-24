@@ -1,6 +1,7 @@
 rootProject.name = "PixabayEye"
 include(
     ":composeApp",
+    ":core",
     ":network",
     ":pref",
     ":ui",

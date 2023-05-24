@@ -9,6 +9,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(project(":core"))
                 implementation(project(":pref"))
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.coroutines.core)

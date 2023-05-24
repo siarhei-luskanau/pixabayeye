@@ -9,9 +9,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -21,31 +20,28 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoginView(
-    loginVewState: Flow<LoginVewState>,
+    loginVewStateFlow: Flow<LoginVewState>,
+    onTextUpdated: suspend (String?) -> Unit,
     onClick: suspend () -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    val loginVewState = loginVewStateFlow.collectAsState(initial = null)
 
     Column(modifier = Modifier.fillMaxSize()) {
         Text(
-            text = "Login",
+            text = "PixabayApiKey",
             style = MaterialTheme.typography.h4,
             modifier = Modifier.padding(16.dp),
         )
 
         OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Email") },
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
-        )
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") },
+            value = loginVewState.value?.apiKey.orEmpty(),
+            onValueChange = {
+                coroutineScope.launch {
+                    onTextUpdated.invoke(it)
+                }
+            },
+            label = { Text("PixabayApiKey") },
             modifier = Modifier.fillMaxWidth().padding(16.dp),
         )
 
@@ -57,7 +53,7 @@ fun LoginView(
             },
             modifier = Modifier.fillMaxWidth().padding(16.dp),
         ) {
-            Text("Login")
+            Text("Update")
         }
     }
 }

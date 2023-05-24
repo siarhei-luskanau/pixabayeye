@@ -4,5 +4,10 @@ import org.koin.dsl.module
 import siarhei.luskanau.pixabayeye.ui.app.AppViewModel
 
 val uiModule = module {
-    single { AppViewModel(pixabayApiService = get()) }
+    single {
+        AppViewModel(
+            pixabayApiService = get(),
+            prefService = get(),
+        )
+    }
 }

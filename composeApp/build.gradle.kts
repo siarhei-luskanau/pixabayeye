@@ -42,6 +42,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(project(":core"))
                 implementation(project(":network"))
                 implementation(project(":pref"))
                 implementation(project(":ui"))

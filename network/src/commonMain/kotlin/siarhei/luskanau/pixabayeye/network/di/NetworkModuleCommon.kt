@@ -10,6 +10,7 @@ val networkModule = module {
     single {
         PixabayApiClient(
             prefService = get(),
+            dispatcherSet = get(),
         )
     }
 

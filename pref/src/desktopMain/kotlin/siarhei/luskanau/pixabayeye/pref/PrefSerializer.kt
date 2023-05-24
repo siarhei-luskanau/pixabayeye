@@ -14,10 +14,14 @@ internal class PrefSerializer : OkioSerializer<PrefData> {
         get() = PrefData(pixabayApiKey = BuildConfig.PIXABAY_API_KEY)
 
     override suspend fun readFrom(source: BufferedSource): PrefData =
-        parser.decodeFromString(
-            PrefData.serializer(),
-            source.readUtf8(),
-        )
+        try {
+            parser.decodeFromString(
+                PrefData.serializer(),
+                source.readUtf8(),
+            )
+        } catch (error: Throwable) {
+            defaultValue
+        }
 
     override suspend fun writeTo(t: PrefData, sink: BufferedSink) {
         sink.writeUtf8(parser.encodeToString(PrefData.serializer(), t))

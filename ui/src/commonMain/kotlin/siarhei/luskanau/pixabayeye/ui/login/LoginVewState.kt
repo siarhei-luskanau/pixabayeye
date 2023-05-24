@@ -1,3 +1,5 @@
 package siarhei.luskanau.pixabayeye.ui.login
 
-sealed interface LoginVewState
+data class LoginVewState(
+    val apiKey: String?,
+)
