@@ -13,6 +13,7 @@ kotlin {
                 implementation(project(":pref"))
                 implementation(compose.foundation)
                 implementation(compose.material)
+                implementation(libs.cash.paging.compose.common)
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.coroutines.core)
             }

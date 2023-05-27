@@ -26,7 +26,9 @@ fun App(appViewModel: AppViewModel) = AppTheme {
             onClick = { appViewState.value = AppViewState.Search },
         )
 
-        AppViewState.Search -> SearchView(searchVewState = emptyFlow())
+        AppViewState.Search -> SearchView(
+            pager = appViewModel.searchVewModel.getPager(""),
+        )
 
         AppViewState.Splash -> SplashView(
             splashVewState = emptyFlow(),

@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -30,8 +31,11 @@ fun LoginView(
     Column(modifier = Modifier.fillMaxSize()) {
         Text(
             text = "PixabayApiKey",
+            textAlign = TextAlign.Center,
             style = MaterialTheme.typography.h4,
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
         )
 
         OutlinedTextField(
