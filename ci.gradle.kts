@@ -98,6 +98,7 @@ tasks.register("devAll") {
             "ciDesktop",
             "ciBrowser",
             "ciIos",
+            "jsBrowserProductionWebpack",
         )
     }
 }
