@@ -32,6 +32,8 @@ internal class KtorPixabayApiService(
                         downloads = entity.downloads,
                         comments = entity.comments,
                         previewUrl = entity.previewUrl,
+                        previewHeight = entity.previewHeight,
+                        previewWidth = entity.previewWidth,
                         middleImageUrl = entity.middleImageUrl,
                         largeImageUrl = entity.largeImageUrl,
                     )

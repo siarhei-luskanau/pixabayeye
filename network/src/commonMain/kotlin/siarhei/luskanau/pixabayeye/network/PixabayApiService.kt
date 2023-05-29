@@ -23,6 +23,8 @@ data class HitModel(
     val downloads: Int,
     val comments: Int,
     val previewUrl: String,
+    val previewHeight: Int,
+    val previewWidth: Int,
     val middleImageUrl: String,
     val largeImageUrl: String,
 )

@@ -12,12 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 @Composable
 fun SplashView(
-    splashVewState: Flow<SplashVewState>,
     onSplashComplete: suspend () -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()

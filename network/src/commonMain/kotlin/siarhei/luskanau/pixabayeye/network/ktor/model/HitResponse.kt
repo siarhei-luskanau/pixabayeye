@@ -13,6 +13,8 @@ internal data class HitResponse(
     @SerialName("downloads") val downloads: Int,
     @SerialName("comments") val comments: Int,
     @SerialName("previewURL") val previewUrl: String,
+    @SerialName("previewHeight") val previewHeight: Int,
+    @SerialName("previewWidth") val previewWidth: Int,
     @SerialName("webformatURL") val middleImageUrl: String,
     @SerialName("largeImageURL") val largeImageUrl: String,
 )

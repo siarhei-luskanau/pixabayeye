@@ -1,18 +1,18 @@
 package siarhei.luskanau.pixabayeye.ui.details
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.Flow
+import com.seiko.imageloader.rememberAsyncImagePainter
+import siarhei.luskanau.pixabayeye.network.HitModel
 
 @Composable
-fun DetailsView(detailsVewState: Flow<DetailsVewState>) {
-    Text(
-        text = "Details",
-        style = MaterialTheme.typography.h4,
-        modifier = Modifier.padding(16.dp),
+fun DetailsView(hitModel: HitModel) {
+    Image(
+        painter = rememberAsyncImagePainter(url = hitModel.largeImageUrl),
+        modifier = Modifier
+            .fillMaxSize(),
+        contentDescription = null,
     )
 }

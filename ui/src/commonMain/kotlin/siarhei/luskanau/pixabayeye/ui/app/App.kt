@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.emptyFlow
+import siarhei.luskanau.pixabayeye.network.HitModel
 import siarhei.luskanau.pixabayeye.network.NetworkResult
 import siarhei.luskanau.pixabayeye.ui.AppTheme
 import siarhei.luskanau.pixabayeye.ui.details.DetailsView
@@ -17,8 +17,8 @@ import kotlin.time.toDuration
 @Composable
 fun App(appViewModel: AppViewModel) = AppTheme {
     val appViewState = remember { mutableStateOf<AppViewState>(AppViewState.Splash) }
-    when (appViewState.value) {
-        AppViewState.Details -> DetailsView(detailsVewState = emptyFlow())
+    when (val viewState = appViewState.value) {
+        is AppViewState.Details -> DetailsView(hitModel = viewState.hitModel)
 
         AppViewState.Login -> LoginView(
             loginVewStateFlow = appViewModel.getLoginVewState(),
@@ -28,10 +28,10 @@ fun App(appViewModel: AppViewModel) = AppTheme {
 
         AppViewState.Search -> SearchView(
             pager = appViewModel.searchVewModel.getPager(""),
+            onImageClicked = { hitModel -> appViewState.value = AppViewState.Details(hitModel) },
         )
 
         AppViewState.Splash -> SplashView(
-            splashVewState = emptyFlow(),
             onSplashComplete = {
                 when (appViewModel.isApiKeyOk()) {
                     is NetworkResult.Failure -> appViewState.value = AppViewState.Login
@@ -47,5 +47,5 @@ internal sealed interface AppViewState {
     object Splash : AppViewState
     object Search : AppViewState
     object Login : AppViewState
-    object Details : AppViewState
+    data class Details(val hitModel: HitModel) : AppViewState
 }
