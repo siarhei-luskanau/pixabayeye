@@ -38,9 +38,7 @@ kotlin {
 }
 
 buildConfig {
-    buildConfigField(
-        "String",
-        "PIXABAY_API_KEY",
-        "\"${gradleLocalProperties(rootDir).getProperty("PIXABAY_API_KEY")}\"",
-    )
+    val apiKey = gradleLocalProperties(rootDir).getProperty("PIXABAY_API_KEY")
+        ?: System.getenv("PIXABAY_API_KEY")
+    buildConfigField("String", "PIXABAY_API_KEY", "\"${apiKey.orEmpty()}\"")
 }

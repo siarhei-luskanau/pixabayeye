@@ -12,7 +12,7 @@ kotlin {
                 implementation(project(":network"))
                 implementation(project(":pref"))
                 implementation(compose.foundation)
-                implementation(compose.material)
+                implementation(compose.material3)
                 implementation(libs.cash.paging.compose.common)
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.coroutines.core)

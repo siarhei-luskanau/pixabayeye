@@ -1,6 +1,7 @@
 package siarhei.luskanau.pixabayeye.core.di
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
@@ -17,6 +18,7 @@ actual val corePlatformModule = module {
                 context: CoroutineContext,
                 block: suspend CoroutineScope.() -> T,
             ): T =
+                @OptIn(DelicateCoroutinesApi::class)
                 GlobalScope.promise(
                     context = context,
                     block = block,

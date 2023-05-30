@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,12 +60,12 @@ fun SearchView(
                     Column {
                         Text(
                             text = hitModel.userName,
-                            style = MaterialTheme.typography.subtitle1,
+                            style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier.padding(16.dp),
                         )
                         Text(
                             text = hitModel.tags,
-                            style = MaterialTheme.typography.body2,
+                            style = MaterialTheme.typography.bodySmall,
                             modifier = Modifier.padding(16.dp),
                         )
                     }
