@@ -18,7 +18,11 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -40,12 +44,14 @@ fun SearchView(
     val coroutineScope = rememberCoroutineScope()
     val loginVewState = searchVewStateFlow.collectAsState(initial = null)
     val items = (loginVewState.value?.pager?.flow ?: emptyFlow()).collectAsLazyPagingItems()
+    var searchTerm by remember { mutableStateOf("") }
 
     Column {
         @OptIn(ExperimentalMaterial3Api::class)
         OutlinedTextField(
-            value = loginVewState.value?.searchTerm.orEmpty(),
+            value = searchTerm,
             onValueChange = {
+                searchTerm = it
                 coroutineScope.launch {
                     onUpdateSearchTerm.invoke(it)
                 }

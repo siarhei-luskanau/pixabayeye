@@ -8,8 +8,10 @@ internal class KtorPixabayApiService(
     private val client: PixabayApiClient,
 ) : PixabayApiService {
 
-    override suspend fun isApiKeyOk(): NetworkResult<Boolean> =
-        runNetworkCatching { client.isApiKeyOk() }
+    override suspend fun isApiKeyOk(apiKey: String?): NetworkResult<Boolean> =
+        runNetworkCatching {
+            client.isApiKeyOk(apiKey = apiKey)
+        }
 
     override suspend fun getImages(
         query: String?,

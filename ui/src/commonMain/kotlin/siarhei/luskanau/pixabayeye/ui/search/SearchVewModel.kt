@@ -15,7 +15,6 @@ class SearchVewModel(private val pixabayApiService: PixabayApiService) {
     fun getSearchVewStateFlow(): Flow<SearchVewState> =
         searchTermFlow.map {
             SearchVewState(
-                searchTerm = it,
                 pager = getPager(it),
             )
         }

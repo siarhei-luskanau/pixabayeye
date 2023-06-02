@@ -10,22 +10,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 @Composable
 fun LoginView(
-    loginVewStateFlow: Flow<LoginVewState>,
-    onTextUpdated: suspend (String?) -> Unit,
-    onClick: suspend () -> Unit,
+    loginVewState: LoginVewState,
+    onUpdateClick: suspend (String) -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val loginVewState = loginVewStateFlow.collectAsState(initial = null)
+    var apiKey by remember { mutableStateOf(loginVewState.apiKey.orEmpty()) }
 
     Column(modifier = Modifier.fillMaxSize()) {
         Text(
@@ -39,21 +40,15 @@ fun LoginView(
 
         @OptIn(ExperimentalMaterial3Api::class)
         OutlinedTextField(
-            value = loginVewState.value?.apiKey.orEmpty(),
-            onValueChange = {
-                coroutineScope.launch {
-                    onTextUpdated.invoke(it)
-                }
-            },
+            value = apiKey,
+            onValueChange = { apiKey = it },
             label = { Text("PixabayApiKey") },
             modifier = Modifier.fillMaxWidth().padding(16.dp),
         )
 
         Button(
             onClick = {
-                coroutineScope.launch {
-                    onClick.invoke()
-                }
+                coroutineScope.launch { onUpdateClick.invoke(apiKey) }
             },
             modifier = Modifier.fillMaxWidth().padding(16.dp),
         ) {

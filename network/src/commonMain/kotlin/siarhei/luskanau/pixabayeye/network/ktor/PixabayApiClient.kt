@@ -46,20 +46,18 @@ internal class PixabayApiClient(
         }
     }
 
-    internal suspend fun isApiKeyOk(): Boolean =
-        geyPixabayApiKey().let { pixabayApiKey ->
-            httpClient.get(PIXABAY_BASE_URL + "api/") {
-                url {
-                    parameters.append("key", pixabayApiKey)
-                    parameters.append("per_page", "3")
-                    parameters.append("page", "1")
-                }
-            }.let { response ->
-                if (response.status == HttpStatusCode.OK) {
-                    true
-                } else {
-                    throw Error(response.status.toString())
-                }
+    internal suspend fun isApiKeyOk(apiKey: String?): Boolean =
+        httpClient.get(PIXABAY_BASE_URL + "api/") {
+            url {
+                parameters.append("key", apiKey.orEmpty())
+                parameters.append("per_page", "3")
+                parameters.append("page", "1")
+            }
+        }.let { response ->
+            if (response.status == HttpStatusCode.OK) {
+                true
+            } else {
+                throw Error(response.status.toString())
             }
         }
 

@@ -1,7 +1,7 @@
 package siarhei.luskanau.pixabayeye.network
 
 interface PixabayApiService {
-    suspend fun isApiKeyOk(): NetworkResult<Boolean>
+    suspend fun isApiKeyOk(apiKey: String?): NetworkResult<Boolean>
     suspend fun getImages(
         query: String?,
         perPage: Int?,

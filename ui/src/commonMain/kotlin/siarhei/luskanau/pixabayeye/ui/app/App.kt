@@ -17,11 +17,15 @@ fun App(appViewModel: AppViewModel) = AppTheme {
     when (val viewState = appViewState.value) {
         is AppViewState.Details -> DetailsView(hitModel = viewState.hitModel)
 
-        AppViewState.Login -> LoginView(
-            loginVewStateFlow = appViewModel.loginVewModel.getLoginVewStateFlow(),
-            onTextUpdated = { apiKey -> appViewModel.loginVewModel.updateApiKey(apiKey) },
-            onClick = { appViewState.value = AppViewState.Search },
-        )
+        AppViewState.Login -> {
+            val loginVewModel = appViewModel.createLoginVewModel {
+                appViewState.value = AppViewState.Search
+            }
+            LoginView(
+                loginVewState = loginVewModel.getLoginVewState(),
+                onUpdateClick = { apiKey -> loginVewModel.onUpdateClick(apiKey) },
+            )
+        }
 
         AppViewState.Search -> SearchView(
             searchVewStateFlow = appViewModel.searchVewModel.getSearchVewStateFlow(),
