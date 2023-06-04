@@ -78,10 +78,10 @@ kotlin {
 
 android {
     namespace = "siarhei.luskanau.compose.multiplatform.pixabayeye"
-    compileSdk = libs.versions.build.compileSdk.get().toInt()
+    compileSdk = libs.versions.build.android.compileSdk.get().toInt()
     defaultConfig {
-        minSdk = libs.versions.build.minSdk.get().toInt()
-        targetSdk = libs.versions.build.targetSdk.get().toInt()
+        minSdk = libs.versions.build.android.minSdk.get().toInt()
+        targetSdk = libs.versions.build.android.targetSdk.get().toInt()
         applicationId = "siarhei.luskanau.compose.multiplatform.pixabayeye.androidApp"
         versionCode = 1
         versionName = "1.0.0"

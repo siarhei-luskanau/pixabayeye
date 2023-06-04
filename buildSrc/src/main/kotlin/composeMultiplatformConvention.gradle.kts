@@ -80,8 +80,8 @@ kotlin {
 }
 
 android {
-    compileSdk = libs.findVersion("build-compileSdk").get().requiredVersion.toInt()
-    defaultConfig.minSdk = libs.findVersion("build-minSdk").get().requiredVersion.toInt()
+    compileSdk = libs.findVersion("build-android-compileSdk").get().requiredVersion.toInt()
+    defaultConfig.minSdk = libs.findVersion("build-android-minSdk").get().requiredVersion.toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.valueOf(
             libs.findVersion("build-javaVersion").get().requiredVersion,

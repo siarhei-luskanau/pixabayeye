@@ -6,53 +6,48 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 @Composable
 fun LoginView(
     loginVewState: LoginVewState,
+    modifier: Modifier,
+    onInit: suspend () -> Unit,
     onUpdateClick: suspend (String) -> Unit,
+    onCheckClick: suspend () -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    var apiKey by remember { mutableStateOf(loginVewState.apiKey.orEmpty()) }
+    val apiKey = loginVewState.apiKeyFlow.collectAsState(initial = null)
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        Text(
-            text = "PixabayApiKey",
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-        )
-
+    Column(modifier = modifier.fillMaxSize()) {
         @OptIn(ExperimentalMaterial3Api::class)
         OutlinedTextField(
-            value = apiKey,
-            onValueChange = { apiKey = it },
+            value = apiKey.value.orEmpty(),
+            onValueChange = {
+                coroutineScope.launch { onUpdateClick.invoke(it) }
+            },
             label = { Text("PixabayApiKey") },
             modifier = Modifier.fillMaxWidth().padding(16.dp),
         )
 
         Button(
             onClick = {
-                coroutineScope.launch { onUpdateClick.invoke(apiKey) }
+                coroutineScope.launch { onCheckClick.invoke() }
             },
             modifier = Modifier.fillMaxWidth().padding(16.dp),
         ) {
             Text("Update")
+        }
+        LaunchedEffect(apiKey) {
+            onInit.invoke()
         }
     }
 }

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,13 +39,14 @@ fun SearchView(
     searchVewStateFlow: Flow<SearchVewState>,
     onUpdateSearchTerm: suspend (String) -> Unit,
     onImageClicked: (HitModel) -> Unit,
+    modifier: Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val loginVewState = searchVewStateFlow.collectAsState(initial = null)
     val items = (loginVewState.value?.pager?.flow ?: emptyFlow()).collectAsLazyPagingItems()
     var searchTerm by remember { mutableStateOf("") }
 
-    Column {
+    Column(modifier = modifier.fillMaxWidth()) {
         @OptIn(ExperimentalMaterial3Api::class)
         OutlinedTextField(
             value = searchTerm,
@@ -61,7 +61,7 @@ fun SearchView(
         )
 
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(all = 12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {

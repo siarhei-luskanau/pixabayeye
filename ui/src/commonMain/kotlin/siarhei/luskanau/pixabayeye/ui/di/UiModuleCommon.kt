@@ -20,7 +20,6 @@ val uiModule = module {
         LoginVewModel(
             prefService = get(),
             pixabayApiService = get(),
-            dispatcherSet = get(),
             onLoginComplete = onLoginComplete,
         )
     }

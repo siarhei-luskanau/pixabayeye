@@ -1,5 +1,7 @@
 package siarhei.luskanau.pixabayeye.ui.login
 
+import kotlinx.coroutines.flow.Flow
+
 data class LoginVewState(
-    val apiKey: String?,
+    val apiKeyFlow: Flow<String?>,
 )

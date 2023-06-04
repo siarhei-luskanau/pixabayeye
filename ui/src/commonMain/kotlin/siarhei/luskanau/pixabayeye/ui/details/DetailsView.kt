@@ -8,10 +8,13 @@ import com.seiko.imageloader.rememberAsyncImagePainter
 import siarhei.luskanau.pixabayeye.network.HitModel
 
 @Composable
-fun DetailsView(hitModel: HitModel) {
+fun DetailsView(
+    hitModel: HitModel,
+    modifier: Modifier,
+) {
     Image(
         painter = rememberAsyncImagePainter(url = hitModel.largeImageUrl),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize(),
         contentDescription = null,
     )

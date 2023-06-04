@@ -4,21 +4,22 @@ agp = "8.0.2"
 androidx-activityCompose = "1.7.2"
 androidx-appcompat = "1.6.1"
 androidx-datastore = "1.1.0-alpha04"
-build-compileSdk = "33"
+build-android-compileSdk = "33"
+build-android-minSdk = "21"
+build-android-targetSdk = "33"
 build-javaVersion = "VERSION_17"
 build-jvmTarget = "17"
-build-minSdk = "21"
-build-targetSdk = "33"
 buildConfig = "4.0.4"
 cash-paging = "3.2.0-alpha05-0.2.2"
+decompose = "2.1.0-compose-experimental-alpha-01"
 detekt = "1.23.0"
-jetbrains-compose = "1.4.0"
+jetbrains-compose = "1.5.+"
 koin = "3.4.0"
 kotlin = "1.8.20"
 kotlinx-coroutines = "1.7.1"
 kotlinx-kover = "0.7.0"
 kotlinx-serialization = "1.5.1"
-ktor = "2.3.0"
+ktor = "2.3.1"
 okio = "3.3.0"
 qdsfdhvh-image-loader = "1.4.4"
 
@@ -30,6 +31,8 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "androidx-datastore" }
 androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "androidx-datastore" }
 cash-paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "cash-paging" }
+decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
+decompose-extensions-compose-jetbrains = { module = "com.arkivanov.decompose:extensions-compose-jetbrains", version.ref = "decompose" }
 jetbrains-compose-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "jetbrains-compose" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

@@ -16,12 +16,13 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SplashView(
+    modifier: Modifier,
     onSplashComplete: suspend () -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
     ) {
         Text(
             text = "PixabayEye",
