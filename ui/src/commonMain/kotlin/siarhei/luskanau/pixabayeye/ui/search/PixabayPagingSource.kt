@@ -28,11 +28,11 @@ class PixabayPagingSource(
                 data = networkResult.result,
                 prevKey = (page - 1).takeIf { it >= FIRST_PAGE_INDEX },
                 nextKey = if (networkResult.result.isNotEmpty()) page + 1 else null,
-            ) as PagingSourceLoadResult<Int, HitModel>
+            )
 
             is NetworkResult.Failure -> PagingSourceLoadResultError<Int, HitModel>(
                 networkResult.error,
-            ) as PagingSourceLoadResult<Int, HitModel>
+            )
         }
     }
 
