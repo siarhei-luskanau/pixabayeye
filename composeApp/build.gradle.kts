@@ -8,7 +8,7 @@ plugins {
 }
 
 kotlin {
-    android {
+    androidTarget {
         compilations.all {
             kotlinOptions {
                 jvmTarget = libs.versions.build.jvmTarget.get()
@@ -62,7 +62,12 @@ kotlin {
                 implementation(compose.desktop.currentOs)
             }
         }
-        val jsMain by getting
+        val jsMain by getting {
+            dependencies {
+                implementation(compose.html.core)
+                implementation(compose.ui)
+            }
+        }
 
         val iosX64Main by getting
         val iosArm64Main by getting
