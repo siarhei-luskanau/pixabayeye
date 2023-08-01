@@ -1,5 +1,4 @@
 [versions]
-
 agp = "8.1.0"
 androidx-activity-compose = "1.7.2"
 androidx-appcompat = "1.6.1"
@@ -9,22 +8,21 @@ build-android-minSdk = "21"
 build-android-targetSdk = "34"
 build-javaVersion = "VERSION_17"
 build-jvmTarget = "17"
-buildConfig = "4.1.1"
-cash-paging = "3.2.0-alpha05-0.2.2"
+buildConfig = "4.1.2"
+cash-paging = "3.2.0-alpha05-0.2.3"
 decompose = "2.1.0-compose-experimental-alpha-02"
-detekt = "1.23.0"
-jetbrains-compose = "1.4.3"
-koin = "3.4.2"
+detekt = "1.23.1"
+jetbrains-compose = "1.5.0-beta01"
+koin = "3.4.3"
 kotlin = "1.9.0"
-kotlinx-coroutines = "1.7.2"
-kotlinx-kover = "0.7.2"
+kotlinx-coroutines = "1.7.3"
+kotlinx-kover = "0.7.3"
 kotlinx-serialization = "1.5.1"
-ktor = "2.3.2"
-okio = "3.3.0"
-qdsfdhvh-image-loader = "1.5.3"
+ktor = "2.3.3"
+okio = "3.4.0"
+qdsfdhvh-image-loader = "1.6.2"
 
 [libraries]
-
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -48,7 +46,6 @@ okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 qdsfdhvh-image-loader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "qdsfdhvh-image-loader" }
 
 [plugins]
-
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlinx-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kotlinx-kover" }
