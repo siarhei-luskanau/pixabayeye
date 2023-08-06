@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -28,7 +27,8 @@ import androidx.compose.ui.unit.dp
 import app.cash.paging.compose.collectAsLazyPagingItems
 import app.cash.paging.compose.itemContentType
 import app.cash.paging.compose.itemKey
-import com.seiko.imageloader.rememberAsyncImagePainter
+import com.seiko.imageloader.rememberImageAction
+import com.seiko.imageloader.rememberImageActionPainter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
@@ -47,7 +47,6 @@ fun SearchView(
     var searchTerm by remember { mutableStateOf("") }
 
     Column(modifier = modifier.fillMaxWidth()) {
-        @OptIn(ExperimentalMaterial3Api::class)
         OutlinedTextField(
             value = searchTerm,
             onValueChange = {
@@ -79,8 +78,9 @@ fun SearchView(
                                 onImageClicked.invoke(hitModel)
                             },
                     ) {
+                        val action by rememberImageAction(url = hitModel.previewUrl)
                         Image(
-                            painter = rememberAsyncImagePainter(url = hitModel.previewUrl),
+                            painter = rememberImageActionPainter(action = action),
                             contentDescription = hitModel.tags,
                             modifier = Modifier
                                 .height(hitModel.previewHeight.dp)

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,7 +27,6 @@ fun LoginView(
     val apiKey = loginVewState.apiKeyFlow.collectAsState(initial = null)
 
     Column(modifier = modifier.fillMaxSize()) {
-        @OptIn(ExperimentalMaterial3Api::class)
         OutlinedTextField(
             value = apiKey.value.orEmpty(),
             onValueChange = {

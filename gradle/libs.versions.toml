@@ -19,8 +19,8 @@ kotlinx-coroutines = "1.7.3"
 kotlinx-kover = "0.7.3"
 kotlinx-serialization = "1.5.1"
 ktor = "2.3.3"
-okio = "3.4.0"
-qdsfdhvh-image-loader = "1.6.2"
+okio = "3.5.0"
+qdsfdhvh-image-loader = "1.6.4"
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
