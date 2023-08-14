@@ -12,13 +12,25 @@ plugins {
 apply(from = "$rootDir/ci.gradle.kts")
 
 allprojects {
-    apply(plugin = "io.gitlab.arturbosch.detekt")
     apply(plugin = "org.jetbrains.kotlinx.kover")
     apply(from = "$rootDir/ktlint.gradle.kts")
 }
 
-dependencies {
-    subprojects.map { it.path }.forEach {
-        kover(project(it))
+koverReport {
+    verify {
+        rule {
+            minBound(95)
+            maxBound(98)
+        }
     }
+}
+
+subprojects {
+    apply(plugin = "org.jetbrains.kotlinx.kover")
+    koverReport {
+        defaults {
+            mergeWith("debug")
+        }
+    }
+    dependencies { kover(project(path)) }
 }
