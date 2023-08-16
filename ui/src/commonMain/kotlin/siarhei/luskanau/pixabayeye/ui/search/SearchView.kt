@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
 import app.cash.paging.compose.itemContentType
 import app.cash.paging.compose.itemKey
@@ -43,7 +44,7 @@ fun SearchView(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val loginVewState = searchVewStateFlow.collectAsState(initial = null)
-    val items = (loginVewState.value?.pager?.flow ?: emptyFlow()).collectAsLazyPagingItems()
+    val lazyPagingItems: LazyPagingItems<HitModel> = (loginVewState.value?.pagingDataFlow ?: emptyFlow()).collectAsLazyPagingItems()
     var searchTerm by remember { mutableStateOf("") }
 
     Column(modifier = modifier.fillMaxWidth()) {
@@ -65,11 +66,11 @@ fun SearchView(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(
-                count = items.itemCount,
-                key = items.itemKey { it.imageId },
-                contentType = items.itemContentType { null },
+                count = lazyPagingItems.itemCount,
+                key = lazyPagingItems.itemKey { it.imageId },
+                contentType = lazyPagingItems.itemContentType { null },
             ) { index ->
-                items[index]?.let { hitModel ->
+                lazyPagingItems[index]?.let { hitModel ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
@@ -101,6 +102,17 @@ fun SearchView(
                     }
                 }
             }
+//            item {
+//                when {
+//                    lazyPagingItems.loadState.source.append is LoadStateError -> Button(
+//                        onClick = { lazyPagingItems.retry() },
+//                    ) {
+//                        Text("Retry")
+//                    }
+//                    lazyPagingItems.loadState.source.append is LoadStateLoading -> CircularProgressIndicator()
+//                    else -> Spacer(Modifier.height(12.dp))
+//                }
+//            }
         }
     }
 }

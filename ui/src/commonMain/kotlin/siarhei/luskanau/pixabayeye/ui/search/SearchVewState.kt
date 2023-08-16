@@ -1,8 +1,9 @@
 package siarhei.luskanau.pixabayeye.ui.search
 
-import app.cash.paging.Pager
+import app.cash.paging.PagingData
+import kotlinx.coroutines.flow.Flow
 import siarhei.luskanau.pixabayeye.network.HitModel
 
 data class SearchVewState(
-    val pager: Pager<Int, HitModel>,
+    val pagingDataFlow: Flow<PagingData<HitModel>>,
 )
