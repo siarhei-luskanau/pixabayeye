@@ -1,5 +1,4 @@
 import org.apache.tools.ant.taskdefs.condition.Os
-import java.io.File
 import java.util.Properties
 
 val CI_GRADLE = "CI_GRADLE"
@@ -119,9 +118,7 @@ fun gradlew(
     exec {
         executable = File(
             project.rootDir,
-            listOf(
-                if (Os.isFamily(Os.FAMILY_WINDOWS)) "gradlew.bat" else "gradlew",
-            ).filterNotNull().joinToString(separator = File.separator),
+            if (Os.isFamily(Os.FAMILY_WINDOWS)) "gradlew.bat" else "gradlew",
         )
             .also { it.setExecutable(true) }
             .absolutePath
