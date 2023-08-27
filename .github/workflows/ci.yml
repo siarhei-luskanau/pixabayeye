@@ -69,6 +69,29 @@ jobs:
 
 
 
+  AndroidEmulator:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ macos-latest ]
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - uses: android-actions/setup-android@v2
+
+      - uses: gradle/gradle-build-action@v2
+        with:
+          arguments: ciAndroidEmulator --stacktrace
+
+
+
   Desktop:
     runs-on: ${{ matrix.os }}
     strategy:

@@ -56,6 +56,13 @@ kotlin {
                 implementation(libs.androidx.appcompat)
             }
         }
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(libs.androidx.test.core.ktx)
+                implementation(libs.androidx.test.runner)
+            }
+        }
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.common)
@@ -90,12 +97,14 @@ android {
         applicationId = "siarhei.luskanau.compose.multiplatform.pixabayeye.androidApp"
         versionCode = 1
         versionName = "1.0.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.valueOf(libs.versions.build.javaVersion.get())
         targetCompatibility = JavaVersion.valueOf(libs.versions.build.javaVersion.get())
     }
     packaging.resources.excludes.add("META-INF/**")
+    testOptions.configureTestOptions()
 }
 
 compose.desktop {

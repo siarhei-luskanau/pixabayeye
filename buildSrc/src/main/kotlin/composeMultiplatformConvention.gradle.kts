@@ -45,6 +45,14 @@ kotlin {
             }
         }
 
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(libs.findLibrary("androidx-test-core-ktx").get())
+                implementation(libs.findLibrary("androidx-test-runner").get())
+            }
+        }
+
         val desktopMain by getting {
             dependencies {
             }
@@ -81,7 +89,10 @@ kotlin {
 
 android {
     compileSdk = libs.findVersion("build-android-compileSdk").get().requiredVersion.toInt()
-    defaultConfig.minSdk = libs.findVersion("build-android-minSdk").get().requiredVersion.toInt()
+    defaultConfig {
+        minSdk = libs.findVersion("build-android-minSdk").get().requiredVersion.toInt()
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.valueOf(
             libs.findVersion("build-javaVersion").get().requiredVersion,
@@ -91,4 +102,5 @@ android {
         )
     }
     packaging.resources.excludes.add("META-INF/**")
+    testOptions.configureTestOptions()
 }

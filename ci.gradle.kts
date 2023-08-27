@@ -46,6 +46,17 @@ tasks.register("ciAndroid") {
     }
 }
 
+tasks.register("ciAndroidEmulator") {
+    group = CI_GRADLE
+    doLast {
+        gradlew(
+            "managedVirtualDeviceCheck",
+            "-Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect",
+        )
+        gradlew("cleanManagedDevices")
+    }
+}
+
 tasks.register("ciDesktop") {
     group = CI_GRADLE
     doLast {
@@ -101,6 +112,8 @@ tasks.register("devAll") {
             "ciBrowser",
             "ciIos",
             "jsBrowserProductionWebpack",
+            "ciAndroidEmulator",
+            "managedVirtualDeviceCheck",
         )
     }
 }
