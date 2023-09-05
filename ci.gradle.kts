@@ -113,7 +113,12 @@ tasks.register("devAll") {
             "ciIos",
             "jsBrowserProductionWebpack",
             "ciAndroidEmulator",
-            "managedVirtualDeviceCheck",
+        )
+        gradlew(
+            "managedVirtualDeviceDebugAndroidTest",
+            "-Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect",
+            "-Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true",
+            "--enable-display",
         )
     }
 }

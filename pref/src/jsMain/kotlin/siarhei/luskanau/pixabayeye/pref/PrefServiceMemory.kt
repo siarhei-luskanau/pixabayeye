@@ -1,10 +1,10 @@
 package siarhei.luskanau.pixabayeye.pref
 
-import PixabayEye.pref.BuildConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import pixabayeye.pref.BuildConfig
 
 internal class PrefServiceMemory : PrefService {
 

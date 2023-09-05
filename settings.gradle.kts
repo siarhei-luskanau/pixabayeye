@@ -1,4 +1,4 @@
-rootProject.name = "PixabayEye"
+rootProject.name = "pixabayeye"
 include(
     ":composeApp",
     ":core",

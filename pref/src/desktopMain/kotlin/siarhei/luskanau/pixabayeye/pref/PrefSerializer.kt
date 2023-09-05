@@ -1,10 +1,10 @@
 package siarhei.luskanau.pixabayeye.pref
 
-import PixabayEye.pref.BuildConfig
 import androidx.datastore.core.okio.OkioSerializer
 import kotlinx.serialization.json.Json
 import okio.BufferedSink
 import okio.BufferedSource
+import pixabayeye.pref.BuildConfig
 
 internal class PrefSerializer : OkioSerializer<PrefData> {
 

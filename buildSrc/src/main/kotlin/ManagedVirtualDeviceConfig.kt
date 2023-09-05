@@ -18,6 +18,6 @@ fun TestOptions.configureTestOptions() {
     }
     managedDevices.devices.create<ManagedVirtualDevice>("managedVirtualDevice") {
         device = "Pixel 2"
-        apiLevel = 31
+        apiLevel = 33
     }
 }
