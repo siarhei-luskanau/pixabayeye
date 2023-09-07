@@ -7,7 +7,7 @@
         android:name="app.AndroidApp"
         android:icon="@android:drawable/ic_menu_compass"
         android:label="PixabayEye"
-        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+        android:theme="@android:style/Theme.Material.NoActionBar">
         <activity
             android:name="app.AppActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"

@@ -4,13 +4,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import pixabayeye.pref.BuildConfig
 
 internal class PrefServiceMemory : PrefService {
 
     private val prefFlow: MutableStateFlow<PrefData> by lazy {
         MutableStateFlow(
-            PrefData(pixabayApiKey = BuildConfig.PIXABAY_API_KEY),
+            PrefData(pixabayApiKey = PIXABAY_API_KEY),
         )
     }
 

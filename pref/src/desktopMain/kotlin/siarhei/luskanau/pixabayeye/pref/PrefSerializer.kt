@@ -4,14 +4,13 @@ import androidx.datastore.core.okio.OkioSerializer
 import kotlinx.serialization.json.Json
 import okio.BufferedSink
 import okio.BufferedSource
-import pixabayeye.pref.BuildConfig
 
 internal class PrefSerializer : OkioSerializer<PrefData> {
 
     private val parser = Json { ignoreUnknownKeys = true }
 
     override val defaultValue: PrefData
-        get() = PrefData(pixabayApiKey = BuildConfig.PIXABAY_API_KEY)
+        get() = PrefData(pixabayApiKey = PIXABAY_API_KEY)
 
     override suspend fun readFrom(source: BufferedSource): PrefData =
         try {

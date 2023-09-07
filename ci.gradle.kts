@@ -6,11 +6,16 @@ val CI_GRADLE = "CI_GRADLE"
 tasks.register("ciLint") {
     group = CI_GRADLE
     doLast {
-        gradlew(
+        val tasks = mutableListOf(
             "ktlintCheck",
             "detekt",
-            "lint",
         )
+        tasks.addAll(
+            rootProject.subprojects
+                .filter { it.path != ":pref" }
+                .map { "${it.path}:lint" },
+        )
+        gradlew(*tasks.toTypedArray())
     }
 }
 
@@ -105,6 +110,8 @@ tasks.register("devAll") {
         gradlew(
             "clean",
             "ktlintFormat",
+        )
+        gradlew(
             "ciLint",
             "ciUnitTest",
             "ciAndroid",

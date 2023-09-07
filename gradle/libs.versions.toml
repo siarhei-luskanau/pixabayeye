@@ -1,8 +1,7 @@
 [versions]
-agp = "8.1.1"
+agp = "8.1.2"
 androidx-activity-compose = "1.7.2"
-androidx-appcompat = "1.6.1"
-androidx-datastore = "1.1.0-alpha04"
+androidx-datastore = "1.1.0-alpha05"
 androidx-test-core = "1.5.0"
 androidx-test-runner = "1.5.2"
 build-android-compileSdk = "34"
@@ -11,23 +10,23 @@ build-android-targetSdk = "34"
 build-javaVersion = "VERSION_17"
 build-jvmTarget = "17"
 buildConfig = "4.1.2"
-cash-paging = "3.2.0-alpha05-0.2.3"
-decompose = "2.1.0-compose-experimental-alpha-02"
+cash-paging = "3.3.0-alpha02-0.4.0"
+decompose = "2.1.0-compose-experimental"
 detekt = "1.23.1"
-jetbrains-compose = "1.5.1"
-koin = "3.4.3"
+jetbrains-compose = "1.5.2"
+koin = "3.5.0"
 kotlin = "1.9.10"
 kotlinx-coroutines = "1.7.3"
 kotlinx-kover = "0.7.3"
 kotlinx-serialization = "1.6.0"
+ktlint-jlleitschuh = "11.6.0"
 ktor = "2.3.4"
 okio = "3.5.0"
-qdsfdhvh-image-loader = "1.6.5"
+qdsfdhvh-image-loader = "1.6.7"
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
-androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "androidx-datastore" }
 androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
@@ -54,3 +53,4 @@ buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlinx-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kotlinx-kover" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ktlint-jlleitschuh = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-jlleitschuh" }

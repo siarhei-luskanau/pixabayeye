@@ -7,13 +7,17 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotlinx.kover)
     alias(libs.plugins.kotlinx.serialization).apply(false)
+    alias(libs.plugins.ktlint.jlleitschuh)
 }
 
 apply(from = "$rootDir/ci.gradle.kts")
 
 allprojects {
     apply(plugin = "org.jetbrains.kotlinx.kover")
-    apply(from = "$rootDir/ktlint.gradle.kts")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    ktlint {
+        version.set("0.50.0")
+    }
 }
 
 koverReport {
@@ -27,6 +31,7 @@ koverReport {
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlinx.kover")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
     koverReport {
         defaults {
             mergeWith("debug")
