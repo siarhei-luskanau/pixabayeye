@@ -1,9 +1,9 @@
 [versions]
 agp = "8.1.2"
-androidx-activity-compose = "1.7.2"
+androidx-activity = "1.8.0"
 androidx-datastore = "1.1.0-alpha05"
-androidx-test-core = "1.5.0"
-androidx-test-runner = "1.5.2"
+androidx-test-core = "1.6.0-alpha02"
+androidx-test-runner = "1.6.0-alpha04"
 build-android-compileSdk = "34"
 build-android-minSdk = "24"
 build-android-targetSdk = "34"
@@ -11,22 +11,22 @@ build-javaVersion = "VERSION_17"
 build-jvmTarget = "17"
 buildConfig = "4.1.2"
 cash-paging = "3.3.0-alpha02-0.4.0"
-decompose = "2.1.0-compose-experimental"
+decompose = "2.1.2-compose-experimental"
 detekt = "1.23.1"
-jetbrains-compose = "1.5.2"
+jetbrains-compose = "1.5.3"
 koin = "3.5.0"
 kotlin = "1.9.10"
 kotlinx-coroutines = "1.7.3"
-kotlinx-kover = "0.7.3"
+kotlinx-kover = "0.7.4"
 kotlinx-serialization = "1.6.0"
-ktlint-jlleitschuh = "11.6.0"
-ktor = "2.3.4"
-okio = "3.5.0"
-qdsfdhvh-image-loader = "1.6.7"
+ktlint-jlleitschuh = "11.6.1"
+ktor = "2.3.5"
+okio = "3.6.0"
+qdsfdhvh-image-loader = "1.6.8"
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
-androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "androidx-datastore" }
 androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
