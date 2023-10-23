@@ -7,38 +7,39 @@ android.namespace = "siarhei.luskanau.pixabayeye.core.network"
 
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(project(":core:coreCommon"))
-                implementation(project(":core:corePref"))
-                implementation(libs.kotlinx.serialization.json)
-                implementation(libs.ktor.client.content.negotiation)
-                implementation(libs.ktor.client.logging)
-                implementation(libs.ktor.core)
-                implementation(libs.ktor.serialization.kotlinx.json)
-            }
+        commonMain.dependencies {
+            implementation(project(":core:coreCommon"))
+            implementation(project(":core:corePref"))
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.core)
+            implementation(libs.ktor.serialization.kotlinx.json)
         }
 
-        val desktopMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.okhttp)
-            }
+        jvmMain.dependencies {
+            implementation(libs.ktor.client.okhttp)
         }
 
-        val androidMain by getting {
-            dependsOn(desktopMain)
+        androidMain {
+            dependsOn(jvmMain.get())
         }
 
-        val iosMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.darwin)
-            }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
+        iosArm64Main {
+            dependsOn(iosMain.get())
+        }
+        iosX64Main {
+            dependsOn(iosMain.get())
+        }
+        iosSimulatorArm64Main {
+            dependsOn(iosMain.get())
         }
 
-        val jsMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.js)
-            }
+        jsMain.dependencies {
+            implementation(libs.ktor.client.js)
         }
     }
 }

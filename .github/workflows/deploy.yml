@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  JAVA_VERSION: 20
+
 permissions:
   contents: write
 
@@ -19,7 +22,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: ${{ env.JAVA_VERSION }}
 
       - uses: gradle/gradle-build-action@v2
         env:

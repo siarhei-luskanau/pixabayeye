@@ -2,6 +2,9 @@ name: ci
 
 on: [ push ]
 
+env:
+  JAVA_VERSION: 20
+
 jobs:
 
 
@@ -19,9 +22,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'
-
-      - uses: android-actions/setup-android@v2
+          java-version: ${{ env.JAVA_VERSION }}
 
       - uses: gradle/gradle-build-action@v2
         with:
@@ -42,9 +43,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'
-
-      - uses: android-actions/setup-android@v2
+          java-version: ${{ env.JAVA_VERSION }}
 
       - uses: gradle/gradle-build-action@v2
         with:
@@ -65,7 +64,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: ${{ env.JAVA_VERSION }}
 
       - uses: gradle/gradle-build-action@v2
         with:
@@ -86,9 +85,11 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: android-actions/setup-android@v2
+      - uses: gradle/gradle-build-action@v2
+        with:
+          arguments: ciSdkManagerLicenses --stacktrace
 
       - uses: gradle/gradle-build-action@v2
         with:
@@ -109,7 +110,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: ${{ env.JAVA_VERSION }}
 
       - uses: gradle/gradle-build-action@v2
         with:
@@ -130,7 +131,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: ${{ env.JAVA_VERSION }}
 
       - uses: gradle/gradle-build-action@v2
         with:
@@ -151,7 +152,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: ${{ env.JAVA_VERSION }}
 
       - uses: gradle/gradle-build-action@v2
         with:

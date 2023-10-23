@@ -2,9 +2,8 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     id("com.android.application")
-    id("org.jetbrains.compose")
     kotlin("multiplatform")
-    kotlin("native.cocoapods")
+    id("org.jetbrains.compose")
 }
 
 kotlin {
@@ -16,73 +15,61 @@ kotlin {
         }
     }
 
-    jvm("desktop")
+    jvm()
 
     js {
         browser()
         binaries.executable()
     }
 
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
-    cocoapods {
-        version = "1.0.0"
-        summary = "Compose application framework"
-        homepage = "empty"
-        ios.deploymentTarget = "11.0"
-        podfile = project.file("../iosApp/Podfile")
-        framework {
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
         }
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(project(":core:coreCommon"))
-                implementation(project(":core:coreNetwork"))
-                implementation(project(":core:corePref"))
-                implementation(project(":navigation"))
-                implementation(libs.koin.core)
-                implementation(libs.okio)
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.androidx.activity.compose)
-            }
-        }
-        val androidInstrumentedTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(libs.androidx.test.core.ktx)
-                implementation(libs.androidx.test.runner)
-            }
-        }
-        val desktopMain by getting {
-            dependencies {
-                implementation(compose.desktop.common)
-                implementation(compose.desktop.currentOs)
-            }
-        }
-        val jsMain by getting {
-            dependencies {
-                implementation(compose.html.core)
-                implementation(compose.ui)
+        all {
+            languageSettings {
+                optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
             }
         }
 
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
+        commonMain.dependencies {
+            implementation(project(":core:coreCommon"))
+            implementation(project(":core:coreNetwork"))
+            implementation(project(":core:corePref"))
+            implementation(project(":navigation"))
+            implementation(libs.koin.core)
+            implementation(libs.okio)
+        }
+
+        androidMain.dependencies {
+            implementation(libs.androidx.activity.compose)
+        }
+
+        androidNativeTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.androidx.test.core.ktx)
+            implementation(libs.androidx.test.runner)
+        }
+
+        jvmMain.dependencies {
+            implementation(compose.desktop.common)
+            implementation(compose.desktop.currentOs)
+        }
+
+        iosMain.dependencies {
+        }
+
+        jsMain.dependencies {
+            implementation(compose.html.core)
+            implementation(compose.ui)
         }
     }
 }
@@ -102,6 +89,8 @@ android {
         sourceCompatibility = JavaVersion.valueOf(libs.versions.build.javaVersion.get())
         targetCompatibility = JavaVersion.valueOf(libs.versions.build.javaVersion.get())
     }
+    buildFeatures.compose = true
+    composeOptions.kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     packaging.resources.excludes.add("META-INF/**")
     testOptions.configureTestOptions()
 }

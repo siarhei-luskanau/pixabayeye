@@ -1,28 +1,30 @@
 [versions]
-agp = "8.1.2"
-androidx-activity = "1.8.0"
-androidx-datastore = "1.1.0-alpha05"
-androidx-test-core = "1.6.0-alpha02"
-androidx-test-runner = "1.6.0-alpha04"
+agp = "8.2.0"
+androidx-activity = "1.8.2"
+androidx-datastore = "1.1.0-alpha07"
+androidx-test-core = "1.6.0-alpha04"
+androidx-test-runner = "1.6.0-alpha05"
 build-android-compileSdk = "34"
 build-android-minSdk = "24"
 build-android-targetSdk = "34"
 build-javaVersion = "VERSION_17"
 build-jvmTarget = "17"
-buildConfig = "4.1.2"
+buildConfig = "4.2.0"
 cash-paging = "3.3.0-alpha02-0.4.0"
-decompose = "2.1.3-compose-experimental"
-detekt = "1.23.1"
-jetbrains-compose = "1.5.3"
-koin = "3.5.0"
-kotlin = "1.9.10"
+compose-bom = "2023.10.01"
+compose-compiler = "1.5.6"
+decompose = "2.2.0-compose-experimental"
+detekt = "1.23.4"
+jetbrains-compose = "1.6.0-dev1334"
+koin = "3.5.2-RC1"
+kotlin = "1.9.21"
 kotlinx-coroutines = "1.7.3"
 kotlinx-kover = "0.7.4"
-kotlinx-serialization = "1.6.0"
+kotlinx-serialization = "1.6.2"
 ktlint = "1.0.1"
-ktor = "2.3.5"
+ktor = "2.3.7"
 okio = "3.6.0"
-qdsfdhvh-image-loader = "1.6.8"
+qdsfdhvh-image-loader = "1.7.1"
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -31,6 +33,7 @@ androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-oki
 androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
 cash-paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "cash-paging" }
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 decompose-extensions-compose-jetbrains = { module = "com.arkivanov.decompose:extensions-compose-jetbrains", version.ref = "decompose" }
 jetbrains-compose-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "jetbrains-compose" }
@@ -50,7 +53,10 @@ okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 qdsfdhvh-image-loader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "qdsfdhvh-image-loader" }
 
 [plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
 kotlinx-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kotlinx-kover" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

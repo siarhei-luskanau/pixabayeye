@@ -10,27 +10,32 @@ android.namespace = "siarhei.luskanau.pixabayeye.core.pref"
 
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.kotlinx.serialization.json)
-            }
+        commonMain.dependencies {
+            implementation(libs.kotlinx.serialization.json)
         }
 
-        val desktopMain by getting {
-            dependencies {
-                implementation(libs.androidx.datastore.core.okio)
-            }
-        }
-        val androidMain by getting {
-            dependsOn(desktopMain)
-        }
-        val iosMain by getting {
-            dependsOn(desktopMain)
+        jvmMain.dependencies {
+            implementation(libs.androidx.datastore.core.okio)
         }
 
-        val jsMain by getting {
-            dependencies {
-            }
+        androidMain {
+            dependsOn(jvmMain.get())
+        }
+
+        iosMain {
+            dependsOn(jvmMain.get())
+        }
+        iosArm64Main {
+            dependsOn(iosMain.get())
+        }
+        iosX64Main {
+            dependsOn(iosMain.get())
+        }
+        iosSimulatorArm64Main {
+            dependsOn(iosMain.get())
+        }
+
+        jsMain.dependencies {
         }
     }
 }
