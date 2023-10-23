@@ -12,11 +12,22 @@ plugins {
 
 apply(from = "$rootDir/ci.gradle.kts")
 
-allprojects {
-    apply(plugin = "org.jetbrains.kotlinx.kover")
-    apply(plugin = "org.jlleitschuh.gradle.ktlint")
-    ktlint {
-        version.set("0.50.0")
+subprojects {
+    if (listOf(
+            ":core",
+            ":ui"
+        ).contains(this.path).not()
+    ) {
+        apply(plugin = "org.jetbrains.kotlinx.kover")
+        apply(plugin = "org.jlleitschuh.gradle.ktlint")
+        dependencies { kover(project(path)) }
+        ktlint {
+            version.set("1.0.1")
+            android.set(true)
+            filter {
+                exclude("**/generated/**")
+            }
+        }
     }
 }
 
@@ -27,15 +38,4 @@ koverReport {
             maxBound(98)
         }
     }
-}
-
-subprojects {
-    apply(plugin = "org.jetbrains.kotlinx.kover")
-    apply(plugin = "org.jlleitschuh.gradle.ktlint")
-    koverReport {
-        defaults {
-            mergeWith("debug")
-        }
-    }
-    dependencies { kover(project(path)) }
 }

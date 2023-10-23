@@ -51,9 +51,10 @@ fun BrowserViewportWindow(
         setAttribute("height", "${window.innerHeight}")
     }
 
-    val canvas = (document.getElementById(CANVAS_ELEMENT_ID) as HTMLCanvasElement).apply {
-        fillViewportSize()
-    }
+    val canvas =
+        (document.getElementById(CANVAS_ELEMENT_ID) as HTMLCanvasElement).apply {
+            fillViewportSize()
+        }
 
     ComposeWindow().apply {
         window.addEventListener("resize", {
@@ -66,9 +67,10 @@ fun BrowserViewportWindow(
         })
 
         // WORKAROUND: ComposeWindow does not implement `setTitle(title)`
-        val htmlTitleElement = (
-            htmlHeadElement.getElementsByTagName("title").item(0)
-                ?: document.createElement("title").also { htmlHeadElement.appendChild(it) }
+        val htmlTitleElement =
+            (
+                htmlHeadElement.getElementsByTagName("title").item(0)
+                    ?: document.createElement("title").also { htmlHeadElement.appendChild(it) }
             ) as HTMLTitleElement
         htmlTitleElement.textContent = title
 

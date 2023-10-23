@@ -3,23 +3,25 @@ package siarhei.luskanau.pixabayeye.di
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
-import siarhei.luskanau.pixabayeye.core.di.coreModule
-import siarhei.luskanau.pixabayeye.core.di.corePlatformModule
-import siarhei.luskanau.pixabayeye.network.di.networkModule
-import siarhei.luskanau.pixabayeye.pref.di.prefModule
-import siarhei.luskanau.pixabayeye.ui.di.uiModule
+import siarhei.luskanau.pixabayeye.core.common.di.coreCommonModule
+import siarhei.luskanau.pixabayeye.core.common.di.coreCommonPlatformModule
+import siarhei.luskanau.pixabayeye.core.network.di.coreNetworkModule
+import siarhei.luskanau.pixabayeye.core.pref.di.corePrefModule
+import siarhei.luskanau.pixabayeye.navigation.di.navigationModule
+import siarhei.luskanau.pixabayeye.navigation.di.uiModules
 
 fun initKoin(appModule: Module): KoinApplication =
     startKoin {
         modules(
             appModule,
-            coreModule,
-            corePlatformModule,
-            networkModule,
-            platformModule,
-            prefModule,
-            uiModule,
+            appPlatformModule,
+            coreCommonModule,
+            coreCommonPlatformModule,
+            coreNetworkModule,
+            corePrefModule,
+            navigationModule,
         )
+        modules(uiModules)
     }
 
-expect val platformModule: Module
+expect val appPlatformModule: Module

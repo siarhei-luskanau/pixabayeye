@@ -42,10 +42,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":core"))
-                implementation(project(":network"))
-                implementation(project(":pref"))
-                implementation(project(":ui"))
+                implementation(project(":core:coreCommon"))
+                implementation(project(":core:coreNetwork"))
+                implementation(project(":core:corePref"))
+                implementation(project(":navigation"))
                 implementation(libs.koin.core)
                 implementation(libs.okio)
             }

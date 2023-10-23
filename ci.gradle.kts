@@ -8,12 +8,18 @@ tasks.register("ciLint") {
     doLast {
         val tasks = mutableListOf(
             "ktlintCheck",
-            "detekt",
+            "detekt"
         )
         tasks.addAll(
             rootProject.subprojects
-                .filter { it.path != ":pref" }
-                .map { "${it.path}:lint" },
+                .filter {
+                    listOf(
+                        ":core",
+                        ":core:corePref",
+                        ":ui"
+                    ).contains(it.path).not()
+                }
+                .map { "${it.path}:lint" }
         )
         gradlew(*tasks.toTypedArray())
     }
@@ -29,7 +35,7 @@ tasks.register("ciUnitTest") {
             "koverHtmlReportDebug",
             "koverHtmlReport",
             "koverVerifyDebug",
-            "koverVerify",
+            "koverVerify"
         )
     }
 }
@@ -37,9 +43,7 @@ tasks.register("ciUnitTest") {
 tasks.register("ciAndroid") {
     group = CI_GRADLE
     doLast {
-        gradlew(
-            "assembleDebug",
-        )
+        gradlew("assembleDebug")
         copy {
             from(rootProject.subprojects.map { it.buildDir })
             include("**/*.apk")
@@ -56,7 +60,7 @@ tasks.register("ciAndroidEmulator") {
     doLast {
         gradlew(
             "managedVirtualDeviceCheck",
-            "-Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect",
+            "-Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect"
         )
         gradlew("cleanManagedDevices")
     }
@@ -97,8 +101,8 @@ tasks.register("ciIos") {
                     "-sdk",
                     "iphonesimulator",
                     "-allowProvisioningDeviceRegistration",
-                    "-allowProvisioningUpdates",
-                ),
+                    "-allowProvisioningUpdates"
+                )
             )
         }
     }
@@ -109,7 +113,7 @@ tasks.register("devAll") {
     doLast {
         gradlew(
             "clean",
-            "ktlintFormat",
+            "ktlintFormat"
         )
         gradlew(
             "ciLint",
@@ -119,13 +123,13 @@ tasks.register("devAll") {
             "ciBrowser",
             "ciIos",
             "jsBrowserProductionWebpack",
-            "ciAndroidEmulator",
+            "ciAndroidEmulator"
         )
         gradlew(
             "managedVirtualDeviceDebugAndroidTest",
             "-Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect",
             "-Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true",
-            "--enable-display",
+            "--enable-display"
         )
     }
 }
@@ -138,12 +142,12 @@ fun runExec(commands: List<String>) =
 
 fun gradlew(
     vararg tasks: String,
-    addToSystemProperties: Map<String, String>? = null,
+    addToSystemProperties: Map<String, String>? = null
 ) {
     exec {
         executable = File(
             project.rootDir,
-            if (Os.isFamily(Os.FAMILY_WINDOWS)) "gradlew.bat" else "gradlew",
+            if (Os.isFamily(Os.FAMILY_WINDOWS)) "gradlew.bat" else "gradlew"
         )
             .also { it.setExecutable(true) }
             .absolutePath

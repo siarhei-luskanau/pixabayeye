@@ -8,7 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import org.koin.dsl.module
 import siarhei.luskanau.pixabayeye.di.initKoin
-import siarhei.luskanau.pixabayeye.ui.app.App
+import siarhei.luskanau.pixabayeye.navigation.App
 
 class AndroidApp : Application() {
     override fun onCreate() {
@@ -39,11 +39,12 @@ class AppActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             App(
-                appViewModel = initKoin(
-                    module {
-                        single<Context> { applicationContext }
-                    },
-                ).koin.get(),
+                appViewModel =
+                    initKoin(
+                        module {
+                            single<Context> { applicationContext }
+                        },
+                    ).koin.get(),
             )
         }
     }

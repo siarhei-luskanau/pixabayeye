@@ -19,7 +19,7 @@ struct ContentView: View {
 
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        MainKt.MainViewController(
+        MainKt.mainViewController(
             koin: KoinIosKt.doInitKoinIos(bundle: Bundle.main).koin
         )
     }

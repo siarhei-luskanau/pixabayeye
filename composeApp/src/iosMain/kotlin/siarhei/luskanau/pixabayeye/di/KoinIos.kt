@@ -16,29 +16,30 @@ import platform.Foundation.NSBundle
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
-import siarhei.luskanau.pixabayeye.pref.PrefPathProvider
+import siarhei.luskanau.pixabayeye.core.pref.PrefPathProvider
 
-fun initKoinIos(
-    bundle: NSBundle,
-): KoinApplication = initKoin(
-    module {},
-)
+fun initKoinIos(bundle: NSBundle): KoinApplication =
+    initKoin(
+        module {},
+    )
 
 @OptIn(ExperimentalForeignApi::class)
-actual val platformModule: Module = module {
-    single<PrefPathProvider> {
-        val file = NSFileManager.defaultManager.URLForDirectory(
-            directory = NSDocumentDirectory,
-            inDomain = NSUserDomainMask,
-            appropriateForURL = null,
-            create = false,
-            error = null,
-        )?.path + Path.DIRECTORY_SEPARATOR + "app.pref.json"
-        object : PrefPathProvider {
-            override fun get(): Path = file.toPath()
+actual val appPlatformModule: Module =
+    module {
+        single<PrefPathProvider> {
+            val file =
+                NSFileManager.defaultManager.URLForDirectory(
+                    directory = NSDocumentDirectory,
+                    inDomain = NSUserDomainMask,
+                    appropriateForURL = null,
+                    create = false,
+                    error = null,
+                )?.path + Path.DIRECTORY_SEPARATOR + "app.pref.json"
+            object : PrefPathProvider {
+                override fun get(): Path = file.toPath()
+            }
         }
     }
-}
 
 @OptIn(BetaInteropApi::class)
 fun Koin.get(objCClass: ObjCClass): Any {
@@ -47,7 +48,11 @@ fun Koin.get(objCClass: ObjCClass): Any {
 }
 
 @OptIn(BetaInteropApi::class)
-fun Koin.get(objCClass: ObjCClass, qualifier: Qualifier?, parameter: Any): Any {
+fun Koin.get(
+    objCClass: ObjCClass,
+    qualifier: Qualifier?,
+    parameter: Any,
+): Any {
     val kClazz = getOriginalKotlinClass(objCClass)!!
     return get(kClazz, qualifier) { parametersOf(parameter) }
 }

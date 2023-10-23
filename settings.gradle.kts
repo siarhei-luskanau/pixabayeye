@@ -1,10 +1,14 @@
 rootProject.name = "PixabayEye"
 include(
     ":composeApp",
-    ":core",
-    ":network",
-    ":pref",
-    ":ui",
+    ":core:coreCommon",
+    ":core:coreNetwork",
+    ":core:corePref",
+    ":navigation",
+    ":ui:uiDetails",
+    ":ui:uiLogin",
+    ":ui:uiSearch",
+    ":ui:uiSplash"
 )
 
 pluginManagement {
