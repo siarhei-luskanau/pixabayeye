@@ -31,6 +31,13 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(libs.findLibrary("decompose").get())
+                implementation(libs.findLibrary("decompose-extensions-compose-jetbrains").get())
+                implementation(libs.findLibrary("koin-core").get())
+                implementation(libs.findLibrary("kotlinx-coroutines-core").get())
             }
         }
 

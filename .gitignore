@@ -16,3 +16,4 @@ Pods/
 /iosApp/iosApp.xcworkspace/contents.xcworkspacedata
 /iosApp/iosApp.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
 /iosApp/Podfile.lock
+/composeApp/composeApp.podspec
