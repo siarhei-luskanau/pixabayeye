@@ -8,7 +8,7 @@ val uiSplashModule =
         single {
             SplashVewModel(
                 pixabayApiService = get(),
-                prefService = get(),
+                prefService = get()
             )
         }
     }

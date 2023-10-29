@@ -21,7 +21,7 @@ fun LoginComposable(
     modifier: Modifier,
     onInit: suspend () -> Unit,
     onUpdateClick: suspend (String) -> Unit,
-    onCheckClick: suspend () -> Unit,
+    onCheckClick: suspend () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val apiKey = loginVewState.apiKeyFlow.collectAsState(initial = null)
@@ -33,14 +33,14 @@ fun LoginComposable(
                 coroutineScope.launch { onUpdateClick.invoke(it) }
             },
             label = { Text("PixabayApiKey") },
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier.fillMaxWidth().padding(16.dp)
         )
 
         Button(
             onClick = {
                 coroutineScope.launch { onCheckClick.invoke() }
             },
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier.fillMaxWidth().padding(16.dp)
         ) {
             Text("Update")
         }

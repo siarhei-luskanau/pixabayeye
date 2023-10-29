@@ -20,7 +20,7 @@ import siarhei.luskanau.pixabayeye.core.pref.PrefService
 
 internal class PixabayApiClient(
     private val prefService: PrefService,
-    private val dispatcherSet: DispatcherSet,
+    private val dispatcherSet: DispatcherSet
 ) {
     private val engine: HttpClientEngineFactory<HttpClientEngineConfig> by lazy {
         PlatformHttpClientEngineFactory().get()
@@ -34,7 +34,7 @@ internal class PixabayApiClient(
                         Json {
                             ignoreUnknownKeys = true
                             prettyPrint = true
-                        },
+                        }
                     )
                 }
             }
@@ -63,20 +63,20 @@ internal class PixabayApiClient(
     internal suspend fun getImages(
         query: String? = null,
         perPage: Int?,
-        page: Int?,
-    ): ImagesResponse =
-        geyPixabayApiKey().let { pixabayApiKey ->
-            httpClient.get(PIXABAY_BASE_URL + "api/") {
-                url {
-                    parameters.append("key", pixabayApiKey)
-                    query?.also { parameters.append("q", it) }
-                    perPage?.also { parameters.append("per_page", it.toString()) }
-                    page?.also { parameters.append("page", it.toString()) }
-                }
-            }.body()
-        }
+        page: Int?
+    ): ImagesResponse = geyPixabayApiKey().let { pixabayApiKey ->
+        httpClient.get(PIXABAY_BASE_URL + "api/") {
+            url {
+                parameters.append("key", pixabayApiKey)
+                query?.also { parameters.append("q", it) }
+                perPage?.also { parameters.append("per_page", it.toString()) }
+                page?.also { parameters.append("page", it.toString()) }
+            }
+        }.body()
+    }
 
-    private suspend fun geyPixabayApiKey(): String = prefService.getPixabayApiKey().firstOrNull().orEmpty()
+    private suspend fun geyPixabayApiKey(): String =
+        prefService.getPixabayApiKey().firstOrNull().orEmpty()
 
     companion object {
         private const val PIXABAY_BASE_URL = "https://pixabay.com/"

@@ -18,7 +18,7 @@ private val LightColorScheme =
         background = md_theme_light_background,
         onBackground = md_theme_light_onBackground,
         surface = md_theme_light_surface,
-        onSurface = md_theme_light_onSurface,
+        onSurface = md_theme_light_onSurface
     )
 
 private val DarkColorScheme =
@@ -32,15 +32,14 @@ private val DarkColorScheme =
         background = md_theme_dark_background,
         onBackground = md_theme_dark_onBackground,
         surface = md_theme_dark_surface,
-        onSurface = md_theme_dark_onSurface,
+        onSurface = md_theme_dark_onSurface
     )
 
 @Composable
 internal fun AppTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content:
-        @Composable()
-        () -> Unit,
+    @Composable () -> Unit
 ) {
     val colorScheme =
         if (!useDarkTheme) {
@@ -53,6 +52,6 @@ internal fun AppTheme(
         colorScheme = colorScheme,
         content = {
             Surface(content = content)
-        },
+        }
     )
 }

@@ -15,11 +15,10 @@ actual val appPlatformModule: Module =
             val context: Context = get()
             val dispatcherSet: DispatcherSet = get()
             object : PrefPathProvider {
-                override fun get(): Path =
-                    runBlocking(dispatcherSet.ioDispatcher()) {
-                        val file = context.filesDir.resolve("app.pref.json")
-                        file.absolutePath.toPath()
-                    }
+                override fun get(): Path = runBlocking(dispatcherSet.ioDispatcher()) {
+                    val file = context.filesDir.resolve("app.pref.json")
+                    file.absolutePath.toPath()
+                }
             }
         }
     }

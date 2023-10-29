@@ -9,7 +9,7 @@ import siarhei.luskanau.pixabayeye.core.pref.PrefService
 class LoginVewModel(
     private val prefService: PrefService,
     private val pixabayApiService: PixabayApiService,
-    private val onLoginComplete: () -> Unit,
+    private val onLoginComplete: () -> Unit
 ) {
     private val apiKeyFlow = MutableStateFlow<String?>("")
 
@@ -17,7 +17,7 @@ class LoginVewModel(
 
     suspend fun onInit() {
         apiKeyFlow.emit(
-            prefService.getPixabayApiKey().firstOrNull(),
+            prefService.getPixabayApiKey().firstOrNull()
         )
     }
 

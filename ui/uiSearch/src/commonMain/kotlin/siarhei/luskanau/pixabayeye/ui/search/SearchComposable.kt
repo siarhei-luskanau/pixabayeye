@@ -40,11 +40,12 @@ fun SearchComposable(
     searchVewStateFlow: Flow<SearchVewState>,
     onUpdateSearchTerm: suspend (String) -> Unit,
     onImageClicked: (HitModel) -> Unit,
-    modifier: Modifier,
+    modifier: Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
     val loginVewState = searchVewStateFlow.collectAsState(initial = null)
-    val lazyPagingItems: LazyPagingItems<HitModel> = (loginVewState.value?.pagingDataFlow ?: emptyFlow()).collectAsLazyPagingItems()
+    val lazyPagingItems: LazyPagingItems<HitModel> =
+        (loginVewState.value?.pagingDataFlow ?: emptyFlow()).collectAsLazyPagingItems()
     var searchTerm by remember { mutableStateOf("") }
 
     Column(modifier = modifier.fillMaxWidth()) {
@@ -57,48 +58,48 @@ fun SearchComposable(
                 }
             },
             label = { Text("Search") },
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier.fillMaxWidth().padding(16.dp)
         )
 
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(all = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(
                 count = lazyPagingItems.itemCount,
                 key = lazyPagingItems.itemKey { it.imageId },
-                contentType = lazyPagingItems.itemContentType { null },
+                contentType = lazyPagingItems.itemContentType { null }
             ) { index ->
                 lazyPagingItems[index]?.let { hitModel ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onImageClicked.invoke(hitModel)
-                                },
+                        Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                onImageClicked.invoke(hitModel)
+                            }
                     ) {
                         val action by rememberImageAction(url = hitModel.previewUrl)
                         Image(
                             painter = rememberImageActionPainter(action = action),
                             contentDescription = hitModel.tags,
                             modifier =
-                                Modifier
-                                    .height(hitModel.previewHeight.dp)
-                                    .width(hitModel.previewWidth.dp),
+                            Modifier
+                                .height(hitModel.previewHeight.dp)
+                                .width(hitModel.previewWidth.dp)
                         )
                         Column {
                             Text(
                                 text = hitModel.userName,
                                 style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(16.dp),
+                                modifier = Modifier.padding(16.dp)
                             )
                             Text(
                                 text = hitModel.tags,
                                 style = MaterialTheme.typography.bodySmall,
-                                modifier = Modifier.padding(16.dp),
+                                modifier = Modifier.padding(16.dp)
                             )
                         }
                     }

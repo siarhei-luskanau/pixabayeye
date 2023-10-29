@@ -1,7 +1,7 @@
 @file:Suppress(
     "INVISIBLE_MEMBER",
     "INVISIBLE_REFERENCE",
-    "EXPOSED_PARAMETER_TYPE",
+    "EXPOSED_PARAMETER_TYPE"
 ) // WORKAROUND: ComposeWindow and ComposeLayer are internal
 
 import androidx.compose.runtime.Composable
@@ -22,7 +22,7 @@ private const val CANVAS_ELEMENT_ID = "ComposeTarget" // Hardwired into ComposeW
 @Suppress("FunctionName")
 fun BrowserViewportWindow(
     title: String = "Untitled",
-    content: @Composable ComposeWindow.() -> Unit,
+    content: @Composable ComposeWindow.() -> Unit
 ) {
     val htmlHeadElement = document.head!!
     htmlHeadElement.appendChild(
@@ -40,10 +40,10 @@ fun BrowserViewportWindow(
                     #$CANVAS_ELEMENT_ID {
                         outline: none;
                     }
-                    """.trimIndent(),
-                ),
+                    """.trimIndent()
+                )
             )
-        },
+        }
     )
 
     fun HTMLCanvasElement.fillViewportSize() {
@@ -63,14 +63,16 @@ fun BrowserViewportWindow(
             canvas.fillViewportSize()
             layer.layer.attachTo(canvas)
             layer.layer.needRedraw()
-            layer.setSize((canvas.width / scale * density).toInt(), (canvas.height / scale * density).toInt())
+            layer.setSize(
+                (canvas.width / scale * density).toInt(),
+                (canvas.height / scale * density).toInt()
+            )
         })
 
         // WORKAROUND: ComposeWindow does not implement `setTitle(title)`
-        val htmlTitleElement =
-            (
-                htmlHeadElement.getElementsByTagName("title").item(0)
-                    ?: document.createElement("title").also { htmlHeadElement.appendChild(it) }
+        val htmlTitleElement = (
+            htmlHeadElement.getElementsByTagName("title").item(0)
+                ?: document.createElement("title").also { htmlHeadElement.appendChild(it) }
             ) as HTMLTitleElement
         htmlTitleElement.textContent = title
 

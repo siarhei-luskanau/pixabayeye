@@ -1,27 +1,18 @@
-import org.apache.tools.ant.taskdefs.condition.Os
+@file:Suppress("PropertyName")
+
 import java.util.Properties
+import org.apache.tools.ant.taskdefs.condition.Os
 
 val CI_GRADLE = "CI_GRADLE"
 
 tasks.register("ciLint") {
     group = CI_GRADLE
     doLast {
-        val tasks = mutableListOf(
+        gradlew(
             "ktlintCheck",
-            "detekt"
+            "detekt",
+            "lint"
         )
-        tasks.addAll(
-            rootProject.subprojects
-                .filter {
-                    listOf(
-                        ":core",
-                        ":core:corePref",
-                        ":ui"
-                    ).contains(it.path).not()
-                }
-                .map { "${it.path}:lint" }
-        )
-        gradlew(*tasks.toTypedArray())
     }
 }
 
@@ -134,16 +125,12 @@ tasks.register("devAll") {
     }
 }
 
-fun runExec(commands: List<String>) =
-    exec {
-        commandLine = commands
-        println("commandLine: ${this.commandLine.joinToString(separator = " ")}")
-    }.apply { println("ExecResult: $this") }
+fun runExec(commands: List<String>) = exec {
+    commandLine = commands
+    println("commandLine: ${this.commandLine.joinToString(separator = " ")}")
+}.apply { println("ExecResult: $this") }
 
-fun gradlew(
-    vararg tasks: String,
-    addToSystemProperties: Map<String, String>? = null
-) {
+fun gradlew(vararg tasks: String, addToSystemProperties: Map<String, String>? = null) {
     exec {
         executable = File(
             project.rootDir,

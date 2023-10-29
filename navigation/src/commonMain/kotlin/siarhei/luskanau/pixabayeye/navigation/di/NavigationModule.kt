@@ -11,16 +11,18 @@ val uiModules =
     listOf(
         uiLoginModule,
         uiSearchModule,
-        uiSplashModule,
+        uiSplashModule
     )
 
 val navigationModule =
     module {
         single {
             AppViewModel(
-                loginVewModel = { onLoginComplete -> get(parameters = { parametersOf(onLoginComplete) }) },
+                loginVewModel = { onLoginComplete ->
+                    get(parameters = { parametersOf(onLoginComplete) })
+                },
                 searchVewModel = get(),
-                splashVewModel = get(),
+                splashVewModel = get()
             )
         }
     }

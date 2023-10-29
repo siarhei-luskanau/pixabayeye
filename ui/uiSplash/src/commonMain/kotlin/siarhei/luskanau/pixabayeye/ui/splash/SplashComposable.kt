@@ -14,22 +14,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SplashComposable(
-    modifier: Modifier,
-    onSplashComplete: suspend () -> Unit,
-) {
+fun SplashComposable(modifier: Modifier, onSplashComplete: suspend () -> Unit) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize()
     ) {
         Text(
             text = "PixabayEye",
             style = MaterialTheme.typography.titleLarge,
             textAlign = TextAlign.Center,
             modifier =
-                Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(),
+            Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
         )
     }
     LaunchedEffect(true) {

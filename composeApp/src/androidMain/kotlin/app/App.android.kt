@@ -20,7 +20,7 @@ class AndroidApp : Application() {
                 // .detectAll() for all detectable problems
                 .penaltyLog()
                 .penaltyDeath()
-                .build(),
+                .build()
         )
         StrictMode.setVmPolicy(
             StrictMode.VmPolicy.Builder()
@@ -28,7 +28,7 @@ class AndroidApp : Application() {
                 .detectLeakedClosableObjects()
                 .penaltyLog()
                 // .penaltyDeath()
-                .build(),
+                .build()
         )
         super.onCreate()
     }
@@ -40,11 +40,11 @@ class AppActivity : ComponentActivity() {
         setContent {
             App(
                 appViewModel =
-                    initKoin(
-                        module {
-                            single<Context> { applicationContext }
-                        },
-                    ).koin.get(),
+                initKoin(
+                    module {
+                        single<Context> { applicationContext }
+                    }
+                ).koin.get()
             )
         }
     }

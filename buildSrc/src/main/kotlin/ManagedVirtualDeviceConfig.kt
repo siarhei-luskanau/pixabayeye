@@ -8,7 +8,7 @@ fun TestOptions.configureTestOptions() {
             test.testLogging.events = setOf(
                 org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED,
                 org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED,
-                org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED,
+                org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
             )
         }
     }

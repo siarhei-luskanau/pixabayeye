@@ -10,7 +10,7 @@ val uiLoginModule =
             LoginVewModel(
                 prefService = get(),
                 pixabayApiService = get(),
-                onLoginComplete = onLoginComplete,
+                onLoginComplete = onLoginComplete
             )
         }
     }

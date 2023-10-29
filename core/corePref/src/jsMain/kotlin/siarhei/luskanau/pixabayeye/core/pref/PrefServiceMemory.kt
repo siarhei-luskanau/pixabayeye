@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 internal class PrefServiceMemory : PrefService {
     private val prefFlow: MutableStateFlow<PrefData> by lazy {
         MutableStateFlow(
-            PrefData(pixabayApiKey = PIXABAY_API_KEY),
+            PrefData(pixabayApiKey = PIXABAY_API_KEY)
         )
     }
 

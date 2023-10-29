@@ -3,11 +3,7 @@ package siarhei.luskanau.pixabayeye.core.network
 interface PixabayApiService {
     suspend fun isApiKeyOk(apiKey: String?): NetworkResult<Boolean>
 
-    suspend fun getImages(
-        query: String?,
-        perPage: Int?,
-        page: Int?,
-    ): NetworkResult<List<HitModel>>
+    suspend fun getImages(query: String?, perPage: Int?, page: Int?): NetworkResult<List<HitModel>>
 }
 
 sealed interface NetworkResult<T> {
@@ -28,5 +24,5 @@ data class HitModel(
     val previewHeight: Int,
     val previewWidth: Int,
     val middleImageUrl: String,
-    val largeImageUrl: String,
+    val largeImageUrl: String
 )

@@ -8,9 +8,9 @@ fun main() {
         BrowserViewportWindow("PixabayEye") {
             App(
                 appViewModel =
-                    initKoin(
-                        module {},
-                    ).koin.get(),
+                initKoin(
+                    module {}
+                ).koin.get()
             )
         }
     }

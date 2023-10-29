@@ -11,20 +11,16 @@ internal class PrefSerializer : OkioSerializer<PrefData> {
     override val defaultValue: PrefData
         get() = PrefData(pixabayApiKey = PIXABAY_API_KEY)
 
-    override suspend fun readFrom(source: BufferedSource): PrefData =
-        try {
-            parser.decodeFromString(
-                PrefData.serializer(),
-                source.readUtf8(),
-            )
-        } catch (error: Throwable) {
-            defaultValue
-        }
+    override suspend fun readFrom(source: BufferedSource): PrefData = try {
+        parser.decodeFromString(
+            PrefData.serializer(),
+            source.readUtf8()
+        )
+    } catch (error: Throwable) {
+        defaultValue
+    }
 
-    override suspend fun writeTo(
-        t: PrefData,
-        sink: BufferedSink,
-    ) {
+    override suspend fun writeTo(t: PrefData, sink: BufferedSink) {
         sink.writeUtf8(parser.encodeToString(PrefData.serializer(), t))
     }
 }

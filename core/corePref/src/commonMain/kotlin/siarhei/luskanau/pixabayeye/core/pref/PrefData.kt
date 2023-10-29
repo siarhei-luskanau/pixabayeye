@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class PrefData(
-    @SerialName("pixabayApiKey") val pixabayApiKey: String?,
+    @SerialName("pixabayApiKey") val pixabayApiKey: String?
 )

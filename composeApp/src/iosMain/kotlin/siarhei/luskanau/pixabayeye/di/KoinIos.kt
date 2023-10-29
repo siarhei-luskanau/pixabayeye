@@ -18,10 +18,9 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
 import siarhei.luskanau.pixabayeye.core.pref.PrefPathProvider
 
-fun initKoinIos(bundle: NSBundle): KoinApplication =
-    initKoin(
-        module {},
-    )
+fun initKoinIos(bundle: NSBundle): KoinApplication = initKoin(
+    module {}
+)
 
 @OptIn(ExperimentalForeignApi::class)
 actual val appPlatformModule: Module =
@@ -33,7 +32,7 @@ actual val appPlatformModule: Module =
                     inDomain = NSUserDomainMask,
                     appropriateForURL = null,
                     create = false,
-                    error = null,
+                    error = null
                 )?.path + Path.DIRECTORY_SEPARATOR + "app.pref.json"
             object : PrefPathProvider {
                 override fun get(): Path = file.toPath()
@@ -48,11 +47,7 @@ fun Koin.get(objCClass: ObjCClass): Any {
 }
 
 @OptIn(BetaInteropApi::class)
-fun Koin.get(
-    objCClass: ObjCClass,
-    qualifier: Qualifier?,
-    parameter: Any,
-): Any {
+fun Koin.get(objCClass: ObjCClass, qualifier: Qualifier?, parameter: Any): Any {
     val kClazz = getOriginalKotlinClass(objCClass)!!
     return get(kClazz, qualifier) { parametersOf(parameter) }
 }

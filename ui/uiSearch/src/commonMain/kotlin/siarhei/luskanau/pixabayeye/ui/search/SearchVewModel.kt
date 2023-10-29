@@ -10,21 +10,19 @@ import siarhei.luskanau.pixabayeye.core.network.PixabayApiService
 class SearchVewModel(private val pixabayApiService: PixabayApiService) {
     private val searchTermFlow by lazy { MutableStateFlow("") }
 
-    fun getSearchVewStateFlow(): Flow<SearchVewState> =
-        searchTermFlow.map { searchTerm ->
-            SearchVewState(
-                pagingDataFlow = getPager(searchTerm).flow,
-            )
-        }
+    fun getSearchVewStateFlow(): Flow<SearchVewState> = searchTermFlow.map { searchTerm ->
+        SearchVewState(
+            pagingDataFlow = getPager(searchTerm).flow
+        )
+    }
 
     suspend fun onUpdateSearchTerm(searchTerm: String) {
         searchTermFlow.emit(searchTerm)
     }
 
-    private fun getPager(searchTerm: String) =
-        Pager(
-            config = PagingConfig(pageSize = 20, initialLoadSize = 20),
-        ) {
-            PixabayPagingSource(pixabayApiService, searchTerm)
-        }
+    private fun getPager(searchTerm: String) = Pager(
+        config = PagingConfig(pageSize = 20, initialLoadSize = 20)
+    ) {
+        PixabayPagingSource(pixabayApiService, searchTerm)
+    }
 }

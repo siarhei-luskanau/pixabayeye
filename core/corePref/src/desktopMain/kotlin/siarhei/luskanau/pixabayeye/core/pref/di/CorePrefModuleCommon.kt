@@ -9,7 +9,7 @@ val corePrefModule =
 
         single<PrefService> {
             PrefServiceDataStore(
-                prefPathProvider = get(),
+                prefPathProvider = get()
             )
         }
     }

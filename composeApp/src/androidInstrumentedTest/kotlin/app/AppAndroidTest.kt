@@ -12,7 +12,7 @@ class AppAndroidTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals(
             expected = "siarhei.luskanau.compose.multiplatform.pixabayeye.androidApp",
-            actual = appContext.packageName,
+            actual = appContext.packageName
         )
     }
 

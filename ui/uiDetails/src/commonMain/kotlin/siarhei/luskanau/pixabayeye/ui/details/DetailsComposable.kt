@@ -10,16 +10,12 @@ import com.seiko.imageloader.rememberImageActionPainter
 import siarhei.luskanau.pixabayeye.core.network.HitModel
 
 @Composable
-fun DetailsComposable(
-    hitModel: HitModel,
-    modifier: Modifier,
-) {
+fun DetailsComposable(hitModel: HitModel, modifier: Modifier) {
     val action by rememberImageAction(url = hitModel.largeImageUrl)
     Image(
         painter = rememberImageActionPainter(action = action),
-        modifier =
-            modifier
-                .fillMaxSize(),
-        contentDescription = null,
+        modifier = modifier
+            .fillMaxSize(),
+        contentDescription = null
     )
 }

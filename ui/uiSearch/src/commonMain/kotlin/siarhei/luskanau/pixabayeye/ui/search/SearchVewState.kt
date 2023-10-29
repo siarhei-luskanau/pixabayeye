@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 import siarhei.luskanau.pixabayeye.core.network.HitModel
 
 data class SearchVewState(
-    val pagingDataFlow: Flow<PagingData<HitModel>>,
+    val pagingDataFlow: Flow<PagingData<HitModel>>
 )

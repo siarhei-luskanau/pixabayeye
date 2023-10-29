@@ -11,7 +11,7 @@ build-javaVersion = "VERSION_17"
 build-jvmTarget = "17"
 buildConfig = "4.1.2"
 cash-paging = "3.3.0-alpha02-0.4.0"
-decompose = "2.1.2-compose-experimental"
+decompose = "2.1.3-compose-experimental"
 detekt = "1.23.1"
 jetbrains-compose = "1.5.3"
 koin = "3.5.0"
@@ -19,7 +19,7 @@ kotlin = "1.9.10"
 kotlinx-coroutines = "1.7.3"
 kotlinx-kover = "0.7.4"
 kotlinx-serialization = "1.6.0"
-ktlint-jlleitschuh = "11.6.1"
+ktlint = "1.0.1"
 ktor = "2.3.5"
 okio = "3.6.0"
 qdsfdhvh-image-loader = "1.6.8"
@@ -38,6 +38,7 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+ktlint-cli = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
@@ -53,4 +54,3 @@ buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlinx-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kotlinx-kover" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-ktlint-jlleitschuh = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-jlleitschuh" }

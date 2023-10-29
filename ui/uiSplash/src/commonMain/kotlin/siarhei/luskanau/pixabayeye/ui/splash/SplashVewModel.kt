@@ -7,10 +7,9 @@ import siarhei.luskanau.pixabayeye.core.pref.PrefService
 
 class SplashVewModel(
     private val pixabayApiService: PixabayApiService,
-    private val prefService: PrefService,
+    private val prefService: PrefService
 ) {
-    suspend fun isApiKeyOk(): NetworkResult<Boolean> =
-        pixabayApiService.isApiKeyOk(
-            apiKey = prefService.getPixabayApiKey().firstOrNull(),
-        )
+    suspend fun isApiKeyOk(): NetworkResult<Boolean> = pixabayApiService.isApiKeyOk(
+        apiKey = prefService.getPixabayApiKey().firstOrNull()
+    )
 }

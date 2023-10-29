@@ -102,10 +102,10 @@ android {
     }
     compileOptions {
         sourceCompatibility = JavaVersion.valueOf(
-            libs.findVersion("build-javaVersion").get().requiredVersion,
+            libs.findVersion("build-javaVersion").get().requiredVersion
         )
         targetCompatibility = JavaVersion.valueOf(
-            libs.findVersion("build-javaVersion").get().requiredVersion,
+            libs.findVersion("build-javaVersion").get().requiredVersion
         )
     }
     packaging.resources.excludes.add("META-INF/**")

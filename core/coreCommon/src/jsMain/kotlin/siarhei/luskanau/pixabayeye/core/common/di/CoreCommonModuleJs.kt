@@ -1,5 +1,6 @@
 package siarhei.luskanau.pixabayeye.core.common.di
 
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -7,7 +8,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
 import org.koin.dsl.module
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
-import kotlin.coroutines.CoroutineContext
 
 actual val coreCommonPlatformModule =
     module {
@@ -19,12 +19,12 @@ actual val coreCommonPlatformModule =
 
                 override fun <T> runBlocking(
                     context: CoroutineContext,
-                    block: suspend CoroutineScope.() -> T,
+                    block: suspend CoroutineScope.() -> T
                 ): T =
                     @OptIn(DelicateCoroutinesApi::class)
                     GlobalScope.promise(
                         context = context,
-                        block = block,
+                        block = block
                     ).unsafeCast<T>()
             }
         }

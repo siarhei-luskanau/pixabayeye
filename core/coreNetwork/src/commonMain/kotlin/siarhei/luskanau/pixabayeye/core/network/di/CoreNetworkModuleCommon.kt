@@ -11,13 +11,13 @@ val coreNetworkModule =
         single {
             PixabayApiClient(
                 prefService = get(),
-                dispatcherSet = get(),
+                dispatcherSet = get()
             )
         }
 
         single<PixabayApiService> {
             KtorPixabayApiService(
-                client = get(),
+                client = get()
             )
         }
     }

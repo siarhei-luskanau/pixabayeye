@@ -7,7 +7,8 @@ import siarhei.luskanau.pixabayeye.ui.splash.SplashVewModel
 class AppViewModel(
     private val loginVewModel: (() -> Unit) -> LoginVewModel,
     val searchVewModel: SearchVewModel,
-    val splashVewModel: SplashVewModel,
+    val splashVewModel: SplashVewModel
 ) {
-    fun createLoginVewModel(onLoginComplete: () -> Unit): LoginVewModel = loginVewModel.invoke(onLoginComplete)
+    fun createLoginVewModel(onLoginComplete: () -> Unit): LoginVewModel =
+        loginVewModel.invoke(onLoginComplete)
 }

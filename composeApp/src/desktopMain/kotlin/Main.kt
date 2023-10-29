@@ -6,18 +6,17 @@ import org.koin.dsl.module
 import siarhei.luskanau.pixabayeye.di.initKoin
 import siarhei.luskanau.pixabayeye.navigation.App
 
-fun main() =
-    application {
-        Window(
-            title = "PixabayEye",
-            state = rememberWindowState(width = 800.dp, height = 600.dp),
-            onCloseRequest = ::exitApplication,
-        ) {
-            App(
-                appViewModel =
-                    initKoin(
-                        module {},
-                    ).koin.get(),
-            )
-        }
+fun main() = application {
+    Window(
+        title = "PixabayEye",
+        state = rememberWindowState(width = 800.dp, height = 600.dp),
+        onCloseRequest = ::exitApplication
+    ) {
+        App(
+            appViewModel =
+            initKoin(
+                module {}
+            ).koin.get()
+        )
     }
+}
