@@ -97,8 +97,14 @@ tasks.register("ciIos") {
                 )
             )
                 .lines()
-                .filter { it.contains("iphone 1", true) && it.contains("(") && it.contains(")") }
-                .map { it.substring(startIndex = it.indexOf("(") + 1, endIndex = it.indexOf(")")) }
+                .filter {
+                    listOf("iphone 15", "iphone 14").any { device -> it.contains(device, true) } &&
+                        it.contains("(") && it.contains(")")
+                }
+                .map {
+                    println("filter: $it")
+                    it.substring(startIndex = it.indexOf("(") + 1, endIndex = it.indexOf(")"))
+                }
                 .firstOrNull()
             runExec(
                 listOf(

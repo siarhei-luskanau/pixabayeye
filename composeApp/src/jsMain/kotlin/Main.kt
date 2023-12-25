@@ -9,11 +9,12 @@ import siarhei.luskanau.pixabayeye.navigation.App
 fun main() {
     onWasmReady {
         CanvasBasedWindow("PixabayEye") {
+            val koin = initKoin(
+                module {}
+            ).koin
             App(
-                appViewModel =
-                initKoin(
-                    module {}
-                ).koin.get()
+                appViewModel = koin.get(),
+                dispatcherSet = koin.get()
             )
         }
     }

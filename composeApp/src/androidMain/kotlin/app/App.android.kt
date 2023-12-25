@@ -37,14 +37,15 @@ class AndroidApp : Application() {
 class AppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val koin = initKoin(
+            module {
+                single<Context> { applicationContext }
+            }
+        ).koin
         setContent {
             App(
-                appViewModel =
-                initKoin(
-                    module {
-                        single<Context> { applicationContext }
-                    }
-                ).koin.get()
+                appViewModel = koin.get(),
+                dispatcherSet = koin.get()
             )
         }
     }

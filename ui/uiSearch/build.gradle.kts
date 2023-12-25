@@ -15,7 +15,6 @@ kotlin {
             implementation(project(":core:coreNetwork"))
             implementation(project(":core:corePref"))
             implementation(libs.cash.paging.compose.common)
-            implementation(libs.qdsfdhvh.image.loader)
         }
     }
 }

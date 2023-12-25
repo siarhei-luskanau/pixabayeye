@@ -9,7 +9,7 @@ plugins {
 
 kotlin {
     androidTarget {
-        compilations.all {
+        compilations.configureEach {
             kotlinOptions {
                 jvmTarget = libs.versions.build.jvmTarget.get()
             }

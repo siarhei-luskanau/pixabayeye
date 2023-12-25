@@ -20,6 +20,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import coil3.ImageLoader
+import coil3.addLastModifiedToFileCacheKey
+import coil3.compose.setSingletonImageLoaderFactory
+import coil3.network.ktor.KtorNetworkFetcherFactory
+import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.core.network.HitModel
 import siarhei.luskanau.pixabayeye.core.network.NetworkResult
 import siarhei.luskanau.pixabayeye.ui.details.DetailsComposable
@@ -28,7 +33,17 @@ import siarhei.luskanau.pixabayeye.ui.search.SearchComposable
 import siarhei.luskanau.pixabayeye.ui.splash.SplashComposable
 
 @Composable
-fun App(appViewModel: AppViewModel) = AppTheme {
+fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
+    setSingletonImageLoaderFactory { context ->
+        ImageLoader.Builder(context)
+            .dispatcher(dispatcherSet.ioDispatcher())
+            .components {
+                add(KtorNetworkFetcherFactory())
+            }
+            .addLastModifiedToFileCacheKey(false)
+            .build()
+    }
+
     val appViewState = remember { mutableStateOf<AppViewState>(AppViewState.Splash) }
 
     @OptIn(ExperimentalMaterial3Api::class)

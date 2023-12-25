@@ -1,6 +1,5 @@
 package siarhei.luskanau.pixabayeye.ui.search
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,13 +22,17 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
 import app.cash.paging.compose.itemContentType
 import app.cash.paging.compose.itemKey
-import com.seiko.imageloader.rememberImageAction
-import com.seiko.imageloader.rememberImageActionPainter
+import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
+import coil3.request.ImageRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
@@ -81,12 +84,16 @@ fun SearchComposable(
                                 onImageClicked.invoke(hitModel)
                             }
                     ) {
-                        val action by rememberImageAction(url = hitModel.previewUrl)
-                        Image(
-                            painter = rememberImageActionPainter(action = action),
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalPlatformContext.current)
+                                .data(hitModel.previewUrl)
+                                .build(),
                             contentDescription = hitModel.tags,
-                            modifier =
-                            Modifier
+                            placeholder = ColorPainter(Color.Gray),
+                            error = ColorPainter(Color.Red),
+                            // onSuccess = { placeholder = it.result.memoryCacheKey },
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
                                 .height(hitModel.previewHeight.dp)
                                 .width(hitModel.previewWidth.dp)
                         )

@@ -5,6 +5,9 @@ import siarhei.luskanau.pixabayeye.navigation.App
 
 fun mainViewController(koin: Koin): UIViewController {
     return ComposeUIViewController {
-        App(appViewModel = koin.get())
+        App(
+            appViewModel = koin.get(),
+            dispatcherSet = koin.get()
+        )
     }
 }

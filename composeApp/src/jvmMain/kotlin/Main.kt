@@ -14,11 +14,12 @@ fun main() = application {
         onCloseRequest = ::exitApplication
     ) {
         window.minimumSize = Dimension(350, 600)
+        val koin = initKoin(
+            module {}
+        ).koin
         App(
-            appViewModel =
-            initKoin(
-                module {}
-            ).koin.get()
+            appViewModel = koin.get(),
+            dispatcherSet = koin.get()
         )
     }
 }
