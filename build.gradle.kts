@@ -3,10 +3,11 @@ System.getProperties().forEach { key, value -> println("System.getProperties(): 
 System.getenv().forEach { (key, value) -> println("System.getenv(): $key=$value") }
 
 plugins {
-    alias(libs.plugins.buildConfig).apply(false)
+    alias(libs.plugins.android.application).apply(false)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.jetbrains.compose).apply(false)
     alias(libs.plugins.kotlinx.kover)
-    alias(libs.plugins.kotlinx.serialization).apply(false)
+    alias(libs.plugins.multiplatform).apply(false)
 }
 
 apply(from = "$rootDir/ci.gradle.kts")

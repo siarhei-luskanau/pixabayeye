@@ -1,8 +1,12 @@
 plugins {
-    composeMultiplatformConvention
+    id("composeMultiplatformConvention")
+    id("testOptionsConvention")
 }
 
-android.namespace = "siarhei.luskanau.pixabayeye.navigation"
+android {
+    namespace = "siarhei.luskanau.pixabayeye.navigation"
+    testOptions.configureTestOptions()
+}
 
 kotlin {
     sourceSets {

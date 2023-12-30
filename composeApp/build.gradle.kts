@@ -4,6 +4,7 @@ plugins {
     id("com.android.application")
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    id("testOptionsConvention")
 }
 
 kotlin {

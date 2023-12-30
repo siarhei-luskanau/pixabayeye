@@ -1,12 +1,16 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
-    composeMultiplatformConvention
+    id("composeMultiplatformConvention")
     alias(libs.plugins.buildConfig)
     alias(libs.plugins.kotlinx.serialization)
+    id("testOptionsConvention")
 }
 
-android.namespace = "siarhei.luskanau.pixabayeye.core.pref"
+android {
+    namespace = "siarhei.luskanau.pixabayeye.core.pref"
+    testOptions.configureTestOptions()
+}
 
 kotlin {
     sourceSets {

@@ -1,9 +1,13 @@
 plugins {
-    composeMultiplatformConvention
+    id("composeMultiplatformConvention")
     alias(libs.plugins.kotlinx.serialization)
+    id("testOptionsConvention")
 }
 
-android.namespace = "siarhei.luskanau.pixabayeye.core.network"
+android {
+    namespace = "siarhei.luskanau.pixabayeye.core.network"
+    testOptions.configureTestOptions()
+}
 
 kotlin {
     sourceSets {

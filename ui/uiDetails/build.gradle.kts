@@ -1,8 +1,12 @@
 plugins {
-    composeMultiplatformConvention
+    id("composeMultiplatformConvention")
+    id("testOptionsConvention")
 }
 
-android.namespace = "siarhei.luskanau.pixabayeye.ui.details"
+android {
+    namespace = "siarhei.luskanau.pixabayeye.ui.details"
+    testOptions.configureTestOptions()
+}
 
 kotlin {
     sourceSets {

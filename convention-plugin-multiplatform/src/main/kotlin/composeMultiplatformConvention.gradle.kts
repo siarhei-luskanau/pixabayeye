@@ -94,5 +94,4 @@ android {
     composeOptions.kotlinCompilerExtensionVersion =
         libs.findVersion("compose-compiler").get().requiredVersion
     packaging.resources.excludes.add("META-INF/**")
-    testOptions.configureTestOptions()
 }
