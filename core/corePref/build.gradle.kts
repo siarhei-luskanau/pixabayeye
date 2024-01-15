@@ -46,7 +46,10 @@ kotlin {
 
 buildConfig {
     packageName("siarhei.luskanau.pixabayeye.core.pref")
-    useKotlinOutput { topLevelConstants = true }
+    useKotlinOutput {
+        topLevelConstants = true
+        internalVisibility = true
+    }
     val apiKey =
         gradleLocalProperties(rootDir).getProperty("PIXABAY_API_KEY")
             ?: System.getenv("PIXABAY_API_KEY")
