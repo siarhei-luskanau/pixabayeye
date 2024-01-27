@@ -24,7 +24,7 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v3
         env:
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
         with:
