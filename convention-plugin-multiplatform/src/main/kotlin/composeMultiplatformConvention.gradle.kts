@@ -68,6 +68,7 @@ kotlin {
         }
 
         jvmMain.dependencies {
+            implementation(libs.findLibrary("kotlinx-coroutines-swing").get())
         }
 
         iosMain.dependencies {

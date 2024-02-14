@@ -25,8 +25,8 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
         }
 
-        androidMain {
-            dependsOn(jvmMain.get())
+        androidMain.dependencies {
+            implementation(libs.ktor.client.okhttp)
         }
 
         iosMain.dependencies {

@@ -22,12 +22,12 @@ kotlin {
             implementation(libs.androidx.datastore.core.okio)
         }
 
-        androidMain {
-            dependsOn(jvmMain.get())
+        androidMain.dependencies {
+            implementation(libs.androidx.datastore.core.okio)
         }
 
-        iosMain {
-            dependsOn(jvmMain.get())
+        iosMain.dependencies {
+            implementation(libs.androidx.datastore.core.okio)
         }
         iosArm64Main {
             dependsOn(iosMain.get())
