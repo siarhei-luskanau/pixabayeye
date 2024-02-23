@@ -12,11 +12,10 @@ build-jvmTarget = "17"
 buildConfig = "5.3.5"
 cash-paging = "3.3.0-alpha02-0.4.0"
 coil3 = "3.0.0-alpha04"
-compose-compiler = "1.5.9"
+compose-compiler = "1.5.10"
 cupertino = "0.1.0-alpha03"
-decompose = "2.2.2-compose-experimental"
 detekt = "1.23.5"
-jetbrains-compose = "1.6.0-rc02"
+jetbrains-compose = "1.6.0-rc03"
 koin = "3.5.3"
 kotlin = "1.9.22"
 kotlinx-coroutines = "1.8.0"
@@ -36,8 +35,6 @@ cash-paging-compose-common = { module = "app.cash.paging:paging-compose-common",
 coil3-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil3" }
 coil3-network-ktor = { group = "io.coil-kt.coil3", name = "coil-network-ktor", version.ref = "coil3" }
 cupertino-adaptive = { module = "io.github.alexzhirkevich:cupertino-adaptive", version.ref = "cupertino" }
-decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
-decompose-extensions-compose-jetbrains = { module = "com.arkivanov.decompose:extensions-compose-jetbrains", version.ref = "decompose" }
 jetbrains-compose-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "jetbrains-compose" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

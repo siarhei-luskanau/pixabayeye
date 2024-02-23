@@ -48,8 +48,6 @@ kotlin {
             implementation(compose.ui)
             implementation(libs.findLibrary("coil3-compose").get())
             implementation(libs.findLibrary("coil3-network-ktor").get())
-            implementation(libs.findLibrary("decompose").get())
-            implementation(libs.findLibrary("decompose-extensions-compose-jetbrains").get())
             implementation(libs.findLibrary("koin-core").get())
             implementation(libs.findLibrary("kotlinx-coroutines-core").get())
         }
