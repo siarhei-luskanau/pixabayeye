@@ -59,7 +59,7 @@ tasks.register("ciAndroidEmulator") {
             "-Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect",
             "-Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true"
         )
-        if (!true.toString().equals(other = System.getProperty("CI"), ignoreCase = true)) {
+        if (!true.toString().equals(other = System.getenv("CI"), ignoreCase = true)) {
             tasks.add("--enable-display")
         }
         gradlew(*tasks.toTypedArray())
