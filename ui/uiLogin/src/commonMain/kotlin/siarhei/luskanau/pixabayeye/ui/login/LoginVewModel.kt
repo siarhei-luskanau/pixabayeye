@@ -28,7 +28,8 @@ class LoginVewModel(
     suspend fun onCheckClick() {
         val apiKey = apiKeyFlow.firstOrNull()
         when (pixabayApiService.isApiKeyOk(apiKey = apiKey)) {
-            is NetworkResult.Failure -> Unit // do nothing
+            is NetworkResult.Failure -> Unit
+
             is NetworkResult.Success -> {
                 prefService.setPixabayApiKey(apiKey)
                 onLoginComplete.invoke()
