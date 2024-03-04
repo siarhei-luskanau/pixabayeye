@@ -55,10 +55,9 @@ fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
                         text =
                         when (appViewState.value) {
                             is AppViewState.Details,
-                            AppViewState.Search -> "PixabayEye - Search"
-
+                            AppViewState.Search
+                            -> "PixabayEye - Search"
                             AppViewState.Login -> "PixabayEye - API key"
-
                             AppViewState.Splash -> "PixabayEye"
                         }
                     )
