@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(buildSrcLibs.android.gradle.plugin)
-    implementation(buildSrcLibs.jetbrains.compose.plugin)
-    implementation(buildSrcLibs.kotlin.gradle.plugin)
+    implementation(libs.android.gradle.plugin)
+    implementation(libs.jetbrains.compose.plugin)
+    implementation(libs.kotlin.gradle.plugin)
 }
