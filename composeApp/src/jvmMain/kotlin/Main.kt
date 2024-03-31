@@ -9,6 +9,8 @@ import siarhei.luskanau.pixabayeye.navigation.App
 
 fun main() = application {
     Window(
+        // TODO title by resources
+        // title = stringResource(Res.string.app_name),
         title = "PixabayEye",
         state = rememberWindowState(width = 800.dp, height = 600.dp),
         onCloseRequest = ::exitApplication

@@ -46,6 +46,7 @@ kotlin {
             implementation(project(":core:coreNetwork"))
             implementation(project(":core:corePref"))
             implementation(project(":navigation"))
+            implementation(compose.components.resources)
             implementation(libs.koin.core)
             implementation(libs.okio)
         }

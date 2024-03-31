@@ -7,7 +7,6 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -19,11 +18,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import coil3.ImageLoader
 import coil3.addLastModifiedToFileCacheKey
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.network.ktor.KtorNetworkFetcherFactory
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
+import pixabayeye.navigation.generated.resources.Res
+import pixabayeye.navigation.generated.resources.back_button
+import pixabayeye.navigation.generated.resources.screen_name_login
+import pixabayeye.navigation.generated.resources.screen_name_search
+import pixabayeye.navigation.generated.resources.screen_name_splash
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.core.network.HitModel
 import siarhei.luskanau.pixabayeye.core.network.NetworkResult
@@ -46,40 +51,23 @@ fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
 
     val appViewState = remember { mutableStateOf<AppViewState>(AppViewState.Splash) }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    Text(
-                        text =
-                        when (appViewState.value) {
-                            is AppViewState.Details,
-                            AppViewState.Search
-                            -> "PixabayEye - Search"
-                            AppViewState.Login -> "PixabayEye - API key"
-                            AppViewState.Splash -> "PixabayEye"
-                        }
-                    )
-                },
+                title = { Text(text = stringResource(appViewState.value.title)) },
+                colors = TopAppBarDefaults.mediumTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                ),
                 navigationIcon = {
                     if (appViewState.value is AppViewState.Details) {
-                        IconButton(
-                            onClick = { appViewState.value = AppViewState.Search }
-                        ) {
+                        IconButton(onClick = { appViewState.value = AppViewState.Search }) {
                             Icon(
-                                imageVector = Icons.Default.ArrowBack,
-                                tint = Color.White,
-                                contentDescription = null
+                                imageVector = Icons.Filled.ArrowBack,
+                                contentDescription = stringResource(Res.string.back_button)
                             )
                         }
                     }
-                },
-                colors =
-                TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = Color.White
-                )
+                }
             )
         },
         bottomBar = {
@@ -88,8 +76,7 @@ fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
                 content = {
                     when (appViewState.value) {
                         is AppViewState.Details,
-                        AppViewState.Search
-                        -> {
+                        AppViewState.Search -> {
                             IconButton(
                                 onClick = { appViewState.value = AppViewState.Search }
                             ) {
@@ -101,15 +88,13 @@ fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
                         }
 
                         AppViewState.Login,
-                        AppViewState.Splash
-                        -> Unit
+                        AppViewState.Splash -> Unit
                     }
 
                     when (appViewState.value) {
                         is AppViewState.Details,
                         AppViewState.Login,
-                        AppViewState.Search
-                        -> {
+                        AppViewState.Search -> {
                             IconButton(
                                 onClick = { appViewState.value = AppViewState.Login }
                             ) {
@@ -127,17 +112,15 @@ fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
         }
     ) { contentPadding ->
         when (val viewState = appViewState.value) {
-            is AppViewState.Details ->
-                DetailsComposable(
-                    hitModel = viewState.hitModel,
-                    modifier = Modifier.padding(contentPadding)
-                )
+            is AppViewState.Details -> DetailsComposable(
+                hitModel = viewState.hitModel,
+                modifier = Modifier.padding(contentPadding)
+            )
 
             AppViewState.Login -> {
-                val loginVewModel =
-                    appViewModel.createLoginVewModel {
-                        appViewState.value = AppViewState.Search
-                    }
+                val loginVewModel = appViewModel.createLoginVewModel {
+                    appViewState.value = AppViewState.Search
+                }
                 LoginComposable(
                     loginVewState = loginVewModel.getLoginVewState(),
                     modifier = Modifier.padding(contentPadding),
@@ -147,38 +130,42 @@ fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
                 )
             }
 
-            AppViewState.Search ->
-                SearchComposable(
-                    searchVewStateFlow = appViewModel.searchVewModel.getSearchVewStateFlow(),
-                    onUpdateSearchTerm = { searchTerm ->
-                        appViewModel.searchVewModel.onUpdateSearchTerm(searchTerm = searchTerm)
-                    },
-                    onImageClicked = { hitModel ->
-                        appViewState.value = AppViewState.Details(hitModel = hitModel)
-                    },
-                    modifier = Modifier.padding(contentPadding)
-                )
+            AppViewState.Search -> SearchComposable(
+                searchVewStateFlow = appViewModel.searchVewModel.getSearchVewStateFlow(),
+                onUpdateSearchTerm = { searchTerm ->
+                    appViewModel.searchVewModel.onUpdateSearchTerm(searchTerm = searchTerm)
+                },
+                onImageClicked = { hitModel ->
+                    appViewState.value = AppViewState.Details(hitModel = hitModel)
+                },
+                modifier = Modifier.padding(contentPadding)
+            )
 
-            AppViewState.Splash ->
-                SplashComposable(
-                    onSplashComplete = {
-                        when (appViewModel.splashVewModel.isApiKeyOk()) {
-                            is NetworkResult.Failure -> appViewState.value = AppViewState.Login
-                            is NetworkResult.Success -> appViewState.value = AppViewState.Search
-                        }
-                    },
-                    modifier = Modifier.padding(contentPadding)
-                )
+            AppViewState.Splash -> SplashComposable(
+                onSplashComplete = {
+                    when (appViewModel.splashVewModel.isApiKeyOk()) {
+                        is NetworkResult.Failure -> appViewState.value = AppViewState.Login
+                        is NetworkResult.Success -> appViewState.value = AppViewState.Search
+                    }
+                },
+                modifier = Modifier.padding(contentPadding)
+            )
         }
     }
 }
 
-internal sealed interface AppViewState {
-    data object Splash : AppViewState
+internal sealed class AppViewState(
+    val route: String,
+    val title: StringResource
+) {
+    data object Splash : AppViewState(route = "splash", title = Res.string.screen_name_splash)
 
-    data object Search : AppViewState
+    data object Search : AppViewState(route = "search", title = Res.string.screen_name_search)
 
-    data object Login : AppViewState
+    data object Login : AppViewState(route = "login", title = Res.string.screen_name_login)
 
-    data class Details(val hitModel: HitModel) : AppViewState
+    data class Details(val hitModel: HitModel) : AppViewState(
+        route = "details",
+        title = Res.string.screen_name_search
+    )
 }
