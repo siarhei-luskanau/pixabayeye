@@ -82,12 +82,12 @@ tasks.register("ciAndroid") {
     doLast {
         gradlew("assembleDebug")
         copy {
-            from(rootProject.subprojects.map { it.buildDir })
+            from(rootProject.subprojects.map { it.layout.buildDirectory })
             include("**/*.apk")
             exclude("**/apk/androidTest/**")
             eachFile { path = name }
             includeEmptyDirs = false
-            into("$buildDir/apk/")
+            into("${layout.buildDirectory}/apk/")
         }
     }
 }
@@ -142,19 +142,11 @@ tasks.register("ciIos") {
             )
             val devicesList = Gson().fromJson(devicesJson, XcodeDeviceResponse::class.java)
                 ?.devices.orEmpty()
-                .mapValues { entry ->
-                    entry.value
-                        .filter { it.isAvailable }
-                        .filter {
-                            listOf(
-                                "iphone 15",
-                                "iphone 14"
-                            ).any { device -> it.name.contains(device, true) }
-                        }
-                }
+                .filterKeys { it.startsWith("com.apple.CoreSimulator.SimRuntime.iOS-") }
+                .mapValues { entry -> entry.value.filter { it.isAvailable } }
                 .values.flatten()
-            println("Devices:$devicesList")
-            val deviceId = devicesList.firstOrNull()?.udid
+            println("Devices(${devicesList.size}):\n${devicesList.joinToString(separator = ",\n")}")
+            val deviceId = devicesList.firstOrNull().also { println("Test Device: $it") }?.udid
             runExec(
                 listOf(
                     "xcodebuild",
@@ -260,11 +252,11 @@ fun gradlew(vararg tasks: String, addToSystemProperties: Map<String, String>? = 
             }
         }.getProperty("sdk.dir")
         if (sdkDirPath != null) {
-            val platformToolsDir = "$sdkDirPath${java.io.File.separator}platform-tools"
-            val pahtEnvironment = System.getenv("PATH").orEmpty()
-            if (!pahtEnvironment.contains(platformToolsDir)) {
+            val platformToolsDir = "$sdkDirPath${File.separator}platform-tools"
+            val pathEnvironment = System.getenv("PATH").orEmpty()
+            if (!pathEnvironment.contains(platformToolsDir)) {
                 environment = environment.toMutableMap().apply {
-                    put("PATH", "$platformToolsDir:$pahtEnvironment")
+                    put("PATH", "$platformToolsDir:$pathEnvironment")
                 }
             }
         }
@@ -277,7 +269,7 @@ fun gradlew(vararg tasks: String, addToSystemProperties: Map<String, String>? = 
         }
         if (System.getenv("ANDROID_HOME") == null) {
             environment = environment.toMutableMap().apply {
-                put("ANDROID_HOME", "$sdkDirPath")
+                put("ANDROID_HOME", sdkDirPath)
             }
         }
         println("commandLine: ${this.commandLine}")
