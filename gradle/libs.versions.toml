@@ -2,6 +2,7 @@
 agp = "8.3.2"
 androidx-activity = "1.9.0"
 androidx-datastore = "1.1.0"
+androidx-navigation = "2.8.0-alpha01"
 androidx-test-core = "1.6.0-alpha05"
 androidx-test-runner = "1.6.0-alpha06"
 build-android-compileSdk = "34"
@@ -13,7 +14,7 @@ buildConfig = "5.3.5"
 cash-paging = "3.3.0-alpha02-0.5.1"
 coil3 = "3.0.0-alpha06"
 compose-compiler = "1.5.12"
-compose-multiplatform = "1.6.2"
+compose-multiplatform = "1.6.10-beta01"
 cupertino = "0.1.0-alpha03"
 detekt = "1.23.6"
 koin = "3.5.6"
@@ -36,6 +37,7 @@ coil3-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref
 coil3-network-ktor = { group = "io.coil-kt.coil3", name = "coil-network-ktor", version.ref = "coil3" }
 cupertino-adaptive = { module = "io.github.alexzhirkevich:cupertino-adaptive", version.ref = "cupertino" }
 jetbrains-compose-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
+jetbrains-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
