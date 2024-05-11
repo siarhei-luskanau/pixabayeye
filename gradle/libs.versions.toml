@@ -17,10 +17,11 @@ compose-compiler = "1.5.13"
 compose-multiplatform = "1.6.10-rc01"
 cupertino = "0.1.0-alpha04"
 detekt = "1.23.6"
+javax-json = "1.1.4"
 koin = "3.5.6"
 kotlin = "1.9.23"
-kotlinx-coroutines = "1.8.1-Beta"
-kotlinx-kover = "0.7.6"
+kotlinx-coroutines = "1.8.1"
+kotlinx-kover = "0.8.0-Beta2"
 kotlinx-serialization = "1.6.3"
 ktlint = "1.2.1"
 ktor = "2.3.10"
@@ -36,6 +37,8 @@ cash-paging-compose-common = { module = "app.cash.paging:paging-compose-common",
 coil3-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil3" }
 coil3-network-ktor = { group = "io.coil-kt.coil3", name = "coil-network-ktor", version.ref = "coil3" }
 cupertino-adaptive = { module = "io.github.alexzhirkevich:cupertino-adaptive", version.ref = "cupertino" }
+javax-json-api = { module = "javax.json:javax.json-api", version.ref = "javax-json" }
+javax-json-glassfish = { module = "org.glassfish:javax.json", version.ref = "javax-json" }
 jetbrains-compose-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 jetbrains-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }

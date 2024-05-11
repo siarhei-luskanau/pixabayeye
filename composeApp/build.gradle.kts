@@ -2,7 +2,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     id("com.android.application")
-    kotlin("multiplatform")
+    alias(libs.plugins.multiplatform)
     id("org.jetbrains.compose")
     id("testOptionsConvention")
 }

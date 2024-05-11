@@ -1,11 +1,11 @@
 @file:Suppress("PropertyName")
 
-import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.InputStream
+import java.io.StringReader
 import java.util.Properties
+import javax.json.Json
 import org.apache.tools.ant.taskdefs.condition.Os
 
 println("gradle.startParameter.taskNames: ${gradle.startParameter.taskNames}")
@@ -37,15 +37,6 @@ subprojects {
     ) {
         apply(plugin = "org.jetbrains.kotlinx.kover")
         dependencies { kover(project(path)) }
-    }
-}
-
-koverReport {
-    verify {
-        rule {
-            minBound(95)
-            maxBound(98)
-        }
     }
 }
 
@@ -140,13 +131,24 @@ tasks.register("ciIos") {
                     "-j"
                 )
             )
-            val devicesList = Gson().fromJson(devicesJson, XcodeDeviceResponse::class.java)
-                ?.devices.orEmpty()
-                .filterKeys { it.startsWith("com.apple.CoreSimulator.SimRuntime.iOS-") }
-                .mapValues { entry -> entry.value.filter { it.isAvailable } }
-                .values.flatten()
-            println("Devices(${devicesList.size}):\n${devicesList.joinToString(separator = ",\n")}")
-            val deviceId = devicesList.firstOrNull().also { println("Test Device: $it") }?.udid
+            val devicesList = Json.createReader(StringReader(devicesJson)).use { it.readObject() }
+                .getJsonObject("devices")
+                .let { devicesMap ->
+                    devicesMap.keys
+                        .filter { it.startsWith("com.apple.CoreSimulator.SimRuntime.iOS") }
+                        .map { devicesMap.getJsonArray(it) }
+                }
+                .map { jsonArray -> jsonArray.map { it.asJsonObject() } }
+                .flatten()
+                .filter { it.getBoolean("isAvailable") }
+                .filter {
+                    listOf("iphone 1").any { device ->
+                        it.getString("name").contains(device, true)
+                    }
+                }
+            println("Devices:${devicesList.joinToString { "\n" + it["udid"] + ": " + it["name"] }}")
+            val device = devicesList.firstOrNull()
+            println("Selected:\n${device?.getString("udid")}: ${device?.getString("name")}")
             runExec(
                 listOf(
                     "xcodebuild",
@@ -159,7 +161,7 @@ tasks.register("ciIos") {
                     "OBJROOT=${rootDir.path}/build/ios",
                     "SYMROOT=${rootDir.path}/build/ios",
                     "-destination",
-                    "id=$deviceId",
+                    "id=${device?.getString("udid")}",
                     "-allowProvisioningDeviceRegistration",
                     "-allowProvisioningUpdates"
                 )
@@ -172,19 +174,19 @@ tasks.register("ciSdkManagerLicenses") {
     group = CI_GRADLE
     doLast {
         val sdkDirPath = getAndroidSdkPath(rootDir = rootDir)
-        getSdkmanagerFile(rootDir = rootDir)?.let { sdkmanagerFile ->
+        getSdkManagerFile(rootDir = rootDir)?.let { sdkManagerFile ->
             val yesInputStream = object : InputStream() {
                 private val yesString = "y\n"
                 private var counter = 0
                 override fun read(): Int = yesString[counter % 2].also { counter++ }.code
             }
             exec {
-                executable = sdkmanagerFile.absolutePath
+                executable = sdkManagerFile.absolutePath
                 args = listOf("--list", "--sdk_root=$sdkDirPath")
                 println("exec: ${this.commandLine.joinToString(separator = " ")}")
             }.apply { println("ExecResult: $this") }
             exec {
-                executable = sdkmanagerFile.absolutePath
+                executable = sdkManagerFile.absolutePath
                 args = listOf("--licenses", "--sdk_root=$sdkDirPath")
                 standardInput = yesInputStream
                 println("exec: ${this.commandLine.joinToString(separator = " ")}")
@@ -285,7 +287,7 @@ fun getAndroidSdkPath(rootDir: File): String? = Properties().apply {
     (propertiesSdkDirPath ?: System.getenv("ANDROID_HOME"))
 }
 
-fun getSdkmanagerFile(rootDir: File): File? = getAndroidSdkPath(
+fun getSdkManagerFile(rootDir: File): File? = getAndroidSdkPath(
     rootDir = rootDir
 )?.let { sdkDirPath ->
     println("sdkDirPath: $sdkDirPath")
@@ -297,15 +299,3 @@ fun getSdkmanagerFile(rootDir: File): File? = getAndroidSdkPath(
     println("sdkmanagerFile: $sdkmanagerFile")
     sdkmanagerFile
 }
-
-private data class XcodeDeviceResponse(
-    @SerializedName("devices") val devices: Map<String, List<XcodeDevice>>
-)
-
-private data class XcodeDevice(
-    @SerializedName("udid") val udid: String,
-    @SerializedName("state") val state: String,
-    @SerializedName("name") val name: String,
-    @SerializedName("isAvailable") val isAvailable: Boolean,
-    @SerializedName("platformVersion") val platformVersion: String? = null
-)

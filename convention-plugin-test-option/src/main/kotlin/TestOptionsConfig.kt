@@ -25,5 +25,11 @@ fun TestOptions.configureTestOptions() {
     managedDevices.devices.create<ManagedVirtualDevice>("managedVirtualDevice") {
         device = "Pixel 2"
         apiLevel = 33
+        val systemImageConfig: Pair<String?, Boolean?> = when (apiLevel) {
+            34 -> "aosp-atd" to true
+            else -> null to null
+        }
+        systemImageConfig.first?.also { systemImageSource = it }
+        systemImageConfig.second?.also { require64Bit = it }
     }
 }
