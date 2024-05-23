@@ -26,6 +26,9 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v3
 
+      - run: ./gradlew --stacktrace
+        continue-on-error: true
+
       - run: ./gradlew jsBrowserProductionWebpack --stacktrace
         env:
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}

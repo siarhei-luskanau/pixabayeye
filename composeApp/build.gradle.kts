@@ -5,6 +5,7 @@ plugins {
     id("com.android.application")
     alias(libs.plugins.multiplatform)
     id("org.jetbrains.compose")
+    alias(libs.plugins.compose.compiler)
     id("testOptionsConvention")
 }
 
@@ -102,7 +103,6 @@ android {
         targetCompatibility = JavaVersion.valueOf(libs.versions.build.javaVersion.get())
     }
     buildFeatures.compose = true
-    composeOptions.kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     packaging.resources.excludes.add("META-INF/**")
     testOptions.configureTestOptions()
 }
