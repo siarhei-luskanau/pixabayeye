@@ -23,6 +23,9 @@ import coil3.addLastModifiedToFileCacheKey
 import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.network.ktor.KtorNetworkFetcherFactory
+import org.jetbrains.compose.resources.stringResource
+import pixabayeye.navigation.generated.resources.Res
+import pixabayeye.navigation.generated.resources.back_button
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.core.network.HitModel
 import siarhei.luskanau.pixabayeye.core.network.NetworkResult
@@ -59,8 +62,7 @@ fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
                         IconButton(onClick = { appViewState.value = AppViewState.Search }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                // contentDescription = stringResource(Res.string.back_button)
-                                contentDescription = "Back"
+                                contentDescription = stringResource(Res.string.back_button)
                             )
                         }
                     }
