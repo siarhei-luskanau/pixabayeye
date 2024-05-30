@@ -208,9 +208,8 @@ tasks.register("devAll") {
             "ciAndroid",
             "ciDesktop"
         )
-        // gradlew("ciIos")
+        gradlew("ciIos")
         gradlew("ciBrowser")
-        gradlew("jsBrowserProductionWebpack")
         gradlew("ciSdkManagerLicenses")
         gradlew("ciAndroidEmulator")
     }

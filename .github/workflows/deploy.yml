@@ -24,11 +24,11 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/gradle-build-action@v3
+      - uses: gradle/actions/setup-gradle@v3
+
+      - run: ./gradlew jsBrowserProductionWebpack --stacktrace
         env:
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
-        with:
-          arguments: jsBrowserProductionWebpack --stacktrace
 
       - uses: JamesIves/github-pages-deploy-action@v4.6.1
         with:

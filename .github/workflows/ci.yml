@@ -24,9 +24,9 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/gradle-build-action@v3
-        with:
-          arguments: ciLint --stacktrace
+      - uses: gradle/actions/setup-gradle@v3
+
+      - run: ./gradlew ciLint --stacktrace
 
 
 
@@ -45,9 +45,9 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/gradle-build-action@v3
-        with:
-          arguments: ciUnitTest --stacktrace
+      - uses: gradle/actions/setup-gradle@v3
+
+      - run: ./gradlew ciUnitTest --stacktrace
 
 
 
@@ -66,9 +66,9 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/gradle-build-action@v3
-        with:
-          arguments: ciAndroid --stacktrace
+      - uses: gradle/actions/setup-gradle@v3
+
+      - run: ./gradlew ciAndroid --stacktrace
 
 
 
@@ -94,13 +94,11 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/gradle-build-action@v3
-        with:
-          arguments: ciSdkManagerLicenses --stacktrace
+      - uses: gradle/actions/setup-gradle@v3
 
-      - uses: gradle/gradle-build-action@v3
-        with:
-          arguments: ciAndroidEmulator --stacktrace
+      - run: ./gradlew ciSdkManagerLicenses --stacktrace
+
+      - run: ./gradlew ciAndroidEmulator --stacktrace
 
 
 
@@ -119,9 +117,9 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/gradle-build-action@v3
-        with:
-          arguments: ciDesktop --stacktrace
+      - uses: gradle/actions/setup-gradle@v3
+
+      - run: ./gradlew ciDesktop --stacktrace
 
 
 
@@ -140,9 +138,9 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/gradle-build-action@v3
-        with:
-          arguments: ciBrowser --stacktrace
+      - uses: gradle/actions/setup-gradle@v3
+
+      - run: ./gradlew ciBrowser --stacktrace
 
 
 
@@ -161,6 +159,6 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/gradle-build-action@v3
-        with:
-          arguments: ciIos --stacktrace
+      - uses: gradle/actions/setup-gradle@v3
+
+      - run: ./gradlew ciIos --stacktrace
