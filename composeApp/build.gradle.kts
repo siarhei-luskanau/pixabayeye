@@ -1,4 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.application")
@@ -9,9 +10,16 @@ plugins {
 
 kotlin {
     androidTarget {
-        compilations.configureEach {
-            kotlinOptions {
-                jvmTarget = libs.versions.build.jvmTarget.get()
+        compilations.all {
+            compileTaskProvider {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.fromTarget(libs.versions.build.jvmTarget.get()))
+                    freeCompilerArgs.add(
+                        "-Xjdk-release=${JavaVersion.valueOf(
+                            libs.versions.build.javaVersion.get()
+                        )}"
+                    )
+                }
             }
         }
     }

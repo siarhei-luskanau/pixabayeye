@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
 
 plugins {
@@ -9,9 +11,20 @@ plugins {
 kotlin {
 
     androidTarget {
-        compilations.configureEach {
-            kotlinOptions {
-                jvmTarget = libs.findVersion("build-jvmTarget").get().requiredVersion
+        compilations.all {
+            compileTaskProvider {
+                compilerOptions {
+                    jvmTarget.set(
+                        JvmTarget.fromTarget(
+                            libs.findVersion("build-jvmTarget").get().requiredVersion
+                        )
+                    )
+                    freeCompilerArgs.add(
+                        "-Xjdk-release=${JavaVersion.valueOf(
+                            libs.findVersion("build-javaVersion").get().requiredVersion
+                        )}"
+                    )
+                }
             }
         }
     }
