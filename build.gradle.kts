@@ -215,7 +215,12 @@ tasks.register("devAll") {
     }
 }
 
-fun runExec(commands: List<String>): String = ByteArrayOutputStream().let { resultOutputStream ->
+fun runExec(commands: List<String>): String = object : ByteArrayOutputStream() {
+    override fun write(p0: ByteArray, p1: Int, p2: Int) {
+        print(String(p0, p1, p2))
+        super.write(p0, p1, p2)
+    }
+}.let { resultOutputStream ->
     exec {
         if (System.getenv("JAVA_HOME") == null) {
             System.getProperty("java.home")?.let { javaHome ->
@@ -228,7 +233,7 @@ fun runExec(commands: List<String>): String = ByteArrayOutputStream().let { resu
         standardOutput = resultOutputStream
         println("commandLine: ${this.commandLine.joinToString(separator = " ")}")
     }.apply { println("ExecResult: $this") }
-    String(resultOutputStream.toByteArray()).trim().also { println(it) }
+    String(resultOutputStream.toByteArray())
 }
 
 fun gradlew(vararg tasks: String, addToSystemProperties: Map<String, String>? = null) {
