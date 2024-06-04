@@ -4,9 +4,7 @@ import siarhei.luskanau.pixabayeye.core.network.HitModel
 import siarhei.luskanau.pixabayeye.core.network.NetworkResult
 import siarhei.luskanau.pixabayeye.core.network.PixabayApiService
 
-internal class KtorPixabayApiService(
-    private val client: PixabayApiClient
-) : PixabayApiService {
+internal class KtorPixabayApiService(private val client: PixabayApiClient) : PixabayApiService {
     override suspend fun isApiKeyOk(apiKey: String?): NetworkResult<Boolean> = runNetworkCatching {
         client.isApiKeyOk(apiKey = apiKey)
     }
