@@ -153,10 +153,7 @@ fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
     }
 }
 
-internal sealed class AppViewState(
-    val route: String,
-    val title: String
-) {
+internal sealed class AppViewState(val route: String, val title: String) {
     data object Splash : AppViewState(
         route = "splash",
         // title = Res.string.screen_name_splash
@@ -175,9 +172,10 @@ internal sealed class AppViewState(
         title = "PixabayEye - API key"
     )
 
-    data class Details(val hitModel: HitModel) : AppViewState(
-        route = "details",
-        // title = Res.string.screen_name_search
-        title = "PixabayEye - Search"
-    )
+    data class Details(val hitModel: HitModel) :
+        AppViewState(
+            route = "details",
+            // title = Res.string.screen_name_search
+            title = "PixabayEye - Search"
+        )
 }

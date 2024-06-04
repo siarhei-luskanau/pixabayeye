@@ -7,9 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import okio.FileSystem
 
-internal class PrefServiceDataStore(
-    private val prefPathProvider: PrefPathProvider
-) : PrefService {
+internal class PrefServiceDataStore(private val prefPathProvider: PrefPathProvider) : PrefService {
     private val dataStore: DataStore<PrefData> by lazy {
         DataStoreFactory.create(
             storage =
