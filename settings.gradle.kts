@@ -5,6 +5,7 @@ include(
     ":core:coreNetwork",
     ":core:corePref",
     ":navigation",
+    ":ui:uiCommon",
     ":ui:uiDetails",
     ":ui:uiLogin",
     ":ui:uiSearch",

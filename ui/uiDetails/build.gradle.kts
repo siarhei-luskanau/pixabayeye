@@ -14,6 +14,7 @@ kotlin {
             implementation(project(":core:coreCommon"))
             implementation(project(":core:coreNetwork"))
             implementation(project(":core:corePref"))
+            implementation(project(":ui:uiCommon"))
         }
     }
 }

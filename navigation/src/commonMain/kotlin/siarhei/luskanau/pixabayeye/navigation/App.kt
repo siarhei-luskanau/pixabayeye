@@ -23,12 +23,16 @@ import coil3.addLastModifiedToFileCacheKey
 import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.network.ktor.KtorNetworkFetcherFactory
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
-import pixabayeye.navigation.generated.resources.Res
-import pixabayeye.navigation.generated.resources.back_button
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.core.network.HitModel
 import siarhei.luskanau.pixabayeye.core.network.NetworkResult
+import siarhei.luskanau.pixabayeye.ui.common.resources.Res
+import siarhei.luskanau.pixabayeye.ui.common.resources.back_button
+import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_login
+import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
+import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_splash
 import siarhei.luskanau.pixabayeye.ui.details.DetailsComposable
 import siarhei.luskanau.pixabayeye.ui.login.LoginComposable
 import siarhei.luskanau.pixabayeye.ui.search.SearchComposable
@@ -52,8 +56,7 @@ fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
     Scaffold(
         topBar = {
             TopAppBar(
-                // title = { Text(text = stringResource(appViewState.value.title)) },
-                title = { Text(text = appViewState.value.title) },
+                title = { Text(text = stringResource(appViewState.value.title)) },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
                 ),
@@ -153,29 +156,25 @@ fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
     }
 }
 
-internal sealed class AppViewState(val route: String, val title: String) {
+internal sealed class AppViewState(val route: String, val title: StringResource) {
     data object Splash : AppViewState(
         route = "splash",
-        // title = Res.string.screen_name_splash
-        title = "PixabayEye - Splash"
+        title = Res.string.screen_name_splash
     )
 
     data object Search : AppViewState(
         route = "search",
-        // title = Res.string.screen_name_search
-        title = "PixabayEye - Search"
+        title = Res.string.screen_name_search
     )
 
     data object Login : AppViewState(
         route = "login",
-        // / title = Res.string.screen_name_login
-        title = "PixabayEye - API key"
+        title = Res.string.screen_name_login
     )
 
     data class Details(val hitModel: HitModel) :
         AppViewState(
             route = "details",
-            // title = Res.string.screen_name_search
-            title = "PixabayEye - Search"
+            title = Res.string.screen_name_search
         )
 }

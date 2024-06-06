@@ -5,10 +5,10 @@ import androidx.compose.ui.window.rememberWindowState
 import java.awt.Dimension
 import org.jetbrains.compose.resources.stringResource
 import org.koin.dsl.module
-import pixabayeye.composeapp.generated.resources.Res
-import pixabayeye.composeapp.generated.resources.app_name
 import siarhei.luskanau.pixabayeye.di.initKoin
 import siarhei.luskanau.pixabayeye.navigation.App
+import siarhei.luskanau.pixabayeye.ui.common.resources.Res
+import siarhei.luskanau.pixabayeye.ui.common.resources.app_name
 
 fun main() = application {
     Window(

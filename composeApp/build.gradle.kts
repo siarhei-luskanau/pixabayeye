@@ -54,6 +54,7 @@ kotlin {
             implementation(project(":core:coreNetwork"))
             implementation(project(":core:corePref"))
             implementation(project(":navigation"))
+            implementation(project(":ui:uiCommon"))
             implementation(libs.jetbrains.navigation.compose)
             implementation(compose.components.resources)
             implementation(libs.koin.core)
