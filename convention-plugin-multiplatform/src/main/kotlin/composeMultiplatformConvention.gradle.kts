@@ -6,6 +6,7 @@ plugins {
     id("com.android.library")
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    kotlin("plugin.compose")
 }
 
 kotlin {
@@ -108,7 +109,5 @@ android {
         )
     }
     buildFeatures.compose = true
-    composeOptions.kotlinCompilerExtensionVersion =
-        libs.findVersion("compose-compiler").get().requiredVersion
     packaging.resources.excludes.add("META-INF/**")
 }

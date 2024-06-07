@@ -26,6 +26,9 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v3
 
+      - run: ./gradlew --stacktrace
+        continue-on-error: true
+
       - run: ./gradlew ciLint --stacktrace
 
 
@@ -47,6 +50,9 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v3
 
+      - run: ./gradlew --stacktrace
+        continue-on-error: true
+
       - run: ./gradlew ciUnitTest --stacktrace
 
 
@@ -67,6 +73,9 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
 
       - uses: gradle/actions/setup-gradle@v3
+
+      - run: ./gradlew --stacktrace
+        continue-on-error: true
 
       - run: ./gradlew ciAndroid --stacktrace
 
@@ -96,6 +105,9 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v3
 
+      - run: ./gradlew --stacktrace
+        continue-on-error: true
+
       - run: ./gradlew ciSdkManagerLicenses --stacktrace
 
       - run: ./gradlew ciAndroidEmulator --stacktrace
@@ -119,6 +131,9 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v3
 
+      - run: ./gradlew --stacktrace
+        continue-on-error: true
+
       - run: ./gradlew ciDesktop --stacktrace
 
 
@@ -140,6 +155,9 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v3
 
+      - run: ./gradlew --stacktrace
+        continue-on-error: true
+
       - run: ./gradlew ciBrowser --stacktrace
 
 
@@ -160,5 +178,8 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
 
       - uses: gradle/actions/setup-gradle@v3
+
+      - run: ./gradlew --stacktrace
+        continue-on-error: true
 
       - run: ./gradlew ciIos --stacktrace
