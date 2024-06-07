@@ -29,7 +29,7 @@ jobs:
       - run: ./gradlew --stacktrace
         continue-on-error: true
 
-      - run: ./gradlew jsBrowserProductionWebpack --stacktrace
+      - run: ./gradlew jsBrowserDistribution --stacktrace
         env:
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
 
