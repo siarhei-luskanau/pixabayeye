@@ -46,9 +46,9 @@ fun SearchComposable(
     modifier: Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val loginVewState = searchVewStateFlow.collectAsState(initial = null)
+    val vewState = searchVewStateFlow.collectAsState(initial = null)
     val lazyPagingItems: LazyPagingItems<HitModel> =
-        (loginVewState.value?.pagingDataFlow ?: emptyFlow()).collectAsLazyPagingItems()
+        (vewState.value?.pagingDataFlow ?: emptyFlow()).collectAsLazyPagingItems()
     var searchTerm by remember { mutableStateOf("") }
 
     Column(modifier = modifier.fillMaxWidth()) {

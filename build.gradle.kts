@@ -79,7 +79,7 @@ tasks.register("ciAndroid") {
             exclude("**/apk/androidTest/**")
             eachFile { path = name }
             includeEmptyDirs = false
-            into("${layout.buildDirectory}/apk/")
+            into("${layout.buildDirectory.asFile.get().path}/apk/")
         }
     }
 }

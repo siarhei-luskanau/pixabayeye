@@ -44,12 +44,6 @@ kotlin {
     }
 
     sourceSets {
-        all {
-            languageSettings {
-                optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
-            }
-        }
-
         commonMain.dependencies {
             implementation(project(":core:coreCommon"))
             implementation(project(":core:coreNetwork"))
