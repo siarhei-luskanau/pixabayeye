@@ -3,8 +3,11 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.android.gradle.plugin)
-    implementation(libs.jetbrains.compose.compiler.plugin)
-    implementation(libs.jetbrains.compose.plugin)
-    implementation(libs.kotlin.gradle.plugin)
+    compileOnly(libs.android.gradle.plugin)
+    compileOnly(libs.jetbrains.compose.plugin)
+    compileOnly(libs.kotlin.gradle.plugin)
+    runtimeOnly(libs.android.gradle.plugin)
+    runtimeOnly(libs.jetbrains.compose.compiler.plugin)
+    runtimeOnly(libs.jetbrains.compose.plugin)
+    runtimeOnly(libs.kotlin.gradle.plugin)
 }
