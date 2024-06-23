@@ -1,5 +1,6 @@
 plugins {
     id("composeMultiplatformConvention")
+    alias(libs.plugins.kotlinx.serialization)
     id("testOptionsConvention")
 }
 
@@ -19,6 +20,7 @@ kotlin {
             implementation(project(":ui:uiLogin"))
             implementation(project(":ui:uiSearch"))
             implementation(project(":ui:uiSplash"))
+            implementation(libs.kotlinx.serialization.json)
         }
     }
 }

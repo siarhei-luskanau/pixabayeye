@@ -16,15 +16,19 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import coil3.ImageLoader
 import coil3.addLastModifiedToFileCacheKey
 import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.network.ktor.KtorNetworkFetcherFactory
-import org.jetbrains.compose.resources.StringResource
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.core.network.HitModel
@@ -40,7 +44,11 @@ import siarhei.luskanau.pixabayeye.ui.search.SearchComposable
 import siarhei.luskanau.pixabayeye.ui.splash.SplashComposable
 
 @Composable
-fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
+fun App(
+    appViewModel: AppViewModel,
+    dispatcherSet: DispatcherSet,
+    navController: NavHostController = rememberNavController()
+) = AppTheme {
     @OptIn(ExperimentalCoilApi::class)
     setSingletonImageLoaderFactory { context ->
         ImageLoader.Builder(context)
@@ -52,19 +60,32 @@ fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
             .build()
     }
 
-    val appViewState = remember { mutableStateOf<AppViewState>(AppViewState.Splash) }
+    // Get current back stack entry
+    val backStackEntry by navController.currentBackStackEntryAsState()
 
     @OptIn(ExperimentalMaterial3Api::class)
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(appViewState.value.title)) },
+                title = {
+                    Text(
+                        text = stringResource(
+                            when (backStackEntry?.destination?.route) {
+                                AppRoutes.Splash.route -> Res.string.screen_name_splash
+                                AppRoutes.Search.route -> Res.string.screen_name_search
+                                AppRoutes.Login.route -> Res.string.screen_name_login
+                                AppRoutes.Details.route -> Res.string.screen_name_search
+                                else -> Res.string.screen_name_search
+                            }
+                        )
+                    )
+                },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
                 ),
                 navigationIcon = {
-                    if (appViewState.value is AppViewState.Details) {
-                        IconButton(onClick = { appViewState.value = AppViewState.Search }) {
+                    if (backStackEntry?.destination?.route == AppRoutes.Details.route) {
+                        IconButton(onClick = { navController.navigate(AppRoutes.Details.route) }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = stringResource(Res.string.back_button)
@@ -78,11 +99,11 @@ fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
             BottomAppBar(
                 modifier = Modifier.fillMaxWidth(),
                 content = {
-                    when (appViewState.value) {
-                        is AppViewState.Details,
-                        AppViewState.Search -> {
+                    when (backStackEntry?.destination?.route) {
+                        AppRoutes.Details.route,
+                        AppRoutes.Search.route -> {
                             IconButton(
-                                onClick = { appViewState.value = AppViewState.Search }
+                                onClick = { navController.navigate(AppRoutes.Search.route) }
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Home,
@@ -91,16 +112,16 @@ fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
                             }
                         }
 
-                        AppViewState.Login,
-                        AppViewState.Splash -> Unit
+                        AppRoutes.Login.route,
+                        AppRoutes.Splash.route -> Unit
                     }
 
-                    when (appViewState.value) {
-                        is AppViewState.Details,
-                        AppViewState.Login,
-                        AppViewState.Search -> {
+                    when (backStackEntry?.destination?.route) {
+                        AppRoutes.Details.route,
+                        AppRoutes.Login.route,
+                        AppRoutes.Search.route -> {
                             IconButton(
-                                onClick = { appViewState.value = AppViewState.Login }
+                                onClick = { navController.navigate(AppRoutes.Login.route) }
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.AccountBox,
@@ -109,21 +130,34 @@ fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
                             }
                         }
 
-                        AppViewState.Splash -> Unit
+                        AppRoutes.Splash.route -> Unit
                     }
                 }
             )
         }
     ) { contentPadding ->
-        when (val viewState = appViewState.value) {
-            is AppViewState.Details -> DetailsComposable(
-                hitModel = viewState.hitModel,
-                modifier = Modifier.padding(contentPadding)
-            )
-
-            AppViewState.Login -> {
+        NavHost(
+            navController = navController,
+            startDestination = AppRoutes.Splash.route
+        ) {
+            composable(route = AppRoutes.Splash.route) {
+                SplashComposable(
+                    onSplashComplete = {
+                        when (appViewModel.splashVewModel.isApiKeyOk()) {
+                            is NetworkResult.Failure -> navController.navigate(
+                                AppRoutes.Login.route
+                            )
+                            is NetworkResult.Success -> navController.navigate(
+                                AppRoutes.Search.route
+                            )
+                        }
+                    },
+                    modifier = Modifier.padding(contentPadding)
+                )
+            }
+            composable(route = AppRoutes.Login.route) {
                 val loginVewModel = appViewModel.createLoginVewModel {
-                    appViewState.value = AppViewState.Search
+                    navController.navigate(AppRoutes.Search.route)
                 }
                 LoginComposable(
                     loginVewState = loginVewModel.getLoginVewState(),
@@ -133,50 +167,38 @@ fun App(appViewModel: AppViewModel, dispatcherSet: DispatcherSet) = AppTheme {
                     onCheckClick = { loginVewModel.onCheckClick() }
                 )
             }
-
-            AppViewState.Search -> SearchComposable(
-                searchVewStateFlow = appViewModel.searchVewModel.getSearchVewStateFlow(),
-                onUpdateSearchTerm = { searchTerm ->
-                    appViewModel.searchVewModel.onUpdateSearchTerm(searchTerm = searchTerm)
-                },
-                onImageClicked = { hitModel ->
-                    appViewState.value = AppViewState.Details(hitModel = hitModel)
-                },
-                modifier = Modifier.padding(contentPadding)
-            )
-
-            AppViewState.Splash -> SplashComposable(
-                onSplashComplete = {
-                    when (appViewModel.splashVewModel.isApiKeyOk()) {
-                        is NetworkResult.Failure -> appViewState.value = AppViewState.Login
-                        is NetworkResult.Success -> appViewState.value = AppViewState.Search
-                    }
-                },
-                modifier = Modifier.padding(contentPadding)
-            )
+            composable(route = AppRoutes.Search.route) {
+                SearchComposable(
+                    searchVewStateFlow = appViewModel.searchVewModel.getSearchVewStateFlow(),
+                    onUpdateSearchTerm = { searchTerm ->
+                        appViewModel.searchVewModel.onUpdateSearchTerm(searchTerm = searchTerm)
+                    },
+                    onImageClicked = { hitModel ->
+                        navController.navigate(
+                            route = AppRoutes.Details.route
+                        )
+                    },
+                    modifier = Modifier.padding(contentPadding)
+                )
+            }
+            composable(route = AppRoutes.Details.route) {
+                val hitModel: HitModel = backStackEntry?.arguments?.get("hitModel") as HitModel
+                DetailsComposable(
+                    hitModel = hitModel,
+                    modifier = Modifier.padding(contentPadding)
+                )
+            }
         }
     }
 }
 
-internal sealed class AppViewState(val route: String, val title: StringResource) {
-    data object Splash : AppViewState(
-        route = "splash",
-        title = Res.string.screen_name_splash
-    )
+@Serializable
+internal sealed class AppRoutes(val route: String) {
+    @Serializable data object Splash : AppRoutes(route = "splash")
 
-    data object Search : AppViewState(
-        route = "search",
-        title = Res.string.screen_name_search
-    )
+    @Serializable data object Search : AppRoutes(route = "search")
 
-    data object Login : AppViewState(
-        route = "login",
-        title = Res.string.screen_name_login
-    )
+    @Serializable data object Login : AppRoutes(route = "login")
 
-    data class Details(val hitModel: HitModel) :
-        AppViewState(
-            route = "details",
-            title = Res.string.screen_name_search
-        )
+    @Serializable data object Details : AppRoutes(route = "details")
 }
