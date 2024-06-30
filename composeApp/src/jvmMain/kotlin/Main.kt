@@ -21,7 +21,7 @@ fun main() = application {
             module {}
         ).koin
         App(
-            appViewModel = koin.get(),
+            viewModelProvider = { koin.get() },
             dispatcherSet = koin.get()
         )
     }
