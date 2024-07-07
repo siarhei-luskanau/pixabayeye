@@ -23,15 +23,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import coil3.ImageLoader
 import coil3.addLastModifiedToFileCacheKey
 import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.network.ktor.KtorNetworkFetcherFactory
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 import org.jetbrains.compose.resources.stringResource
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
-import siarhei.luskanau.pixabayeye.core.network.HitModel
 import siarhei.luskanau.pixabayeye.core.network.NetworkResult
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.back_button
@@ -70,11 +73,19 @@ fun App(
                 title = {
                     Text(
                         text = stringResource(
-                            when (backStackEntry?.destination?.route) {
-                                AppRoutes.Splash.route -> Res.string.screen_name_splash
-                                AppRoutes.Search.route -> Res.string.screen_name_search
-                                AppRoutes.Login.route -> Res.string.screen_name_login
-                                AppRoutes.Details.route -> Res.string.screen_name_search
+                            when {
+                                checkRoute<AppRoutes.Splash>(
+                                    backStackEntry?.destination?.route
+                                ) -> Res.string.screen_name_splash
+                                checkRoute<AppRoutes.Search>(
+                                    backStackEntry?.destination?.route
+                                ) -> Res.string.screen_name_search
+                                checkRoute<AppRoutes.Login>(
+                                    backStackEntry?.destination?.route
+                                ) -> Res.string.screen_name_login
+                                checkRoute<AppRoutes.Details>(
+                                    backStackEntry?.destination?.route
+                                ) -> Res.string.screen_name_search
                                 else -> Res.string.screen_name_search
                             }
                         )
@@ -84,8 +95,10 @@ fun App(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
                 ),
                 navigationIcon = {
-                    if (backStackEntry?.destination?.route == AppRoutes.Details.route) {
-                        IconButton(onClick = { navController.navigate(AppRoutes.Details.route) }) {
+                    if (checkRoute<AppRoutes.Details>(backStackEntry?.destination?.route)) {
+                        IconButton(onClick = {
+                            navController.navigate(route = AppRoutes.Search)
+                        }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = stringResource(Res.string.back_button)
@@ -99,11 +112,12 @@ fun App(
             BottomAppBar(
                 modifier = Modifier.fillMaxWidth(),
                 content = {
-                    when (backStackEntry?.destination?.route) {
-                        AppRoutes.Details.route,
-                        AppRoutes.Search.route -> {
+                    when {
+                        checkRoute<AppRoutes.Details>(backStackEntry?.destination?.route) ||
+                            checkRoute<AppRoutes.Search>(backStackEntry?.destination?.route)
+                        -> {
                             IconButton(
-                                onClick = { navController.navigate(AppRoutes.Search.route) }
+                                onClick = { navController.navigate(route = AppRoutes.Search) }
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Home,
@@ -111,17 +125,15 @@ fun App(
                                 )
                             }
                         }
-
-                        AppRoutes.Login.route,
-                        AppRoutes.Splash.route -> Unit
                     }
 
-                    when (backStackEntry?.destination?.route) {
-                        AppRoutes.Details.route,
-                        AppRoutes.Login.route,
-                        AppRoutes.Search.route -> {
+                    when {
+                        checkRoute<AppRoutes.Details>(backStackEntry?.destination?.route) ||
+                            checkRoute<AppRoutes.Login>(backStackEntry?.destination?.route) ||
+                            checkRoute<AppRoutes.Search>(backStackEntry?.destination?.route)
+                        -> {
                             IconButton(
-                                onClick = { navController.navigate(AppRoutes.Login.route) }
+                                onClick = { navController.navigate(route = AppRoutes.Login) }
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.AccountBox,
@@ -129,8 +141,6 @@ fun App(
                                 )
                             }
                         }
-
-                        AppRoutes.Splash.route -> Unit
                     }
                 }
             )
@@ -138,26 +148,24 @@ fun App(
     ) { contentPadding ->
         NavHost(
             navController = navController,
-            startDestination = AppRoutes.Splash.route
+            startDestination = AppRoutes.Splash
         ) {
-            composable(route = AppRoutes.Splash.route) {
+            composable<AppRoutes.Splash> {
                 SplashComposable(
                     onSplashComplete = {
                         when (appViewModel.splashVewModel.isApiKeyOk()) {
-                            is NetworkResult.Failure -> navController.navigate(
-                                AppRoutes.Login.route
-                            )
-                            is NetworkResult.Success -> navController.navigate(
-                                AppRoutes.Search.route
-                            )
+                            is NetworkResult.Failure ->
+                                navController.navigate(route = AppRoutes.Login)
+                            is NetworkResult.Success ->
+                                navController.navigate(route = AppRoutes.Search)
                         }
                     },
                     modifier = Modifier.padding(contentPadding)
                 )
             }
-            composable(route = AppRoutes.Login.route) {
+            composable<AppRoutes.Login> {
                 val loginVewModel = appViewModel.createLoginVewModel {
-                    navController.navigate(AppRoutes.Search.route)
+                    navController.navigate(route = AppRoutes.Search)
                 }
                 LoginComposable(
                     loginVewState = loginVewModel.getLoginVewState(),
@@ -167,7 +175,7 @@ fun App(
                     onCheckClick = { loginVewModel.onCheckClick() }
                 )
             }
-            composable(route = AppRoutes.Search.route) {
+            composable<AppRoutes.Search> {
                 SearchComposable(
                     searchVewStateFlow = appViewModel.searchVewModel.getSearchVewStateFlow(),
                     onUpdateSearchTerm = { searchTerm ->
@@ -175,16 +183,20 @@ fun App(
                     },
                     onImageClicked = { hitModel ->
                         navController.navigate(
-                            route = AppRoutes.Details.route
+                            route = AppRoutes.Details(
+                                largeImageUrl = hitModel.largeImageUrl,
+                                tags = hitModel.tags
+                            )
                         )
                     },
                     modifier = Modifier.padding(contentPadding)
                 )
             }
-            composable(route = AppRoutes.Details.route) {
-                val hitModel: HitModel = backStackEntry?.arguments?.get("hitModel") as HitModel
+            composable<AppRoutes.Details> {
+                val args: AppRoutes.Details = it.toRoute()
                 DetailsComposable(
-                    hitModel = hitModel,
+                    largeImageUrl = args.largeImageUrl,
+                    tags = args.tags,
                     modifier = Modifier.padding(contentPadding)
                 )
             }
@@ -192,13 +204,17 @@ fun App(
     }
 }
 
-@Serializable
-internal sealed class AppRoutes(val route: String) {
-    @Serializable data object Splash : AppRoutes(route = "splash")
+internal sealed interface AppRoutes {
+    @Serializable data object Splash : AppRoutes
 
-    @Serializable data object Search : AppRoutes(route = "search")
+    @Serializable data object Search : AppRoutes
 
-    @Serializable data object Login : AppRoutes(route = "login")
+    @Serializable data object Login : AppRoutes
 
-    @Serializable data object Details : AppRoutes(route = "details")
+    @Serializable data class Details(val largeImageUrl: String, val tags: String) : AppRoutes
 }
+
+@OptIn(ExperimentalSerializationApi::class, InternalSerializationApi::class)
+private inline fun <reified T : Any> checkRoute(route: String?): Boolean =
+    T::class.serializer().descriptor.serialName
+        .let { route.orEmpty().startsWith(it) }

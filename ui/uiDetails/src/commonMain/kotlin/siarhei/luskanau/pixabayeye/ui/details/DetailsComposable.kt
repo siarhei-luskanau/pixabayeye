@@ -9,15 +9,14 @@ import androidx.compose.ui.layout.ContentScale
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
-import siarhei.luskanau.pixabayeye.core.network.HitModel
 
 @Composable
-fun DetailsComposable(hitModel: HitModel, modifier: Modifier) {
+fun DetailsComposable(largeImageUrl: String, tags: String, modifier: Modifier) {
     AsyncImage(
         model = ImageRequest.Builder(LocalPlatformContext.current)
-            .data(hitModel.largeImageUrl)
+            .data(largeImageUrl)
             .build(),
-        contentDescription = hitModel.tags,
+        contentDescription = tags,
         placeholder = ColorPainter(Color.Gray),
         error = ColorPainter(Color.Red),
         // onSuccess = { placeholder = it.result.memoryCacheKey },
