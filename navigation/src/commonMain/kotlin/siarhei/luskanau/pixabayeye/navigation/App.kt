@@ -55,7 +55,7 @@ fun App(
     @OptIn(ExperimentalCoilApi::class)
     setSingletonImageLoaderFactory { context ->
         ImageLoader.Builder(context)
-            .dispatcher(dispatcherSet.ioDispatcher())
+            .coroutineContext(dispatcherSet.ioDispatcher())
             .components {
                 add(KtorNetworkFetcherFactory())
             }
