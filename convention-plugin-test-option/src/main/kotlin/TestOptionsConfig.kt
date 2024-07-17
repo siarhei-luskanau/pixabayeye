@@ -26,7 +26,7 @@ fun TestOptions.configureTestOptions() {
         device = "Pixel 2"
         apiLevel = 33
         val systemImageConfig: Pair<String?, Boolean?> = when (apiLevel) {
-            34 -> "aosp-atd" to true
+            33, 34 -> "aosp-atd" to true
             else -> null to null
         }
         systemImageConfig.first?.also { systemImageSource = it }

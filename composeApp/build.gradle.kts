@@ -53,11 +53,11 @@ kotlin {
             implementation(libs.jetbrains.navigation.compose)
             implementation(compose.components.resources)
             implementation(libs.koin.core)
-            implementation(libs.okio)
         }
 
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.datastore.core.okio)
         }
 
         androidNativeTest.dependencies {
@@ -69,6 +69,7 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.common)
             implementation(compose.desktop.currentOs)
+            implementation(libs.androidx.datastore.core.okio)
         }
 
         iosMain.dependencies {
