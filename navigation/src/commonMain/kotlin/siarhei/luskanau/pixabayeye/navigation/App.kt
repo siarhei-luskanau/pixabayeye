@@ -1,23 +1,11 @@
 package siarhei.luskanau.pixabayeye.navigation
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -34,10 +22,11 @@ import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.serializer
 import org.jetbrains.compose.resources.stringResource
+import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
+import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.core.network.NetworkResult
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
-import siarhei.luskanau.pixabayeye.ui.common.resources.back_button
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_login
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_splash
@@ -66,84 +55,37 @@ fun App(
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
 
-    @OptIn(ExperimentalMaterial3Api::class)
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(
-                            when {
-                                checkRoute<AppRoutes.Splash>(
-                                    backStackEntry?.destination?.route
-                                ) -> Res.string.screen_name_splash
-                                checkRoute<AppRoutes.Search>(
-                                    backStackEntry?.destination?.route
-                                ) -> Res.string.screen_name_search
-                                checkRoute<AppRoutes.Login>(
-                                    backStackEntry?.destination?.route
-                                ) -> Res.string.screen_name_login
-                                checkRoute<AppRoutes.Details>(
-                                    backStackEntry?.destination?.route
-                                ) -> Res.string.screen_name_search
-                                else -> Res.string.screen_name_search
-                            }
-                        )
-                    )
-                },
-                colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
-                ),
-                navigationIcon = {
-                    if (checkRoute<AppRoutes.Details>(backStackEntry?.destination?.route)) {
-                        IconButton(onClick = {
-                            navController.navigate(route = AppRoutes.Search)
-                        }) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = stringResource(Res.string.back_button)
-                            )
-                        }
+            PixabayTopAppBar(
+                title = stringResource(
+                    when {
+                        checkRoute<AppRoutes.Splash>(backStackEntry) ->
+                            Res.string.screen_name_splash
+                        checkRoute<AppRoutes.Search>(backStackEntry) ->
+                            Res.string.screen_name_search
+                        checkRoute<AppRoutes.Login>(backStackEntry) ->
+                            Res.string.screen_name_login
+                        checkRoute<AppRoutes.Details>(backStackEntry) ->
+                            Res.string.screen_name_search
+                        else ->
+                            Res.string.screen_name_search
                     }
+                ),
+                onBackClick = if (checkRoute<AppRoutes.Details>(backStackEntry)) {
+                    { navController.navigate(route = AppRoutes.Search) }
+                } else {
+                    null
                 }
             )
         },
         bottomBar = {
-            BottomAppBar(
-                modifier = Modifier.fillMaxWidth(),
-                content = {
-                    when {
-                        checkRoute<AppRoutes.Details>(backStackEntry?.destination?.route) ||
-                            checkRoute<AppRoutes.Search>(backStackEntry?.destination?.route)
-                        -> {
-                            IconButton(
-                                onClick = { navController.navigate(route = AppRoutes.Search) }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Home,
-                                    contentDescription = null
-                                )
-                            }
-                        }
-                    }
-
-                    when {
-                        checkRoute<AppRoutes.Details>(backStackEntry?.destination?.route) ||
-                            checkRoute<AppRoutes.Login>(backStackEntry?.destination?.route) ||
-                            checkRoute<AppRoutes.Search>(backStackEntry?.destination?.route)
-                        -> {
-                            IconButton(
-                                onClick = { navController.navigate(route = AppRoutes.Login) }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.AccountBox,
-                                    contentDescription = null
-                                )
-                            }
-                        }
-                    }
-                }
-            )
+            if (checkRoute<AppRoutes.Search>(backStackEntry)) {
+                PixabayBottomBar(
+                    onHomeClick = { navController.navigate(route = AppRoutes.Search) },
+                    onLoginClick = { navController.navigate(route = AppRoutes.Login) }
+                )
+            }
         }
     ) { contentPadding ->
         NavHost(
@@ -215,6 +157,6 @@ internal sealed interface AppRoutes {
 }
 
 @OptIn(ExperimentalSerializationApi::class, InternalSerializationApi::class)
-private inline fun <reified T : Any> checkRoute(route: String?): Boolean =
+private inline fun <reified T : Any> checkRoute(backStackEntry: NavBackStackEntry?): Boolean =
     T::class.serializer().descriptor.serialName
-        .let { route.orEmpty().startsWith(it) }
+        .let { backStackEntry?.destination?.route.orEmpty().startsWith(it) }
