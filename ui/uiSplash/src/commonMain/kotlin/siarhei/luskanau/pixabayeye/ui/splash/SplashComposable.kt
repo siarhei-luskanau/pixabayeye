@@ -14,10 +14,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SplashComposable(modifier: Modifier, onSplashComplete: suspend () -> Unit) {
+fun SplashComposable(onSplashComplete: suspend () -> Unit) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Text(
             text = "PixabayEye",

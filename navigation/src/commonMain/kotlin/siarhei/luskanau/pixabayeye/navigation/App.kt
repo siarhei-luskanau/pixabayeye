@@ -1,15 +1,11 @@
 package siarhei.luskanau.pixabayeye.navigation
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import coil3.ImageLoader
@@ -21,15 +17,8 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.serializer
-import org.jetbrains.compose.resources.stringResource
-import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
-import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.core.network.NetworkResult
-import siarhei.luskanau.pixabayeye.ui.common.resources.Res
-import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_login
-import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
-import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_splash
 import siarhei.luskanau.pixabayeye.ui.details.DetailsComposable
 import siarhei.luskanau.pixabayeye.ui.login.LoginComposable
 import siarhei.luskanau.pixabayeye.ui.search.SearchComposable
@@ -45,103 +34,63 @@ fun App(
     setSingletonImageLoaderFactory { context ->
         ImageLoader.Builder(context)
             .coroutineContext(dispatcherSet.ioDispatcher())
-            .components {
-                add(KtorNetworkFetcherFactory())
-            }
+            .components { add(KtorNetworkFetcherFactory()) }
             .addLastModifiedToFileCacheKey(false)
             .build()
     }
 
-    // Get current back stack entry
-    val backStackEntry by navController.currentBackStackEntryAsState()
-
-    Scaffold(
-        topBar = {
-            PixabayTopAppBar(
-                title = stringResource(
-                    when {
-                        checkRoute<AppRoutes.Splash>(backStackEntry) ->
-                            Res.string.screen_name_splash
-                        checkRoute<AppRoutes.Search>(backStackEntry) ->
-                            Res.string.screen_name_search
-                        checkRoute<AppRoutes.Login>(backStackEntry) ->
-                            Res.string.screen_name_login
-                        checkRoute<AppRoutes.Details>(backStackEntry) ->
-                            Res.string.screen_name_search
-                        else ->
-                            Res.string.screen_name_search
+    NavHost(
+        navController = navController,
+        startDestination = AppRoutes.Splash
+    ) {
+        composable<AppRoutes.Splash> {
+            SplashComposable(
+                onSplashComplete = {
+                    when (appViewModel.splashVewModel.isApiKeyOk()) {
+                        is NetworkResult.Failure ->
+                            navController.navigate(route = AppRoutes.Login)
+                        is NetworkResult.Success ->
+                            navController.navigate(route = AppRoutes.Search)
                     }
-                ),
-                onBackClick = if (checkRoute<AppRoutes.Details>(backStackEntry)) {
-                    { navController.navigate(route = AppRoutes.Search) }
-                } else {
-                    null
                 }
             )
-        },
-        bottomBar = {
-            if (checkRoute<AppRoutes.Search>(backStackEntry)) {
-                PixabayBottomBar(
-                    onHomeClick = { navController.navigate(route = AppRoutes.Search) },
-                    onLoginClick = { navController.navigate(route = AppRoutes.Login) }
-                )
-            }
         }
-    ) { contentPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = AppRoutes.Splash
-        ) {
-            composable<AppRoutes.Splash> {
-                SplashComposable(
-                    onSplashComplete = {
-                        when (appViewModel.splashVewModel.isApiKeyOk()) {
-                            is NetworkResult.Failure ->
-                                navController.navigate(route = AppRoutes.Login)
-                            is NetworkResult.Success ->
-                                navController.navigate(route = AppRoutes.Search)
-                        }
-                    },
-                    modifier = Modifier.padding(contentPadding)
-                )
+        composable<AppRoutes.Login> {
+            val loginVewModel = appViewModel.createLoginVewModel {
+                navController.navigate(route = AppRoutes.Search)
             }
-            composable<AppRoutes.Login> {
-                val loginVewModel = appViewModel.createLoginVewModel {
-                    navController.navigate(route = AppRoutes.Search)
-                }
-                LoginComposable(
-                    loginVewState = loginVewModel.getLoginVewState(),
-                    modifier = Modifier.padding(contentPadding),
-                    onInit = { loginVewModel.onInit() },
-                    onUpdateClick = { apiKey -> loginVewModel.onUpdateClick(apiKey) },
-                    onCheckClick = { loginVewModel.onCheckClick() }
-                )
-            }
-            composable<AppRoutes.Search> {
-                SearchComposable(
-                    searchVewStateFlow = appViewModel.searchVewModel.getSearchVewStateFlow(),
-                    onUpdateSearchTerm = { searchTerm ->
-                        appViewModel.searchVewModel.onUpdateSearchTerm(searchTerm = searchTerm)
-                    },
-                    onImageClicked = { hitModel ->
-                        navController.navigate(
-                            route = AppRoutes.Details(
-                                largeImageUrl = hitModel.largeImageUrl,
-                                tags = hitModel.tags
-                            )
+            LoginComposable(
+                loginVewState = loginVewModel.getLoginVewState(),
+                onInit = { loginVewModel.onInit() },
+                onUpdateClick = { apiKey -> loginVewModel.onUpdateClick(apiKey) },
+                onCheckClick = { loginVewModel.onCheckClick() }
+            )
+        }
+        composable<AppRoutes.Search> {
+            SearchComposable(
+                searchVewStateFlow = appViewModel.searchVewModel.getSearchVewStateFlow(),
+                onUpdateSearchTerm = { searchTerm ->
+                    appViewModel.searchVewModel.onUpdateSearchTerm(searchTerm = searchTerm)
+                },
+                onImageClicked = { hitModel ->
+                    navController.navigate(
+                        route = AppRoutes.Details(
+                            largeImageUrl = hitModel.largeImageUrl,
+                            tags = hitModel.tags
                         )
-                    },
-                    modifier = Modifier.padding(contentPadding)
-                )
-            }
-            composable<AppRoutes.Details> {
-                val args: AppRoutes.Details = it.toRoute()
-                DetailsComposable(
-                    largeImageUrl = args.largeImageUrl,
-                    tags = args.tags,
-                    modifier = Modifier.padding(contentPadding)
-                )
-            }
+                    )
+                },
+                onHomeClick = { navController.navigate(route = AppRoutes.Search) },
+                onLoginClick = { navController.navigate(route = AppRoutes.Login) }
+            )
+        }
+        composable<AppRoutes.Details> {
+            val args: AppRoutes.Details = it.toRoute()
+            DetailsComposable(
+                largeImageUrl = args.largeImageUrl,
+                tags = args.tags,
+                onBackClick = { navController.navigate(route = AppRoutes.Search) }
+            )
         }
     }
 }

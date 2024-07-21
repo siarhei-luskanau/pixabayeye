@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -36,82 +37,96 @@ import coil3.request.ImageRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
+import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
+import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.core.network.HitModel
+import siarhei.luskanau.pixabayeye.ui.common.resources.Res
+import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 
 @Composable
 fun SearchComposable(
     searchVewStateFlow: Flow<SearchVewState>,
     onUpdateSearchTerm: suspend (String) -> Unit,
     onImageClicked: (HitModel) -> Unit,
-    modifier: Modifier
+    onHomeClick: () -> Unit,
+    onLoginClick: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val vewState = searchVewStateFlow.collectAsState(initial = null)
     val lazyPagingItems: LazyPagingItems<HitModel> =
         (vewState.value?.pagingDataFlow ?: emptyFlow()).collectAsLazyPagingItems()
     var searchTerm by remember { mutableStateOf("") }
+    Scaffold(
+        topBar = { PixabayTopAppBar(title = stringResource(Res.string.screen_name_search)) },
+        bottomBar = {
+            PixabayBottomBar(
+                onHomeClick = onHomeClick,
+                onLoginClick = onLoginClick
+            )
+        }
+    ) { contentPadding ->
+        Column(modifier = Modifier.padding(contentPadding).fillMaxWidth()) {
+            OutlinedTextField(
+                value = searchTerm,
+                onValueChange = {
+                    searchTerm = it
+                    coroutineScope.launch {
+                        onUpdateSearchTerm.invoke(it)
+                    }
+                },
+                label = { Text("Search") },
+                modifier = Modifier.fillMaxWidth().padding(16.dp)
+            )
 
-    Column(modifier = modifier.fillMaxWidth()) {
-        OutlinedTextField(
-            value = searchTerm,
-            onValueChange = {
-                searchTerm = it
-                coroutineScope.launch {
-                    onUpdateSearchTerm.invoke(it)
-                }
-            },
-            label = { Text("Search") },
-            modifier = Modifier.fillMaxWidth().padding(16.dp)
-        )
-
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(all = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(
-                count = lazyPagingItems.itemCount,
-                key = lazyPagingItems.itemKey { it.imageId },
-                contentType = lazyPagingItems.itemContentType { null }
-            ) { index ->
-                lazyPagingItems[index]?.let { hitModel ->
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                onImageClicked.invoke(hitModel)
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(all = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(
+                    count = lazyPagingItems.itemCount,
+                    key = lazyPagingItems.itemKey { it.imageId },
+                    contentType = lazyPagingItems.itemContentType { null }
+                ) { index ->
+                    lazyPagingItems[index]?.let { hitModel ->
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    onImageClicked.invoke(hitModel)
+                                }
+                        ) {
+                            AsyncImage(
+                                model = ImageRequest.Builder(LocalPlatformContext.current)
+                                    .data(hitModel.previewUrl)
+                                    .build(),
+                                contentDescription = hitModel.tags,
+                                placeholder = ColorPainter(Color.Gray),
+                                error = ColorPainter(Color.Red),
+                                // onSuccess = { placeholder = it.result.memoryCacheKey },
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .height(hitModel.previewHeight.dp)
+                                    .width(hitModel.previewWidth.dp)
+                            )
+                            Column {
+                                Text(
+                                    text = hitModel.userName,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    modifier = Modifier.padding(16.dp)
+                                )
+                                Text(
+                                    text = hitModel.tags,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    modifier = Modifier.padding(16.dp)
+                                )
                             }
-                    ) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalPlatformContext.current)
-                                .data(hitModel.previewUrl)
-                                .build(),
-                            contentDescription = hitModel.tags,
-                            placeholder = ColorPainter(Color.Gray),
-                            error = ColorPainter(Color.Red),
-                            // onSuccess = { placeholder = it.result.memoryCacheKey },
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .height(hitModel.previewHeight.dp)
-                                .width(hitModel.previewWidth.dp)
-                        )
-                        Column {
-                            Text(
-                                text = hitModel.userName,
-                                style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(16.dp)
-                            )
-                            Text(
-                                text = hitModel.tags,
-                                style = MaterialTheme.typography.bodySmall,
-                                modifier = Modifier.padding(16.dp)
-                            )
                         }
                     }
                 }
-            }
 //            item {
 //                when {
 //                    lazyPagingItems.loadState.source.append is LoadStateError -> Button(
@@ -123,6 +138,7 @@ fun SearchComposable(
 //                    else -> Spacer(Modifier.height(12.dp))
 //                }
 //            }
+            }
         }
     }
 }
