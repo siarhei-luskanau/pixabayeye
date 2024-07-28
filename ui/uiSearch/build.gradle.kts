@@ -1,11 +1,13 @@
 plugins {
     id("composeMultiplatformConvention")
     id("testOptionsConvention")
+    alias(libs.plugins.compose.screenshot)
 }
 
 android {
     namespace = "siarhei.luskanau.pixabayeye.ui.search"
     testOptions.configureTestOptions()
+    experimentalProperties["android.experimental.enableScreenshotTest"] = true
 }
 
 kotlin {
@@ -18,4 +20,8 @@ kotlin {
             implementation(libs.cash.paging.compose.common)
         }
     }
+}
+
+dependencies {
+    screenshotTestImplementation(libs.cash.paging.compose.common)
 }

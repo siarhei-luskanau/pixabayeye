@@ -30,6 +30,27 @@ jobs:
 
 
 
+  UpdateScreenshot:
+    runs-on: macos-latest
+    steps:
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - uses: gradle/actions/setup-gradle@v3
+
+      - run: ./gradlew ciUpdateScreenshot --stacktrace
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+
+
+
   UnitTest:
     runs-on: ${{ matrix.os }}
     strategy:

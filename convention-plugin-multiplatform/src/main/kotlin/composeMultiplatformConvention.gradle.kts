@@ -68,6 +68,7 @@ kotlin {
         }
 
         androidMain.dependencies {
+            implementation(compose.uiTooling)
         }
 
         androidNativeTest.dependencies {

@@ -13,12 +13,13 @@ buildConfig = "5.4.0"
 cash-paging = "3.3.0-alpha02-0.5.1"
 coil3 = "3.0.0-alpha08"
 compose-multiplatform = "1.7.0-alpha01"
+compose-screenshot = "0.0.1-alpha03"
 cupertino = "0.1.0-alpha04"
 detekt = "1.23.6"
 javax-json = "1.1.4"
 jetbrains-lifecycle = "2.8.0"
 jetbrains-navigation = "2.8.0-alpha08"
-koin = "3.5.6"
+koin = "4.0.0-RC1"
 kotlin = "2.0.0"
 kotlinx-coroutines = "1.9.0-RC"
 kotlinx-kover = "0.8.3"
@@ -60,6 +61,7 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 android-application = { id = "com.android.application", version.ref = "agp" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose-screenshot = { id = "com.android.compose.screenshot", version.ref = "compose-screenshot"}
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 kotlinx-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kotlinx-kover" }

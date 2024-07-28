@@ -54,6 +54,16 @@ tasks.register("ciLint") {
     }
 }
 
+tasks.register("ciUpdateScreenshot") {
+    group = CI_GRADLE
+    doLast {
+        gradlew(
+            "ktlintFormat",
+            "updateDebugScreenshotTest"
+        )
+    }
+}
+
 tasks.register("ciUnitTest") {
     group = CI_GRADLE
     doLast {
