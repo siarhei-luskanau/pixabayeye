@@ -89,7 +89,7 @@ fun App(
             DetailsComposable(
                 largeImageUrl = args.largeImageUrl,
                 tags = args.tags,
-                onBackClick = { navController.navigate(route = AppRoutes.Search) }
+                onBackClick = { navController.navigateUp() }
             )
         }
     }

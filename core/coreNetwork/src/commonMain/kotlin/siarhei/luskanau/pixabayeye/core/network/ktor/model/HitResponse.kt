@@ -16,5 +16,7 @@ internal data class HitResponse(
     @SerialName("previewHeight") val previewHeight: Int,
     @SerialName("previewWidth") val previewWidth: Int,
     @SerialName("webformatURL") val middleImageUrl: String,
+    @SerialName("webformatHeight") val middleImageHeight: Int,
+    @SerialName("webformatWidth") val middleImageWidth: Int,
     @SerialName("largeImageURL") val largeImageUrl: String
 )

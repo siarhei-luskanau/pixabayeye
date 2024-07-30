@@ -3,11 +3,10 @@ package siarhei.luskanau.pixabayeye.ui.search
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material3.OutlinedTextField
@@ -75,7 +74,7 @@ fun SearchComposable(
                 modifier = Modifier.fillMaxWidth().padding(16.dp)
             )
             LazyVerticalStaggeredGrid(
-                columns = StaggeredGridCells.Adaptive(200.dp),
+                columns = StaggeredGridCells.Adaptive(180.dp),
                 verticalItemSpacing = 4.dp,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 content = {
@@ -87,15 +86,19 @@ fun SearchComposable(
                         lazyPagingItems[index]?.let { hitModel ->
                             AsyncImage(
                                 model = ImageRequest.Builder(LocalPlatformContext.current)
-                                    .data(hitModel.previewUrl)
+                                    .data(hitModel.middleImageUrl)
                                     .build(),
                                 contentDescription = hitModel.tags,
                                 placeholder = ColorPainter(Color.Gray),
                                 error = ColorPainter(Color.Red),
-                                contentScale = ContentScale.Crop,
+                                contentScale = ContentScale.FillWidth,
                                 modifier = Modifier
-                                    .height(hitModel.previewHeight.dp)
-                                    .width(hitModel.previewWidth.dp)
+                                    .fillMaxWidth()
+                                    .aspectRatio(
+                                        ratio =
+                                        hitModel.middleImageWidth.toFloat() /
+                                            hitModel.middleImageHeight.toFloat()
+                                    )
                                     .clickable { onImageClicked.invoke(hitModel) }
                             )
                         }

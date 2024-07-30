@@ -24,5 +24,7 @@ data class HitModel(
     val previewHeight: Int,
     val previewWidth: Int,
     val middleImageUrl: String,
+    val middleImageHeight: Int,
+    val middleImageWidth: Int,
     val largeImageUrl: String
 )

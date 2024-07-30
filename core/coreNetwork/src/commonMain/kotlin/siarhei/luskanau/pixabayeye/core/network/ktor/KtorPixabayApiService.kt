@@ -32,6 +32,8 @@ internal class KtorPixabayApiService(private val client: PixabayApiClient) : Pix
                     previewHeight = entity.previewHeight,
                     previewWidth = entity.previewWidth,
                     middleImageUrl = entity.middleImageUrl,
+                    middleImageHeight = entity.middleImageHeight,
+                    middleImageWidth = entity.middleImageWidth,
                     largeImageUrl = entity.largeImageUrl
                 )
             }
