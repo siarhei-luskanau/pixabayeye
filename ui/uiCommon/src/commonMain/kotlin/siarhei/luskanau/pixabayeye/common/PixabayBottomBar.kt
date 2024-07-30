@@ -31,7 +31,7 @@ fun PixabayBottomBar(onHomeClick: (() -> Unit)? = null, onLoginClick: (() -> Uni
         }
         if (onLoginClick != null) {
             NavigationBarItem(
-                selected = true,
+                selected = false,
                 onClick = { onLoginClick.invoke() },
                 icon = { Icon(imageVector = Icons.Default.AccountBox, contentDescription = null) },
                 label = {
