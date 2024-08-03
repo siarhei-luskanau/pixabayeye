@@ -2,10 +2,11 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("com.android.application")
-    alias(libs.plugins.multiplatform)
-    id("org.jetbrains.compose")
+    alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.google.ksp)
+    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.multiplatform)
     id("testOptionsConvention")
 }
 
@@ -50,8 +51,9 @@ kotlin {
             implementation(project(":core:corePref"))
             implementation(project(":navigation"))
             implementation(project(":ui:uiCommon"))
-            implementation(libs.jetbrains.navigation.compose)
             implementation(compose.components.resources)
+            implementation(libs.jetbrains.navigation.compose)
+            implementation(libs.koin.annotations)
             implementation(libs.koin.core)
         }
 
@@ -113,6 +115,10 @@ compose.desktop {
     }
 }
 
-compose.experimental {
-    web.application {}
+dependencies {
+    ksp(libs.koin.ksp.compiler)
+}
+
+ksp {
+    arg("KOIN_CONFIG_CHECK", "true")
 }

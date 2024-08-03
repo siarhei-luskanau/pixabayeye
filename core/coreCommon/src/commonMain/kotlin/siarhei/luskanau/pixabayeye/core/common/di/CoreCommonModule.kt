@@ -1,8 +1,8 @@
 package siarhei.luskanau.pixabayeye.core.common.di
 
-import org.koin.core.module.Module
-import org.koin.dsl.module
+import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Module
 
-val coreCommonModule = module {}
-
-expect val coreCommonPlatformModule: Module
+@Module
+@ComponentScan
+class CoreCommonModule

@@ -59,6 +59,7 @@ kotlin {
             implementation(libs.findLibrary("coil3-network-ktor").get())
             implementation(libs.findLibrary("jetbrains-lifecycle-viewmodel-compose").get())
             implementation(libs.findLibrary("jetbrains-navigation-compose").get())
+            implementation(libs.findLibrary("koin-annotations").get())
             implementation(libs.findLibrary("koin-core").get())
             implementation(libs.findLibrary("kotlinx-coroutines-core").get())
         }
