@@ -12,9 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun SplashComposable(onSplashComplete: suspend () -> Unit) {
+fun SplashComposable(viewModel: SplashViewModel) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
@@ -30,6 +31,14 @@ fun SplashComposable(onSplashComplete: suspend () -> Unit) {
         )
     }
     LaunchedEffect(true) {
-        onSplashComplete.invoke()
+        viewModel.onSplashComplete()
     }
 }
+
+@Preview
+@Composable
+fun SplashComposablePreview() = SplashComposable(
+    viewModel = object : SplashViewModel() {
+        override fun onSplashComplete() = Unit
+    }
+)

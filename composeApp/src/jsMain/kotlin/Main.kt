@@ -12,10 +12,7 @@ fun main() {
             val koin = initKoin(
                 module {}
             ).koin
-            App(
-                appViewModel = koin.get(),
-                dispatcherSet = koin.get()
-            )
+            App(koin = koin)
         }
     }
 }

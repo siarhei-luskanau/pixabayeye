@@ -43,10 +43,7 @@ class AppActivity : ComponentActivity() {
             }
         ).koin
         setContent {
-            App(
-                appViewModel = koin.get(),
-                dispatcherSet = koin.get()
-            )
+            App(koin = koin)
         }
     }
 }

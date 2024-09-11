@@ -4,6 +4,8 @@ interface PixabayApiService {
     suspend fun isApiKeyOk(apiKey: String?): NetworkResult<Boolean>
 
     suspend fun getImages(query: String?, perPage: Int?, page: Int?): NetworkResult<List<HitModel>>
+
+    suspend fun getImage(imageId: Long): NetworkResult<HitModel>
 }
 
 sealed interface NetworkResult<T> {

@@ -4,8 +4,5 @@ import platform.UIKit.UIViewController
 import siarhei.luskanau.pixabayeye.navigation.App
 
 fun mainViewController(koin: Koin): UIViewController = ComposeUIViewController {
-    App(
-        appViewModel = koin.get(),
-        dispatcherSet = koin.get()
-    )
+    App(koin = koin)
 }

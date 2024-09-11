@@ -75,6 +75,16 @@ internal class PixabayApiClient(
         }.body()
     }
 
+    internal suspend fun getImage(imageId: Long): ImagesResponse =
+        geyPixabayApiKey().let { pixabayApiKey ->
+            httpClient.get(PIXABAY_BASE_URL + "api/") {
+                url {
+                    parameters.append("key", pixabayApiKey)
+                    parameters.append("id", imageId.toString())
+                }
+            }.body()
+        }
+
     private suspend fun geyPixabayApiKey(): String =
         prefService.getPixabayApiKey().firstOrNull().orEmpty()
 

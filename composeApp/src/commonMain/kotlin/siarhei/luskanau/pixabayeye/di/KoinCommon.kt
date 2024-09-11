@@ -7,8 +7,10 @@ import org.koin.ksp.generated.module
 import siarhei.luskanau.pixabayeye.core.common.di.CoreCommonModule
 import siarhei.luskanau.pixabayeye.core.network.di.coreNetworkModule
 import siarhei.luskanau.pixabayeye.core.pref.di.corePrefModule
-import siarhei.luskanau.pixabayeye.navigation.di.navigationModule
-import siarhei.luskanau.pixabayeye.navigation.di.uiModules
+import siarhei.luskanau.pixabayeye.ui.details.UiDetailsModule
+import siarhei.luskanau.pixabayeye.ui.login.UiLoginModule
+import siarhei.luskanau.pixabayeye.ui.search.UiSearchModule
+import siarhei.luskanau.pixabayeye.ui.splash.UiSplashModule
 
 fun initKoin(appModule: Module): KoinApplication = startKoin {
     modules(
@@ -17,9 +19,11 @@ fun initKoin(appModule: Module): KoinApplication = startKoin {
         CoreCommonModule().module,
         coreNetworkModule,
         corePrefModule,
-        navigationModule
+        UiDetailsModule().module,
+        UiLoginModule().module,
+        UiSearchModule().module,
+        UiSplashModule().module
     )
-    modules(uiModules)
 }
 
 expect val appPlatformModule: Module

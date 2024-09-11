@@ -2,6 +2,7 @@ plugins {
     id("composeMultiplatformConvention")
     id("testOptionsConvention")
     alias(libs.plugins.compose.screenshot)
+    alias(libs.plugins.google.ksp)
 }
 
 android {
@@ -19,4 +20,12 @@ kotlin {
             implementation(project(":ui:uiCommon"))
         }
     }
+}
+
+dependencies {
+    ksp(libs.koin.ksp.compiler)
+}
+
+ksp {
+    arg("KOIN_CONFIG_CHECK", "true")
 }

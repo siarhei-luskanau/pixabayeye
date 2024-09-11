@@ -1,8 +1,7 @@
 package siarhei.luskanau.pixabayeye.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.navigation.NavBackStackEntry
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,99 +12,72 @@ import coil3.addLastModifiedToFileCacheKey
 import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.network.ktor.KtorNetworkFetcherFactory
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.serializer
+import org.koin.core.Koin
+import org.koin.core.parameter.parametersOf
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
-import siarhei.luskanau.pixabayeye.core.network.NetworkResult
 import siarhei.luskanau.pixabayeye.ui.details.DetailsComposable
 import siarhei.luskanau.pixabayeye.ui.login.LoginComposable
 import siarhei.luskanau.pixabayeye.ui.search.SearchComposable
 import siarhei.luskanau.pixabayeye.ui.splash.SplashComposable
 
 @Composable
-fun App(
-    appViewModel: AppViewModel,
-    dispatcherSet: DispatcherSet,
-    navController: NavHostController = rememberNavController()
-) = AppTheme {
+fun App(koin: Koin) = AppTheme {
     @OptIn(ExperimentalCoilApi::class)
     setSingletonImageLoaderFactory { context ->
         ImageLoader.Builder(context)
-            .coroutineContext(dispatcherSet.ioDispatcher())
+            .coroutineContext(koin.get<DispatcherSet>().ioDispatcher())
             .components { add(KtorNetworkFetcherFactory()) }
             .addLastModifiedToFileCacheKey(false)
             .build()
     }
-
+    val navHostController: NavHostController = rememberNavController()
+    val appNavigation = AppNavigation(navHostController = navHostController)
     NavHost(
-        navController = navController,
+        navController = navHostController,
         startDestination = AppRoutes.Splash
     ) {
         composable<AppRoutes.Splash> {
             SplashComposable(
-                onSplashComplete = {
-                    when (appViewModel.splashVewModel.isApiKeyOk()) {
-                        is NetworkResult.Failure ->
-                            navController.navigate(route = AppRoutes.Login)
-                        is NetworkResult.Success ->
-                            navController.navigate(route = AppRoutes.Search)
-                    }
-                }
+                viewModel = viewModel { koin.get { parametersOf(appNavigation) } }
             )
         }
         composable<AppRoutes.Login> {
-            val loginVewModel = appViewModel.createLoginVewModel {
-                navController.navigate(route = AppRoutes.Search)
-            }
             LoginComposable(
-                loginVewState = loginVewModel.getLoginVewState(),
-                onInit = { loginVewModel.onInit() },
-                onUpdateClick = { apiKey -> loginVewModel.onUpdateClick(apiKey) },
-                onCheckClick = { loginVewModel.onCheckClick() }
+                viewModel = viewModel { koin.get { parametersOf(appNavigation) } }
             )
         }
         composable<AppRoutes.Search> {
             SearchComposable(
-                searchVewStateFlow = appViewModel.searchVewModel.getSearchVewStateFlow(),
-                onUpdateSearchTerm = { searchTerm ->
-                    appViewModel.searchVewModel.onUpdateSearchTerm(searchTerm = searchTerm)
-                },
-                onImageClicked = { hitModel ->
-                    navController.navigate(
-                        route = AppRoutes.Details(
-                            largeImageUrl = hitModel.largeImageUrl,
-                            tags = hitModel.tags
-                        )
-                    )
-                },
-                onHomeClick = { navController.navigate(route = AppRoutes.Search) },
-                onLoginClick = { navController.navigate(route = AppRoutes.Login) }
+                viewModel = viewModel { koin.get { parametersOf(appNavigation) } }
             )
         }
         composable<AppRoutes.Details> {
             val args: AppRoutes.Details = it.toRoute()
             DetailsComposable(
-                largeImageUrl = args.largeImageUrl,
-                tags = args.tags,
-                onBackClick = { navController.navigateUp() }
+                viewModel = viewModel {
+                    koin.get {
+                        parametersOf(
+                            args.imageId,
+                            appNavigation
+                        )
+                    }
+                }
             )
         }
     }
 }
 
 internal sealed interface AppRoutes {
-    @Serializable data object Splash : AppRoutes
+    @Serializable
+    data object Splash : AppRoutes
 
-    @Serializable data object Search : AppRoutes
+    @Serializable
+    data object Search : AppRoutes
 
-    @Serializable data object Login : AppRoutes
+    @Serializable
+    data object Login : AppRoutes
 
-    @Serializable data class Details(val largeImageUrl: String, val tags: String) : AppRoutes
+    @Serializable
+    data class Details(val imageId: Long) : AppRoutes
 }
-
-@OptIn(ExperimentalSerializationApi::class, InternalSerializationApi::class)
-private inline fun <reified T : Any> checkRoute(backStackEntry: NavBackStackEntry?): Boolean =
-    T::class.serializer().descriptor.serialName
-        .let { backStackEntry?.destination?.route.orEmpty().startsWith(it) }
