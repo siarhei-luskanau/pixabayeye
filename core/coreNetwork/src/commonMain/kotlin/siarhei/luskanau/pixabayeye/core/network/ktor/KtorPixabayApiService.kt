@@ -1,10 +1,12 @@
 package siarhei.luskanau.pixabayeye.core.network.ktor
 
+import org.koin.core.annotation.Single
 import siarhei.luskanau.pixabayeye.core.network.HitModel
 import siarhei.luskanau.pixabayeye.core.network.NetworkResult
 import siarhei.luskanau.pixabayeye.core.network.PixabayApiService
 import siarhei.luskanau.pixabayeye.core.network.ktor.model.HitResponse
 
+@Single
 internal class KtorPixabayApiService(private val client: PixabayApiClient) : PixabayApiService {
     override suspend fun isApiKeyOk(apiKey: String?): NetworkResult<Boolean> = runNetworkCatching {
         client.isApiKeyOk(apiKey = apiKey)

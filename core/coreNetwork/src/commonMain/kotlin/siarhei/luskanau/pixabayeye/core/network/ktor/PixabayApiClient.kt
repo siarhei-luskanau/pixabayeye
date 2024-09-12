@@ -14,13 +14,16 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.serialization.json.Json
+import org.koin.core.annotation.Provided
+import org.koin.core.annotation.Single
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.core.network.ktor.model.ImagesResponse
 import siarhei.luskanau.pixabayeye.core.pref.PrefService
 
+@Single
 internal class PixabayApiClient(
-    private val prefService: PrefService,
-    private val dispatcherSet: DispatcherSet
+    @Provided private val prefService: PrefService,
+    @Provided private val dispatcherSet: DispatcherSet
 ) {
     private val engine: HttpClientEngineFactory<HttpClientEngineConfig> by lazy {
         PlatformHttpClientEngineFactory().get()
