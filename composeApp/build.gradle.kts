@@ -121,6 +121,7 @@ compose.desktop {
 
 dependencies {
     ksp(libs.koin.ksp.compiler)
+    debugImplementation(libs.leakcanary.android)
 }
 
 ksp {

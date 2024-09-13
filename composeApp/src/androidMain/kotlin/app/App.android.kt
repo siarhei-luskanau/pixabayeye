@@ -12,6 +12,7 @@ import siarhei.luskanau.pixabayeye.navigation.App
 
 class AndroidApp : Application() {
     override fun onCreate() {
+        super.onCreate()
         StrictMode.setThreadPolicy(
             StrictMode.ThreadPolicy.Builder()
                 .detectDiskReads()
@@ -30,7 +31,6 @@ class AndroidApp : Application() {
                 // .penaltyDeath()
                 .build()
         )
-        super.onCreate()
     }
 }
 
