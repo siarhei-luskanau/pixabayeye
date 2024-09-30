@@ -30,7 +30,7 @@ jobs:
         env:
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
 
-      - uses: JamesIves/github-pages-deploy-action@v4.6.4
+      - uses: JamesIves/github-pages-deploy-action@v4.6.8
         with:
           branch: gh-pages
           folder: composeApp/build/dist/js/productionExecutable
