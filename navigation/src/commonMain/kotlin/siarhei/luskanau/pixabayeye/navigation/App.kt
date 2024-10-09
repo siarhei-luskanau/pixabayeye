@@ -8,10 +8,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import coil3.ImageLoader
-import coil3.addLastModifiedToFileCacheKey
-import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.network.ktor3.KtorNetworkFetcherFactory
+import coil3.request.addLastModifiedToFileCacheKey
 import kotlinx.serialization.Serializable
 import org.koin.core.Koin
 import org.koin.core.parameter.parametersOf
@@ -23,7 +22,6 @@ import siarhei.luskanau.pixabayeye.ui.splash.SplashComposable
 
 @Composable
 fun App(koin: Koin) = AppTheme {
-    @OptIn(ExperimentalCoilApi::class)
     setSingletonImageLoaderFactory { context ->
         ImageLoader.Builder(context)
             .coroutineContext(koin.get<DispatcherSet>().ioDispatcher())
