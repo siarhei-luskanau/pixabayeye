@@ -10,6 +10,34 @@ android {
     experimentalProperties["android.experimental.enableScreenshotTest"] = true
 }
 
+kotlin {
+    sourceSets {
+        jvmMain.dependencies {
+            implementation(libs.inspektify.ktor3)
+        }
+
+        androidMain.dependencies {
+            implementation(libs.inspektify.ktor3)
+        }
+
+        iosMain {
+            dependsOn(commonMain.get())
+            dependencies {
+                implementation(libs.inspektify.ktor3)
+            }
+        }
+        iosArm64Main {
+            dependsOn(iosMain.get())
+        }
+        iosX64Main {
+            dependsOn(iosMain.get())
+        }
+        iosSimulatorArm64Main {
+            dependsOn(iosMain.get())
+        }
+    }
+}
+
 compose.resources {
     publicResClass = true
     packageOfResClass = "siarhei.luskanau.pixabayeye.ui.common.resources"

@@ -23,16 +23,19 @@ kotlin {
         }
 
         jvmMain.dependencies {
+            implementation(libs.inspektify.ktor3)
             implementation(libs.ktor.client.okhttp)
         }
 
         androidMain.dependencies {
+            implementation(libs.inspektify.ktor3)
             implementation(libs.ktor.client.okhttp)
         }
 
         iosMain {
             dependsOn(commonMain.get())
             dependencies {
+                implementation(libs.inspektify.ktor3)
                 implementation(libs.ktor.client.darwin)
             }
         }

@@ -31,6 +31,7 @@ internal class PixabayApiClient(
 
     private val httpClient: HttpClient by lazy {
         HttpClient(engine) {
+            PlatformHttpClientEngineFactory().configureInspektify(this)
             install(ContentNegotiation) {
                 dispatcherSet.runBlocking(dispatcherSet.ioDispatcher()) {
                     json(
