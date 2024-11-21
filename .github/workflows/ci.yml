@@ -41,6 +41,8 @@ jobs:
 
   UpdateScreenshot:
     runs-on: macos-latest
+    permissions:
+      contents: write
     steps:
 
       - uses: actions/checkout@v4
