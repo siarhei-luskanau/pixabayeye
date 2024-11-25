@@ -16,11 +16,9 @@ jobs:
 
 
   Lint:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ macos-latest, ubuntu-latest ]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
 
       - uses: actions/checkout@v4
@@ -32,10 +30,11 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
-      - run: ./gradlew ciLint --stacktrace
+      - run: ./gradlew ktlintFormat ciLint --stacktrace
 
-      - name: Update Gradle Wrapper
-        uses: gradle-update/update-gradle-wrapper-action@v2
+      - run: ./gradlew wrapper --gradle-version latest --stacktrace
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
 
 
 
