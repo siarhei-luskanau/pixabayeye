@@ -7,21 +7,21 @@ on:
 
 env:
   JAVA_VERSION: 21
-
-permissions:
-  contents: write
+  JAVA_DISTRIBUTION: 'zulu'
 
 jobs:
 
   Deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
 
       - uses: actions/checkout@v4
 
       - uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
       - uses: gradle/actions/setup-gradle@v4
