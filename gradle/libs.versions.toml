@@ -39,6 +39,7 @@ androidx-test-runner = { module = "androidx.test:runner", version.ref = "android
 cash-paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "cash-paging" }
 coil3-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil3" }
 coil3-network-ktor = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil3" }
+google-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "google-ksp" }
 inspektify-ktor3 = { module = "io.github.bvantur:inspektify-ktor3", version.ref = "inspektify" }
 javax-json-api = { module = "javax.json:javax.json-api", version.ref = "javax-json" }
 javax-json-glassfish = { module = "org.glassfish:javax.json", version.ref = "javax-json" }

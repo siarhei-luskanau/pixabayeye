@@ -1,8 +1,7 @@
 plugins {
-    id("composeMultiplatformConvention")
+    id("composeMultiplatformKspConvention")
     alias(libs.plugins.kotlinx.serialization)
     id("testOptionsConvention")
-    alias(libs.plugins.google.ksp)
 }
 
 android {
@@ -52,12 +51,4 @@ kotlin {
             implementation(libs.ktor.client.js)
         }
     }
-}
-
-dependencies {
-    ksp(libs.koin.ksp.compiler)
-}
-
-ksp {
-    arg("KOIN_CONFIG_CHECK", "true")
 }

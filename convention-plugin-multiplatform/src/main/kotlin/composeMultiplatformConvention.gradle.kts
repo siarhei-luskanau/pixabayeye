@@ -1,4 +1,5 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
 
@@ -10,24 +11,12 @@ plugins {
 }
 
 kotlin {
+    jvmToolchain(libs.findVersion("build-jvmTarget").get().requiredVersion.toInt())
 
     androidTarget {
-        compilations.all {
-            compileTaskProvider {
-                compilerOptions {
-                    jvmTarget.set(
-                        JvmTarget.fromTarget(
-                            libs.findVersion("build-jvmTarget").get().requiredVersion
-                        )
-                    )
-                    freeCompilerArgs.add(
-                        "-Xjdk-release=${JavaVersion.valueOf(
-                            libs.findVersion("build-javaVersion").get().requiredVersion
-                        )}"
-                    )
-                }
-            }
-        }
+        // https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-test.html
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
     }
 
     jvm()
@@ -60,7 +49,6 @@ kotlin {
             implementation(libs.findLibrary("coil3-network-ktor").get())
             implementation(libs.findLibrary("jetbrains-lifecycle-viewmodel-compose").get())
             implementation(libs.findLibrary("jetbrains-navigation-compose").get())
-            implementation(libs.findLibrary("koin-annotations").get())
             implementation(libs.findLibrary("koin-core").get())
             implementation(libs.findLibrary("kotlinx-coroutines-core").get())
         }
