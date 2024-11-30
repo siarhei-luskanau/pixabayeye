@@ -1,5 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
     alias(libs.plugins.android.application)
@@ -11,19 +11,11 @@ plugins {
 }
 
 kotlin {
+    jvmToolchain(libs.versions.build.jvmTarget.get().toInt())
+
     androidTarget {
-        compilations.all {
-            compileTaskProvider {
-                compilerOptions {
-                    jvmTarget.set(JvmTarget.fromTarget(libs.versions.build.jvmTarget.get()))
-                    freeCompilerArgs.add(
-                        "-Xjdk-release=${JavaVersion.valueOf(
-                            libs.versions.build.javaVersion.get()
-                        )}"
-                    )
-                }
-            }
-        }
+        // https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-test.html
+        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
     }
 
     jvm()
@@ -120,7 +112,14 @@ compose.desktop {
 }
 
 dependencies {
-    ksp(libs.koin.ksp.compiler)
+    // KSP Tasks
+    add("kspAndroid", libs.koin.ksp.compiler)
+    add("kspCommonMainMetadata", libs.koin.ksp.compiler)
+    add("kspIosArm64", libs.koin.ksp.compiler)
+    add("kspIosSimulatorArm64", libs.koin.ksp.compiler)
+    add("kspIosX64", libs.koin.ksp.compiler)
+    add("kspJs", libs.koin.ksp.compiler)
+    add("kspJvm", libs.koin.ksp.compiler)
     debugImplementation(libs.leakcanary.android)
 }
 

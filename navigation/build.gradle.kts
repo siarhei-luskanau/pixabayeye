@@ -1,7 +1,6 @@
 plugins {
     id("composeMultiplatformConvention")
     id("testOptionsConvention")
-    alias(libs.plugins.google.ksp)
     alias(libs.plugins.kotlinx.serialization)
 }
 
@@ -24,12 +23,4 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
         }
     }
-}
-
-dependencies {
-    ksp(libs.koin.ksp.compiler)
-}
-
-ksp {
-    arg("KOIN_CONFIG_CHECK", "true")
 }

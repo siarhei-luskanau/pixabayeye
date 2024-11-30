@@ -192,11 +192,12 @@ tasks.register("ciSdkManagerLicenses") {
                 private var counter = 0
                 override fun read(): Int = yesString[counter % 2].also { counter++ }.code
             }
-            exec {
+            providers.exec {
                 executable = sdkManagerFile.absolutePath
                 args = listOf("--list", "--sdk_root=$sdkDirPath")
                 println("exec: ${this.commandLine.joinToString(separator = " ")}")
             }.apply { println("ExecResult: $this") }
+            @Suppress("DEPRECATION")
             exec {
                 executable = sdkManagerFile.absolutePath
                 args = listOf("--licenses", "--sdk_root=$sdkDirPath")
@@ -233,6 +234,7 @@ fun runExec(commands: List<String>): String = object : ByteArrayOutputStream() {
         super.write(p0, p1, p2)
     }
 }.let { resultOutputStream ->
+    @Suppress("DEPRECATION")
     exec {
         if (System.getenv("JAVA_HOME") == null) {
             System.getProperty("java.home")?.let { javaHome ->
@@ -249,7 +251,7 @@ fun runExec(commands: List<String>): String = object : ByteArrayOutputStream() {
 }
 
 fun gradlew(vararg tasks: String, addToSystemProperties: Map<String, String>? = null) {
-    exec {
+    providers.exec {
         executable = File(
             project.rootDir,
             if (Os.isFamily(Os.FAMILY_WINDOWS)) "gradlew.bat" else "gradlew"
