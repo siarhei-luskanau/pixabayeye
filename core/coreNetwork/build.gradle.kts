@@ -31,20 +31,8 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
         }
 
-        iosMain {
-            dependsOn(commonMain.get())
-            dependencies {
-                implementation(libs.ktor.client.darwin)
-            }
-        }
-        iosArm64Main {
-            dependsOn(iosMain.get())
-        }
-        iosX64Main {
-            dependsOn(iosMain.get())
-        }
-        iosSimulatorArm64Main {
-            dependsOn(iosMain.get())
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
 
         jsMain.dependencies {

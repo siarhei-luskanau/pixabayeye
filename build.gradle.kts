@@ -124,6 +124,7 @@ tasks.register("ciBrowser") {
     group = CI_GRADLE
     doLast {
         gradlew(":composeApp:jsMainClasses")
+        gradlew("jsBrowserDistribution")
     }
 }
 
