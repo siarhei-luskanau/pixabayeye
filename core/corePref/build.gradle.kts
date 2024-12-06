@@ -26,21 +26,9 @@ kotlin {
             implementation(libs.androidx.datastore.core.okio)
         }
 
-        iosMain {
-            dependsOn(commonMain.get())
-            dependencies {
-                implementation(libs.androidx.datastore.core.okio)
-                implementation(libs.kotlinx.serialization.json)
-            }
-        }
-        iosArm64Main {
-            dependsOn(iosMain.get())
-        }
-        iosX64Main {
-            dependsOn(iosMain.get())
-        }
-        iosSimulatorArm64Main {
-            dependsOn(iosMain.get())
+        iosMain.dependencies {
+            implementation(libs.androidx.datastore.core.okio)
+            implementation(libs.kotlinx.serialization.json)
         }
 
         jsMain.dependencies {

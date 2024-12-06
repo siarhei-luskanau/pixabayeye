@@ -173,6 +173,8 @@ jobs:
 
       - run: ./gradlew ciBrowser --stacktrace
 
+      - run: ./gradlew jsBrowserDistribution --stacktrace
+
 
 
   iOS:
