@@ -17,7 +17,6 @@ compose-screenshot = "0.0.1-alpha08"
 detekt = "1.23.7"
 google-ksp = "2.1.0-1.0.29"
 inspektify = "1.0.0-beta08"
-javax-json = "1.1.4"
 jetbrains-lifecycle = "2.8.4"
 jetbrains-navigation = "2.8.0-alpha11"
 koin = "4.1.0-Beta1"
@@ -41,8 +40,6 @@ coil3-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref
 coil3-network-ktor = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil3" }
 google-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "google-ksp" }
 inspektify-ktor3 = { module = "io.github.bvantur:inspektify-ktor3", version.ref = "inspektify" }
-javax-json-api = { module = "javax.json:javax.json-api", version.ref = "javax-json" }
-javax-json-glassfish = { module = "org.glassfish:javax.json", version.ref = "javax-json" }
 jetbrains-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 jetbrains-compose-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 jetbrains-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "jetbrains-lifecycle" }
