@@ -2,8 +2,6 @@ package siarhei.luskanau.pixabayeye.core.network.ktor
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.HttpClientEngineConfig
-import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -25,12 +23,9 @@ internal class PixabayApiClient(
     @Provided private val prefService: PrefService,
     @Provided private val dispatcherSet: DispatcherSet
 ) {
-    private val engine: HttpClientEngineFactory<HttpClientEngineConfig> by lazy {
-        PlatformHttpClientEngineFactory().get()
-    }
 
     private val httpClient: HttpClient by lazy {
-        HttpClient(engine) {
+        HttpClient {
             PlatformHttpClientEngineFactory().configureInspektify(this)
             install(ContentNegotiation) {
                 dispatcherSet.runBlocking(dispatcherSet.ioDispatcher()) {

@@ -23,12 +23,12 @@ kotlin {
 
         jvmMain.dependencies {
             implementation(libs.inspektify.ktor3)
-            implementation(libs.ktor.client.okhttp)
+            implementation(libs.ktor.client.cio)
         }
 
         androidMain.dependencies {
             implementation(libs.inspektify.ktor3)
-            implementation(libs.ktor.client.okhttp)
+            implementation(libs.ktor.client.cio)
         }
 
         iosMain.dependencies {
