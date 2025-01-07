@@ -58,7 +58,7 @@ kotlin {
             implementation(libs.androidx.datastore.core.okio)
         }
 
-        androidNativeTest.dependencies {
+        androidInstrumentedTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.androidx.test.core.ktx)
             implementation(libs.androidx.test.runner)

@@ -61,7 +61,7 @@ kotlin {
             implementation(compose.uiTooling)
         }
 
-        androidNativeTest.dependencies {
+        androidInstrumentedTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.findLibrary("androidx-test-core-ktx").get())
             implementation(libs.findLibrary("androidx-test-runner").get())
