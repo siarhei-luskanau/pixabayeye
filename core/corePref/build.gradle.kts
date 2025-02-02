@@ -1,7 +1,7 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
-    id("composeMultiplatformConvention")
+    id("composeMultiplatformKspConvention")
     alias(libs.plugins.buildConfig)
     alias(libs.plugins.kotlinx.serialization)
     id("testOptionsConvention")

@@ -4,8 +4,8 @@ import app.cash.paging.PagingSource
 import app.cash.paging.PagingSourceLoadParams
 import app.cash.paging.PagingSourceLoadResult
 import app.cash.paging.PagingSourceLoadResultError
-import app.cash.paging.PagingSourceLoadResultPage
 import app.cash.paging.PagingState
+import app.cash.paging.createPagingSourceLoadResultPage
 import siarhei.luskanau.pixabayeye.core.network.HitModel
 import siarhei.luskanau.pixabayeye.core.network.NetworkResult
 import siarhei.luskanau.pixabayeye.core.network.PixabayApiService
@@ -27,16 +27,16 @@ class PixabayPagingSource(
 
         return when (networkResult) {
             is NetworkResult.Success ->
-                PagingSourceLoadResultPage(
+                createPagingSourceLoadResultPage(
                     data = networkResult.result,
                     prevKey = (page - 1).takeIf { it >= FIRST_PAGE_INDEX },
                     nextKey = if (networkResult.result.isNotEmpty()) page + 1 else null
-                )
+                ) as PagingSourceLoadResult<Int, HitModel>
 
             is NetworkResult.Failure ->
                 PagingSourceLoadResultError<Int, HitModel>(
                     networkResult.error
-                )
+                ) as PagingSourceLoadResult<Int, HitModel>
         }
     }
 

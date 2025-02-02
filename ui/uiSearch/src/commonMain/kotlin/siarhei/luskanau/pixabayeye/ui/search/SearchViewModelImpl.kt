@@ -1,9 +1,9 @@
 package siarhei.luskanau.pixabayeye.ui.search
 
 import androidx.lifecycle.viewModelScope
-import app.cash.paging.Pager
-import app.cash.paging.PagingConfig
 import app.cash.paging.PagingData
+import app.cash.paging.createPager
+import app.cash.paging.createPagingConfig
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,8 +45,8 @@ class SearchViewModelImpl(
         searchNavigationCallback.onSearchScreenLoginClick()
     }
 
-    private fun getPager(searchTerm: String) = Pager(
-        config = PagingConfig(pageSize = 20, initialLoadSize = 20)
+    private fun getPager(searchTerm: String) = createPager(
+        config = createPagingConfig(pageSize = 20, initialLoadSize = 20)
     ) {
         PixabayPagingSource(pixabayApiService, searchTerm)
     }
