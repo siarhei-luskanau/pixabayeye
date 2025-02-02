@@ -6,8 +6,12 @@ import androidx.datastore.core.okio.OkioStorage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import okio.FileSystem
+import org.koin.core.annotation.Provided
+import org.koin.core.annotation.Single
 
-internal class PrefServiceDataStore(private val prefPathProvider: PrefPathProvider) : PrefService {
+@Single
+internal class PrefServiceDataStore(@Provided private val prefPathProvider: PrefPathProvider) :
+    PrefService {
     private val dataStore: DataStore<PrefData> by lazy {
         DataStoreFactory.create(
             storage =
