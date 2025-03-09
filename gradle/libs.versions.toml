@@ -10,7 +10,6 @@ build-android-targetSdk = "35"
 build-javaVersion = "VERSION_21"
 build-jvmTarget = "21"
 buildConfig = "5.6.1"
-cash-paging = "3.3.0-alpha02-0.5.1"
 coil3 = "3.1.0"
 compose-multiplatform = "1.8.0-beta01"
 compose-screenshot = "0.0.1-alpha09"
@@ -27,6 +26,7 @@ kotlinx-kover = "0.9.1"
 kotlinx-serialization = "1.8.0"
 ktlint = "1.5.0"
 ktor = "3.1.2"
+lazy-pagination-compose = "1.5.0"
 leakcanary = "2.14"
 
 [libraries]
@@ -35,7 +35,6 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "androidx-datastore" }
 androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
-cash-paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "cash-paging" }
 coil3-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil3" }
 coil3-network-ktor = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil3" }
 google-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "google-ksp" }
@@ -60,6 +59,7 @@ ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+lazyPaginationCompose = { module = "io.github.ahmad-hamwi:lazy-pagination-compose", version.ref = "lazy-pagination-compose" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 
 [plugins]

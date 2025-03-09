@@ -17,11 +17,7 @@ kotlin {
             implementation(project(":core:coreNetwork"))
             implementation(project(":core:corePref"))
             implementation(project(":ui:uiCommon"))
-            implementation(libs.cash.paging.compose.common)
+            implementation(libs.lazyPaginationCompose)
         }
     }
-}
-
-dependencies {
-    screenshotTestImplementation(libs.cash.paging.compose.common)
 }
