@@ -15,7 +15,7 @@ fun TestOptions.configureTestOptions() {
     emulatorSnapshots {
         enableForTestFailures = false
     }
-    managedDevices.devices.create<ManagedVirtualDevice>("managedVirtualDevice") {
+    managedDevices.allDevices.create<ManagedVirtualDevice>("managedVirtualDevice") {
         device = "Pixel 2"
         apiLevel = 33
         val systemImageConfig: Pair<String?, Boolean?> = when (apiLevel) {

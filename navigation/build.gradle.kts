@@ -17,9 +17,7 @@ kotlin {
             implementation(project(":core:corePref"))
             implementation(project(":ui:uiCommon"))
             implementation(project(":ui:uiDetails"))
-            implementation(project(":ui:uiLogin"))
             implementation(project(":ui:uiSearch"))
-            implementation(project(":ui:uiSplash"))
             implementation(libs.kotlinx.serialization.json)
         }
     }

@@ -2,6 +2,7 @@ package siarhei.luskanau.pixabayeye.common
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +32,13 @@ fun PixabayTopAppBar(title: String, onBackClick: (() -> Unit)? = null) {
                     )
                 }
             }
+        },
+        actions = {
+            IconButton(onClick = { onStartInspektifyClicked() }) {
+                Icon(imageVector = Icons.Filled.Public, contentDescription = "Inspektify")
+            }
         }
     )
 }
+
+expect fun onStartInspektifyClicked()

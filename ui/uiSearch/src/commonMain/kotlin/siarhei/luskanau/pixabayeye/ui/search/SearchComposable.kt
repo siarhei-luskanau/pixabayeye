@@ -34,7 +34,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.core.network.HitModel
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
@@ -46,13 +45,7 @@ fun SearchComposable(viewModel: SearchViewModel) {
         viewModel.getPagingFlow().collectAsLazyPagingItems()
     var searchTerm by remember { mutableStateOf("") }
     Scaffold(
-        topBar = { PixabayTopAppBar(title = stringResource(Res.string.screen_name_search)) },
-        bottomBar = {
-            PixabayBottomBar(
-                onHomeClick = { viewModel.onHomeClick() },
-                onLoginClick = { viewModel.onLoginClick() }
-            )
-        }
+        topBar = { PixabayTopAppBar(title = stringResource(Res.string.screen_name_search)) }
     ) { contentPadding ->
         Column(modifier = Modifier.padding(contentPadding).fillMaxWidth()) {
             OutlinedTextField(
@@ -107,8 +100,6 @@ fun SearchComposablePreview() = SearchComposable(
     viewModel = object : SearchViewModel() {
         override fun getPagingFlow(): Flow<PagingData<HitModel>> = flowOf(PagingData.empty())
         override fun onUpdateSearchTerm(searchTerm: String) = Unit
-        override fun onHomeClick() = Unit
-        override fun onLoginClick() = Unit
         override fun onImageClicked(hitModel: HitModel) = Unit
     }
 )
