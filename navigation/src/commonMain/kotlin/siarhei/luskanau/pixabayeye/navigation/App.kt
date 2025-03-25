@@ -16,9 +16,7 @@ import org.koin.core.Koin
 import org.koin.core.parameter.parametersOf
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.ui.details.DetailsComposable
-import siarhei.luskanau.pixabayeye.ui.login.LoginComposable
 import siarhei.luskanau.pixabayeye.ui.search.SearchComposable
-import siarhei.luskanau.pixabayeye.ui.splash.SplashComposable
 
 @Composable
 fun App(koin: Koin) = AppTheme {
@@ -33,18 +31,8 @@ fun App(koin: Koin) = AppTheme {
     val appNavigation = AppNavigation(navHostController = navHostController)
     NavHost(
         navController = navHostController,
-        startDestination = AppRoutes.Splash
+        startDestination = AppRoutes.Search
     ) {
-        composable<AppRoutes.Splash> {
-            SplashComposable(
-                viewModel = viewModel { koin.get { parametersOf(appNavigation) } }
-            )
-        }
-        composable<AppRoutes.Login> {
-            LoginComposable(
-                viewModel = viewModel { koin.get { parametersOf(appNavigation) } }
-            )
-        }
         composable<AppRoutes.Search> {
             SearchComposable(
                 viewModel = viewModel { koin.get { parametersOf(appNavigation) } }
@@ -67,14 +55,9 @@ fun App(koin: Koin) = AppTheme {
 }
 
 internal sealed interface AppRoutes {
-    @Serializable
-    data object Splash : AppRoutes
 
     @Serializable
     data object Search : AppRoutes
-
-    @Serializable
-    data object Login : AppRoutes
 
     @Serializable
     data class Details(val imageId: Long) : AppRoutes

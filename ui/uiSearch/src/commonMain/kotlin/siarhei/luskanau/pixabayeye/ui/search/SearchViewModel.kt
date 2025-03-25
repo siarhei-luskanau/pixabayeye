@@ -9,6 +9,4 @@ abstract class SearchViewModel : ViewModel() {
     abstract fun getPagingFlow(): Flow<PagingData<HitModel>>
     abstract fun onUpdateSearchTerm(searchTerm: String)
     abstract fun onImageClicked(hitModel: HitModel)
-    abstract fun onHomeClick()
-    abstract fun onLoginClick()
 }

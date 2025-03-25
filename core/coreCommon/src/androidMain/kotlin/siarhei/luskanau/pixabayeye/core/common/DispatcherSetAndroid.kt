@@ -7,6 +7,7 @@ import org.koin.core.annotation.Single
 
 @Single
 internal class DispatcherSetAndroid : DispatcherSet {
+    override fun defaultDispatcher() = Dispatchers.Default
     override fun ioDispatcher() = Dispatchers.IO
     override fun mainDispatcher() = Dispatchers.Main
     override fun <T> runBlocking(

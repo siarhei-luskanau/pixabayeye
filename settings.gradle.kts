@@ -7,9 +7,7 @@ include(
     ":navigation",
     ":ui:uiCommon",
     ":ui:uiDetails",
-    ":ui:uiLogin",
-    ":ui:uiSearch",
-    ":ui:uiSplash"
+    ":ui:uiSearch"
 )
 
 pluginManagement {

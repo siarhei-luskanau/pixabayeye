@@ -8,6 +8,7 @@ import okio.Path
 import okio.Path.Companion.toPath
 import org.koin.core.Koin
 import org.koin.core.KoinApplication
+import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.Qualifier
@@ -18,9 +19,13 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
 import siarhei.luskanau.pixabayeye.core.pref.PrefPathProvider
 
-fun initKoinIos(bundle: NSBundle): KoinApplication = initKoin(
-    module {}
-)
+fun initKoinIos(bundle: NSBundle): KoinApplication = startKoin {
+    modules(
+        *allModules(
+            appModule = module {}
+        ).toTypedArray()
+    )
+}
 
 @OptIn(ExperimentalForeignApi::class)
 actual val appPlatformModule: Module =

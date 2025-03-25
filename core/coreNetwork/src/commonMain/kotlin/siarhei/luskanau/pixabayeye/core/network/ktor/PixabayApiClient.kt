@@ -14,29 +14,26 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.serialization.json.Json
 import org.koin.core.annotation.Provided
 import org.koin.core.annotation.Single
-import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.core.network.ktor.model.ImagesResponse
 import siarhei.luskanau.pixabayeye.core.pref.PrefService
 
 @Single
 internal class PixabayApiClient(
-    @Provided private val prefService: PrefService,
-    @Provided private val dispatcherSet: DispatcherSet
+    @Provided private val platformHttpClientEngineFactory: PlatformHttpClientEngineFactory,
+    @Provided private val prefService: PrefService
 ) {
 
     private val httpClient: HttpClient by lazy {
         HttpClient {
-            PlatformHttpClientEngineFactory().configureInspektify(this)
             install(ContentNegotiation) {
-                dispatcherSet.runBlocking(dispatcherSet.ioDispatcher()) {
-                    json(
-                        Json {
-                            ignoreUnknownKeys = true
-                            prettyPrint = true
-                        }
-                    )
-                }
+                json(
+                    Json {
+                        ignoreUnknownKeys = true
+                        prettyPrint = true
+                    }
+                )
             }
+            platformHttpClientEngineFactory.configureInspektify(this)
             install(Logging) {
                 logger = Logger.SIMPLE
                 level = LogLevel.ALL

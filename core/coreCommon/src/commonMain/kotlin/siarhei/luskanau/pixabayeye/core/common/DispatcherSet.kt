@@ -5,6 +5,9 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 
 interface DispatcherSet {
+
+    fun defaultDispatcher(): CoroutineDispatcher
+
     fun ioDispatcher(): CoroutineDispatcher
 
     fun mainDispatcher(): CoroutineDispatcher

@@ -38,24 +38,24 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(compose.components.resources)
+            implementation(compose.materialIconsExtended)
+            implementation(libs.jetbrains.navigation.compose)
+            implementation(libs.koin.annotations)
+            implementation(libs.koin.core)
             implementation(project(":core:coreCommon"))
             implementation(project(":core:coreNetwork"))
             implementation(project(":core:corePref"))
             implementation(project(":navigation"))
             implementation(project(":ui:uiCommon"))
             implementation(project(":ui:uiDetails"))
-            implementation(project(":ui:uiLogin"))
             implementation(project(":ui:uiSearch"))
-            implementation(project(":ui:uiSplash"))
-            implementation(compose.components.resources)
-            implementation(libs.jetbrains.navigation.compose)
-            implementation(libs.koin.annotations)
-            implementation(libs.koin.core)
         }
 
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.datastore.core.okio)
+            implementation(libs.koin.androidx.startup)
         }
 
         androidInstrumentedTest.dependencies {
