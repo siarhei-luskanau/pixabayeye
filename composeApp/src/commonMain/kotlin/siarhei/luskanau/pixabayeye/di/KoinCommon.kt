@@ -5,6 +5,7 @@ import org.koin.ksp.generated.module
 import siarhei.luskanau.pixabayeye.core.common.CoreCommonModule
 import siarhei.luskanau.pixabayeye.core.network.CoreNetworkModule
 import siarhei.luskanau.pixabayeye.core.pref.CorePrefModule
+import siarhei.luskanau.pixabayeye.ui.debug.UiDebugModule
 import siarhei.luskanau.pixabayeye.ui.details.UiDetailsModule
 import siarhei.luskanau.pixabayeye.ui.search.UiSearchModule
 
@@ -14,6 +15,7 @@ fun allModules(appModule: Module): List<Module> = listOf(
     CoreCommonModule().module,
     CoreNetworkModule().module,
     CorePrefModule().module,
+    UiDebugModule().module,
     UiDetailsModule().module,
     UiSearchModule().module
 )

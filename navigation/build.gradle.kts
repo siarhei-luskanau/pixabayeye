@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("composeMultiplatformConvention")
     id("testOptionsConvention")
@@ -12,13 +14,18 @@ android {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:coreCommon"))
-            implementation(project(":core:coreNetwork"))
-            implementation(project(":core:corePref"))
-            implementation(project(":ui:uiCommon"))
-            implementation(project(":ui:uiDetails"))
-            implementation(project(":ui:uiSearch"))
             implementation(libs.kotlinx.serialization.json)
+            implementation(projects.core.coreCommon)
+            implementation(projects.core.coreNetwork)
+            implementation(projects.core.corePref)
+            implementation(projects.ui.uiCommon)
+            implementation(projects.ui.uiDetails)
+            implementation(projects.ui.uiSearch)
+            if (isDebugScreenEnabled { gradleLocalProperties(rootDir, providers) }) {
+                implementation(projects.ui.uiDebug)
+            } else {
+                implementation(projects.ui.uiDebugEmpty)
+            }
         }
     }
 }

@@ -4,9 +4,13 @@ include(
     ":composeApp",
     ":core:coreCommon",
     ":core:coreNetwork",
+    ":core:coreNetworkDebugEmpty",
+    ":core:coreNetworkDebugLogs",
     ":core:corePref",
     ":navigation",
     ":ui:uiCommon",
+    ":ui:uiDebug",
+    ":ui:uiDebugEmpty",
     ":ui:uiDetails",
     ":ui:uiSearch"
 )

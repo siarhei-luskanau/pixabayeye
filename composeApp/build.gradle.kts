@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
@@ -58,6 +59,11 @@ kotlin {
             implementation(projects.ui.uiCommon)
             implementation(projects.ui.uiDetails)
             implementation(projects.ui.uiSearch)
+            if (isDebugScreenEnabled { gradleLocalProperties(rootDir, providers) }) {
+                implementation(projects.ui.uiDebug)
+            } else {
+                implementation(projects.ui.uiDebugEmpty)
+            }
         }
 
         commonTest.dependencies {

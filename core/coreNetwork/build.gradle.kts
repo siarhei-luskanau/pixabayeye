@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("composeMultiplatformKspConvention")
     alias(libs.plugins.kotlinx.serialization)
@@ -12,22 +14,24 @@ android {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:coreCommon"))
-            implementation(project(":core:corePref"))
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.client.logging)
             implementation(libs.ktor.core)
             implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(projects.core.coreCommon)
+            implementation(projects.core.corePref)
+            if (isDebugScreenEnabled { gradleLocalProperties(rootDir, providers) }) {
+                implementation(projects.core.coreNetworkDebugLogs)
+            } else {
+                implementation(projects.core.coreNetworkDebugEmpty)
+            }
         }
 
         jvmMain.dependencies {
-            implementation(libs.inspektify.ktor3)
             implementation(libs.ktor.client.cio)
         }
 
         androidMain.dependencies {
-            implementation(libs.inspektify.ktor3)
             implementation(libs.ktor.client.cio)
         }
 

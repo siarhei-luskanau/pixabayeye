@@ -12,11 +12,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.resources.stringResource
+import siarhei.luskanau.pixabayeye.ui.common.IS_DEBUG_SCREEN_ENABLED
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.back_button
 
 @Composable
-fun PixabayTopAppBar(title: String, onBackClick: (() -> Unit)? = null) {
+fun PixabayTopAppBar(title: String, onBackClick: (() -> Unit)?, onDebugScreenClick: (() -> Unit)?) {
     @OptIn(ExperimentalMaterial3Api::class)
     TopAppBar(
         title = { Text(text = title) },
@@ -34,11 +35,11 @@ fun PixabayTopAppBar(title: String, onBackClick: (() -> Unit)? = null) {
             }
         },
         actions = {
-            IconButton(onClick = { onStartInspektifyClicked() }) {
-                Icon(imageVector = Icons.Filled.Public, contentDescription = "Inspektify")
+            if (onDebugScreenClick != null && IS_DEBUG_SCREEN_ENABLED) {
+                IconButton(onClick = onDebugScreenClick) {
+                    Icon(imageVector = Icons.Filled.Public, contentDescription = "Inspektify")
+                }
             }
         }
     )
 }
-
-expect fun onStartInspektifyClicked()

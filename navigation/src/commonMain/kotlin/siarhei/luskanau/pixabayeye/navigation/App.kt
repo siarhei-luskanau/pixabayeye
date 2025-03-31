@@ -14,7 +14,9 @@ import coil3.request.addLastModifiedToFileCacheKey
 import kotlinx.serialization.Serializable
 import org.koin.compose.getKoin
 import org.koin.core.parameter.parametersOf
+import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
+import siarhei.luskanau.pixabayeye.ui.debug.debugGraph
 import siarhei.luskanau.pixabayeye.ui.details.DetailsComposable
 import siarhei.luskanau.pixabayeye.ui.search.SearchComposable
 
@@ -52,6 +54,7 @@ fun App() = AppTheme {
                 }
             )
         }
+        debugGraph(koin = koin)
     }
 }
 

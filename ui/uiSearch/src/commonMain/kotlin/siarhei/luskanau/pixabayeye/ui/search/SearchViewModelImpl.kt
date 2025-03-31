@@ -39,6 +39,10 @@ class SearchViewModelImpl(
         searchNavigationCallback.onSearchScreenImageClicked(imageId = hitModel.imageId)
     }
 
+    override fun onDebugScreenClicked() {
+        searchNavigationCallback.onDebugScreenClicked()
+    }
+
     private fun loadPage(searchTerm: String, pageKey: Int) {
         viewModelScope.launch {
             when (

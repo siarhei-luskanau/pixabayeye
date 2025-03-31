@@ -40,7 +40,8 @@ fun DetailsComposable(viewModel: DetailsViewModel) {
         topBar = {
             PixabayTopAppBar(
                 title = stringResource(Res.string.screen_name_search),
-                onBackClick = { viewModel.onBackClick() }
+                onBackClick = { viewModel.onBackClick() },
+                onDebugScreenClick = null
             )
         }
     ) { contentPadding ->
