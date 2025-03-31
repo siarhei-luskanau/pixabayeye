@@ -32,6 +32,7 @@ kotlin {
         }
 
         iosMain.dependencies {
+            implementation(libs.inspektify.ktor3)
             implementation(libs.ktor.client.darwin)
         }
 
