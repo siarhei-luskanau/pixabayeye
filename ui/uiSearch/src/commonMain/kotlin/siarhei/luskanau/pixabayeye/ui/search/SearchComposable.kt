@@ -38,7 +38,13 @@ import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 fun SearchComposable(viewModel: SearchViewModel) {
     var searchTerm by remember { mutableStateOf("") }
     Scaffold(
-        topBar = { PixabayTopAppBar(title = stringResource(Res.string.screen_name_search)) }
+        topBar = {
+            PixabayTopAppBar(
+                title = stringResource(Res.string.screen_name_search),
+                onBackClick = null,
+                onDebugScreenClick = { viewModel.onDebugScreenClicked() }
+            )
+        }
     ) { contentPadding ->
         Column(modifier = Modifier.padding(contentPadding).fillMaxWidth()) {
             OutlinedTextField(
@@ -102,5 +108,6 @@ fun SearchComposablePreview() = SearchComposable(
         )
         override fun onUpdateSearchTerm(searchTerm: String) = Unit
         override fun onImageClicked(hitModel: HitModel) = Unit
+        override fun onDebugScreenClicked() = Unit
     }
 )

@@ -3,10 +3,6 @@ package siarhei.luskanau.pixabayeye.core.network.ktor
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
-import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
@@ -18,10 +14,7 @@ import siarhei.luskanau.pixabayeye.core.network.ktor.model.ImagesResponse
 import siarhei.luskanau.pixabayeye.core.pref.PrefService
 
 @Single
-internal class PixabayApiClient(
-    @Provided private val platformHttpClientEngineFactory: PlatformHttpClientEngineFactory,
-    @Provided private val prefService: PrefService
-) {
+internal class PixabayApiClient(@Provided private val prefService: PrefService) {
 
     private val httpClient: HttpClient by lazy {
         HttpClient {
@@ -33,11 +26,7 @@ internal class PixabayApiClient(
                     }
                 )
             }
-            platformHttpClientEngineFactory.configureInspektify(this)
-            install(Logging) {
-                logger = Logger.SIMPLE
-                level = LogLevel.ALL
-            }
+            configureHttpClientDebug()
         }
     }
 

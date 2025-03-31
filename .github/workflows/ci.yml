@@ -38,27 +38,27 @@ jobs:
 
 
 
-  UpdateScreenshot:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    continue-on-error: true
-    steps:
-
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-
-      - uses: actions/setup-java@v4
-        with:
-          distribution: ${{ env.JAVA_DISTRIBUTION }}
-          java-version: ${{ env.JAVA_VERSION }}
-
-      - uses: gradle/actions/setup-gradle@v4
-
-      - run: ./gradlew ciUpdateScreenshot --stacktrace
-
-      - uses: stefanzweifel/git-auto-commit-action@v5
+#  UpdateScreenshot:
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: write
+#    continue-on-error: true
+#    steps:
+#
+#      - uses: actions/checkout@v4
+#        with:
+#          ref: ${{ github.head_ref }}
+#
+#      - uses: actions/setup-java@v4
+#        with:
+#          distribution: ${{ env.JAVA_DISTRIBUTION }}
+#          java-version: ${{ env.JAVA_VERSION }}
+#
+#      - uses: gradle/actions/setup-gradle@v4
+#
+#      - run: ./gradlew ciUpdateScreenshot --stacktrace
+#
+#      - uses: stefanzweifel/git-auto-commit-action@v5
 
 
 
@@ -144,7 +144,6 @@ jobs:
       matrix:
         os: [
           macos-latest,
-          ubuntu-22.04-arm,
           ubuntu-24.04-arm,
           ubuntu-latest,
           windows-latest

@@ -1,6 +1,7 @@
 package siarhei.luskanau.pixabayeye.navigation
 
 import androidx.navigation.NavHostController
+import siarhei.luskanau.pixabayeye.ui.debug.DebugGraph
 import siarhei.luskanau.pixabayeye.ui.details.DetailsNavigationCallback
 import siarhei.luskanau.pixabayeye.ui.search.SearchNavigationCallback
 
@@ -16,5 +17,9 @@ class AppNavigation(private val navHostController: NavHostController) :
         navHostController.navigate(
             AppRoutes.Details(imageId = imageId)
         )
+    }
+
+    override fun onDebugScreenClicked() {
+        navHostController.navigate(DebugGraph)
     }
 }
