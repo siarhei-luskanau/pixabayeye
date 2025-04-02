@@ -1,10 +1,9 @@
 import androidx.compose.ui.window.ComposeUIViewController
-import org.koin.core.Koin
 import platform.UIKit.UIViewController
-import siarhei.luskanau.pixabayeye.navigation.App
+import siarhei.luskanau.pixabayeye.KoinApp
 
-fun mainViewController(koin: Koin): UIViewController = ComposeUIViewController(
+fun mainViewController(): UIViewController = ComposeUIViewController(
     configure = { enforceStrictPlistSanityCheck = false }
 ) {
-    App(koin = koin)
+    KoinApp()
 }

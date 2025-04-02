@@ -1,4 +1,5 @@
 rootProject.name = "PixabayEye"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(
     ":composeApp",
     ":core:coreCommon",

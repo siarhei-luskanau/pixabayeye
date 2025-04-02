@@ -42,20 +42,20 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(libs.jetbrains.navigation.compose)
             implementation(libs.koin.annotations)
-            implementation(libs.koin.core)
-            implementation(project(":core:coreCommon"))
-            implementation(project(":core:coreNetwork"))
-            implementation(project(":core:corePref"))
-            implementation(project(":navigation"))
-            implementation(project(":ui:uiCommon"))
-            implementation(project(":ui:uiDetails"))
-            implementation(project(":ui:uiSearch"))
+            implementation(libs.koin.compose)
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(projects.core.coreCommon)
+            implementation(projects.core.coreNetwork)
+            implementation(projects.core.corePref)
+            implementation(projects.navigation)
+            implementation(projects.ui.uiCommon)
+            implementation(projects.ui.uiDetails)
+            implementation(projects.ui.uiSearch)
         }
 
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.datastore.core.okio)
-            implementation(libs.koin.androidx.startup)
         }
 
         androidInstrumentedTest.dependencies {

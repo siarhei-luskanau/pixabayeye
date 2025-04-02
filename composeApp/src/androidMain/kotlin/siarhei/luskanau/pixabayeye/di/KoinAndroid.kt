@@ -9,16 +9,15 @@ import org.koin.dsl.module
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.core.pref.PrefPathProvider
 
-actual val appPlatformModule: Module =
-    module {
-        single<PrefPathProvider> {
-            val context: Context = get()
-            val dispatcherSet: DispatcherSet = get()
-            object : PrefPathProvider {
-                override fun get(): Path = runBlocking(dispatcherSet.ioDispatcher()) {
-                    val file = context.filesDir.resolve("app.pref.json")
-                    file.absolutePath.toPath()
-                }
+actual val appPlatformModule: Module = module {
+    single<PrefPathProvider> {
+        val context: Context = get()
+        val dispatcherSet: DispatcherSet = get()
+        object : PrefPathProvider {
+            override fun get(): Path = runBlocking(dispatcherSet.ioDispatcher()) {
+                val file = context.filesDir.resolve("app.pref.json")
+                file.absolutePath.toPath()
             }
         }
     }
+}
