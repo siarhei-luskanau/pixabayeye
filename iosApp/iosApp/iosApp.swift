@@ -11,9 +11,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         if let window = window {
-            window.rootViewController = MainKt.mainViewController(
-                koin: KoinIosKt.doInitKoinIos(bundle: Bundle.main).koin
-            )
+            window.rootViewController = MainKt.mainViewController()
             window.makeKeyAndVisible()
         }
         return true

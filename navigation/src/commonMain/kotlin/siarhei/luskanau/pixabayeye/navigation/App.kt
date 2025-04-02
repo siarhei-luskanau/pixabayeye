@@ -12,14 +12,15 @@ import coil3.compose.setSingletonImageLoaderFactory
 import coil3.network.ktor3.KtorNetworkFetcherFactory
 import coil3.request.addLastModifiedToFileCacheKey
 import kotlinx.serialization.Serializable
-import org.koin.core.Koin
+import org.koin.compose.getKoin
 import org.koin.core.parameter.parametersOf
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.ui.details.DetailsComposable
 import siarhei.luskanau.pixabayeye.ui.search.SearchComposable
 
 @Composable
-fun App(koin: Koin) = AppTheme {
+fun App() = AppTheme {
+    val koin = getKoin()
     setSingletonImageLoaderFactory { context ->
         ImageLoader.Builder(context)
             .coroutineContext(koin.get<DispatcherSet>().ioDispatcher())
