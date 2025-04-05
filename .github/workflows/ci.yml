@@ -15,7 +15,6 @@ env:
 jobs:
 
 
-
   Lint:
     runs-on: ubuntu-latest
     permissions:
@@ -63,20 +62,55 @@ jobs:
 
 
 
-  UnitTest:
-    runs-on: ubuntu-latest
+  Tests:
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        gradle-tasks: [
+          "testDebugUnitTest",
+          "jvmTest",
+          "wasmJsBrowserTest"
+        ]
+        os: [ ubuntu-latest ]
+        experimental: [ true ]
+        emulator: [ false ]
+        include:
+          - gradle-tasks: "managedVirtualDeviceDebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect"
+            os: ubuntu-latest
+            experimental: false
+            emulator: true
+          - gradle-tasks: "jsBrowserTest"
+            os: ubuntu-latest
+            experimental: true
+            emulator: false
+          - gradle-tasks: "iosSimulatorArm64Test"
+            os: macos-latest
+            experimental: true
+            emulator: false
     steps:
 
       - uses: actions/checkout@v4
 
+      - name: Enable KVM group perms
+        if: matrix.emulator
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
       - uses: actions/setup-java@v4
         with:
-          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
 
       - uses: gradle/actions/setup-gradle@v4
 
-      - run: ./gradlew ciUnitTest --stacktrace
+      - run: ./gradlew ciSdkManagerLicenses --stacktrace
+        if: matrix.emulator
+
+      - run: ./gradlew clean ${{ matrix.gradle-tasks }} --stacktrace
 
 
 
@@ -94,31 +128,6 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - run: ./gradlew ciAndroid --stacktrace
-
-
-
-  AndroidEmulator:
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: actions/checkout@v4
-
-      - name: Enable KVM group perms
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-
-      - uses: actions/setup-java@v4
-        with:
-          distribution: ${{ env.JAVA_DISTRIBUTION }}
-          java-version: ${{ env.JAVA_VERSION }}
-
-      - uses: gradle/actions/setup-gradle@v4
-
-      - run: ./gradlew ciSdkManagerLicenses --stacktrace
-
-      - run: ./gradlew ciAndroidEmulator --stacktrace
 
 
 
@@ -197,5 +206,3 @@ jobs:
       - run: ./gradlew kspCommonMainKotlinMetadata --stacktrace
 
       - run: ./gradlew ciIos --stacktrace
-
-      - run: ./gradlew composeApp:iosSimulatorArm64Test --stacktrace

@@ -4,6 +4,7 @@ androidx-activity = "1.10.1"
 androidx-datastore = "1.1.4"
 androidx-test-core = "1.6.1"
 androidx-test-runner = "1.6.2"
+androidx-uiTest = "1.7.8"
 build-android-compileSdk = "35"
 build-android-minSdk = "24"
 build-android-targetSdk = "35"
@@ -21,7 +22,6 @@ koin-bom = "4.1.0-Beta7"
 koin-ksp = "2.0.0"
 kotlin = "2.1.10"
 kotlinx-coroutines = "1.10.2"
-kotlinx-kover = "0.9.1"
 kotlinx-serialization = "1.8.1"
 ktlint = "1.5.0"
 ktor = "3.1.2"
@@ -34,6 +34,8 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "androidx-datastore" }
 androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
+androidx-uitest-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-uiTest" }
+androidx-uitest-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-uiTest" }
 coil3-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil3" }
 coil3-network-ktor = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil3" }
 google-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "google-ksp" }
@@ -68,6 +70,5 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "google-ksp" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
-kotlinx-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kotlinx-kover" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
