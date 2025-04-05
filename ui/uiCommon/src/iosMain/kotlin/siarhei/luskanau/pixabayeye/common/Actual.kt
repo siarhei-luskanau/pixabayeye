@@ -1,3 +1,7 @@
 package siarhei.luskanau.pixabayeye.common
 
-actual fun onStartInspektifyClicked() = Unit
+import sp.bvantur.inspektify.ktor.InspektifyKtor
+
+actual fun onStartInspektifyClicked() {
+    InspektifyKtor.startInspektify()
+}
