@@ -12,15 +12,14 @@ build-jvmTarget = "21"
 buildConfig = "5.6.2"
 coil3 = "3.1.0"
 compose-multiplatform = "1.8.0-beta01"
-compose-screenshot = "0.0.1-alpha09"
 detekt = "1.23.8"
-google-ksp = "2.1.20-1.0.32"
+google-ksp = "2.1.10-1.0.31"
 inspektify = "1.0.0-beta08"
 jetbrains-lifecycle = "2.8.4"
 jetbrains-navigation = "2.9.0-alpha15"
 koin-bom = "4.1.0-Beta6"
 koin-ksp = "2.0.0"
-kotlin = "2.1.20"
+kotlin = "2.1.10"
 kotlinx-coroutines = "1.10.1"
 kotlinx-kover = "0.9.1"
 kotlinx-serialization = "1.8.1"
@@ -66,7 +65,6 @@ leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", ve
 android-application = { id = "com.android.application", version.ref = "agp" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-compose-screenshot = { id = "com.android.compose.screenshot", version.ref = "compose-screenshot"}
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "google-ksp" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
