@@ -17,7 +17,6 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.google.ksp).apply(false)
     alias(libs.plugins.jetbrains.compose).apply(false)
-    alias(libs.plugins.kotlinx.kover)
     alias(libs.plugins.multiplatform).apply(false)
 }
 
@@ -27,17 +26,6 @@ allprojects {
     detekt {
         parallel = true
         ignoreFailures = false
-    }
-}
-
-subprojects {
-    if (listOf(
-            ":core",
-            ":ui"
-        ).contains(this.path).not()
-    ) {
-        apply(plugin = "org.jetbrains.kotlinx.kover")
-        dependencies { kover(project(path)) }
     }
 }
 
@@ -60,22 +48,6 @@ tasks.register("ciUpdateScreenshot") {
     val injected = project.objects.newInstance<Injected>()
     doLast {
         injected.gradlew("ktlintFormat")
-    }
-}
-
-tasks.register("ciUnitTest") {
-    group = CI_GRADLE
-    val injected = project.objects.newInstance<Injected>()
-    doLast {
-        injected.gradlew(
-            "clean",
-            "koverXmlReportDebug",
-            "koverXmlReport",
-            "koverHtmlReportDebug",
-            "koverHtmlReport",
-            "koverVerifyDebug",
-            "koverVerify"
-        )
     }
 }
 
@@ -203,7 +175,7 @@ tasks.register("ciSdkManagerLicenses") {
                     listOf(sdkManagerFile.absolutePath, "--licenses", "--sdk_root=$sdkDirPath")
                 standardInput = yesInputStream
                 println("exec: ${this.commandLine.joinToString(separator = " ")}")
-            }.apply { println("ExecResult: $this") }
+            }.apply { println("ExecResult: ${this.exitValue}") }
         }
     }
 }

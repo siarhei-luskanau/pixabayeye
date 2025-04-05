@@ -1,3 +1,4 @@
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
@@ -44,6 +45,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(compose.components.resources)
+            implementation(compose.material3)
             implementation(compose.materialIconsExtended)
             implementation(libs.jetbrains.navigation.compose)
             implementation(libs.koin.annotations)
@@ -56,6 +58,12 @@ kotlin {
             implementation(projects.ui.uiCommon)
             implementation(projects.ui.uiDetails)
             implementation(projects.ui.uiSearch)
+        }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
         }
 
         androidMain.dependencies {
@@ -117,6 +125,10 @@ compose.desktop {
 }
 
 dependencies {
+    // https://developer.android.com/develop/ui/compose/testing#setup
+    androidTestImplementation(libs.androidx.uitest.junit4)
+    debugImplementation(libs.androidx.uitest.testManifest)
+
     // KSP Tasks
     add("kspAndroid", libs.koin.ksp.compiler)
     add("kspCommonMainMetadata", libs.koin.ksp.compiler)

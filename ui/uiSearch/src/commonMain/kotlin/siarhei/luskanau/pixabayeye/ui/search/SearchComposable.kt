@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
@@ -47,7 +48,7 @@ fun SearchComposable(viewModel: SearchViewModel) {
                     viewModel.onUpdateSearchTerm(searchTerm = it)
                 },
                 label = { Text("Search") },
-                modifier = Modifier.fillMaxWidth().padding(16.dp)
+                modifier = Modifier.fillMaxWidth().padding(16.dp).testTag("search_text_field")
             )
             PaginatedLazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Adaptive(minSize = 180.dp),
