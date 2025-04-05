@@ -190,3 +190,5 @@ jobs:
       - run: ./gradlew kspCommonMainKotlinMetadata --stacktrace
 
       - run: ./gradlew ciIos --stacktrace
+
+      - run: ./gradlew composeApp:iosSimulatorArm64Test --stacktrace

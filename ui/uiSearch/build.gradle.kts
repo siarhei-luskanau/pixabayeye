@@ -1,13 +1,11 @@
 plugins {
     id("composeMultiplatformKspConvention")
     id("testOptionsConvention")
-    alias(libs.plugins.compose.screenshot)
 }
 
 android {
     namespace = "siarhei.luskanau.pixabayeye.ui.search"
     testOptions.configureTestOptions()
-    experimentalProperties["android.experimental.enableScreenshotTest"] = true
 }
 
 kotlin {
