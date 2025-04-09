@@ -40,7 +40,7 @@ jobs:
 
 
   UpdateScreenshot:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     continue-on-error: true
@@ -64,11 +64,7 @@ jobs:
 
 
   UnitTest:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ macos-latest, ubuntu-latest ]
+    runs-on: ubuntu-latest
     steps:
 
       - uses: actions/checkout@v4
@@ -85,11 +81,7 @@ jobs:
 
 
   Android:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ macos-latest, ubuntu-latest ]
+    runs-on: ubuntu-latest
     steps:
 
       - uses: actions/checkout@v4
@@ -151,12 +143,8 @@ jobs:
 
 
 
-  Browser:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ macos-latest, ubuntu-latest ]
+  JsBrowser:
+    runs-on: ubuntu-latest
     steps:
 
       - uses: actions/checkout@v4
@@ -171,6 +159,25 @@ jobs:
       - run: ./gradlew ciBrowser --stacktrace
 
       - run: ./gradlew jsBrowserDistribution --stacktrace
+
+
+
+  WasmJsBrowser:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - run: ./gradlew ciBrowser --stacktrace
+
+      - run: ./gradlew wasmJsBrowserDistribution --stacktrace
 
 
 
