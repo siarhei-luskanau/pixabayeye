@@ -30,9 +30,6 @@ kotlin {
             implementation(libs.androidx.datastore.core.okio)
             implementation(libs.kotlinx.serialization.json)
         }
-
-        jsMain.dependencies {
-        }
     }
 }
 
