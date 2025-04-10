@@ -69,24 +69,30 @@ jobs:
       fail-fast: false
       matrix:
         gradle-tasks: [
-          "testDebugUnitTest",
-          "jvmTest",
-          "wasmJsBrowserTest"
+          "jvmTest"
         ]
         os: [ ubuntu-latest ]
-        experimental: [ true ]
+        experimental: [ false ]
         emulator: [ false ]
         include:
           - gradle-tasks: "managedVirtualDeviceDebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect"
             os: ubuntu-latest
             experimental: false
             emulator: true
+          - gradle-tasks: "iosSimulatorArm64Test"
+            os: macos-latest
+            experimental: false
+            emulator: false
+          - gradle-tasks: "testDebugUnitTest"
+            os: ubuntu-latest
+            experimental: true
+            emulator: false
           - gradle-tasks: "jsBrowserTest"
             os: ubuntu-latest
             experimental: true
             emulator: false
-          - gradle-tasks: "iosSimulatorArm64Test"
-            os: macos-latest
+          - gradle-tasks: "wasmJsBrowserTest"
+            os: ubuntu-latest
             experimental: true
             emulator: false
     steps:
