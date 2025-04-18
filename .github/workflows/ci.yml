@@ -142,7 +142,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ macos-latest, ubuntu-latest, ubuntu-22.04-arm, ubuntu-24.04-arm ]
+        os: [
+          macos-latest,
+          ubuntu-22.04-arm,
+          ubuntu-24.04-arm,
+          ubuntu-latest,
+          windows-latest
+        ]
     steps:
 
       - uses: actions/checkout@v4
@@ -171,7 +177,7 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
-      - run: ./gradlew ciBrowser --stacktrace
+      - run: ./gradlew ciJsBrowser --stacktrace
 
       - run: ./gradlew jsBrowserDistribution --stacktrace
 
@@ -190,7 +196,7 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
-      - run: ./gradlew ciBrowser --stacktrace
+      - run: ./gradlew ciWasmJsBrowser --stacktrace
 
       - run: ./gradlew wasmJsBrowserDistribution --stacktrace
 
