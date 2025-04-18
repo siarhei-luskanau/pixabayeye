@@ -86,12 +86,19 @@ tasks.register("ciDesktop") {
     }
 }
 
-tasks.register("ciBrowser") {
+tasks.register("ciJsBrowser") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()
     doLast {
-        injected.gradlew(":composeApp:jsMainClasses")
-        injected.gradlew("jsBrowserDistribution")
+        injected.gradlew(":composeApp:jsMainClasses", ":composeApp:jsBrowserDistribution")
+    }
+}
+
+tasks.register("ciWasmJsBrowser") {
+    group = CI_GRADLE
+    val injected = project.objects.newInstance<Injected>()
+    doLast {
+        injected.gradlew(":composeApp:wasmJsMainClasses", ":composeApp:wasmJsBrowserDistribution")
     }
 }
 
@@ -213,7 +220,9 @@ abstract class Injected {
         execOperations.exec {
             commandLine = mutableListOf<String>().also { mutableArgs ->
                 mutableArgs.add(
-                    if (Os.isFamily(Os.FAMILY_WINDOWS)) "./gradlew.bat" else "./gradlew"
+                    projectLayout.projectDirectory.file(
+                        if (Os.isFamily(Os.FAMILY_WINDOWS)) "gradlew.bat" else "gradlew"
+                    ).asFile.path
                 )
                 mutableArgs.addAll(tasks)
                 addToSystemProperties?.toList()?.map { "-D${it.first}=${it.second}" }?.let {
