@@ -11,7 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
+@Preview
 @Composable
 fun DatastoreComposable(viewModel: DatastoreViewModel) {
     val viewState by viewModel.viewState.collectAsState(null)

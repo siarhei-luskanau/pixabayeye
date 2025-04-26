@@ -18,6 +18,7 @@ import siarhei.luskanau.pixabayeye.ui.common.IS_DEBUG_SCREEN_ENABLED
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.back_button
 
+@Preview
 @Composable
 fun PixabayTopAppBar(title: String, onBackClick: (() -> Unit)?, onDebugScreenClick: (() -> Unit)?) {
     @OptIn(ExperimentalMaterial3Api::class)

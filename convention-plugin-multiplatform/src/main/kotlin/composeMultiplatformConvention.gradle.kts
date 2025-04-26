@@ -1,3 +1,4 @@
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
@@ -61,6 +62,8 @@ kotlin {
         }
 
         commonTest.dependencies {
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
             implementation(kotlin("test"))
         }
 
