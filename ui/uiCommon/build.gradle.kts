@@ -3,7 +3,16 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     id("composeMultiplatformConvention")
     id("testOptionsConvention")
+    alias(libs.plugins.roborazzi)
     alias(libs.plugins.buildConfig)
+}
+
+kotlin {
+    sourceSets {
+        androidUnitTest.dependencies {
+            implementation(projects.ui.uiScreenshotTest)
+        }
+    }
 }
 
 android {
@@ -16,6 +25,9 @@ compose.resources {
     packageOfResClass = "siarhei.luskanau.pixabayeye.ui.common.resources"
     generateResClass = always
 }
+
+// Directory for reference images
+roborazzi.outputDir.set(rootProject.file("screenshots"))
 
 buildConfig {
     packageName(android.namespace.orEmpty())

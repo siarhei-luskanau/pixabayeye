@@ -12,6 +12,7 @@ include(
     ":ui:uiDebug",
     ":ui:uiDebugEmpty",
     ":ui:uiDetails",
+    ":ui:uiScreenshotTest",
     ":ui:uiSearch"
 )
 

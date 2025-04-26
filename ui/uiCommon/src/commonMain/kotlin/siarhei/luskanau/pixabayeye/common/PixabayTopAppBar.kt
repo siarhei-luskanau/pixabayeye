@@ -12,6 +12,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.ui.common.IS_DEBUG_SCREEN_ENABLED
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.back_button
@@ -41,5 +43,15 @@ fun PixabayTopAppBar(title: String, onBackClick: (() -> Unit)?, onDebugScreenCli
                 }
             }
         }
+    )
+}
+
+@Preview
+@Composable
+internal fun PixabayTopAppBarPreview() = AppTheme {
+    PixabayTopAppBar(
+        title = "Title",
+        onBackClick = null,
+        onDebugScreenClick = null
     )
 }

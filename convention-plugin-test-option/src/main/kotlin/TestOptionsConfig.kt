@@ -4,6 +4,7 @@ import org.gradle.kotlin.dsl.create
 
 fun TestOptions.configureTestOptions() {
     unitTests {
+        isIncludeAndroidResources = true
         all { test: org.gradle.api.tasks.testing.Test ->
             test.testLogging {
                 exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL

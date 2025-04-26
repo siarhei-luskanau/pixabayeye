@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.StateFlow
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
+import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.network.HitModel
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
@@ -94,40 +95,46 @@ fun DetailsComposable(viewModel: DetailsViewModel) {
 
 @Preview
 @Composable
-fun DetailsLoadingComposablePreview() = DetailsComposable(
-    viewModel = detailsViewModel(DetailsViewState.Loading)
-)
+internal fun DetailsLoadingComposablePreview() = AppTheme {
+    DetailsComposable(
+        viewModel = detailsViewModel(DetailsViewState.Loading)
+    )
+}
 
 @Preview
 @Composable
-fun DetailsSuccessComposablePreview() = DetailsComposable(
-    viewModel = detailsViewModel(
-        DetailsViewState.Success(
-            HitModel(
-                imageId = 123,
-                userId = 456,
-                userName = "John Doe",
-                tags = "tag1, tag2, tag3",
-                likes = 100,
-                downloads = 200,
-                comments = 300,
-                previewUrl = "https://example.com/preview.jpg",
-                previewHeight = 100,
-                previewWidth = 100,
-                middleImageUrl = "https://example.com/middle.jpg",
-                middleImageHeight = 200,
-                middleImageWidth = 200,
-                largeImageUrl = "https://example.com/large.jpg"
+internal fun DetailsSuccessComposablePreview() = AppTheme {
+    DetailsComposable(
+        viewModel = detailsViewModel(
+            DetailsViewState.Success(
+                HitModel(
+                    imageId = 123,
+                    userId = 456,
+                    userName = "John Doe",
+                    tags = "tag1, tag2, tag3",
+                    likes = 100,
+                    downloads = 200,
+                    comments = 300,
+                    previewUrl = "https://example.com/preview.jpg",
+                    previewHeight = 100,
+                    previewWidth = 100,
+                    middleImageUrl = "https://example.com/middle.jpg",
+                    middleImageHeight = 200,
+                    middleImageWidth = 200,
+                    largeImageUrl = "https://example.com/large.jpg"
+                )
             )
         )
     )
-)
+}
 
 @Preview
 @Composable
-fun DetailsErrorComposablePreview() = DetailsComposable(
-    viewModel = detailsViewModel(DetailsViewState.Error(Error("Something went wrong")))
-)
+internal fun DetailsErrorComposablePreview() = AppTheme {
+    DetailsComposable(
+        viewModel = detailsViewModel(DetailsViewState.Error(Error("Something went wrong")))
+    )
+}
 
 internal fun detailsViewModel(detailsViewState: DetailsViewState): DetailsViewModel =
     object : DetailsViewModel() {
