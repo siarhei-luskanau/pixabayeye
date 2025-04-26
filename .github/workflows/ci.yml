@@ -39,27 +39,30 @@ jobs:
 
 
 
-#  UpdateScreenshot:
-#    runs-on: ubuntu-latest
-#    permissions:
-#      contents: write
-#    continue-on-error: true
-#    steps:
-#
-#      - uses: actions/checkout@v4
-#        with:
-#          ref: ${{ github.head_ref }}
-#
-#      - uses: actions/setup-java@v4
-#        with:
-#          distribution: ${{ env.JAVA_DISTRIBUTION }}
-#          java-version: ${{ env.JAVA_VERSION }}
-#
-#      - uses: gradle/actions/setup-gradle@v4
-#
-#      - run: ./gradlew ciUpdateScreenshot --stacktrace
-#
-#      - uses: stefanzweifel/git-auto-commit-action@v5
+  UpdateScreenshot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - run: rm -rf screenshots
+
+      - run: ./gradlew recordRoborazziDebug --stacktrace
+
+      - run: ./gradlew ciPngCheck --stacktrace
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
 
 
 

@@ -30,6 +30,7 @@ import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
+import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.network.HitModel
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
@@ -94,20 +95,22 @@ fun SearchComposable(viewModel: SearchViewModel) {
 
 @Preview
 @Composable
-fun SearchComposablePreview() = SearchComposable(
-    viewModel = object : SearchViewModel() {
-        override val paginationState: PaginationState<Int, HitModel> = PaginationState(
-            initialPageKey = 1,
-            onRequestPage = {
-                appendPage(
-                    items = listOf(),
-                    nextPageKey = 2,
-                    isLastPage = true
-                )
-            }
-        )
-        override fun onUpdateSearchTerm(searchTerm: String) = Unit
-        override fun onImageClicked(hitModel: HitModel) = Unit
-        override fun onDebugScreenClicked() = Unit
-    }
-)
+internal fun SearchComposablePreview() = AppTheme {
+    SearchComposable(
+        viewModel = object : SearchViewModel() {
+            override val paginationState: PaginationState<Int, HitModel> = PaginationState(
+                initialPageKey = 1,
+                onRequestPage = {
+                    appendPage(
+                        items = listOf(),
+                        nextPageKey = 2,
+                        isLastPage = true
+                    )
+                }
+            )
+            override fun onUpdateSearchTerm(searchTerm: String) = Unit
+            override fun onImageClicked(hitModel: HitModel) = Unit
+            override fun onDebugScreenClicked() = Unit
+        }
+    )
+}

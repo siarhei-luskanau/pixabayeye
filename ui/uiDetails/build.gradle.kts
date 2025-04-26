@@ -1,6 +1,7 @@
 plugins {
     id("composeMultiplatformKspConvention")
     id("testOptionsConvention")
+    alias(libs.plugins.roborazzi)
 }
 
 android {
@@ -16,5 +17,11 @@ kotlin {
             implementation(project(":core:corePref"))
             implementation(project(":ui:uiCommon"))
         }
+        androidUnitTest.dependencies {
+            implementation(projects.ui.uiScreenshotTest)
+        }
     }
 }
+
+// Directory for reference images
+roborazzi.outputDir.set(rootProject.file("screenshots"))
