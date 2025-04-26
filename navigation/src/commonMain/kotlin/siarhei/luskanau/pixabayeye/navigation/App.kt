@@ -12,6 +12,7 @@ import coil3.compose.setSingletonImageLoaderFactory
 import coil3.network.ktor3.KtorNetworkFetcherFactory
 import coil3.request.addLastModifiedToFileCacheKey
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.getKoin
 import org.koin.core.parameter.parametersOf
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
@@ -20,6 +21,7 @@ import siarhei.luskanau.pixabayeye.ui.debug.debugGraph
 import siarhei.luskanau.pixabayeye.ui.details.DetailsComposable
 import siarhei.luskanau.pixabayeye.ui.search.SearchComposable
 
+@Preview
 @Composable
 fun App() = AppTheme {
     val koin = getKoin()

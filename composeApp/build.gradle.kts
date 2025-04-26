@@ -1,12 +1,15 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.compose.reload.ComposeHotRun
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.google.ksp)
+    alias(libs.plugins.hotReload)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.multiplatform)
     id("testOptionsConvention")
@@ -46,8 +49,12 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+            implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
+            implementation(compose.runtime)
+            implementation(compose.ui)
             implementation(libs.jetbrains.navigation.compose)
             implementation(libs.koin.annotations)
             implementation(libs.koin.compose)
@@ -67,12 +74,13 @@ kotlin {
         }
 
         commonTest.dependencies {
-            implementation(kotlin("test"))
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
+            implementation(kotlin("test"))
         }
 
         androidMain.dependencies {
+            implementation(compose.uiTooling)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.datastore.core.okio)
         }
@@ -84,7 +92,6 @@ kotlin {
         }
 
         jvmMain.dependencies {
-            implementation(compose.desktop.common)
             implementation(compose.desktop.currentOs)
             implementation(libs.androidx.datastore.core.okio)
         }
@@ -93,8 +100,6 @@ kotlin {
         }
 
         jsMain.dependencies {
-            implementation(compose.html.core)
-            implementation(compose.ui)
         }
     }
 }
@@ -122,12 +127,32 @@ android {
 compose.desktop {
     application {
         mainClass = "MainKt"
+
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "siarhei.luskanau.compose.multiplatform.pixabayeye.desktopApp"
+            packageName = "PixabayEye"
             packageVersion = "1.0.0"
+
+            linux {
+                iconFile.set(project.file("desktopAppIcons/LinuxIcon.png"))
+            }
+            windows {
+                iconFile.set(project.file("desktopAppIcons/WindowsIcon.ico"))
+            }
+            macOS {
+                iconFile.set(project.file("desktopAppIcons/MacosIcon.icns"))
+                bundleID = "org.company.app.desktopApp"
+            }
         }
     }
+}
+
+// https://github.com/JetBrains/compose-hot-reload
+composeCompiler {
+    featureFlags.add(ComposeFeatureFlag.OptimizeNonSkippingGroups)
+}
+tasks.withType<ComposeHotRun>().configureEach {
+    mainClass.set("MainKt")
 }
 
 dependencies {

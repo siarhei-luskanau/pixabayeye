@@ -13,10 +13,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.core.Koin
 import org.koin.core.parameter.parametersOf
 import siarhei.luskanau.pixabayeye.ui.debug.datastore.DatastoreComposable
 
+@Preview
 @Composable
 internal fun DebugNavHost(
     koin: Koin,
