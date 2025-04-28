@@ -1,9 +1,56 @@
-# Compose Multiplatform Application
+# 🌎 PixabayEye - Cross-Platform Image Search app with Kotlin Multiplatform
 
-## Before running!
-- check your system with [KDoctor](https://github.com/Kotlin/kdoctor)
-- install JDK 17 on your machine
-- add `local.properties` file to the project root and set a path to Android SDK there
+![License](https://img.shields.io/github/license/siarhei-luskanau/pixabayeye)
+![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS%20%7C%20Web%20%7C%20Desktop-blue)
+
+---
+
+## ✨ Introduction
+
+**PixabayEye** is a modern, lightweight application designed to showcase the power of **Kotlin Multiplatform** for real-world app development.  
+With a single codebase, developers can efficiently target **Android, iOS, Web, and Desktop** — dramatically reducing development time and maintenance efforts.  
+Built with love for developers who believe in writing code once and deploying everywhere! 🚀
+
+---
+
+## 🔥 Key Features
+
+- ⚡ **Cross-Platform Compatibility**: Android, iOS, Web (browser), and Desktop (JVM).
+- 💬 **Shared Logic**: Core modules for UI, networking, and data management.
+- 📚 **Modern Libraries Integration**:
+    - **Compose Multiplatform** for seamless UI across devices.
+    - **Ktor** for efficient networking.
+- 🛠 **Custom Gradle Convention Plugins**: Simplify Kotlin Multiplatform project structure.
+- 📸 **Screenshot Testing**: Roborazzi with Robolectric enables screenshot testing.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **JDK 17** installed
+- **Android SDK** set in `local.properties`
+- **[KDoctor](https://github.com/Kotlin/kdoctor)** to verify environment
+- **Xcode** (for iOS) and **Android Studio** (for Android/Web/Desktop)
+
+### Setup
+
+```bash
+git clone https://github.com/siarhei-luskanau/pixabayeye.git
+cd pixabayeye
+./gradlew doctor
+```
+
+Create a `local.properties` file with:
+
+```properties
+sdk.dir=/path/to/your/Android/Sdk
+```
+
+---
+
+## 🛠 Running the App
 
 ### Android
 To run the application on android device/emulator:
@@ -12,15 +59,63 @@ To run the application on android device/emulator:
 To build the application bundle:
 - run `./gradlew :composeApp:assembleDebug`
 - find `.apk` file in `composeApp/build/outputs/apk/debug/composeApp-debug.apk`
+  Run android UI tests on the connected device: `./gradlew :composeApp:managedVirtualDeviceDebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect`
 
 ### Desktop
 Run the desktop application: `./gradlew :composeApp:run`
+Run the desktop **hot reload** application: `./gradlew :composeApp:jvmRunHot`)
+Run desktop UI tests: `./gradlew :composeApp:jvmTest`
 
 ### iOS
 To run the application on iPhone device/simulator:
 - Open `iosApp/iosApp.xcproject` in Xcode and run standard configuration
 - Or use [Kotlin Multiplatform Mobile plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile) for Android Studio
+  Run iOS simulator UI tests: `./gradlew :composeApp:iosSimulatorArm64Test`
 
-### Browser
-Run the browser application: `./gradlew :composeApp:jsBrowserDevelopmentRun`
+### JS Browser (Experimental)
+Run the browser application: `./gradlew :composeApp:jsBrowserDevelopmentRun --continue`
+Run browser UI tests: `./gradlew :composeApp:jsBrowserTest`
 
+### Wasm Browser (Alpha)
+Run the browser application: `./gradlew :composeApp:wasmJsBrowserDevelopmentRun --continue`
+Run browser UI tests: `./gradlew :composeApp:wasmJsBrowserTest`
+
+### Screenshot Testing
+Record a screenshot: `./gradlew recordRoborazziDebug`
+Output directory is `screenshots/`
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions!
+
+1. Fork the repo 🍴
+2. Create your feature branch (`git checkout -b feature/YourFeature`)
+3. Commit your changes (`git commit -m 'Add some feature'`)
+4. Push to the branch (`git push origin feature/YourFeature`)
+5. Open a Pull Request 🚀
+
+You can also create [issues](https://github.com/siarhei-luskanau/pixabayeye/issues) for bug reports, discussions, or feature requests.
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](https://github.com/siarhei-luskanau/pixabayeye/blob/main/LICENSE) file for details.
+
+---
+
+## 📸 Screenshots
+
+| Android | iOS | Desktop | Web |
+|:-------:|:---:|:-------:|:---:|
+| ![Android Screenshot](composeApp/android.png) | ![iOS Screenshot](composeApp/ios.png) | ![Desktop Screenshot](composeApp/desktop.png) | ![Web Screenshot](composeApp/web.png) |
+
+---
+
+## 🌟 Call to Action
+
+If you find **PixabayEye** useful or inspiring,  
+please ⭐ **star this repository** to support the project and help it grow!  
+Let's make cross-platform development easier, faster, and more fun together! 🚀
