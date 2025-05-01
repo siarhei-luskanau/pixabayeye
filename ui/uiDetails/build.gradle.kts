@@ -20,6 +20,15 @@ kotlin {
         androidUnitTest.dependencies {
             implementation(projects.ui.uiScreenshotTest)
         }
+        androidMain.dependencies {
+            implementation(libs.zoomable)
+        }
+        iosMain.dependencies {
+            implementation(libs.zoomable)
+        }
+        jvmMain.dependencies {
+            implementation(libs.zoomable)
+        }
     }
 }
 
