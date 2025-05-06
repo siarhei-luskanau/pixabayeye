@@ -30,7 +30,7 @@ lazy-pagination-compose = "1.6.1"
 leakcanary = "2.14"
 robolectric = "4.14.1"
 roborazzi = "1.43.1"
-zoomable = "2.6.0"
+zoomable = "2.7.0"
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
