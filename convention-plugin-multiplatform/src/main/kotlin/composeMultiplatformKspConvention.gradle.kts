@@ -8,7 +8,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.findLibrary("koin-annotations").get())
+            api(libs.findLibrary("koin-annotations").get())
         }
     }
 }
