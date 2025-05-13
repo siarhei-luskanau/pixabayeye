@@ -11,7 +11,7 @@ build-android-targetSdk = "36"
 build-javaVersion = "VERSION_21"
 build-jvmTarget = "21"
 buildConfig = "5.6.5"
-coil3 = "3.1.0"
+coil-bom = "3.2.0"
 compose-multiplatform = "1.8.0"
 detekt = "1.23.8"
 google-ksp = "2.1.20-2.0.1"
@@ -40,8 +40,9 @@ androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "and
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
 androidx-uitest-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-uiTest" }
 androidx-uitest-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-uiTest" }
-coil3-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil3" }
-coil3-network-ktor = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil3" }
+coil-bom = { module = "io.coil-kt.coil3:coil-bom", version.ref = "coil-bom" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose" }
+coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3" }
 google-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "google-ksp" }
 inspektify-ktor3 = { module = "io.github.bvantur:inspektify-ktor3", version.ref = "inspektify" }
 jetbrains-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }

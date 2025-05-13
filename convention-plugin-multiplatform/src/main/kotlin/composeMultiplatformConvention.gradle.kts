@@ -52,12 +52,13 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(compose.runtime)
             implementation(compose.ui)
-            implementation(libs.findLibrary("coil3-compose").get())
-            implementation(libs.findLibrary("coil3-network-ktor").get())
+            implementation(libs.findLibrary("coil-compose").get())
+            implementation(libs.findLibrary("coil-network-ktor3").get())
             implementation(libs.findLibrary("jetbrains-lifecycle-viewmodel-compose").get())
             implementation(libs.findLibrary("jetbrains-navigation-compose").get())
             implementation(libs.findLibrary("koin-compose").get())
             implementation(libs.findLibrary("kotlinx-coroutines-core").get())
+            implementation(project.dependencies.platform(libs.findLibrary("coil-bom").get()))
             implementation(project.dependencies.platform(libs.findLibrary("koin-bom").get()))
         }
 
