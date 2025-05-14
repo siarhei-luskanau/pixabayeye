@@ -45,6 +45,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation("io.insert-koin:koin-compose") {
+                exclude(module = "koin-core-annotations-jvm", group = "io.insert-koin")
+            }
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(compose.foundation)
@@ -56,7 +59,6 @@ kotlin {
             implementation(libs.findLibrary("coil-network-ktor3").get())
             implementation(libs.findLibrary("jetbrains-lifecycle-viewmodel-compose").get())
             implementation(libs.findLibrary("jetbrains-navigation-compose").get())
-            implementation(libs.findLibrary("koin-compose").get())
             implementation(libs.findLibrary("kotlinx-coroutines-core").get())
             implementation(project.dependencies.platform(libs.findLibrary("coil-bom").get()))
             implementation(project.dependencies.platform(libs.findLibrary("koin-bom").get()))

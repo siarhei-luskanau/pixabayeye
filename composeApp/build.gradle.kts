@@ -48,6 +48,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation("io.insert-koin:koin-compose") {
+                exclude(module = "koin-core-annotations-jvm", group = "io.insert-koin")
+            }
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(compose.foundation)
@@ -56,8 +59,6 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.ui)
             implementation(libs.jetbrains.navigation.compose)
-            implementation(libs.koin.annotations)
-            implementation(libs.koin.compose)
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(projects.core.coreCommon)
             implementation(projects.core.coreNetwork)
