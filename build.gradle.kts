@@ -44,14 +44,6 @@ tasks.register("ciLint") {
     }
 }
 
-tasks.register("ciUpdateScreenshot") {
-    group = CI_GRADLE
-    val injected = project.objects.newInstance<Injected>()
-    doLast {
-        injected.gradlew("ktlintFormat")
-    }
-}
-
 tasks.register("ciAndroid") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()
