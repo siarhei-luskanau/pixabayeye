@@ -56,7 +56,7 @@ tasks.register("ciAndroidEmulator") {
     val injected = project.objects.newInstance<Injected>()
     doLast {
         val tasks = mutableListOf(
-            "managedVirtualDeviceDebugAndroidTest",
+            "managedVirtualDeviceAndroidDeviceTest",
             "--no-parallel",
             "--max-workers=1",
             "-Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect",

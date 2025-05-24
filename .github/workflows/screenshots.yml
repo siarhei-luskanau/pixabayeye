@@ -28,7 +28,7 @@ jobs:
 
       - run: rm -rf screenshots
 
-      - run: ./gradlew recordRoborazziDebug -DIS_DATA_STUB_ENABLED=true --stacktrace
+      - run: ./gradlew recordRoborazzi -DIS_DATA_STUB_ENABLED=true --stacktrace
 
       - run: ./gradlew ciPngCheck --stacktrace
 

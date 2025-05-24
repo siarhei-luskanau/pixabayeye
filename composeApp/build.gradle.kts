@@ -11,7 +11,6 @@ plugins {
     alias(libs.plugins.hotReload)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.multiplatform)
-    id("testOptionsConvention")
 }
 
 kotlin {
@@ -122,7 +121,6 @@ android {
     }
     buildFeatures.compose = true
     packaging.resources.excludes.add("META-INF/**")
-    testOptions.configureTestOptions()
 }
 
 compose.desktop {

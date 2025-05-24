@@ -4,13 +4,9 @@ plugins {
     id("composeMultiplatformConvention")
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.buildConfig)
-    id("testOptionsConvention")
 }
 
-android {
-    namespace = "siarhei.luskanau.pixabayeye.core.network.ktor"
-    testOptions.configureTestOptions()
-}
+kotlin.androidLibrary.namespace = "siarhei.luskanau.pixabayeye.core.network.ktor"
 
 kotlin {
     sourceSets {
@@ -48,7 +44,7 @@ kotlin {
 }
 
 buildConfig {
-    packageName(android.namespace.orEmpty())
+    packageName(kotlin.androidLibrary.namespace.orEmpty())
     useKotlinOutput {
         topLevelConstants = true
         internalVisibility = true

@@ -59,7 +59,7 @@ To run the application on android device/emulator:
 To build the application bundle:
 - run `./gradlew :composeApp:assembleDebug`
 - find `.apk` file in `composeApp/build/outputs/apk/debug/composeApp-debug.apk`
-  Run android UI tests on the connected device: `./gradlew :composeApp:managedVirtualDeviceDebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect`
+  Run android UI tests on the connected device: `./gradlew :composeApp:managedVirtualDeviceAndroidDeviceTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect`
 
 ### Desktop
 Run the desktop application: `./gradlew :composeApp:run`

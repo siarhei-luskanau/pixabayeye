@@ -1,15 +1,10 @@
 plugins {
     id("composeMultiplatformConvention")
-    id("testOptionsConvention")
     alias(libs.plugins.roborazzi)
 }
 
-android {
-    namespace = "siarhei.luskanau.pixabayeye.ui.video.details"
-    testOptions.configureTestOptions()
-}
-
 kotlin {
+    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.ui.video.details"
     sourceSets {
         commonMain.dependencies {
             implementation(libs.composemediaplayer)
