@@ -1,15 +1,10 @@
 plugins {
     id("composeMultiplatformKspConvention")
-    id("testOptionsConvention")
     alias(libs.plugins.roborazzi)
 }
 
-android {
-    namespace = "siarhei.luskanau.pixabayeye.ui.details"
-    testOptions.configureTestOptions()
-}
-
 kotlin {
+    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.ui.details"
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:coreCommon"))
