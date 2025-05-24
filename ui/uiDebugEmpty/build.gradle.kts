@@ -3,11 +3,8 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
 }
 
-android {
-    namespace = "siarhei.luskanau.pixabayeye.ui.debug.empty"
-}
-
 kotlin {
+    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.ui.debug.empty"
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.serialization.json)

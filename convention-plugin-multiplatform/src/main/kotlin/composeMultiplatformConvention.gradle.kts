@@ -1,11 +1,10 @@
+import org.gradle.kotlin.dsl.create
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
 
 plugins {
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     kotlin("plugin.compose")
@@ -14,10 +13,62 @@ plugins {
 kotlin {
     jvmToolchain(libs.findVersion("build-jvmTarget").get().requiredVersion.toInt())
 
-    androidTarget {
-        // https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-test.html
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
+//    androidTarget {
+//        // https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-test.html
+//        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+//        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
+//    }
+
+    androidLibrary {
+        compileSdk = libs.findVersion("build-android-compileSdk").get().requiredVersion.toInt()
+        minSdk = libs.findVersion("build-android-minSdk").get().requiredVersion.toInt()
+        withJava()
+        withHostTestBuilder {}.configure {
+            isIncludeAndroidResources = true
+            enableCoverage = true
+//            all { test: org.gradle.api.tasks.testing.Test ->
+//                test.testLogging {
+//                    exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+//                    events = org.gradle.api.tasks.testing.logging.TestLogEvent.values().toSet()
+//                }
+//            }
+        }
+        withDeviceTestBuilder {
+        }.configure {
+            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+            animationsDisabled = true
+//            emulatorSnapshots {
+//                enableForTestFailures = false
+//            }
+            managedDevices.localDevices.create("managedVirtualDevice") {
+                device = "Pixel 2"
+                apiLevel = 33
+                val systemImageConfig: Pair<String?, Boolean?> = when (apiLevel) {
+                    33, 34 -> "aosp-atd" to true
+                    else -> null to null
+                }
+                systemImageConfig.first?.also { systemImageSource = it }
+                systemImageConfig.second?.also { require64Bit = it }
+            }
+        }
+
+        compilations.configureEach {
+            compilerOptions.configure {
+                jvmTarget.set(
+                    org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
+                )
+            }
+        }
+//        compileOptions {
+//            sourceCompatibility = JavaVersion.valueOf(
+//                libs.findVersion("build-javaVersion").get().requiredVersion
+//            )
+//            targetCompatibility = JavaVersion.valueOf(
+//                libs.findVersion("build-javaVersion").get().requiredVersion
+//            )
+//        }
+        // buildFeatures.compose = true
+        // packaging.resources.excludes.add("META-INF/**")
     }
 
     jvm()
@@ -97,24 +148,6 @@ kotlin {
         webMain.dependencies {
         }
     }
-}
-
-android {
-    compileSdk = libs.findVersion("build-android-compileSdk").get().requiredVersion.toInt()
-    defaultConfig {
-        minSdk = libs.findVersion("build-android-minSdk").get().requiredVersion.toInt()
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.valueOf(
-            libs.findVersion("build-javaVersion").get().requiredVersion
-        )
-        targetCompatibility = JavaVersion.valueOf(
-            libs.findVersion("build-javaVersion").get().requiredVersion
-        )
-    }
-    buildFeatures.compose = true
-    packaging.resources.excludes.add("META-INF/**")
 }
 
 tasks.withType<AbstractTestTask>().configureEach {
