@@ -2,22 +2,17 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
     id("composeMultiplatformConvention")
-    id("testOptionsConvention")
     alias(libs.plugins.roborazzi)
     alias(libs.plugins.buildConfig)
 }
 
 kotlin {
+    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.ui.common"
     sourceSets {
         androidUnitTest.dependencies {
             implementation(projects.ui.uiScreenshotTest)
         }
     }
-}
-
-android {
-    namespace = "siarhei.luskanau.pixabayeye.ui.common"
-    testOptions.configureTestOptions()
 }
 
 compose.resources {
@@ -30,7 +25,7 @@ compose.resources {
 roborazzi.outputDir.set(rootProject.file("screenshots"))
 
 buildConfig {
-    packageName(android.namespace.orEmpty())
+    packageName(kotlin.androidLibrary.namespace.orEmpty())
     useKotlinOutput {
         topLevelConstants = true
         internalVisibility = true

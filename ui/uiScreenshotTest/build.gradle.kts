@@ -1,9 +1,9 @@
 plugins {
     id("composeMultiplatformConvention")
-    id("testOptionsConvention")
 }
 
 kotlin {
+    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.ui.screenshot.test"
     sourceSets {
         androidMain.dependencies {
             implementation(libs.androidx.test.core.ktx)
@@ -17,9 +17,4 @@ kotlin {
             implementation(libs.robolectric)
         }
     }
-}
-
-android {
-    namespace = "siarhei.luskanau.pixabayeye.ui.screenshot.test"
-    testOptions.configureTestOptions()
 }
