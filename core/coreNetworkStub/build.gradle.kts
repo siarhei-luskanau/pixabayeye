@@ -2,9 +2,7 @@ plugins {
     id("composeMultiplatformKspConvention")
 }
 
-android {
-    namespace = "siarhei.luskanau.pixabayeye.core.network.stub"
-}
+kotlin.androidLibrary.namespace = "siarhei.luskanau.pixabayeye.core.network.stub"
 
 kotlin {
     sourceSets {
