@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
@@ -36,14 +37,26 @@ import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 
 @Composable
-fun SearchComposable(viewModel: SearchViewModel) {
+fun SearchScreen(viewModelProvider: () -> SearchViewModel) {
+    val viewModel = viewModel { viewModelProvider() }
+    SearchComposable(
+        paginationState = viewModel.paginationState,
+        onEvent = viewModel::onEvent
+    )
+}
+
+@Composable
+internal fun SearchComposable(
+    paginationState: PaginationState<Int, HitModel>,
+    onEvent: (SearchViewEvent) -> Unit
+) {
     var searchTerm by rememberSaveable { mutableStateOf("") }
     Scaffold(
         topBar = {
             PixabayTopAppBar(
                 title = stringResource(Res.string.screen_name_search),
                 onBackClick = null,
-                onDebugScreenClick = { viewModel.onDebugScreenClicked() }
+                onDebugScreenClick = { onEvent(SearchViewEvent.DebugScreenClicked) }
             )
         }
     ) { contentPadding ->
@@ -52,7 +65,7 @@ fun SearchComposable(viewModel: SearchViewModel) {
                 value = searchTerm,
                 onValueChange = {
                     searchTerm = it
-                    viewModel.onUpdateSearchTerm(searchTerm = it)
+                    onEvent(SearchViewEvent.UpdateSearchTerm(searchTerm = it))
                 },
                 label = { Text("Search") },
                 modifier = Modifier.fillMaxWidth().padding(16.dp).testTag("search_text_field")
@@ -61,14 +74,14 @@ fun SearchComposable(viewModel: SearchViewModel) {
                 columns = StaggeredGridCells.Adaptive(minSize = 180.dp),
                 verticalItemSpacing = 4.dp,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
-                paginationState = viewModel.paginationState,
+                paginationState = paginationState,
                 firstPageProgressIndicator = { },
                 newPageProgressIndicator = { },
                 firstPageErrorIndicator = { e -> },
                 newPageErrorIndicator = { e -> }
             ) {
                 itemsIndexed(
-                    viewModel.paginationState.allItems.orEmpty()
+                    paginationState.allItems.orEmpty()
                 ) { _, hitModel ->
                     AsyncImage(
                         model = ImageRequest.Builder(LocalPlatformContext.current)
@@ -85,7 +98,9 @@ fun SearchComposable(viewModel: SearchViewModel) {
                                 hitModel.middleImageWidth.toFloat() /
                                     hitModel.middleImageHeight.toFloat()
                             )
-                            .clickable { viewModel.onImageClicked(hitModel) }
+                            .clickable {
+                                onEvent(SearchViewEvent.ImageClicked(hitModel = hitModel))
+                            }
                     )
                 }
             }
@@ -97,20 +112,16 @@ fun SearchComposable(viewModel: SearchViewModel) {
 @Composable
 internal fun SearchComposablePreview() = AppTheme {
     SearchComposable(
-        viewModel = object : SearchViewModel() {
-            override val paginationState: PaginationState<Int, HitModel> = PaginationState(
-                initialPageKey = 1,
-                onRequestPage = {
-                    appendPage(
-                        items = listOf(),
-                        nextPageKey = 2,
-                        isLastPage = true
-                    )
-                }
-            )
-            override fun onUpdateSearchTerm(searchTerm: String) = Unit
-            override fun onImageClicked(hitModel: HitModel) = Unit
-            override fun onDebugScreenClicked() = Unit
-        }
+        paginationState = PaginationState(
+            initialPageKey = 1,
+            onRequestPage = {
+                appendPage(
+                    items = listOf(),
+                    nextPageKey = 2,
+                    isLastPage = true
+                )
+            }
+        ),
+        onEvent = {}
     )
 }

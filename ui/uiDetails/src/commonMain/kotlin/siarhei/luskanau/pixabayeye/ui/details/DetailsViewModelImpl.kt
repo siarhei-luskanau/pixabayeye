@@ -18,16 +18,17 @@ class DetailsViewModelImpl(
 
     override val viewState = MutableStateFlow<DetailsViewState>(DetailsViewState.Loading)
 
-    override fun onLaunched() {
-        viewModelScope.launch {
-            when (val result = pixabayApiService.getImage(imageId = imageId)) {
-                is NetworkResult.Failure -> viewState.emit(DetailsViewState.Error(result.error))
-                is NetworkResult.Success -> viewState.emit(DetailsViewState.Success(result.result))
+    override fun onEvent(event: DetailsViewEvent) {
+        when (event) {
+            DetailsViewEvent.Launched -> viewModelScope.launch {
+                when (val result = pixabayApiService.getImage(imageId = imageId)) {
+                    is NetworkResult.Failure -> viewState.emit(DetailsViewState.Error(result.error))
+                    is NetworkResult.Success -> viewState.emit(
+                        DetailsViewState.Success(result.result)
+                    )
+                }
             }
+            DetailsViewEvent.NavigateBack -> detailsNavigationCallback.goBack()
         }
-    }
-
-    override fun onBackClick() {
-        detailsNavigationCallback.goBack()
     }
 }

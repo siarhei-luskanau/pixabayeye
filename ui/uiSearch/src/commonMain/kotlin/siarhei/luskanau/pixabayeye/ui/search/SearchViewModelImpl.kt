@@ -28,19 +28,17 @@ class SearchViewModelImpl(
         }
     )
 
-    override fun onUpdateSearchTerm(searchTerm: String) {
-        viewModelScope.launch {
-            searchTermFlow.emit(searchTerm)
-            paginationState.refresh()
+    override fun onEvent(event: SearchViewEvent) {
+        when (event) {
+            SearchViewEvent.DebugScreenClicked -> searchNavigationCallback.onDebugScreenClicked()
+            is SearchViewEvent.ImageClicked -> searchNavigationCallback.onSearchScreenImageClicked(
+                imageId = event.hitModel.imageId
+            )
+            is SearchViewEvent.UpdateSearchTerm -> viewModelScope.launch {
+                searchTermFlow.emit(event.searchTerm)
+                paginationState.refresh()
+            }
         }
-    }
-
-    override fun onImageClicked(hitModel: HitModel) {
-        searchNavigationCallback.onSearchScreenImageClicked(imageId = hitModel.imageId)
-    }
-
-    override fun onDebugScreenClicked() {
-        searchNavigationCallback.onDebugScreenClicked()
     }
 
     private fun loadPage(searchTerm: String, pageKey: Int) {

@@ -5,6 +5,5 @@ import kotlinx.coroutines.flow.StateFlow
 
 abstract class DetailsViewModel : ViewModel() {
     abstract val viewState: StateFlow<DetailsViewState>
-    abstract fun onLaunched()
-    abstract fun onBackClick()
+    abstract fun onEvent(event: DetailsViewEvent)
 }

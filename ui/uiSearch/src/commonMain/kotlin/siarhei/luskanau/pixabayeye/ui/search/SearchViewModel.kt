@@ -6,7 +6,5 @@ import siarhei.luskanau.pixabayeye.core.network.HitModel
 
 abstract class SearchViewModel : ViewModel() {
     abstract val paginationState: PaginationState<Int, HitModel>
-    abstract fun onUpdateSearchTerm(searchTerm: String)
-    abstract fun onImageClicked(hitModel: HitModel)
-    abstract fun onDebugScreenClicked()
+    abstract fun onEvent(event: SearchViewEvent)
 }

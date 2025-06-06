@@ -1,7 +1,6 @@
 package siarhei.luskanau.pixabayeye.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,8 +17,8 @@ import org.koin.core.parameter.parametersOf
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.ui.debug.debugGraph
-import siarhei.luskanau.pixabayeye.ui.details.DetailsComposable
-import siarhei.luskanau.pixabayeye.ui.search.SearchComposable
+import siarhei.luskanau.pixabayeye.ui.details.DetailsScreen
+import siarhei.luskanau.pixabayeye.ui.search.SearchScreen
 
 @Preview
 @Composable
@@ -39,22 +38,13 @@ fun App() = AppTheme {
         startDestination = AppRoutes.Search
     ) {
         composable<AppRoutes.Search> {
-            SearchComposable(
-                viewModel = viewModel { koin.get { parametersOf(appNavigation) } }
-            )
+            SearchScreen { koin.get { parametersOf(appNavigation) } }
         }
         composable<AppRoutes.Details> {
             val args: AppRoutes.Details = it.toRoute()
-            DetailsComposable(
-                viewModel = viewModel {
-                    koin.get {
-                        parametersOf(
-                            args.imageId,
-                            appNavigation
-                        )
-                    }
-                }
-            )
+            DetailsScreen {
+                koin.get { parametersOf(args.imageId, appNavigation) }
+            }
         }
         debugGraph(koin = koin)
     }
