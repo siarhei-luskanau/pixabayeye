@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
@@ -36,13 +37,25 @@ import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 
 @Composable
-fun DetailsComposable(viewModel: DetailsViewModel) {
-    val viewState = viewModel.viewState.collectAsState()
+fun DetailsScreen(viewModelProvider: () -> DetailsViewModel) {
+    val viewModel = viewModel { viewModelProvider() }
+    DetailsComposable(
+        viewState = viewModel.viewState,
+        onEvent = viewModel::onEvent
+    )
+}
+
+@Composable
+internal fun DetailsComposable(
+    viewState: StateFlow<DetailsViewState>,
+    onEvent: (DetailsViewEvent) -> Unit
+) {
+    val viewState = viewState.collectAsState()
     Scaffold(
         topBar = {
             PixabayTopAppBar(
                 title = stringResource(Res.string.screen_name_search),
-                onBackClick = { viewModel.onBackClick() },
+                onBackClick = { onEvent(DetailsViewEvent.NavigateBack) },
                 onDebugScreenClick = null
             )
         }
@@ -92,7 +105,7 @@ fun DetailsComposable(viewModel: DetailsViewModel) {
         }
     }
     LaunchedEffect(Unit) {
-        viewModel.onLaunched()
+        onEvent(DetailsViewEvent.Launched)
     }
 }
 
@@ -104,7 +117,8 @@ expect fun Modifier.zoomableExp(): Modifier
 @Composable
 internal fun DetailsLoadingComposablePreview() = AppTheme {
     DetailsComposable(
-        viewModel = detailsViewModel(DetailsViewState.Loading)
+        viewState = MutableStateFlow(DetailsViewState.Loading),
+        onEvent = {}
     )
 }
 
@@ -112,7 +126,7 @@ internal fun DetailsLoadingComposablePreview() = AppTheme {
 @Composable
 internal fun DetailsSuccessComposablePreview() = AppTheme {
     DetailsComposable(
-        viewModel = detailsViewModel(
+        viewState = MutableStateFlow(
             DetailsViewState.Success(
                 HitModel(
                     imageId = 123,
@@ -131,7 +145,8 @@ internal fun DetailsSuccessComposablePreview() = AppTheme {
                     largeImageUrl = "https://example.com/large.jpg"
                 )
             )
-        )
+        ),
+        onEvent = {}
     )
 }
 
@@ -139,13 +154,7 @@ internal fun DetailsSuccessComposablePreview() = AppTheme {
 @Composable
 internal fun DetailsErrorComposablePreview() = AppTheme {
     DetailsComposable(
-        viewModel = detailsViewModel(DetailsViewState.Error(Error("Something went wrong")))
+        viewState = MutableStateFlow(DetailsViewState.Error(Error("Something went wrong"))),
+        onEvent = {}
     )
 }
-
-internal fun detailsViewModel(detailsViewState: DetailsViewState): DetailsViewModel =
-    object : DetailsViewModel() {
-        override val viewState: StateFlow<DetailsViewState> = MutableStateFlow(detailsViewState)
-        override fun onLaunched() = Unit
-        override fun onBackClick() = Unit
-    }
