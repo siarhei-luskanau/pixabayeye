@@ -3,13 +3,9 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     id("composeMultiplatformKspConvention")
     alias(libs.plugins.kotlinx.serialization)
-    id("testOptionsConvention")
 }
 
-android {
-    namespace = "siarhei.luskanau.pixabayeye.core.network"
-    testOptions.configureTestOptions()
-}
+kotlin.androidLibrary.namespace = "siarhei.luskanau.pixabayeye.core.network"
 
 kotlin {
     sourceSets {
