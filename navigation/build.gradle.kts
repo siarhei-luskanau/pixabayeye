@@ -2,16 +2,11 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
     id("composeMultiplatformConvention")
-    id("testOptionsConvention")
     alias(libs.plugins.kotlinx.serialization)
 }
 
-android {
-    namespace = "siarhei.luskanau.pixabayeye.navigation"
-    testOptions.configureTestOptions()
-}
-
 kotlin {
+    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.navigation"
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.serialization.json)
