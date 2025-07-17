@@ -27,7 +27,9 @@ actual val appPlatformModule: Module =
                     appropriateForURL = null,
                     create = false,
                     error = null
-                )?.path + Path.DIRECTORY_SEPARATOR + "app.pref.json"
+                )?.path +
+                    Path.DIRECTORY_SEPARATOR +
+                    "app.pref.json"
             object : PrefPathProvider {
                 override fun get(): Path = file.toPath()
             }
