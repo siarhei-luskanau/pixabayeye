@@ -39,14 +39,14 @@ import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 @Composable
 fun SearchScreen(viewModelProvider: () -> SearchViewModel) {
     val viewModel = viewModel { viewModelProvider() }
-    SearchComposable(
+    SearchContent(
         paginationState = viewModel.paginationState,
         onEvent = viewModel::onEvent
     )
 }
 
 @Composable
-internal fun SearchComposable(
+internal fun SearchContent(
     paginationState: PaginationState<Int, HitModel>,
     onEvent: (SearchViewEvent) -> Unit
 ) {
@@ -110,8 +110,8 @@ internal fun SearchComposable(
 
 @Preview
 @Composable
-internal fun SearchComposablePreview() = AppTheme {
-    SearchComposable(
+internal fun SearchContentPreview() = AppTheme {
+    SearchContent(
         paginationState = PaginationState(
             initialPageKey = 1,
             onRequestPage = {
