@@ -15,7 +15,7 @@ import siarhei.luskanau.pixabayeye.ui.screenshot.test.BaseScreenshotTest
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34], qualifiers = RobolectricDeviceQualifiers.SmallPhone)
-class SearchComposableTest : BaseScreenshotTest(group = "search") {
+class SearchScreenTest : BaseScreenshotTest(group = "search") {
 
     @get:Rule
     val composeRule = createComposeRule()
@@ -27,20 +27,20 @@ class SearchComposableTest : BaseScreenshotTest(group = "search") {
 
     @Test
     fun lightTest() {
-        composeRule.setContent { SearchComposablePreview() }
+        composeRule.setContent { SearchContentPreview() }
         composeRule.onRoot().captureScreenshot(name = "light")
     }
 
     @Test
     @Config(qualifiers = "+night")
     fun nightTest() {
-        composeRule.setContent { SearchComposablePreview() }
+        composeRule.setContent { SearchContentPreview() }
         composeRule.onRoot().captureScreenshot(name = "night")
     }
 
     @Test
     fun dumpTest() {
-        composeRule.setContent { SearchComposablePreview() }
+        composeRule.setContent { SearchContentPreview() }
         composeRule.onRoot().captureScreenshotDump(name = "dump")
     }
 }

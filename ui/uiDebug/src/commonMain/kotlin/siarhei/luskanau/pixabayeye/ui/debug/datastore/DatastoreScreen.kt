@@ -15,7 +15,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Preview
 @Composable
-fun DatastoreComposable(viewModel: DatastoreViewModel) {
+fun DatastoreScreen(viewModel: DatastoreViewModel) {
     val viewState by viewModel.viewState.collectAsState(null)
     Column(
         modifier = Modifier

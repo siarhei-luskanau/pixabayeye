@@ -16,7 +16,7 @@ import kotlinx.serialization.Serializable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.core.Koin
 import org.koin.core.parameter.parametersOf
-import siarhei.luskanau.pixabayeye.ui.debug.datastore.DatastoreComposable
+import siarhei.luskanau.pixabayeye.ui.debug.datastore.DatastoreScreen
 
 @Preview
 @Composable
@@ -31,7 +31,7 @@ internal fun DebugNavHost(
         modifier = Modifier.padding(innerPadding)
     ) {
         composable<DatastoreRoute> {
-            DatastoreComposable(
+            DatastoreScreen(
                 viewModel = viewModel { koin.get { parametersOf() } }
             )
         }

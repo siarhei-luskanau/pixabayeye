@@ -39,14 +39,14 @@ import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 @Composable
 fun DetailsScreen(viewModelProvider: () -> DetailsViewModel) {
     val viewModel = viewModel { viewModelProvider() }
-    DetailsComposable(
+    DetailsContent(
         viewState = viewModel.viewState,
         onEvent = viewModel::onEvent
     )
 }
 
 @Composable
-internal fun DetailsComposable(
+internal fun DetailsContent(
     viewState: StateFlow<DetailsViewState>,
     onEvent: (DetailsViewEvent) -> Unit
 ) {
@@ -115,8 +115,8 @@ expect fun Modifier.zoomableExp(): Modifier
 
 @Preview
 @Composable
-internal fun DetailsLoadingComposablePreview() = AppTheme {
-    DetailsComposable(
+internal fun DetailsLoadingContentPreview() = AppTheme {
+    DetailsContent(
         viewState = MutableStateFlow(DetailsViewState.Loading),
         onEvent = {}
     )
@@ -124,8 +124,8 @@ internal fun DetailsLoadingComposablePreview() = AppTheme {
 
 @Preview
 @Composable
-internal fun DetailsSuccessComposablePreview() = AppTheme {
-    DetailsComposable(
+internal fun DetailsSuccessContentPreview() = AppTheme {
+    DetailsContent(
         viewState = MutableStateFlow(
             DetailsViewState.Success(
                 HitModel(
@@ -152,8 +152,8 @@ internal fun DetailsSuccessComposablePreview() = AppTheme {
 
 @Preview
 @Composable
-internal fun DetailsErrorComposablePreview() = AppTheme {
-    DetailsComposable(
+internal fun DetailsErrorContentPreview() = AppTheme {
+    DetailsContent(
         viewState = MutableStateFlow(DetailsViewState.Error(Error("Something went wrong"))),
         onEvent = {}
     )
