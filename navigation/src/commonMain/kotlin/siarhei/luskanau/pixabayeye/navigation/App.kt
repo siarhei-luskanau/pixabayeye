@@ -17,8 +17,8 @@ import org.koin.core.parameter.parametersOf
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.ui.debug.debugGraph
-import siarhei.luskanau.pixabayeye.ui.details.DetailsScreen
-import siarhei.luskanau.pixabayeye.ui.search.SearchScreen
+import siarhei.luskanau.pixabayeye.ui.image.details.ImageDetailsScreen
+import siarhei.luskanau.pixabayeye.ui.image.list.ImageListScreen
 
 @Preview
 @Composable
@@ -38,11 +38,11 @@ fun App() = AppTheme {
         startDestination = AppRoutes.Search
     ) {
         composable<AppRoutes.Search> {
-            SearchScreen { koin.get { parametersOf(appNavigation) } }
+            ImageListScreen { koin.get { parametersOf(appNavigation) } }
         }
         composable<AppRoutes.Details> {
             val args: AppRoutes.Details = it.toRoute()
-            DetailsScreen {
+            ImageDetailsScreen {
                 koin.get { parametersOf(args.imageId, appNavigation) }
             }
         }
