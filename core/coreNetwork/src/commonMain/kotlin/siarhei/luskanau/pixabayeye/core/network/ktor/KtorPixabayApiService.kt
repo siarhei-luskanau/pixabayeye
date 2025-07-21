@@ -2,8 +2,10 @@ package siarhei.luskanau.pixabayeye.core.network.ktor
 
 import org.koin.core.annotation.Single
 import siarhei.luskanau.pixabayeye.core.network.HitModel
+import siarhei.luskanau.pixabayeye.core.network.ImageHitModel
 import siarhei.luskanau.pixabayeye.core.network.NetworkResult
 import siarhei.luskanau.pixabayeye.core.network.PixabayApiService
+import siarhei.luskanau.pixabayeye.core.network.VideoHitModel
 import siarhei.luskanau.pixabayeye.core.network.ktor.model.HitResponse
 
 @Single
@@ -22,7 +24,7 @@ internal class KtorPixabayApiService(private val client: PixabayApiClient) : Pix
             perPage = perPage,
             page = page
         ).let { imagesResponse ->
-            imagesResponse.hits.map { it.toHitModel() }
+            imagesResponse.hits.map { it.toImageHitModel() }
         }
     }
 
@@ -32,7 +34,30 @@ internal class KtorPixabayApiService(private val client: PixabayApiClient) : Pix
         )
             .hits
             .first()
-            .toHitModel()
+            .toImageHitModel()
+    }
+
+    override suspend fun getVideos(
+        query: String?,
+        perPage: Int?,
+        page: Int?
+    ): NetworkResult<List<HitModel>> = runNetworkCatching {
+        client.getVideos(
+            query = query,
+            perPage = perPage,
+            page = page
+        ).let { videosResponse ->
+            videosResponse.hits.map { it.toVideoHitModel() }
+        }
+    }
+
+    override suspend fun getVideo(videoId: Long): NetworkResult<HitModel> = runNetworkCatching {
+        client.getVideo(
+            videoId = videoId
+        )
+            .hits
+            .first()
+            .toVideoHitModel()
     }
 
     private suspend fun <T> runNetworkCatching(action: suspend () -> T): NetworkResult<T> =
@@ -44,19 +69,63 @@ internal class KtorPixabayApiService(private val client: PixabayApiClient) : Pix
         )
 }
 
-private fun HitResponse.toHitModel(): HitModel = HitModel(
-    imageId = this.imageId,
+private fun HitResponse.toImageHitModel(): HitModel = HitModel(
+    id = this.id,
+    pageURL = this.pageURL,
+    type = this.type,
+    tags = this.tags,
+    views = this.views,
+    downloads = this.downloads,
+    likes = this.likes,
+    comments = this.comments,
     userId = this.userId,
     userName = this.userName,
+    userImageURL = this.userImageURL,
+    noAiTraining = this.noAiTraining,
+    isAiGenerated = this.isAiGenerated,
+    isGRated = this.isGRated,
+    // isLowQuality = this.isLowQuality,
+    userURL = this.userURL,
+    imageModel = ImageHitModel(
+        previewUrl = requireNotNull(this.previewUrl),
+        previewWidth = requireNotNull(this.previewWidth),
+        previewHeight = requireNotNull(this.previewHeight),
+        middleImageUrl = requireNotNull(this.middleImageUrl),
+        middleImageWidth = requireNotNull(this.middleImageWidth),
+        middleImageHeight = requireNotNull(this.middleImageHeight),
+        largeImageUrl = requireNotNull(this.largeImageUrl),
+        imageWidth = requireNotNull(this.imageWidth),
+        imageHeight = requireNotNull(this.imageHeight),
+        imageSize = requireNotNull(this.imageSize),
+        collections = requireNotNull(this.collections)
+    ),
+    videosModel = null
+)
+private fun HitResponse.toVideoHitModel(): HitModel = HitModel(
+    id = this.id,
+    pageURL = this.pageURL,
+    type = this.type,
     tags = this.tags,
-    likes = this.likes,
+    views = this.views,
     downloads = this.downloads,
+    likes = this.likes,
     comments = this.comments,
-    previewUrl = this.previewUrl,
-    previewHeight = this.previewHeight,
-    previewWidth = this.previewWidth,
-    middleImageUrl = this.middleImageUrl,
-    middleImageHeight = this.middleImageHeight,
-    middleImageWidth = this.middleImageWidth,
-    largeImageUrl = this.largeImageUrl
+    userId = this.userId,
+    userName = this.userName,
+    userImageURL = this.userImageURL,
+    noAiTraining = this.noAiTraining,
+    isAiGenerated = this.isAiGenerated,
+    isGRated = this.isGRated,
+    // isLowQuality = this.isLowQuality,
+    userURL = this.userURL,
+    imageModel = null,
+    videosModel = this.videos.orEmpty().mapValues { (key, value) ->
+        VideoHitModel(
+            url = value.url,
+            width = value.width,
+            height = value.height,
+            size = value.size,
+            thumbnail = value.thumbnail
+        )
+    }
 )

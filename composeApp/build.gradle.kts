@@ -65,6 +65,8 @@ kotlin {
             implementation(projects.ui.uiCommon)
             implementation(projects.ui.uiImageDetails)
             implementation(projects.ui.uiImageList)
+            implementation(projects.ui.uiVideoDetails)
+            implementation(projects.ui.uiVideoList)
             if (isDebugScreenEnabled { gradleLocalProperties(rootDir, providers) }) {
                 implementation(projects.ui.uiDebug)
             } else {

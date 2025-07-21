@@ -19,6 +19,8 @@ import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.ui.debug.debugGraph
 import siarhei.luskanau.pixabayeye.ui.image.details.ImageDetailsScreen
 import siarhei.luskanau.pixabayeye.ui.image.list.ImageListScreen
+import siarhei.luskanau.pixabayeye.ui.video.details.VideoDetailsScreen
+import siarhei.luskanau.pixabayeye.ui.video.list.VideoListScreen
 
 @Preview
 @Composable
@@ -35,15 +37,32 @@ fun App() = AppTheme {
     val appNavigation = AppNavigation(navHostController = navHostController)
     NavHost(
         navController = navHostController,
-        startDestination = AppRoutes.Search
+        startDestination = AppRoutes.ImageList
     ) {
-        composable<AppRoutes.Search> {
-            ImageListScreen { koin.get { parametersOf(appNavigation) } }
+        composable<AppRoutes.ImageList> {
+            ImageListScreen(
+                viewModelProvider = { koin.get { parametersOf(appNavigation) } },
+                onImagesClick = { navHostController.navigate(AppRoutes.ImageList) },
+                onVideosClick = { navHostController.navigate(AppRoutes.VideoList) }
+            )
         }
-        composable<AppRoutes.Details> {
-            val args: AppRoutes.Details = it.toRoute()
+        composable<AppRoutes.ImageDetails> {
+            val args: AppRoutes.ImageDetails = it.toRoute()
             ImageDetailsScreen {
                 koin.get { parametersOf(args.imageId, appNavigation) }
+            }
+        }
+        composable<AppRoutes.VideoList> {
+            VideoListScreen(
+                viewModelProvider = { koin.get { parametersOf(appNavigation) } },
+                onImagesClick = { navHostController.navigate(AppRoutes.ImageList) },
+                onVideosClick = { navHostController.navigate(AppRoutes.VideoList) }
+            )
+        }
+        composable<AppRoutes.VideoDetails> {
+            val args: AppRoutes.VideoDetails = it.toRoute()
+            VideoDetailsScreen {
+                koin.get { parametersOf(args.videoId, appNavigation) }
             }
         }
         debugGraph(koin = koin)
@@ -53,8 +72,14 @@ fun App() = AppTheme {
 internal sealed interface AppRoutes {
 
     @Serializable
-    data object Search : AppRoutes
+    data object ImageList : AppRoutes
 
     @Serializable
-    data class Details(val imageId: Long) : AppRoutes
+    data class ImageDetails(val imageId: Long) : AppRoutes
+
+    @Serializable
+    data object VideoList : AppRoutes
+
+    @Serializable
+    data class VideoDetails(val videoId: Long) : AppRoutes
 }

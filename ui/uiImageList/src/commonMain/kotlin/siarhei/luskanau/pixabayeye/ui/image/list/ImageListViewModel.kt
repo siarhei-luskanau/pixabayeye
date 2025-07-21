@@ -11,7 +11,6 @@ import org.koin.core.annotation.Provided
 import siarhei.luskanau.pixabayeye.core.network.HitModel
 import siarhei.luskanau.pixabayeye.core.network.NetworkResult
 import siarhei.luskanau.pixabayeye.core.network.PixabayApiService
-import siarhei.luskanau.pixabayeye.ui.image.list.ImageListNavigationCallback
 
 @Factory
 class ImageListViewModel(
@@ -32,9 +31,7 @@ class ImageListViewModel(
         when (event) {
             ImageListViewEvent.DebugScreenClicked -> searchNavigationCallback.onDebugScreenClicked()
             is ImageListViewEvent.ImageClicked ->
-                searchNavigationCallback.onSearchScreenImageClicked(
-                    imageId = event.hitModel.imageId
-                )
+                searchNavigationCallback.onSearchScreenImageClicked(imageId = event.hitModel.id)
             is ImageListViewEvent.UpdateSearchTerm -> viewModelScope.launch {
                 searchTermFlow.emit(event.searchTerm)
                 paginationState.refresh()

@@ -15,7 +15,7 @@ import siarhei.luskanau.pixabayeye.ui.screenshot.test.BaseScreenshotTest
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34], qualifiers = RobolectricDeviceQualifiers.SmallPhone)
-class PixabayTopAppBarTest : BaseScreenshotTest(group = "common") {
+class PixabayTopAppBarTest : BaseScreenshotTest(group = "common_topbar") {
 
     @get:Rule
     val composeRule = createComposeRule()

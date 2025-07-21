@@ -4,8 +4,12 @@ import androidx.navigation.NavHostController
 import siarhei.luskanau.pixabayeye.ui.debug.DebugGraph
 import siarhei.luskanau.pixabayeye.ui.image.details.ImageDetailsNavigationCallback
 import siarhei.luskanau.pixabayeye.ui.image.list.ImageListNavigationCallback
+import siarhei.luskanau.pixabayeye.ui.video.details.VideoDetailsNavigationCallback
+import siarhei.luskanau.pixabayeye.ui.video.list.VideoListNavigationCallback
 
 class AppNavigation(private val navHostController: NavHostController) :
+    VideoListNavigationCallback,
+    VideoDetailsNavigationCallback,
     ImageDetailsNavigationCallback,
     ImageListNavigationCallback {
 
@@ -15,7 +19,13 @@ class AppNavigation(private val navHostController: NavHostController) :
 
     override fun onSearchScreenImageClicked(imageId: Long) {
         navHostController.navigate(
-            AppRoutes.Details(imageId = imageId)
+            AppRoutes.ImageDetails(imageId = imageId)
+        )
+    }
+
+    override fun onVideoListScreenVideoClicked(videoId: Long) {
+        navHostController.navigate(
+            AppRoutes.VideoDetails(videoId = videoId)
         )
     }
 

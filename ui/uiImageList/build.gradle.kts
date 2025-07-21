@@ -12,11 +12,11 @@ android {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:coreCommon"))
-            implementation(project(":core:coreNetwork"))
-            implementation(project(":core:corePref"))
-            implementation(project(":ui:uiCommon"))
             implementation(libs.lazyPaginationCompose)
+            implementation(projects.core.coreCommon)
+            implementation(projects.core.coreNetwork)
+            implementation(projects.core.corePref)
+            implementation(projects.ui.uiCommon)
         }
         androidUnitTest.dependencies {
             implementation(projects.ui.uiScreenshotTest)
