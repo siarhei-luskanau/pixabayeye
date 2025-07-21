@@ -33,6 +33,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.network.HitModel
+import siarhei.luskanau.pixabayeye.core.network.ImageHitModel
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 
@@ -80,7 +81,7 @@ internal fun ImageDetailsContent(
 
                 is ImageDetailsViewState.Success -> AsyncImage(
                     model = ImageRequest.Builder(LocalPlatformContext.current)
-                        .data(result.hitModel.largeImageUrl)
+                        .data(result.hitModel.imageModel?.largeImageUrl.orEmpty())
                         .build(),
                     contentDescription = result.hitModel.tags,
                     placeholder = ColorPainter(Color.Gray),
@@ -115,7 +116,7 @@ expect fun Modifier.zoomableExp(): Modifier
 
 @Preview
 @Composable
-internal fun DetailsLoadingContentPreview() = AppTheme {
+internal fun ImageDetailsLoadingContentPreview() = AppTheme {
     ImageDetailsContent(
         viewState = MutableStateFlow(ImageDetailsViewState.Loading),
         onEvent = {}
@@ -124,25 +125,41 @@ internal fun DetailsLoadingContentPreview() = AppTheme {
 
 @Preview
 @Composable
-internal fun DetailsSuccessContentPreview() = AppTheme {
+internal fun ImageDetailsSuccessContentPreview() = AppTheme {
     ImageDetailsContent(
         viewState = MutableStateFlow(
             ImageDetailsViewState.Success(
                 HitModel(
-                    imageId = 123,
+                    id = 123,
+                    pageURL = "",
+                    type = "photo",
+                    tags = "tag1, tag2, tag3",
+                    views = 1,
+                    comments = 300,
+                    downloads = 200,
+                    likes = 100,
                     userId = 456,
                     userName = "John Doe",
-                    tags = "tag1, tag2, tag3",
-                    likes = 100,
-                    downloads = 200,
-                    comments = 300,
-                    previewUrl = "https://example.com/preview.jpg",
-                    previewHeight = 100,
-                    previewWidth = 100,
-                    middleImageUrl = "https://example.com/middle.jpg",
-                    middleImageHeight = 200,
-                    middleImageWidth = 200,
-                    largeImageUrl = "https://example.com/large.jpg"
+                    userImageURL = "",
+                    noAiTraining = false,
+                    isAiGenerated = false,
+                    isGRated = false,
+                    // isLowQuality = false,
+                    userURL = "John Doe",
+                    imageModel = ImageHitModel(
+                        previewUrl = "https://example.com/preview.jpg",
+                        previewHeight = 100,
+                        previewWidth = 100,
+                        middleImageUrl = "https://example.com/middle.jpg",
+                        middleImageHeight = 200,
+                        middleImageWidth = 200,
+                        largeImageUrl = "https://example.com/large.jpg",
+                        imageWidth = 600,
+                        imageHeight = 600,
+                        imageSize = 12345,
+                        collections = 0
+                    ),
+                    videosModel = null
                 )
             )
         ),
@@ -152,7 +169,7 @@ internal fun DetailsSuccessContentPreview() = AppTheme {
 
 @Preview
 @Composable
-internal fun DetailsErrorContentPreview() = AppTheme {
+internal fun ImageDetailsErrorContentPreview() = AppTheme {
     ImageDetailsContent(
         viewState = MutableStateFlow(ImageDetailsViewState.Error(Error("Something went wrong"))),
         onEvent = {}

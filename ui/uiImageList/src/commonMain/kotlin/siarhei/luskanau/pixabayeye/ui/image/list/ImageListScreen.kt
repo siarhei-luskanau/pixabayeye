@@ -30,6 +30,8 @@ import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyVerticalStaggeredGr
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import siarhei.luskanau.pixabayeye.common.BottomBarSelected
+import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.network.HitModel
@@ -37,18 +39,26 @@ import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 
 @Composable
-fun ImageListScreen(viewModelProvider: () -> ImageListViewModel) {
+fun ImageListScreen(
+    viewModelProvider: () -> ImageListViewModel,
+    onImagesClick: (() -> Unit)? = null,
+    onVideosClick: (() -> Unit)? = null
+) {
     val viewModel = viewModel { viewModelProvider() }
     ImageListContent(
         paginationState = viewModel.paginationState,
-        onEvent = viewModel::onEvent
+        onEvent = viewModel::onEvent,
+        onImagesClick = onImagesClick,
+        onVideosClick = onVideosClick
     )
 }
 
 @Composable
 internal fun ImageListContent(
     paginationState: PaginationState<Int, HitModel>,
-    onEvent: (ImageListViewEvent) -> Unit
+    onEvent: (ImageListViewEvent) -> Unit,
+    onImagesClick: (() -> Unit)? = null,
+    onVideosClick: (() -> Unit)? = null
 ) {
     var searchTerm by rememberSaveable { mutableStateOf("") }
     Scaffold(
@@ -57,6 +67,13 @@ internal fun ImageListContent(
                 title = stringResource(Res.string.screen_name_search),
                 onBackClick = null,
                 onDebugScreenClick = { onEvent(ImageListViewEvent.DebugScreenClicked) }
+            )
+        },
+        bottomBar = {
+            PixabayBottomBar(
+                onImagesClick = onImagesClick,
+                onVideosClick = onVideosClick,
+                selected = BottomBarSelected.Images
             )
         }
     ) { contentPadding ->
@@ -85,7 +102,7 @@ internal fun ImageListContent(
                 ) { _, hitModel ->
                     AsyncImage(
                         model = ImageRequest.Builder(LocalPlatformContext.current)
-                            .data(hitModel.middleImageUrl)
+                            .data(hitModel.imageModel?.middleImageUrl.orEmpty())
                             .build(),
                         contentDescription = hitModel.tags,
                         placeholder = ColorPainter(Color.Gray),
@@ -95,8 +112,12 @@ internal fun ImageListContent(
                             .fillMaxWidth()
                             .aspectRatio(
                                 ratio =
-                                hitModel.middleImageWidth.toFloat() /
-                                    hitModel.middleImageHeight.toFloat()
+                                requireNotNull(
+                                    hitModel.imageModel?.middleImageWidth
+                                ).toFloat() /
+                                    requireNotNull(
+                                        hitModel.imageModel?.middleImageHeight
+                                    ).toFloat()
                             )
                             .clickable {
                                 onEvent(ImageListViewEvent.ImageClicked(hitModel = hitModel))

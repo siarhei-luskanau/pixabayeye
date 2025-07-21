@@ -27,58 +27,58 @@ class ImageDetailsScreenTest : BaseScreenshotTest(group = "image_details") {
 
     @Test
     fun lightLoadingTest() {
-        composeRule.setContent { DetailsLoadingContentPreview() }
+        composeRule.setContent { ImageDetailsLoadingContentPreview() }
         composeRule.onRoot().captureScreenshot(name = "loading_light")
     }
 
     @Test
     @Config(qualifiers = "+night")
     fun nightLoadingTest() {
-        composeRule.setContent { DetailsLoadingContentPreview() }
+        composeRule.setContent { ImageDetailsLoadingContentPreview() }
         composeRule.onRoot().captureScreenshot(name = "loading_night")
     }
 
     @Test
     fun dumpLoadingTest() {
-        composeRule.setContent { DetailsLoadingContentPreview() }
+        composeRule.setContent { ImageDetailsLoadingContentPreview() }
         composeRule.onRoot().captureScreenshotDump(name = "loading_dump")
     }
 
     @Test
     fun lightSuccessTest() {
-        composeRule.setContent { DetailsSuccessContentPreview() }
+        composeRule.setContent { ImageDetailsSuccessContentPreview() }
         composeRule.onRoot().captureScreenshot(name = "success_light")
     }
 
     @Test
     @Config(qualifiers = "+night")
     fun nightSuccessTest() {
-        composeRule.setContent { DetailsSuccessContentPreview() }
+        composeRule.setContent { ImageDetailsSuccessContentPreview() }
         composeRule.onRoot().captureScreenshot(name = "success_night")
     }
 
     @Test
     fun dumpSuccessTest() {
-        composeRule.setContent { DetailsSuccessContentPreview() }
+        composeRule.setContent { ImageDetailsSuccessContentPreview() }
         composeRule.onRoot().captureScreenshotDump(name = "success_dump")
     }
 
     @Test
     fun lightErrorTest() {
-        composeRule.setContent { DetailsErrorContentPreview() }
+        composeRule.setContent { ImageDetailsErrorContentPreview() }
         composeRule.onRoot().captureScreenshot(name = "error_light")
     }
 
     @Test
     @Config(qualifiers = "+night")
     fun nightErrorTest() {
-        composeRule.setContent { DetailsErrorContentPreview() }
+        composeRule.setContent { ImageDetailsErrorContentPreview() }
         composeRule.onRoot().captureScreenshot(name = "error_night")
     }
 
     @Test
     fun dumpErrorTest() {
-        composeRule.setContent { DetailsErrorContentPreview() }
+        composeRule.setContent { ImageDetailsErrorContentPreview() }
         composeRule.onRoot().captureScreenshotDump(name = "error_dump")
     }
 }

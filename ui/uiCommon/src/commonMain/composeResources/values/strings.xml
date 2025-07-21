@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">PixabayEye</string>
     <string name="back_button">Back</string>
-    <string name="screen_name_login">PixabayEye - API key</string>
+    <string name="bottombar_images">Images</string>
+    <string name="bottombar_videos">Videos</string>
     <string name="screen_name_search">PixabayEye - Search</string>
-    <string name="screen_name_splash">PixabayEye - Splash</string>
 </resources>

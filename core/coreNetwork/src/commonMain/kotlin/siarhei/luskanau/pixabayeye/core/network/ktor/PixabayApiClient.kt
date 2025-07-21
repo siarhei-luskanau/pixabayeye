@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.serialization.json.Json
 import org.koin.core.annotation.Provided
 import org.koin.core.annotation.Single
-import siarhei.luskanau.pixabayeye.core.network.ktor.model.ImagesResponse
+import siarhei.luskanau.pixabayeye.core.network.ktor.model.HitsResponse
 import siarhei.luskanau.pixabayeye.core.pref.PrefService
 
 @Single
@@ -45,27 +45,46 @@ internal class PixabayApiClient(@Provided private val prefService: PrefService) 
             }
         }
 
-    internal suspend fun getImages(
-        query: String? = null,
-        perPage: Int?,
-        page: Int?
-    ): ImagesResponse = geyPixabayApiKey().let { pixabayApiKey ->
-        httpClient.get(PIXABAY_BASE_URL + "api/") {
-            url {
-                parameters.append("key", pixabayApiKey)
-                query?.also { parameters.append("q", it) }
-                perPage?.also { parameters.append("per_page", it.toString()) }
-                page?.also { parameters.append("page", it.toString()) }
-            }
-        }.body()
-    }
+    internal suspend fun getImages(query: String? = null, perPage: Int?, page: Int?): HitsResponse =
+        geyPixabayApiKey().let { pixabayApiKey ->
+            httpClient.get(PIXABAY_BASE_URL + "api/") {
+                url {
+                    parameters.append("key", pixabayApiKey)
+                    query?.also { parameters.append("q", it) }
+                    perPage?.also { parameters.append("per_page", it.toString()) }
+                    page?.also { parameters.append("page", it.toString()) }
+                }
+            }.body()
+        }
 
-    internal suspend fun getImage(imageId: Long): ImagesResponse =
+    internal suspend fun getImage(imageId: Long): HitsResponse =
         geyPixabayApiKey().let { pixabayApiKey ->
             httpClient.get(PIXABAY_BASE_URL + "api/") {
                 url {
                     parameters.append("key", pixabayApiKey)
                     parameters.append("id", imageId.toString())
+                }
+            }.body()
+        }
+
+    internal suspend fun getVideos(query: String? = null, perPage: Int?, page: Int?): HitsResponse =
+        geyPixabayApiKey().let { pixabayApiKey ->
+            httpClient.get(PIXABAY_BASE_URL + "api/videos/") {
+                url {
+                    parameters.append("key", pixabayApiKey)
+                    query?.also { parameters.append("q", it) }
+                    perPage?.also { parameters.append("per_page", it.toString()) }
+                    page?.also { parameters.append("page", it.toString()) }
+                }
+            }.body()
+        }
+
+    internal suspend fun getVideo(videoId: Long): HitsResponse =
+        geyPixabayApiKey().let { pixabayApiKey ->
+            httpClient.get(PIXABAY_BASE_URL + "api/videos/") {
+                url {
+                    parameters.append("key", pixabayApiKey)
+                    parameters.append("id", videoId.toString())
                 }
             }.body()
         }
