@@ -11,9 +11,9 @@ include(
     ":ui:uiCommon",
     ":ui:uiDebug",
     ":ui:uiDebugEmpty",
-    ":ui:uiDetails",
-    ":ui:uiScreenshotTest",
-    ":ui:uiSearch"
+    ":ui:uiImageDetails",
+    ":ui:uiImageList",
+    ":ui:uiScreenshotTest"
 )
 
 pluginManagement {

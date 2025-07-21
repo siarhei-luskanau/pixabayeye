@@ -2,12 +2,12 @@ package siarhei.luskanau.pixabayeye.navigation
 
 import androidx.navigation.NavHostController
 import siarhei.luskanau.pixabayeye.ui.debug.DebugGraph
-import siarhei.luskanau.pixabayeye.ui.details.DetailsNavigationCallback
-import siarhei.luskanau.pixabayeye.ui.search.SearchNavigationCallback
+import siarhei.luskanau.pixabayeye.ui.image.details.ImageDetailsNavigationCallback
+import siarhei.luskanau.pixabayeye.ui.image.list.ImageListNavigationCallback
 
 class AppNavigation(private val navHostController: NavHostController) :
-    DetailsNavigationCallback,
-    SearchNavigationCallback {
+    ImageDetailsNavigationCallback,
+    ImageListNavigationCallback {
 
     override fun goBack() {
         navHostController.popBackStack()

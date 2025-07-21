@@ -6,8 +6,8 @@ import siarhei.luskanau.pixabayeye.core.common.CoreCommonModule
 import siarhei.luskanau.pixabayeye.core.network.CoreNetworkModule
 import siarhei.luskanau.pixabayeye.core.pref.CorePrefModule
 import siarhei.luskanau.pixabayeye.ui.debug.UiDebugModule
-import siarhei.luskanau.pixabayeye.ui.details.UiDetailsModule
-import siarhei.luskanau.pixabayeye.ui.search.UiSearchModule
+import siarhei.luskanau.pixabayeye.ui.image.details.UiImageDetailsModule
+import siarhei.luskanau.pixabayeye.ui.image.list.UiImageListModule
 
 fun allModules(appModule: Module): List<Module> = listOf(
     appModule,
@@ -16,8 +16,8 @@ fun allModules(appModule: Module): List<Module> = listOf(
     CoreNetworkModule().module,
     CorePrefModule().module,
     UiDebugModule().module,
-    UiDetailsModule().module,
-    UiSearchModule().module
+    UiImageDetailsModule().module,
+    UiImageListModule().module
 )
 
 expect val appPlatformModule: Module

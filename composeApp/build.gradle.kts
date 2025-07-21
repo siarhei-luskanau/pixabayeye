@@ -63,8 +63,8 @@ kotlin {
             implementation(projects.core.corePref)
             implementation(projects.navigation)
             implementation(projects.ui.uiCommon)
-            implementation(projects.ui.uiDetails)
-            implementation(projects.ui.uiSearch)
+            implementation(projects.ui.uiImageDetails)
+            implementation(projects.ui.uiImageList)
             if (isDebugScreenEnabled { gradleLocalProperties(rootDir, providers) }) {
                 implementation(projects.ui.uiDebug)
             } else {
