@@ -26,11 +26,11 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
-      - run: ./gradlew :composeApp:jsBrowserDistribution --stacktrace
+      - run: ./gradlew :composeApp:wasmJsBrowserDistribution --stacktrace
         env:
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
 
       - uses: JamesIves/github-pages-deploy-action@v4.7.3
         with:
           branch: gh-pages
-          folder: composeApp/build/dist/js/productionExecutable
+          folder: composeApp/build/dist/wasmJs/productionExecutable

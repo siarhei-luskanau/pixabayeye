@@ -21,5 +21,5 @@ internal class DispatcherSetJs : DispatcherSet {
         GlobalScope.promise(
             context = context,
             block = block
-        ).unsafeCast<T>()
+        ).unsafeCast()
 }

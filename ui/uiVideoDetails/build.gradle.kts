@@ -12,6 +12,7 @@ android {
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(libs.composemediaplayer)
             implementation(projects.core.coreCommon)
             implementation(projects.core.coreNetwork)
             implementation(projects.core.corePref)
