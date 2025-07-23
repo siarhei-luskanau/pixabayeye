@@ -22,11 +22,6 @@ kotlin {
 
     jvm()
 
-    js {
-        browser()
-        binaries.executable()
-    }
-
     wasmJs {
         browser()
         binaries.executable()
@@ -95,7 +90,7 @@ kotlin {
         iosMain.dependencies {
         }
 
-        jsMain.dependencies {
+        wasmJsMain.dependencies {
         }
     }
 }

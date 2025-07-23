@@ -79,14 +79,6 @@ tasks.register("ciDesktop") {
     }
 }
 
-tasks.register("ciJsBrowser") {
-    group = CI_GRADLE
-    val injected = project.objects.newInstance<Injected>()
-    doLast {
-        injected.gradlew(":composeApp:jsMainClasses", ":composeApp:jsBrowserDistribution")
-    }
-}
-
 tasks.register("ciWasmJsBrowser") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()

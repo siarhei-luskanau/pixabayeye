@@ -13,6 +13,7 @@ build-jvmTarget = "21"
 buildConfig = "5.6.7"
 coil-bom = "3.3.0"
 compose-multiplatform = "1.9.0-beta01"
+composemediaplayer = "0.7.11"
 detekt = "1.23.8"
 google-ksp = "2.2.20-Beta1-2.0.2"
 hotReload = "1.0.0-beta04"
@@ -43,6 +44,7 @@ androidx-uitest-testManifest = { module = "androidx.compose.ui:ui-test-manifest"
 coil-bom = { module = "io.coil-kt.coil3:coil-bom", version.ref = "coil-bom" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3" }
+composemediaplayer = { module = "io.github.kdroidfilter:composemediaplayer", version.ref = "composemediaplayer" }
 google-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "google-ksp" }
 inspektify-ktor3 = { module = "io.github.bvantur:inspektify-ktor3", version.ref = "inspektify" }
 jetbrains-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
@@ -61,7 +63,7 @@ ktlint-cli = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
-ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
+ktor-client-js-wasm-js = { module = "io.ktor:ktor-client-js-wasm-js", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }

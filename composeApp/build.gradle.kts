@@ -25,11 +25,6 @@ kotlin {
 
     jvm()
 
-    js {
-        browser()
-        binaries.executable()
-    }
-
     wasmJs {
         browser()
         binaries.executable()
@@ -100,7 +95,7 @@ kotlin {
         iosMain.dependencies {
         }
 
-        jsMain.dependencies {
+        wasmJsMain.dependencies {
         }
     }
 }
@@ -167,7 +162,7 @@ dependencies {
     add("kspIosArm64", libs.koin.ksp.compiler)
     add("kspIosSimulatorArm64", libs.koin.ksp.compiler)
     add("kspIosX64", libs.koin.ksp.compiler)
-    add("kspJs", libs.koin.ksp.compiler)
+    add("kspWasmJs", libs.koin.ksp.compiler)
     add("kspJvm", libs.koin.ksp.compiler)
     debugImplementation(libs.leakcanary.android)
 }

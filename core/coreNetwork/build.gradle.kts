@@ -39,8 +39,8 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
 
-        jsMain.dependencies {
-            implementation(libs.ktor.client.js)
+        wasmJsMain.dependencies {
+            implementation(libs.ktor.client.js.wasm.js)
         }
     }
 }
