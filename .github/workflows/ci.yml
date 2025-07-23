@@ -60,8 +60,6 @@ jobs:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@v4
-
       - run: rm -rf screenshots
 
       - run: ./gradlew recordRoborazziDebug --stacktrace
