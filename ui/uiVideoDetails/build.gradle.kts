@@ -19,6 +19,7 @@ kotlin {
             implementation(projects.ui.uiCommon)
         }
         androidUnitTest.dependencies {
+            implementation(libs.androidcontextprovider)
             implementation(projects.ui.uiScreenshotTest)
         }
     }
