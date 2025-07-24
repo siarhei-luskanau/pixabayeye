@@ -2,11 +2,15 @@ package siarhei.luskanau.pixabayeye.ui.video.details
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -16,15 +20,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.ColorPainter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil3.compose.AsyncImage
-import coil3.compose.LocalPlatformContext
-import coil3.request.ImageRequest
+import io.github.kdroidfilter.composemediaplayer.VideoPlayerSurface
+import io.github.kdroidfilter.composemediaplayer.rememberVideoPlayerState
 import kotlin.collections.orEmpty
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -80,18 +80,31 @@ internal fun VideoDetailsContent(
                 }
 
                 is VideoDetailsViewState.Success -> {
-                    val viewModel = result.hitModel.videosModel.orEmpty().values.first()
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalPlatformContext.current)
-                            .data(viewModel.thumbnail)
-                            .build(),
-                        contentDescription = result.hitModel.tags,
-                        placeholder = ColorPainter(Color.Gray),
-                        error = ColorPainter(Color.Red),
-                        // onSuccess = { placeholder = it.result.memoryCacheKey },
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier.fillMaxSize()
-                    )
+                    val videoModel = result.hitModel.videosModel.orEmpty().values.first()
+                    val playerState = rememberVideoPlayerState()
+                    LaunchedEffect(videoModel.url) {
+                        playerState.openUri(videoModel.url)
+                    }
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        Box(
+                            modifier = Modifier.weight(1f).fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            VideoPlayerSurface(
+                                playerState = playerState,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Button(onClick = { playerState.play() }) { Text("Play") }
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Button(onClick = { playerState.pause() }) { Text("Pause") }
+                        }
+                    }
                 }
 
                 is VideoDetailsViewState.Error -> Text(

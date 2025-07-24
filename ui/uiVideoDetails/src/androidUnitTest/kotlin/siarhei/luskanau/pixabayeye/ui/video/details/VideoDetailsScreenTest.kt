@@ -2,7 +2,9 @@ package siarhei.luskanau.pixabayeye.ui.video.details
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
+import androidx.test.core.app.ApplicationProvider
 import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
+import com.kdroid.androidcontextprovider.ContextProvider
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import org.junit.Rule
@@ -23,6 +25,7 @@ class VideoDetailsScreenTest : BaseScreenshotTest(group = "video_details") {
     @BeforeTest
     fun setup() {
         setupAndroidContextProvider()
+        ContextProvider.initialize(ApplicationProvider.getApplicationContext())
     }
 
     @Test
