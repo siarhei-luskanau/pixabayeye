@@ -3,6 +3,7 @@ package siarhei.luskanau.pixabayeye.ui.image.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.annotation.Factory
@@ -18,12 +19,13 @@ class ImageListViewModel(
     @Provided private val pixabayApiService: PixabayApiService
 ) : ViewModel() {
 
-    private val searchTermFlow by lazy { MutableStateFlow("") }
+    private val _searchTermFlow = MutableStateFlow("")
+    val searchTermFlow: Flow<String> get() = _searchTermFlow
 
     val paginationState: PaginationState<Int, HitModel> = PaginationState(
         initialPageKey = 1,
         onRequestPage = { pageKey ->
-            loadPage(searchTerm = searchTermFlow.value, pageKey = pageKey)
+            loadPage(searchTerm = _searchTermFlow.value, pageKey = pageKey)
         }
     )
 
@@ -33,7 +35,7 @@ class ImageListViewModel(
             is ImageListViewEvent.ImageClicked ->
                 searchNavigationCallback.onSearchScreenImageClicked(imageId = event.hitModel.id)
             is ImageListViewEvent.UpdateSearchTerm -> viewModelScope.launch {
-                searchTermFlow.emit(event.searchTerm)
+                _searchTermFlow.emit(event.searchTerm)
                 paginationState.refresh()
             }
         }
