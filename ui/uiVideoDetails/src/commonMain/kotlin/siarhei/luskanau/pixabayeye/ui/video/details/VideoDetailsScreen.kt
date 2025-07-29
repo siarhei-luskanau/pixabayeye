@@ -32,8 +32,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
-import siarhei.luskanau.pixabayeye.core.network.HitModel
-import siarhei.luskanau.pixabayeye.core.network.VideoHitModel
+import siarhei.luskanau.pixabayeye.core.network.testData
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 
@@ -138,36 +137,7 @@ internal fun VideoDetailsLoadingContentPreview() = AppTheme {
 internal fun VideoDetailsSuccessContentPreview() = AppTheme {
     VideoDetailsContent(
         viewState = MutableStateFlow(
-            VideoDetailsViewState.Success(
-                HitModel(
-                    id = 123,
-                    pageURL = "",
-                    type = "photo",
-                    tags = "tag1, tag2, tag3",
-                    views = 1,
-                    comments = 300,
-                    downloads = 200,
-                    likes = 100,
-                    userId = 456,
-                    userName = "John Doe",
-                    userImageURL = "",
-                    noAiTraining = false,
-                    isAiGenerated = false,
-                    isGRated = false,
-                    // isLowQuality = false,
-                    userURL = "John Doe",
-                    imageModel = null,
-                    videosModel = mapOf(
-                        "large" to VideoHitModel(
-                            url = "https://example.com/video.mp4",
-                            width = 1304,
-                            height = 719,
-                            size = 6621423,
-                            thumbnail = "https://example.com/preview.jpg"
-                        )
-                    )
-                )
-            )
+            VideoDetailsViewState.Success(testData)
         ),
         onEvent = {}
     )

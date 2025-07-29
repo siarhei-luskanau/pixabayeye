@@ -23,6 +23,12 @@ class AppNavigation(private val navHostController: NavHostController) :
         )
     }
 
+    override fun onImageTagClicked(tag: String) {
+        navHostController.navigate(
+            AppRoutes.ImageList(searchTerm = tag)
+        )
+    }
+
     override fun onVideoListScreenVideoClicked(videoId: Long) {
         navHostController.navigate(
             AppRoutes.VideoDetails(videoId = videoId)

@@ -4,16 +4,23 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
@@ -40,6 +48,7 @@ import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.network.HitModel
+import siarhei.luskanau.pixabayeye.core.network.testData
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.ic_ai
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
@@ -107,44 +116,81 @@ internal fun ImageListContent(
                 itemsIndexed(
                     paginationState.allItems.orEmpty()
                 ) { _, hitModel ->
-                    Box(
+                    Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .aspectRatio(
-                                ratio =
-                                requireNotNull(
-                                    hitModel.imageModel?.middleImageWidth
-                                ).toFloat() /
-                                    requireNotNull(
-                                        hitModel.imageModel?.middleImageHeight
-                                    ).toFloat()
-                            )
                             .clickable {
                                 onEvent(ImageListViewEvent.ImageClicked(hitModel = hitModel))
-                            }
+                            },
+                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                     ) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalPlatformContext.current)
-                                .data(hitModel.imageModel?.middleImageUrl.orEmpty())
-                                .build(),
-                            contentDescription = hitModel.tags,
-                            placeholder = ColorPainter(Color.Gray),
-                            error = ColorPainter(Color.Red),
-                            contentScale = ContentScale.FillWidth,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        if (hitModel.isAiGenerated) {
-                            Icon(
-                                imageVector = vectorResource(Res.drawable.ic_ai),
-                                contentDescription = null,
+                        Column {
+                            Box(
                                 modifier = Modifier
-                                    .align(Alignment.TopEnd)
-                                    .padding(8.dp)
-                                    .size(24.dp),
-                                tint = Color.White
+                                    .fillMaxWidth()
+                                    .aspectRatio(
+                                        ratio =
+                                        requireNotNull(
+                                            hitModel.imageModel?.middleImageWidth
+                                        ).toFloat() /
+                                            requireNotNull(
+                                                hitModel.imageModel?.middleImageHeight
+                                            ).toFloat()
+                                    )
+                            ) {
+                                AsyncImage(
+                                    model = ImageRequest.Builder(LocalPlatformContext.current)
+                                        .data(hitModel.imageModel?.middleImageUrl.orEmpty())
+                                        .build(),
+                                    contentDescription = hitModel.tags,
+                                    placeholder = ColorPainter(Color.Gray),
+                                    error = ColorPainter(Color.Red),
+                                    contentScale = ContentScale.FillWidth,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                                if (hitModel.isAiGenerated) {
+                                    Icon(
+                                        imageVector = vectorResource(Res.drawable.ic_ai),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .align(Alignment.TopEnd)
+                                            .padding(8.dp)
+                                            .size(24.dp),
+                                        tint = Color.White
+                                    )
+                                }
+                            }
+                            TagsContent(
+                                tagsString = hitModel.tags,
+                                onTagClick = { tag ->
+                                    onEvent(ImageListViewEvent.TagClicked(tag = tag))
+                                }
                             )
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TagsContent(tagsString: String?, onTagClick: (String) -> Unit) {
+    val tags = tagsString.orEmpty().split(",").map { it.trim() }.filter { it.isNotEmpty() }
+    if (tags.isNotEmpty()) {
+        LazyRow {
+            items(tags) { tag ->
+                TextButton(
+                    onClick = { onTagClick(tag) },
+                    modifier = Modifier.padding(horizontal = 2.dp, vertical = 2.dp),
+                    contentPadding = PaddingValues(horizontal = 6.dp, vertical = 2.dp)
+                ) {
+                    Text(
+                        text = tag,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.labelSmall
+                    )
                 }
             }
         }
@@ -159,7 +205,7 @@ internal fun ImageListContentPreview() = AppTheme {
             initialPageKey = 1,
             onRequestPage = {
                 appendPage(
-                    items = listOf(),
+                    items = listOf(testData),
                     nextPageKey = 2,
                     isLastPage = true
                 )
