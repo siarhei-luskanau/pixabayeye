@@ -32,8 +32,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
-import siarhei.luskanau.pixabayeye.core.network.HitModel
-import siarhei.luskanau.pixabayeye.core.network.ImageHitModel
+import siarhei.luskanau.pixabayeye.core.network.testData
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 
@@ -128,40 +127,7 @@ internal fun ImageDetailsLoadingContentPreview() = AppTheme {
 internal fun ImageDetailsSuccessContentPreview() = AppTheme {
     ImageDetailsContent(
         viewState = MutableStateFlow(
-            ImageDetailsViewState.Success(
-                HitModel(
-                    id = 123,
-                    pageURL = "",
-                    type = "photo",
-                    tags = "tag1, tag2, tag3",
-                    views = 1,
-                    comments = 300,
-                    downloads = 200,
-                    likes = 100,
-                    userId = 456,
-                    userName = "John Doe",
-                    userImageURL = "",
-                    noAiTraining = false,
-                    isAiGenerated = false,
-                    isGRated = false,
-                    // isLowQuality = false,
-                    userURL = "John Doe",
-                    imageModel = ImageHitModel(
-                        previewUrl = "https://example.com/preview.jpg",
-                        previewHeight = 100,
-                        previewWidth = 100,
-                        middleImageUrl = "https://example.com/middle.jpg",
-                        middleImageHeight = 200,
-                        middleImageWidth = 200,
-                        largeImageUrl = "https://example.com/large.jpg",
-                        imageWidth = 600,
-                        imageHeight = 600,
-                        imageSize = 12345,
-                        collections = 0
-                    ),
-                    videosModel = null
-                )
-            )
+            ImageDetailsViewState.Success(testData)
         ),
         onEvent = {}
     )

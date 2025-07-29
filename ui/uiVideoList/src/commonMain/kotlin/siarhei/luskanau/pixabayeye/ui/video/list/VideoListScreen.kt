@@ -35,6 +35,7 @@ import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.network.HitModel
+import siarhei.luskanau.pixabayeye.core.network.testData
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 
@@ -133,7 +134,7 @@ internal fun VideoListContentPreview() = AppTheme {
             initialPageKey = 1,
             onRequestPage = {
                 appendPage(
-                    items = listOf(),
+                    items = listOf(testData),
                     nextPageKey = 2,
                     isLastPage = true
                 )

@@ -37,11 +37,12 @@ fun App() = AppTheme {
     val appNavigation = AppNavigation(navHostController = navHostController)
     NavHost(
         navController = navHostController,
-        startDestination = AppRoutes.ImageList
+        startDestination = AppRoutes.ImageList(searchTerm = null)
     ) {
         composable<AppRoutes.ImageList> {
+            val args: AppRoutes.ImageList = it.toRoute()
             ImageListScreen(
-                viewModelProvider = { koin.get { parametersOf(appNavigation) } },
+                viewModelProvider = { koin.get { parametersOf(appNavigation, args.searchTerm) } },
                 onImagesClick = { navHostController.navigate(AppRoutes.ImageList) },
                 onVideosClick = { navHostController.navigate(AppRoutes.VideoList) }
             )
@@ -72,7 +73,7 @@ fun App() = AppTheme {
 internal sealed interface AppRoutes {
 
     @Serializable
-    data object ImageList : AppRoutes
+    data class ImageList(val searchTerm: String?) : AppRoutes
 
     @Serializable
     data class ImageDetails(val imageId: Long) : AppRoutes
