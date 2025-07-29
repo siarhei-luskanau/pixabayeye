@@ -2,12 +2,15 @@ package siarhei.luskanau.pixabayeye.ui.image.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -16,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
@@ -28,7 +32,9 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyVerticalStaggeredGrid
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
+import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import siarhei.luskanau.pixabayeye.common.BottomBarSelected
 import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
@@ -36,6 +42,7 @@ import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.network.HitModel
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
+import siarhei.luskanau.pixabayeye.ui.common.resources.ic_ai
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 
 @Composable
@@ -100,14 +107,7 @@ internal fun ImageListContent(
                 itemsIndexed(
                     paginationState.allItems.orEmpty()
                 ) { _, hitModel ->
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalPlatformContext.current)
-                            .data(hitModel.imageModel?.middleImageUrl.orEmpty())
-                            .build(),
-                        contentDescription = hitModel.tags,
-                        placeholder = ColorPainter(Color.Gray),
-                        error = ColorPainter(Color.Red),
-                        contentScale = ContentScale.FillWidth,
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(
@@ -122,7 +122,29 @@ internal fun ImageListContent(
                             .clickable {
                                 onEvent(ImageListViewEvent.ImageClicked(hitModel = hitModel))
                             }
-                    )
+                    ) {
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalPlatformContext.current)
+                                .data(hitModel.imageModel?.middleImageUrl.orEmpty())
+                                .build(),
+                            contentDescription = hitModel.tags,
+                            placeholder = ColorPainter(Color.Gray),
+                            error = ColorPainter(Color.Red),
+                            contentScale = ContentScale.FillWidth,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        if (hitModel.isAiGenerated) {
+                            Icon(
+                                imageVector = vectorResource(Res.drawable.ic_ai),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(8.dp)
+                                    .size(24.dp),
+                                tint = Color.White
+                            )
+                        }
+                    }
                 }
             }
         }
