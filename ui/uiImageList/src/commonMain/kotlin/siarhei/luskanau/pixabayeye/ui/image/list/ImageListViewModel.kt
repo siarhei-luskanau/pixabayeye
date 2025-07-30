@@ -15,7 +15,7 @@ import siarhei.luskanau.pixabayeye.core.network.PixabayApiService
 
 @Factory
 class ImageListViewModel(
-    @InjectedParam private val searchNavigationCallback: ImageListNavigationCallback,
+    @InjectedParam private val imageListNavigationCallback: ImageListNavigationCallback,
     @InjectedParam private val initialSearchTerm: String?,
     @Provided private val pixabayApiService: PixabayApiService
 ) : ViewModel() {
@@ -32,17 +32,19 @@ class ImageListViewModel(
 
     fun onEvent(event: ImageListViewEvent) {
         when (event) {
-            ImageListViewEvent.DebugScreenClicked -> searchNavigationCallback.onDebugScreenClicked()
+            ImageListViewEvent.DebugScreenClicked ->
+                imageListNavigationCallback.onDebugScreenClicked()
             is ImageListViewEvent.ImageClicked ->
-                searchNavigationCallback.onSearchScreenImageClicked(imageId = event.hitModel.id)
+                imageListNavigationCallback.onSearchScreenImageClicked(imageId = event.hitModel.id)
             is ImageListViewEvent.TagClicked -> viewModelScope.launch {
                 _searchTermFlow.emit(event.tag)
-                searchNavigationCallback.onImageTagClicked(tag = event.tag)
+                imageListNavigationCallback.onImageTagClicked(tag = event.tag)
             }
             is ImageListViewEvent.UpdateSearchTerm -> viewModelScope.launch {
                 _searchTermFlow.emit(event.searchTerm)
                 paginationState.refresh()
             }
+            ImageListViewEvent.NavigateBack -> imageListNavigationCallback.goBack()
         }
     }
 

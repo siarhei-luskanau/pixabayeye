@@ -7,4 +7,5 @@ sealed interface ImageListViewEvent {
     data class ImageClicked(val hitModel: HitModel) : ImageListViewEvent
     data class TagClicked(val tag: String) : ImageListViewEvent
     object DebugScreenClicked : ImageListViewEvent
+    data object NavigateBack : ImageListViewEvent
 }

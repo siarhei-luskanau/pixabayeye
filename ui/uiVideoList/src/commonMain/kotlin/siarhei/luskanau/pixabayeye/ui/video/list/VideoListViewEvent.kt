@@ -7,4 +7,5 @@ sealed interface VideoListViewEvent {
     data class VideoClicked(val hitModel: HitModel) : VideoListViewEvent
     data class TagClicked(val tag: String) : VideoListViewEvent
     data object DebugScreenClicked : VideoListViewEvent
+    data object NavigateBack : VideoListViewEvent
 }

@@ -85,7 +85,7 @@ internal fun VideoListContent(
         topBar = {
             PixabayTopAppBar(
                 title = stringResource(Res.string.screen_name_search),
-                onBackClick = null,
+                onBackClick = { onEvent(VideoListViewEvent.NavigateBack) },
                 onDebugScreenClick = { onEvent(VideoListViewEvent.DebugScreenClicked) }
             )
         },

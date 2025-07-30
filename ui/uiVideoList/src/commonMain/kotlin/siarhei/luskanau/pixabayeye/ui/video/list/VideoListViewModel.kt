@@ -45,6 +45,7 @@ class VideoListViewModel(
                 _searchTermFlow.emit(event.searchTerm)
                 paginationState.refresh()
             }
+            VideoListViewEvent.NavigateBack -> videoListNavigationCallback.goBack()
         }
     }
 

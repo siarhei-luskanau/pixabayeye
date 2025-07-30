@@ -82,7 +82,7 @@ internal fun ImageListContent(
         topBar = {
             PixabayTopAppBar(
                 title = stringResource(Res.string.screen_name_search),
-                onBackClick = null,
+                onBackClick = { onEvent(ImageListViewEvent.NavigateBack) },
                 onDebugScreenClick = { onEvent(ImageListViewEvent.DebugScreenClicked) }
             )
         },
