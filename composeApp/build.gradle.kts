@@ -45,12 +45,6 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.materialIconsExtended)
-            implementation(compose.runtime)
-            implementation(compose.ui)
-            implementation(libs.jetbrains.navigation.compose)
             implementation(libs.koin.compose)
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(projects.core.coreCommon)
@@ -73,29 +67,21 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
             implementation(kotlin("test"))
+            implementation(libs.jetbrains.navigation.compose)
         }
 
         androidMain.dependencies {
-            implementation(compose.uiTooling)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.datastore.core.okio)
         }
 
         androidInstrumentedTest.dependencies {
             implementation(kotlin("test"))
-            implementation(libs.androidx.test.core.ktx)
-            implementation(libs.androidx.test.runner)
         }
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.androidx.datastore.core.okio)
-        }
-
-        iosMain.dependencies {
-        }
-
-        wasmJsMain.dependencies {
         }
     }
 }
