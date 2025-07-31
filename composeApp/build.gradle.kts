@@ -46,6 +46,8 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.koin.compose)
+            implementation(libs.navigation3.runtime)
+            implementation(libs.navigation3.ui)
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(projects.core.coreCommon)
             implementation(projects.core.corePref)
