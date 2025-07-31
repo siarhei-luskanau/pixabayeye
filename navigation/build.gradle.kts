@@ -16,8 +16,6 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.kotlinx.serialization.json)
             implementation(projects.core.coreCommon)
-            implementation(projects.core.coreNetwork)
-            implementation(projects.core.corePref)
             implementation(projects.ui.uiCommon)
             implementation(projects.ui.uiImageDetails)
             implementation(projects.ui.uiImageList)
