@@ -53,6 +53,8 @@ kotlin {
             implementation(libs.findLibrary("jetbrains-navigation-compose").get())
             implementation(libs.findLibrary("koin-compose").get())
             implementation(libs.findLibrary("kotlinx-coroutines-core").get())
+            implementation(libs.findLibrary("navigation3-runtime").get())
+            implementation(libs.findLibrary("navigation3-ui").get())
             implementation(project.dependencies.platform(libs.findLibrary("coil-bom").get()))
             implementation(project.dependencies.platform(libs.findLibrary("koin-bom").get()))
         }
