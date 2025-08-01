@@ -2,25 +2,38 @@ package siarhei.luskanau.pixabayeye.ui.video.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
@@ -28,7 +41,10 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyVerticalStaggeredGrid
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import siarhei.luskanau.pixabayeye.common.BottomBarSelected
 import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
@@ -37,17 +53,19 @@ import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.network.HitModel
 import siarhei.luskanau.pixabayeye.core.network.testData
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
+import siarhei.luskanau.pixabayeye.ui.common.resources.ic_ai
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 
 @Composable
 fun VideoListScreen(
     viewModelProvider: () -> VideoListViewModel,
-    onImagesClick: (() -> Unit)? = null,
-    onVideosClick: (() -> Unit)? = null
+    onImagesClick: ((String?) -> Unit)? = null,
+    onVideosClick: ((String?) -> Unit)? = null
 ) {
     val viewModel = viewModel { viewModelProvider() }
     VideoListContent(
         paginationState = viewModel.paginationState,
+        searchTermFlow = viewModel.searchTermFlow,
         onEvent = viewModel::onEvent,
         onImagesClick = onImagesClick,
         onVideosClick = onVideosClick
@@ -57,11 +75,12 @@ fun VideoListScreen(
 @Composable
 internal fun VideoListContent(
     paginationState: PaginationState<Int, HitModel>,
+    searchTermFlow: Flow<String>,
     onEvent: (VideoListViewEvent) -> Unit,
-    onImagesClick: (() -> Unit)? = null,
-    onVideosClick: (() -> Unit)? = null
+    onImagesClick: ((String?) -> Unit)? = null,
+    onVideosClick: ((String?) -> Unit)? = null
 ) {
-    var searchTerm by rememberSaveable { mutableStateOf("") }
+    val searchTerm by searchTermFlow.collectAsState("")
     Scaffold(
         topBar = {
             PixabayTopAppBar(
@@ -72,8 +91,8 @@ internal fun VideoListContent(
         },
         bottomBar = {
             PixabayBottomBar(
-                onImagesClick = onImagesClick,
-                onVideosClick = onVideosClick,
+                onImagesClick = { onImagesClick?.invoke(searchTerm) },
+                onVideosClick = { onVideosClick?.invoke(searchTerm) },
                 selected = BottomBarSelected.Videos
             )
         }
@@ -82,7 +101,6 @@ internal fun VideoListContent(
             OutlinedTextField(
                 value = searchTerm,
                 onValueChange = {
-                    searchTerm = it
                     onEvent(VideoListViewEvent.UpdateSearchTerm(searchTerm = it))
                 },
                 label = { Text("Search Videos") },
@@ -102,23 +120,75 @@ internal fun VideoListContent(
                     paginationState.allItems.orEmpty()
                 ) { _, hitModel ->
                     val viewModel = hitModel.videosModel.orEmpty().values.first()
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalPlatformContext.current)
-                            .data(viewModel.thumbnail)
-                            .build(),
-                        contentDescription = hitModel.tags,
-                        placeholder = ColorPainter(Color.Gray),
-                        error = ColorPainter(Color.Red),
-                        contentScale = ContentScale.FillWidth,
+                    Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .aspectRatio(
-                                ratio = requireNotNull(viewModel.width).toFloat() /
-                                    requireNotNull(viewModel.height).toFloat()
-                            )
                             .clickable {
                                 onEvent(VideoListViewEvent.VideoClicked(hitModel = hitModel))
+                            },
+                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                    ) {
+                        Column {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .aspectRatio(
+                                        ratio = requireNotNull(viewModel.width).toFloat() /
+                                            requireNotNull(viewModel.height).toFloat()
+                                    )
+                            ) {
+                                AsyncImage(
+                                    model = ImageRequest.Builder(LocalPlatformContext.current)
+                                        .data(viewModel.thumbnail)
+                                        .build(),
+                                    contentDescription = hitModel.tags,
+                                    placeholder = ColorPainter(Color.Gray),
+                                    error = ColorPainter(Color.Red),
+                                    contentScale = ContentScale.FillWidth,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                                if (hitModel.isAiGenerated) {
+                                    Icon(
+                                        imageVector = vectorResource(Res.drawable.ic_ai),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .align(Alignment.TopEnd)
+                                            .padding(8.dp)
+                                            .size(24.dp),
+                                        tint = Color.White
+                                    )
+                                }
                             }
+                            TagsContent(
+                                tagsString = hitModel.tags,
+                                onTagClick = { tag ->
+                                    onEvent(VideoListViewEvent.TagClicked(tag = tag))
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TagsContent(tagsString: String?, onTagClick: (String) -> Unit) {
+    val tags = tagsString.orEmpty().split(",").map { it.trim() }.filter { it.isNotEmpty() }
+    if (tags.isNotEmpty()) {
+        LazyRow {
+            items(tags) { tag ->
+                TextButton(
+                    onClick = { onTagClick(tag) },
+                    modifier = Modifier.padding(horizontal = 2.dp, vertical = 2.dp),
+                    contentPadding = PaddingValues(horizontal = 6.dp, vertical = 2.dp)
+                ) {
+                    Text(
+                        text = tag,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.labelSmall
                     )
                 }
             }
@@ -140,6 +210,7 @@ internal fun VideoListContentPreview() = AppTheme {
                 )
             }
         ),
+        searchTermFlow = flowOf("Search text"),
         onEvent = {}
     )
 }

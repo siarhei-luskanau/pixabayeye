@@ -56,8 +56,8 @@ import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 @Composable
 fun ImageListScreen(
     viewModelProvider: () -> ImageListViewModel,
-    onImagesClick: (() -> Unit)? = null,
-    onVideosClick: (() -> Unit)? = null
+    onImagesClick: ((String?) -> Unit)? = null,
+    onVideosClick: ((String?) -> Unit)? = null
 ) {
     val viewModel = viewModel { viewModelProvider() }
     ImageListContent(
@@ -74,8 +74,8 @@ internal fun ImageListContent(
     paginationState: PaginationState<Int, HitModel>,
     searchTermFlow: Flow<String>,
     onEvent: (ImageListViewEvent) -> Unit,
-    onImagesClick: (() -> Unit)? = null,
-    onVideosClick: (() -> Unit)? = null
+    onImagesClick: ((String?) -> Unit)? = null,
+    onVideosClick: ((String?) -> Unit)? = null
 ) {
     val searchTerm by searchTermFlow.collectAsState("")
     Scaffold(
@@ -88,8 +88,8 @@ internal fun ImageListContent(
         },
         bottomBar = {
             PixabayBottomBar(
-                onImagesClick = onImagesClick,
-                onVideosClick = onVideosClick,
+                onImagesClick = { onImagesClick?.invoke(searchTerm) },
+                onVideosClick = { onVideosClick?.invoke(searchTerm) },
                 selected = BottomBarSelected.Images
             )
         }

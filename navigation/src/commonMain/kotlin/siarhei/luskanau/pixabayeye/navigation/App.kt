@@ -43,8 +43,12 @@ fun App() = AppTheme {
             val args: AppRoutes.ImageList = it.toRoute()
             ImageListScreen(
                 viewModelProvider = { koin.get { parametersOf(appNavigation, args.searchTerm) } },
-                onImagesClick = { navHostController.navigate(AppRoutes.ImageList) },
-                onVideosClick = { navHostController.navigate(AppRoutes.VideoList) }
+                onImagesClick = { searchTerm ->
+                    navHostController.navigate(AppRoutes.ImageList(searchTerm = searchTerm))
+                },
+                onVideosClick = { searchTerm ->
+                    navHostController.navigate(AppRoutes.VideoList(searchTerm = searchTerm))
+                }
             )
         }
         composable<AppRoutes.ImageDetails> {
@@ -54,10 +58,15 @@ fun App() = AppTheme {
             }
         }
         composable<AppRoutes.VideoList> {
+            val args: AppRoutes.VideoList = it.toRoute()
             VideoListScreen(
-                viewModelProvider = { koin.get { parametersOf(appNavigation) } },
-                onImagesClick = { navHostController.navigate(AppRoutes.ImageList) },
-                onVideosClick = { navHostController.navigate(AppRoutes.VideoList) }
+                viewModelProvider = { koin.get { parametersOf(appNavigation, args.searchTerm) } },
+                onImagesClick = { searchTerm ->
+                    navHostController.navigate(AppRoutes.ImageList(searchTerm = searchTerm))
+                },
+                onVideosClick = { searchTerm ->
+                    navHostController.navigate(AppRoutes.VideoList(searchTerm = searchTerm))
+                }
             )
         }
         composable<AppRoutes.VideoDetails> {
@@ -79,7 +88,7 @@ internal sealed interface AppRoutes {
     data class ImageDetails(val imageId: Long) : AppRoutes
 
     @Serializable
-    data object VideoList : AppRoutes
+    data class VideoList(val searchTerm: String?) : AppRoutes
 
     @Serializable
     data class VideoDetails(val videoId: Long) : AppRoutes

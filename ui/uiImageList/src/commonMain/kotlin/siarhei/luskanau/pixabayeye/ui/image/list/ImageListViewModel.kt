@@ -35,8 +35,10 @@ class ImageListViewModel(
             ImageListViewEvent.DebugScreenClicked -> searchNavigationCallback.onDebugScreenClicked()
             is ImageListViewEvent.ImageClicked ->
                 searchNavigationCallback.onSearchScreenImageClicked(imageId = event.hitModel.id)
-            is ImageListViewEvent.TagClicked ->
+            is ImageListViewEvent.TagClicked -> viewModelScope.launch {
+                _searchTermFlow.emit(event.tag)
                 searchNavigationCallback.onImageTagClicked(tag = event.tag)
+            }
             is ImageListViewEvent.UpdateSearchTerm -> viewModelScope.launch {
                 _searchTermFlow.emit(event.searchTerm)
                 paginationState.refresh()
