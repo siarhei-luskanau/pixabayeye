@@ -3,6 +3,7 @@ package siarhei.luskanau.pixabayeye.ui.video.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.annotation.Factory
@@ -15,15 +16,17 @@ import siarhei.luskanau.pixabayeye.core.network.PixabayApiService
 @Factory
 class VideoListViewModel(
     @InjectedParam private val videoListNavigationCallback: VideoListNavigationCallback,
+    @InjectedParam private val initialSearchTerm: String?,
     @Provided private val pixabayApiService: PixabayApiService
 ) : ViewModel() {
 
-    private val searchTermFlow by lazy { MutableStateFlow("") }
+    private val _searchTermFlow = MutableStateFlow(initialSearchTerm.orEmpty())
+    val searchTermFlow: Flow<String> get() = _searchTermFlow
 
     val paginationState: PaginationState<Int, HitModel> = PaginationState(
         initialPageKey = 1,
         onRequestPage = { pageKey ->
-            loadPage(searchTerm = searchTermFlow.value, pageKey = pageKey)
+            loadPage(searchTerm = _searchTermFlow.value, pageKey = pageKey)
         }
     )
 
@@ -34,8 +37,12 @@ class VideoListViewModel(
             is VideoListViewEvent.VideoClicked ->
                 videoListNavigationCallback
                     .onVideoListScreenVideoClicked(videoId = event.hitModel.id)
+            is VideoListViewEvent.TagClicked -> viewModelScope.launch {
+                _searchTermFlow.emit(event.tag)
+                paginationState.refresh()
+            }
             is VideoListViewEvent.UpdateSearchTerm -> viewModelScope.launch {
-                searchTermFlow.emit(event.searchTerm)
+                _searchTermFlow.emit(event.searchTerm)
                 paginationState.refresh()
             }
         }
