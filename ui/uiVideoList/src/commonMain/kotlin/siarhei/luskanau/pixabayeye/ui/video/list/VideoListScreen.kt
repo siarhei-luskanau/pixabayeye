@@ -1,5 +1,6 @@
 package siarhei.luskanau.pixabayeye.ui.video.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,9 +25,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -158,6 +156,23 @@ internal fun VideoListContent(
                                         tint = Color.White
                                     )
                                 }
+                                // Video duration overlay
+                                val durationText = formatVideoDuration(hitModel.duration)
+                                if (durationText.isNotEmpty()) {
+                                    Text(
+                                        text = durationText,
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = Color.White,
+                                        modifier = Modifier
+                                            .align(Alignment.BottomEnd)
+                                            .padding(8.dp)
+                                            .background(
+                                                color = Color.Black.copy(alpha = 0.7f),
+                                                shape = MaterialTheme.shapes.small
+                                            )
+                                            .padding(horizontal = 6.dp, vertical = 2.dp)
+                                    )
+                                }
                             }
                             TagsContent(
                                 tagsString = hitModel.tags,
@@ -213,4 +228,25 @@ internal fun VideoListContentPreview() = AppTheme {
         searchTermFlow = flowOf("Search text"),
         onEvent = {}
     )
+}
+
+/**
+ * Formats video duration in seconds to a human-readable string
+ * @param durationSeconds Duration in seconds, can be null
+ * @return Formatted duration string (e.g., "3:05", "1:23:45") or empty string if null
+ */
+private fun formatVideoDuration(durationSeconds: Int?): String {
+    if (durationSeconds == null || durationSeconds <= 0) {
+        return ""
+    }
+    val hours = durationSeconds / 3600
+    val minutes = (durationSeconds % 3600) / 60
+    val seconds = durationSeconds % 60
+    return when {
+        hours > 0 ->
+            "$hours" +
+                ":${minutes.toString().padStart(2, '0')}" +
+                ":${seconds.toString().padStart(2, '0')}"
+        else -> "$minutes:${seconds.toString().padStart(2, '0')}"
+    }
 }

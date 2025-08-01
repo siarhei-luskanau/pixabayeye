@@ -99,6 +99,7 @@ private fun HitResponse.toImageHitModel(): HitModel = HitModel(
         imageSize = requireNotNull(this.imageSize),
         collections = requireNotNull(this.collections)
     ),
+    duration = null,
     videosModel = null
 )
 private fun HitResponse.toVideoHitModel(): HitModel = HitModel(
@@ -119,6 +120,7 @@ private fun HitResponse.toVideoHitModel(): HitModel = HitModel(
     // isLowQuality = this.isLowQuality,
     userURL = this.userURL,
     imageModel = null,
+    duration = this.duration,
     videosModel = this.videos.orEmpty().mapValues { (key, value) ->
         VideoHitModel(
             url = value.url,
