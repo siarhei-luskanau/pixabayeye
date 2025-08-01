@@ -36,6 +36,7 @@ data class HitModel(
     // val isLowQuality: Boolean,
     val userURL: String,
     val imageModel: ImageHitModel?,
+    val duration: Int?,
     val videosModel: Map<String, VideoHitModel>?
 )
 
@@ -91,6 +92,7 @@ val testData = HitModel(
         imageSize = 12345,
         collections = 0
     ),
+    duration = 7,
     videosModel = mapOf(
         "large" to VideoHitModel(
             url = "https://example.com/video.mp4",

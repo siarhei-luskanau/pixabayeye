@@ -32,6 +32,7 @@ internal data class HitResponse(
     @SerialName("imageHeight") val imageHeight: Int? = null,
     @SerialName("imageSize") val imageSize: Int? = null,
     @SerialName("collections") val collections: Int? = null,
+    @SerialName("duration") val duration: Int? = null,
     @SerialName("videos") val videos: Map<String, VideoHitResponse>? = null
 )
 
