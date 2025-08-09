@@ -48,8 +48,8 @@ import siarhei.luskanau.pixabayeye.common.BottomBarSelected
 import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
-import siarhei.luskanau.pixabayeye.core.network.HitModel
-import siarhei.luskanau.pixabayeye.core.network.testData
+import siarhei.luskanau.pixabayeye.core.network.api.HitModel
+import siarhei.luskanau.pixabayeye.core.network.api.testData
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.ic_ai
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
@@ -117,7 +117,9 @@ internal fun VideoListContent(
                 itemsIndexed(
                     paginationState.allItems.orEmpty()
                 ) { _, hitModel ->
-                    val viewModel = hitModel.videosModel.orEmpty().values.first()
+                    val viewModel = hitModel.videosModel.orEmpty()["tiny"]
+                        ?: hitModel.videosModel.orEmpty()["small"]
+                        ?: hitModel.videosModel.orEmpty().values.first()
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -213,16 +215,12 @@ private fun TagsContent(tagsString: String?, onTagClick: (String) -> Unit) {
 
 @Preview
 @Composable
-internal fun VideoListContentPreview() = AppTheme {
+internal fun VideoListContentPreview(hitList: List<HitModel> = listOf(testData)) = AppTheme {
     VideoListContent(
         paginationState = PaginationState(
             initialPageKey = 1,
             onRequestPage = {
-                appendPage(
-                    items = listOf(testData),
-                    nextPageKey = 2,
-                    isLastPage = true
-                )
+                appendPage(items = hitList, nextPageKey = 2, isLastPage = true)
             }
         ),
         searchTermFlow = flowOf("Search text"),

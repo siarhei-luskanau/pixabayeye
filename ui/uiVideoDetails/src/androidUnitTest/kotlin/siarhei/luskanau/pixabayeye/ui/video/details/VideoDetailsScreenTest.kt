@@ -12,6 +12,9 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
+import siarhei.luskanau.pixabayeye.core.network.api.HitModel
+import siarhei.luskanau.pixabayeye.core.stub.resources.HIT_LIST
+import siarhei.luskanau.pixabayeye.core.stub.resources.TYPES_VIDEO
 import siarhei.luskanau.pixabayeye.ui.screenshot.test.BaseScreenshotTest
 
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
@@ -21,6 +24,8 @@ class VideoDetailsScreenTest : BaseScreenshotTest(group = "video_details") {
 
     @get:Rule
     val composeRule = createComposeRule()
+
+    private val stubData: HitModel by lazy { HIT_LIST.first { TYPES_VIDEO.contains(it.type) } }
 
     @BeforeTest
     fun setup() {
@@ -49,20 +54,20 @@ class VideoDetailsScreenTest : BaseScreenshotTest(group = "video_details") {
 
     @Test
     fun lightSuccessTest() {
-        composeRule.setContent { VideoDetailsSuccessContentPreview() }
+        composeRule.setContent { VideoDetailsSuccessContentPreview(hitModel = stubData) }
         composeRule.onRoot().captureScreenshot(name = "success_light")
     }
 
     @Test
     @Config(qualifiers = "+night")
     fun nightSuccessTest() {
-        composeRule.setContent { VideoDetailsSuccessContentPreview() }
+        composeRule.setContent { VideoDetailsSuccessContentPreview(hitModel = stubData) }
         composeRule.onRoot().captureScreenshot(name = "success_night")
     }
 
     @Test
     fun dumpSuccessTest() {
-        composeRule.setContent { VideoDetailsSuccessContentPreview() }
+        composeRule.setContent { VideoDetailsSuccessContentPreview(hitModel = stubData) }
         composeRule.onRoot().captureScreenshotDump(name = "success_dump")
     }
 

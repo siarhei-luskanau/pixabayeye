@@ -47,8 +47,8 @@ import siarhei.luskanau.pixabayeye.common.BottomBarSelected
 import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
-import siarhei.luskanau.pixabayeye.core.network.HitModel
-import siarhei.luskanau.pixabayeye.core.network.testData
+import siarhei.luskanau.pixabayeye.core.network.api.HitModel
+import siarhei.luskanau.pixabayeye.core.network.api.testData
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.ic_ai
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
@@ -131,16 +131,16 @@ internal fun ImageListContent(
                                     .aspectRatio(
                                         ratio =
                                         requireNotNull(
-                                            hitModel.imageModel?.middleImageWidth
+                                            hitModel.imageModel?.webFormatWidth
                                         ).toFloat() /
                                             requireNotNull(
-                                                hitModel.imageModel?.middleImageHeight
+                                                hitModel.imageModel?.webFormatHeight
                                             ).toFloat()
                                     )
                             ) {
                                 AsyncImage(
                                     model = ImageRequest.Builder(LocalPlatformContext.current)
-                                        .data(hitModel.imageModel?.middleImageUrl.orEmpty())
+                                        .data(hitModel.imageModel?.webFormatUrl.orEmpty())
                                         .build(),
                                     contentDescription = hitModel.tags,
                                     placeholder = ColorPainter(Color.Gray),
@@ -199,16 +199,12 @@ private fun TagsContent(tagsString: String?, onTagClick: (String) -> Unit) {
 
 @Preview
 @Composable
-internal fun ImageListContentPreview() = AppTheme {
+internal fun ImageListContentPreview(hitList: List<HitModel> = listOf(testData)) = AppTheme {
     ImageListContent(
         paginationState = PaginationState(
             initialPageKey = 1,
             onRequestPage = {
-                appendPage(
-                    items = listOf(testData),
-                    nextPageKey = 2,
-                    isLastPage = true
-                )
+                appendPage(items = hitList, nextPageKey = 2, isLastPage = true)
             }
         ),
         searchTermFlow = flowOf("Search text"),
