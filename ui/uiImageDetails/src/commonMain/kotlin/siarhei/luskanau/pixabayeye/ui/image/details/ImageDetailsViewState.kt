@@ -1,6 +1,6 @@
 package siarhei.luskanau.pixabayeye.ui.image.details
 
-import siarhei.luskanau.pixabayeye.core.network.HitModel
+import siarhei.luskanau.pixabayeye.core.network.api.HitModel
 
 sealed interface ImageDetailsViewState {
     data object Loading : ImageDetailsViewState

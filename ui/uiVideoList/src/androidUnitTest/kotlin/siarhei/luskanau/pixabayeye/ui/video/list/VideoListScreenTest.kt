@@ -10,6 +10,9 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
+import siarhei.luskanau.pixabayeye.core.network.api.HitModel
+import siarhei.luskanau.pixabayeye.core.stub.resources.HIT_LIST
+import siarhei.luskanau.pixabayeye.core.stub.resources.TYPES_VIDEO
 import siarhei.luskanau.pixabayeye.ui.screenshot.test.BaseScreenshotTest
 
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
@@ -20,6 +23,10 @@ class VideoListScreenTest : BaseScreenshotTest(group = "video_list") {
     @get:Rule
     val composeRule = createComposeRule()
 
+    private val hitList: List<HitModel> by lazy {
+        HIT_LIST.filter { TYPES_VIDEO.contains(it.type) }
+    }
+
     @BeforeTest
     fun setup() {
         setupAndroidContextProvider()
@@ -27,20 +34,20 @@ class VideoListScreenTest : BaseScreenshotTest(group = "video_list") {
 
     @Test
     fun lightTest() {
-        composeRule.setContent { VideoListContentPreview() }
+        composeRule.setContent { VideoListContentPreview(hitList = hitList) }
         composeRule.onRoot().captureScreenshot(name = "light")
     }
 
     @Test
     @Config(qualifiers = "+night")
     fun nightTest() {
-        composeRule.setContent { VideoListContentPreview() }
+        composeRule.setContent { VideoListContentPreview(hitList = hitList) }
         composeRule.onRoot().captureScreenshot(name = "night")
     }
 
     @Test
     fun dumpTest() {
-        composeRule.setContent { VideoListContentPreview() }
+        composeRule.setContent { VideoListContentPreview(hitList = hitList) }
         composeRule.onRoot().captureScreenshotDump(name = "dump")
     }
 }

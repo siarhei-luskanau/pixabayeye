@@ -10,6 +10,7 @@ plugins {
 kotlin {
     sourceSets {
         androidUnitTest.dependencies {
+            implementation(projects.core.coreStubResources)
             implementation(projects.ui.uiScreenshotTest)
         }
     }
@@ -22,7 +23,7 @@ android {
 
 compose.resources {
     publicResClass = true
-    packageOfResClass = "siarhei.luskanau.pixabayeye.ui.common.resources"
+    packageOfResClass = "${android.namespace}.resources"
     generateResClass = always
 }
 

@@ -32,7 +32,8 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
-import siarhei.luskanau.pixabayeye.core.network.testData
+import siarhei.luskanau.pixabayeye.core.network.api.HitModel
+import siarhei.luskanau.pixabayeye.core.network.api.testData
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 
@@ -124,10 +125,10 @@ internal fun ImageDetailsLoadingContentPreview() = AppTheme {
 
 @Preview
 @Composable
-internal fun ImageDetailsSuccessContentPreview() = AppTheme {
+internal fun ImageDetailsSuccessContentPreview(hitModel: HitModel = testData) = AppTheme {
     ImageDetailsContent(
         viewState = MutableStateFlow(
-            ImageDetailsViewState.Success(testData)
+            ImageDetailsViewState.Success(hitModel = hitModel)
         ),
         onEvent = {}
     )

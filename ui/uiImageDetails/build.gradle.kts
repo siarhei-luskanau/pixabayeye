@@ -13,11 +13,12 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.coreCommon)
-            implementation(projects.core.coreNetwork)
+            implementation(projects.core.coreNetworkApi)
             implementation(projects.core.corePref)
             implementation(projects.ui.uiCommon)
         }
         androidUnitTest.dependencies {
+            implementation(projects.core.coreStubResources)
             implementation(projects.ui.uiScreenshotTest)
         }
         androidMain.dependencies {
