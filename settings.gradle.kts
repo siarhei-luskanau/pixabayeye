@@ -3,9 +3,11 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(
     ":composeApp",
     ":core:coreCommon",
-    ":core:coreNetwork",
+    ":core:coreNetworkApi",
     ":core:coreNetworkDebugEmpty",
     ":core:coreNetworkDebugLogs",
+    ":core:coreNetworkKtor",
+    ":core:coreNetworkStub",
     ":core:corePref",
     ":navigation",
     ":ui:uiCommon",
