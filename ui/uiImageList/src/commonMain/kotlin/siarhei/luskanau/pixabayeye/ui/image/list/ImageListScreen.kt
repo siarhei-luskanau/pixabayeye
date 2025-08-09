@@ -47,8 +47,8 @@ import siarhei.luskanau.pixabayeye.common.BottomBarSelected
 import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
-import siarhei.luskanau.pixabayeye.core.network.HitModel
-import siarhei.luskanau.pixabayeye.core.network.testData
+import siarhei.luskanau.pixabayeye.core.network.api.HitModel
+import siarhei.luskanau.pixabayeye.core.network.api.testData
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.ic_ai
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search

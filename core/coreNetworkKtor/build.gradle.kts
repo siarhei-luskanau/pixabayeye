@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "siarhei.luskanau.pixabayeye.core.network"
+    namespace = "siarhei.luskanau.pixabayeye.core.network.ktor"
     testOptions.configureTestOptions()
 }
 
@@ -19,6 +19,7 @@ kotlin {
             implementation(libs.ktor.core)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(projects.core.coreCommon)
+            implementation(projects.core.coreNetworkApi)
             implementation(projects.core.corePref)
             if (isDebugScreenEnabled { gradleLocalProperties(rootDir, providers) }) {
                 implementation(projects.core.coreNetworkDebugLogs)

@@ -20,8 +20,8 @@ fun allModules(appModule: Module): List<Module> = listOf(
     UiDebugModule().module,
     UiImageDetailsModule().module,
     UiImageListModule().module,
-    UiVideoListModule().module,
-    UiVideoDetailsModule().module
+    UiVideoDetailsModule().module,
+    UiVideoListModule().module
 )
 
 expect val appPlatformModule: Module
