@@ -47,33 +47,6 @@ jobs:
 
 
 
-  UpdateScreenshot:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-
-      - uses: actions/checkout@v5
-        with:
-          ref: ${{ github.head_ref }}
-
-      - uses: actions/setup-java@v4
-        with:
-          distribution: ${{ env.JAVA_DISTRIBUTION }}
-          java-version: ${{ env.JAVA_VERSION }}
-
-      - run: rm -rf screenshots
-
-      - run: ./gradlew recordRoborazziDebug --stacktrace
-
-      - run: ./gradlew ciPngCheck --stacktrace
-
-      - uses: stefanzweifel/git-auto-commit-action@v6
-        with:
-          commit_message: Update screenshots
-
-
-
   Tests:
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
