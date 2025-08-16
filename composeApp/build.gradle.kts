@@ -48,7 +48,6 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(projects.core.coreCommon)
-            implementation(projects.core.coreNetwork)
             implementation(projects.core.corePref)
             implementation(projects.navigation)
             implementation(projects.ui.uiCommon)
@@ -56,6 +55,11 @@ kotlin {
             implementation(projects.ui.uiImageList)
             implementation(projects.ui.uiVideoDetails)
             implementation(projects.ui.uiVideoList)
+            if (isDataStubEnabled { gradleLocalProperties(rootDir, providers) }) {
+                implementation(projects.core.coreNetworkStub)
+            } else {
+                implementation(projects.core.coreNetworkKtor)
+            }
             if (isDebugScreenEnabled { gradleLocalProperties(rootDir, providers) }) {
                 implementation(projects.ui.uiDebug)
             } else {
