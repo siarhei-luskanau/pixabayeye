@@ -89,10 +89,12 @@ internal fun VideoDetailsContent(
                             modifier = Modifier.weight(1f).fillMaxWidth(),
                             contentAlignment = Alignment.Center
                         ) {
-                            VideoPlayerSurface(
-                                playerState = playerState,
-                                modifier = Modifier.fillMaxSize()
-                            )
+                            if (!result.isTest) {
+                                VideoPlayerSurface(
+                                    playerState = playerState,
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            }
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                         Row(
@@ -137,7 +139,7 @@ internal fun VideoDetailsLoadingContentPreview() = AppTheme {
 internal fun VideoDetailsSuccessContentPreview() = AppTheme {
     VideoDetailsContent(
         viewState = MutableStateFlow(
-            VideoDetailsViewState.Success(testData)
+            VideoDetailsViewState.Success(hitModel = testData, isTest = true)
         ),
         onEvent = {}
     )
