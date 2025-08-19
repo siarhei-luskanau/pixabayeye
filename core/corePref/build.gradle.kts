@@ -4,15 +4,10 @@ plugins {
     id("composeMultiplatformKspConvention")
     alias(libs.plugins.buildConfig)
     alias(libs.plugins.kotlinx.serialization)
-    id("testOptionsConvention")
-}
-
-android {
-    namespace = "siarhei.luskanau.pixabayeye.core.pref"
-    testOptions.configureTestOptions()
 }
 
 kotlin {
+    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.core.pref"
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.serialization.json)
