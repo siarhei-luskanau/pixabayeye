@@ -1,4 +1,4 @@
-package siarhei.luskanau.pixabayeye.core.network
+package siarhei.luskanau.pixabayeye.core.network.api
 
 interface PixabayApiService {
     suspend fun isApiKeyOk(apiKey: String?): NetworkResult<Boolean>

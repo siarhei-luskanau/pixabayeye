@@ -1,11 +1,11 @@
 package siarhei.luskanau.pixabayeye.core.network.ktor
 
 import org.koin.core.annotation.Single
-import siarhei.luskanau.pixabayeye.core.network.HitModel
-import siarhei.luskanau.pixabayeye.core.network.ImageHitModel
-import siarhei.luskanau.pixabayeye.core.network.NetworkResult
-import siarhei.luskanau.pixabayeye.core.network.PixabayApiService
-import siarhei.luskanau.pixabayeye.core.network.VideoHitModel
+import siarhei.luskanau.pixabayeye.core.network.api.HitModel
+import siarhei.luskanau.pixabayeye.core.network.api.ImageHitModel
+import siarhei.luskanau.pixabayeye.core.network.api.NetworkResult
+import siarhei.luskanau.pixabayeye.core.network.api.PixabayApiService
+import siarhei.luskanau.pixabayeye.core.network.api.VideoHitModel
 import siarhei.luskanau.pixabayeye.core.network.ktor.model.HitResponse
 
 @Single
