@@ -31,7 +31,7 @@ ktor = "3.2.3"
 lazy-pagination-compose = "1.7.0"
 leakcanary = "2.14"
 robolectric = "4.15.1"
-roborazzi = "1.49.0"
+roborazzi = "1.50.0"
 zoomable = "2.8.1"
 
 [libraries]
