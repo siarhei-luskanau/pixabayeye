@@ -65,7 +65,7 @@ jobs:
             experimental: false
             emulator: true
           - gradle-tasks: "iosSimulatorArm64Test"
-            os: macos-latest
+            os: macos-14
             experimental: false
             emulator: false
           - gradle-tasks: "testDebugUnitTest"
@@ -164,7 +164,7 @@ jobs:
 
 
   iOS:
-    runs-on: macos-latest
+    runs-on: macos-14
     steps:
 
       - uses: actions/checkout@v5
