@@ -30,7 +30,7 @@ ktlint = "1.7.1"
 ktor = "3.2.3"
 lazy-pagination-compose = "1.7.0"
 leakcanary = "2.14"
-robolectric = "4.15.1"
+robolectric = "4.16"
 roborazzi = "1.50.0"
 zoomable = "2.8.1"
 
