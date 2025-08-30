@@ -23,7 +23,6 @@ include(
 
 pluginManagement {
     includeBuild("convention-plugin-multiplatform")
-    includeBuild("convention-plugin-test-option")
     repositories {
         google()
         gradlePluginPortal()
