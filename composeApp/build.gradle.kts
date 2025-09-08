@@ -88,6 +88,9 @@ kotlin {
             implementation(libs.androidx.datastore.core.okio)
         }
     }
+    sourceSets.named("commonMain").configure {
+        kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+    }
 }
 
 android {
@@ -155,6 +158,12 @@ dependencies {
     add("kspWasmJs", libs.koin.ksp.compiler)
     add("kspJvm", libs.koin.ksp.compiler)
     debugImplementation(libs.leakcanary.android)
+}
+
+tasks.matching {
+    it.name.startsWith("ksp") && it.name != "kspCommonMainKotlinMetadata"
+}.configureEach {
+    dependsOn("kspCommonMainKotlinMetadata")
 }
 
 ksp {
