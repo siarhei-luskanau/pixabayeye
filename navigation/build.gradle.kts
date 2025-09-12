@@ -15,6 +15,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.navigation3.ui)
             implementation(projects.core.coreCommon)
             implementation(projects.ui.uiCommon)
             implementation(projects.ui.uiImageDetails)

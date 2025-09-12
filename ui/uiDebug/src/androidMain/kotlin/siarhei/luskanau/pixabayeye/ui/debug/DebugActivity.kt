@@ -1,13 +1,21 @@
 package siarhei.luskanau.pixabayeye.ui.debug
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.runtime.mutableStateListOf
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
+import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import kotlinx.coroutines.runBlocking
 import okio.Path
 import okio.Path.Companion.toPath
@@ -25,6 +33,7 @@ import siarhei.luskanau.pixabayeye.core.pref.PrefPathProvider
 
 class DebugActivity : ComponentActivity() {
 
+    @SuppressLint("UnrememberedMutableState")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -54,10 +63,20 @@ class DebugActivity : ComponentActivity() {
                     }
                 ) {
                     val koin = getKoin()
-                    val navHostController: NavHostController = rememberNavController()
-                    NavHost(navController = navHostController, startDestination = DebugGraph) {
-                        debugGraph(koin = koin)
-                    }
+                    val backStack = mutableStateListOf<NavKey>(DebugGraph)
+                    NavDisplay(
+                        backStack = backStack,
+                        transitionSpec = {
+                            fadeIn(tween(300)) togetherWith fadeOut(tween(300))
+                        },
+                        entryDecorators = listOf(
+                            rememberSceneSetupNavEntryDecorator(),
+                            rememberSavedStateNavEntryDecorator()
+                        ),
+                        entryProvider = entryProvider {
+                            debugGraph(backStack = backStack, koin = koin)
+                        }
+                    )
                 }
             }
         }
