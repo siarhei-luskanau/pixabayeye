@@ -19,8 +19,7 @@ detekt = "1.23.8"
 google-ksp = "2.2.20-2.0.2"
 hotReload = "1.0.0-beta06"
 inspektify = "1.0.0-beta09"
-jetbrains-lifecycle = "2.9.2"
-jetbrains-navigation = "2.9.0-rc02"
+jetbrains-lifecycle = "2.9.3"
 koin-bom = "4.1.1"
 koin-ksp = "2.1.0"
 kotlin = "2.2.20"
@@ -30,6 +29,7 @@ ktlint = "1.7.1"
 ktor = "3.3.0"
 lazy-pagination-compose = "1.7.0"
 leakcanary = "2.14"
+navigation3 = "1.0.0-alpha01"
 robolectric = "4.16"
 roborazzi = "1.50.0"
 zoomable = "2.8.1"
@@ -52,7 +52,6 @@ inspektify-ktor3 = { module = "io.github.bvantur:inspektify-ktor3", version.ref 
 jetbrains-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 jetbrains-compose-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 jetbrains-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "jetbrains-lifecycle" }
-jetbrains-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "jetbrains-navigation" }
 koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-ksp" }
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
 koin-compose = { module = "io.insert-koin:koin-compose" }
@@ -71,6 +70,7 @@ ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 lazyPaginationCompose = { module = "io.github.ahmad-hamwi:lazy-pagination-compose", version.ref = "lazy-pagination-compose" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
+navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
 roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose", version.ref = "roborazzi" }
