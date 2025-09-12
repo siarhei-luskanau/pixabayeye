@@ -11,8 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.ui.common.IS_DEBUG_SCREEN_ENABLED
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res

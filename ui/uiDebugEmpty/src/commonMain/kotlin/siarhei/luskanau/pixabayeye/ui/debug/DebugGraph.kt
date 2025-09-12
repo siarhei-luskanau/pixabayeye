@@ -7,33 +7,26 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.navigation
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 import org.koin.core.Koin
 
-fun NavGraphBuilder.debugGraph(@Suppress("UNUSED_PARAMETER") koin: Koin) {
-    navigation<DebugGraph>(startDestination = HomeDebugRoute) {
-        composable<HomeDebugRoute> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "Debug Empty",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                )
-            }
+@Suppress("UNUSED_PARAMETER")
+fun EntryProviderScope<NavKey>.debugGraph(koin: Koin) {
+    entry<DebugGraph> {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "Debug Empty",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
 
 @Serializable
-data object DebugGraph
-
-sealed interface DebugRoutes
-
-@Serializable
-data object HomeDebugRoute : DebugRoutes
+data object DebugGraph : NavKey

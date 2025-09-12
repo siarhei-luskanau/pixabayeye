@@ -2,7 +2,6 @@
 
 import groovy.json.JsonSlurper
 import java.io.ByteArrayOutputStream
-import java.io.File
 import java.io.InputStream
 import java.util.Properties
 import org.apache.tools.ant.taskdefs.condition.Os
