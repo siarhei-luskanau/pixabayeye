@@ -1,41 +1,35 @@
 package siarhei.luskanau.pixabayeye.navigation
 
-import androidx.navigation.NavHostController
+import androidx.navigation3.runtime.NavKey
 import siarhei.luskanau.pixabayeye.ui.debug.DebugGraph
 import siarhei.luskanau.pixabayeye.ui.image.details.ImageDetailsNavigationCallback
 import siarhei.luskanau.pixabayeye.ui.image.list.ImageListNavigationCallback
 import siarhei.luskanau.pixabayeye.ui.video.details.VideoDetailsNavigationCallback
 import siarhei.luskanau.pixabayeye.ui.video.list.VideoListNavigationCallback
 
-class AppNavigation(private val navHostController: NavHostController) :
+internal class AppNavigation(private val backStack: MutableList<NavKey>) :
     VideoListNavigationCallback,
     VideoDetailsNavigationCallback,
     ImageDetailsNavigationCallback,
     ImageListNavigationCallback {
 
     override fun goBack() {
-        navHostController.popBackStack()
+        backStack.removeLastOrNull()
     }
 
     override fun onSearchScreenImageClicked(imageId: Long) {
-        navHostController.navigate(
-            AppRoutes.ImageDetails(imageId = imageId)
-        )
+        backStack.add(AppRoutes.ImageDetails(imageId = imageId))
     }
 
     override fun onImageTagClicked(tag: String) {
-        navHostController.navigate(
-            AppRoutes.ImageList(searchTerm = tag)
-        )
+        backStack.add(AppRoutes.ImageList(searchTerm = tag))
     }
 
     override fun onVideoListScreenVideoClicked(videoId: Long) {
-        navHostController.navigate(
-            AppRoutes.VideoDetails(videoId = videoId)
-        )
+        backStack.add(AppRoutes.VideoDetails(videoId = videoId))
     }
 
     override fun onDebugScreenClicked() {
-        navHostController.navigate(DebugGraph)
+        backStack.add(DebugGraph)
     }
 }

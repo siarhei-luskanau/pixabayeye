@@ -1,7 +1,7 @@
 package siarhei.luskanau.pixabayeye
 
 import androidx.compose.runtime.Composable
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinMultiplatformApplication
 import org.koin.core.module.Module
 import org.koin.dsl.KoinConfiguration

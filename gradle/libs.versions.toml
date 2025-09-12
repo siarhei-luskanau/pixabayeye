@@ -12,12 +12,12 @@ build-jvmTarget = "21"
 buildConfig = "5.7.1"
 coil-bom = "3.3.0"
 compose-hot-reload = "1.0.0-rc02"
-compose-multiplatform = "1.9.3"
+compose-multiplatform = "1.10.0-beta01"
 composemediaplayer = "0.8.5"
 detekt = "1.23.8"
 inspektify = "1.0.0-beta09"
-jetbrains-lifecycle = "2.9.6"
-jetbrains-navigation = "2.9.1"
+jetbrains-lifecycle = "2.10.0-alpha04"
+jetbrains-navigation3 = "1.0.0-alpha04"
 koin-bom = "4.1.1"
 kotlin = "2.2.21"
 kotlinx-coroutines = "1.10.2"
@@ -44,8 +44,8 @@ composemediaplayer = { module = "io.github.kdroidfilter:composemediaplayer", ver
 inspektify-ktor3 = { module = "io.github.bvantur:inspektify-ktor3", version.ref = "inspektify" }
 jetbrains-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 jetbrains-compose-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
-jetbrains-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "jetbrains-lifecycle" }
-jetbrains-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "jetbrains-navigation" }
+jetbrains-lifecycle-viewmodel-navigation3 = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "jetbrains-lifecycle" }
+jetbrains-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "jetbrains-navigation3" }
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
 koin-compose = { module = "io.insert-koin:koin-compose" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

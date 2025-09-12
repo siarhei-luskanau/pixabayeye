@@ -11,60 +11,50 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 import org.koin.core.Koin
 
 @OptIn(ExperimentalMaterial3Api::class)
-fun NavGraphBuilder.debugGraph(koin: Koin) {
-    navigation<DebugGraph>(startDestination = DebugHomeRoute) {
-        composable<DebugHomeRoute> {
-            val navHostController: NavHostController = rememberNavController()
-            val tabs = listOf(
-                NavigationBarItemData(DatastoreRoute, "Datastore", Icons.Filled.Settings),
-                NavigationBarItemData(NetworkRoute, "Network", Icons.Filled.Public)
-            )
-            var navigationBarItemData by remember { mutableStateOf(tabs.first()) }
-            Scaffold(
-                topBar = {
-                    TopAppBar(title = { Text(text = navigationBarItemData.label) })
-                },
-                bottomBar = {
-                    NavigationBar {
-                        tabs.forEach { item ->
-                            NavigationBarItem(
-                                selected = navigationBarItemData.route == item.route,
-                                onClick = {
-                                    navigationBarItemData = item
-                                    navHostController.navigate(item.route)
-                                },
-                                icon = { Icon(item.icon, contentDescription = item.label) },
-                                label = { Text(text = item.label) }
-                            )
-                        }
+fun EntryProviderScope<NavKey>.debugGraph(koin: Koin) {
+    entry<DebugGraph> {
+        val tabs = listOf(
+            NavigationBarItemData(DatastoreRoute, "Datastore", Icons.Filled.Settings),
+            NavigationBarItemData(NetworkRoute, "Network", Icons.Filled.Public)
+        )
+        var navigationBarItemData by remember { mutableStateOf(tabs.first()) }
+        val backStack = mutableStateListOf<NavKey>(DatastoreRoute)
+        Scaffold(
+            topBar = {
+                TopAppBar(title = { Text(text = navigationBarItemData.label) })
+            },
+            bottomBar = {
+                NavigationBar {
+                    tabs.forEach { item ->
+                        NavigationBarItem(
+                            selected = navigationBarItemData.route == item.route,
+                            onClick = {
+                                navigationBarItemData = item
+                                backStack.add(item.route)
+                            },
+                            icon = { Icon(item.icon, contentDescription = item.label) },
+                            label = { Text(text = item.label) }
+                        )
                     }
                 }
-            ) { innerPadding ->
-                DebugNavHost(
-                    koin = koin,
-                    navHostController = navHostController,
-                    innerPadding = innerPadding
-                )
             }
+        ) { innerPadding ->
+            DebugNavDisplay(koin = koin, backStack = backStack, innerPadding = innerPadding)
         }
     }
 }
 
 data class NavigationBarItemData(val route: DebugRoutes, val label: String, val icon: ImageVector)
 
-@Serializable data object DebugGraph
-
-@Serializable data object DebugHomeRoute
+@Serializable data object DebugGraph : NavKey
