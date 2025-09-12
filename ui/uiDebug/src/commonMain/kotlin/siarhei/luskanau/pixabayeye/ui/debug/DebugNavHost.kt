@@ -1,5 +1,9 @@
 package siarhei.luskanau.pixabayeye.ui.debug
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -9,9 +13,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entry
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
+import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.core.Koin
@@ -20,35 +27,38 @@ import siarhei.luskanau.pixabayeye.ui.debug.datastore.DatastoreScreen
 
 @Preview
 @Composable
-internal fun DebugNavHost(
-    koin: Koin,
-    navHostController: NavHostController,
-    innerPadding: PaddingValues
-) {
-    NavHost(
-        navController = navHostController,
-        startDestination = DatastoreRoute,
-        modifier = Modifier.padding(innerPadding)
-    ) {
-        composable<DatastoreRoute> {
-            DatastoreScreen(
-                viewModel = viewModel { koin.get { parametersOf() } }
-            )
-        }
-        composable<NetworkRoute> {
-            Text(
-                text = "Inspektify screen should be launched",
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
-            LaunchedEffect(true) {
-                onStartInspektifyClicked()
+internal fun DebugNavHost(koin: Koin, backStack: MutableList<NavKey>, innerPadding: PaddingValues) {
+    NavDisplay(
+        modifier = Modifier.padding(innerPadding),
+        backStack = backStack,
+        transitionSpec = {
+            fadeIn(tween(300)) togetherWith fadeOut(tween(300))
+        },
+        entryDecorators = listOf(
+            rememberSceneSetupNavEntryDecorator(),
+            rememberSavedStateNavEntryDecorator()
+        ),
+        entryProvider = entryProvider {
+            entry<DatastoreRoute> {
+                DatastoreScreen(
+                    viewModel = viewModel { koin.get { parametersOf() } }
+                )
+            }
+            entry<NetworkRoute> {
+                Text(
+                    text = "Inspektify screen should be launched",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+                LaunchedEffect(true) {
+                    onStartInspektifyClicked()
+                }
             }
         }
-    }
+    )
 }
 
-sealed interface DebugRoutes
+sealed interface DebugRoutes : NavKey
 
 @Serializable
 data object DatastoreRoute : DebugRoutes
