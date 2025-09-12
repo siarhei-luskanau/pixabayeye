@@ -1,11 +1,8 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.compose.reload.gradle.ComposeHotRun
-import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
+    id("androidTestConvention")
     id("composeMultiplatformConvention")
 }
 
@@ -51,7 +48,8 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
             implementation(kotlin("test"))
-            implementation(libs.jetbrains.navigation.compose)
+            implementation(libs.jetbrains.lifecycle.viewmodel.compose)
+            implementation(libs.jetbrains.navigation3.ui)
         }
 
         androidMain.dependencies {
