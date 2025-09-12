@@ -80,7 +80,6 @@ kotlin {
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
             implementation(libs.jetbrains.lifecycle.viewmodel.compose)
-            implementation(libs.jetbrains.navigation.compose)
             implementation(libs.koin.compose)
             implementation(libs.kotlinx.coroutines.core)
             implementation(project.dependencies.platform(libs.coil.bom))
@@ -94,7 +93,6 @@ kotlin {
         }
 
         androidMain.dependencies {
-            implementation(compose.uiTooling)
         }
 
         androidUnitTest.dependencies {
