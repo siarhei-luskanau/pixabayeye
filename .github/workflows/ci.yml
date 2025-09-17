@@ -54,7 +54,8 @@ jobs:
       fail-fast: false
       matrix:
         gradle-tasks: [
-          "jvmTest"
+          "jvmTest",
+          "wasmJsBrowserTest"
         ]
         os: [ ubuntu-latest ]
         experimental: [ false ]
@@ -69,10 +70,6 @@ jobs:
             experimental: false
             emulator: false
           - gradle-tasks: "testDebugUnitTest"
-            os: ubuntu-latest
-            experimental: true
-            emulator: false
-          - gradle-tasks: "wasmJsBrowserTest"
             os: ubuntu-latest
             experimental: true
             emulator: false

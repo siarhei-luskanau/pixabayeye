@@ -43,8 +43,17 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(compose.animation)
+            implementation(compose.animationGraphics)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.material3AdaptiveNavigationSuite)
+            implementation(compose.materialIconsExtended)
+            implementation(compose.runtime)
+            implementation(compose.runtimeSaveable)
+            implementation(compose.ui)
             implementation(libs.koin.compose)
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(projects.core.coreCommon)
@@ -86,6 +95,12 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.androidx.datastore.core.okio)
+        }
+
+        iosMain.dependencies {
+        }
+
+        webMain.dependencies {
         }
     }
     sourceSets.named("commonMain").configure {

@@ -9,7 +9,7 @@ import kotlinx.coroutines.promise
 import org.koin.core.annotation.Single
 
 @Single
-internal class DispatcherSetJs : DispatcherSet {
+internal class DispatcherSetWeb : DispatcherSet {
     override fun defaultDispatcher() = Dispatchers.Default
     override fun ioDispatcher() = Dispatchers.Default
     override fun mainDispatcher() = Dispatchers.Main

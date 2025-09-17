@@ -94,7 +94,7 @@ kotlin {
         iosMain.dependencies {
         }
 
-        wasmJsMain.dependencies {
+        webMain.dependencies {
         }
     }
 }
@@ -115,4 +115,8 @@ android {
     }
     buildFeatures.compose = true
     packaging.resources.excludes.add("META-INF/**")
+}
+
+tasks.withType<AbstractTestTask>().configureEach {
+    failOnNoDiscoveredTests = false
 }
