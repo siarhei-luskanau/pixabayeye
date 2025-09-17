@@ -26,7 +26,7 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
-      - run: ./gradlew :composeApp:wasmJsBrowserDistribution --stacktrace
+      - run: ./gradlew :composeApp:composeCompatibilityBrowserDistribution --stacktrace
         env:
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
 
