@@ -1,4 +1,4 @@
-package siarhei.luskanau.pixabayeye.di
+package siarhei.luskanau.pixabayeye
 
 import org.koin.core.module.Module
 import org.koin.dsl.module

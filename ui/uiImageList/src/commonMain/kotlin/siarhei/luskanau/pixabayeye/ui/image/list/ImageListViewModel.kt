@@ -6,18 +6,14 @@ import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import org.koin.core.annotation.Factory
-import org.koin.core.annotation.InjectedParam
-import org.koin.core.annotation.Provided
 import siarhei.luskanau.pixabayeye.core.network.api.HitModel
 import siarhei.luskanau.pixabayeye.core.network.api.NetworkResult
 import siarhei.luskanau.pixabayeye.core.network.api.PixabayApiService
 
-@Factory
 class ImageListViewModel(
-    @InjectedParam private val imageListNavigationCallback: ImageListNavigationCallback,
-    @InjectedParam private val initialSearchTerm: String?,
-    @Provided private val pixabayApiService: PixabayApiService
+    private val imageListNavigationCallback: ImageListNavigationCallback,
+    initialSearchTerm: String?,
+    private val pixabayApiService: PixabayApiService
 ) : ViewModel() {
 
     private val _searchTermFlow = MutableStateFlow(initialSearchTerm.orEmpty())

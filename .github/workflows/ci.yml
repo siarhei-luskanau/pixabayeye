@@ -172,6 +172,4 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
-      - run: ./gradlew kspCommonMainKotlinMetadata --stacktrace
-
       - run: ./gradlew ciIos --stacktrace

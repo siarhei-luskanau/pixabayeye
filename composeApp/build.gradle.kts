@@ -8,7 +8,6 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.google.ksp)
     alias(libs.plugins.hotReload)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.multiplatform)
@@ -57,6 +56,7 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(projects.core.coreCommon)
+            implementation(projects.core.coreNetworkApi)
             implementation(projects.core.corePref)
             implementation(projects.navigation)
             implementation(projects.ui.uiCommon)
@@ -102,9 +102,6 @@ kotlin {
 
         webMain.dependencies {
         }
-    }
-    sourceSets.named("commonMain").configure {
-        kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
     }
 }
 
@@ -164,23 +161,5 @@ dependencies {
     androidTestImplementation(libs.androidx.uitest.junit4)
     debugImplementation(libs.androidx.uitest.testManifest)
 
-    // KSP Tasks
-    add("kspAndroid", libs.koin.ksp.compiler)
-    add("kspCommonMainMetadata", libs.koin.ksp.compiler)
-    add("kspIosArm64", libs.koin.ksp.compiler)
-    add("kspIosSimulatorArm64", libs.koin.ksp.compiler)
-    add("kspIosX64", libs.koin.ksp.compiler)
-    add("kspWasmJs", libs.koin.ksp.compiler)
-    add("kspJvm", libs.koin.ksp.compiler)
     debugImplementation(libs.leakcanary.android)
-}
-
-tasks.matching {
-    it.name.startsWith("ksp") && it.name != "kspCommonMainKotlinMetadata"
-}.configureEach {
-    dependsOn("kspCommonMainKotlinMetadata")
-}
-
-ksp {
-    arg("KOIN_CONFIG_CHECK", "true")
 }

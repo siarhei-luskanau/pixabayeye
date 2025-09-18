@@ -15,13 +15,12 @@ import org.koin.android.ext.android.getKoin
 import org.koin.compose.KoinMultiplatformApplication
 import org.koin.dsl.KoinConfiguration
 import org.koin.dsl.module
-import org.koin.ksp.generated.module
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
-import siarhei.luskanau.pixabayeye.core.common.CoreCommonModule
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
-import siarhei.luskanau.pixabayeye.core.network.CoreNetworkModule
-import siarhei.luskanau.pixabayeye.core.pref.CorePrefModule
+import siarhei.luskanau.pixabayeye.core.common.coreCommonModule
+import siarhei.luskanau.pixabayeye.core.network.coreNetworkModule
 import siarhei.luskanau.pixabayeye.core.pref.PrefPathProvider
+import siarhei.luskanau.pixabayeye.core.pref.corePrefModule
 
 class DebugActivity : ComponentActivity() {
 
@@ -33,10 +32,10 @@ class DebugActivity : ComponentActivity() {
                 KoinMultiplatformApplication(
                     config = KoinConfiguration {
                         modules(
-                            CoreCommonModule().module,
-                            CoreNetworkModule().module,
-                            CorePrefModule().module,
-                            UiDebugModule().module,
+                            coreCommonModule,
+                            coreNetworkModule,
+                            corePrefModule,
+                            uiDebugModule,
                             module {
                                 single<PrefPathProvider> {
                                     val context: Context = get()

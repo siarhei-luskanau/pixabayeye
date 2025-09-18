@@ -1,4 +1,4 @@
-package siarhei.luskanau.pixabayeye.di
+package siarhei.luskanau.pixabayeye
 
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi

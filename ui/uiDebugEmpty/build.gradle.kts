@@ -1,5 +1,5 @@
 plugins {
-    id("composeMultiplatformKspConvention")
+    id("composeMultiplatformConvention")
     alias(libs.plugins.kotlinx.serialization)
 }
 

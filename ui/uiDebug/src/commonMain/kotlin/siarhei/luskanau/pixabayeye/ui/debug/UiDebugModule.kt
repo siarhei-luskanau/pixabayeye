@@ -1,8 +1,8 @@
 package siarhei.luskanau.pixabayeye.ui.debug
 
-import org.koin.core.annotation.ComponentScan
-import org.koin.core.annotation.Module
+import org.koin.dsl.module
+import siarhei.luskanau.pixabayeye.ui.debug.datastore.DatastoreViewModel
 
-@Module
-@ComponentScan(value = ["siarhei.luskanau.pixabayeye.ui.debug"])
-class UiDebugModule
+val uiDebugModule = module {
+    factory { DatastoreViewModel(prefService = get()) }
+}
