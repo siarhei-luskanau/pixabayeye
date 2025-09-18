@@ -1,6 +1,5 @@
 package siarhei.luskanau.pixabayeye.core.network.stub
 
-import org.koin.core.annotation.Single
 import siarhei.luskanau.pixabayeye.core.network.api.HitModel
 import siarhei.luskanau.pixabayeye.core.network.api.NetworkResult
 import siarhei.luskanau.pixabayeye.core.network.api.PixabayApiService
@@ -8,7 +7,6 @@ import siarhei.luskanau.pixabayeye.core.stub.resources.HIT_LIST
 import siarhei.luskanau.pixabayeye.core.stub.resources.TYPES_IMAGE
 import siarhei.luskanau.pixabayeye.core.stub.resources.TYPES_VIDEO
 
-@Single
 internal class StubPixabayApiService : PixabayApiService {
 
     override suspend fun isApiKeyOk(apiKey: String?): NetworkResult<Boolean> =

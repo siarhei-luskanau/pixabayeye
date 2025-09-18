@@ -4,9 +4,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import org.koin.core.annotation.Single
 
-@Single
 internal class DispatcherSetIos : DispatcherSet {
     override fun defaultDispatcher() = Dispatchers.Default
     override fun ioDispatcher() = Dispatchers.IO

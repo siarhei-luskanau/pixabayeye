@@ -1,8 +1,9 @@
 package siarhei.luskanau.pixabayeye.core.network
 
-import org.koin.core.annotation.ComponentScan
-import org.koin.core.annotation.Module
+import org.koin.dsl.module
+import siarhei.luskanau.pixabayeye.core.network.api.PixabayApiService
+import siarhei.luskanau.pixabayeye.core.network.stub.StubPixabayApiService
 
-@Module
-@ComponentScan(value = ["siarhei.luskanau.pixabayeye.core.network"])
-class CoreNetworkModule
+val coreNetworkModule = module {
+    single<PixabayApiService> { StubPixabayApiService() }
+}

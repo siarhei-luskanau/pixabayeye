@@ -1,4 +1,4 @@
-package siarhei.luskanau.pixabayeye.di
+package siarhei.luskanau.pixabayeye
 
 import android.content.Context
 import kotlinx.coroutines.runBlocking

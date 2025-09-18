@@ -15,7 +15,6 @@ plugins {
     alias(libs.plugins.android.application).apply(false)
     alias(libs.plugins.compose.compiler).apply(false)
     alias(libs.plugins.detekt)
-    alias(libs.plugins.google.ksp).apply(false)
     alias(libs.plugins.hotReload).apply(false)
     alias(libs.plugins.jetbrains.compose).apply(false)
     alias(libs.plugins.multiplatform).apply(false)

@@ -3,9 +3,7 @@ package siarhei.luskanau.pixabayeye.core.common
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import org.koin.core.annotation.Single
 
-@Single
 internal class DispatcherSetAndroid : DispatcherSet {
     override fun defaultDispatcher() = Dispatchers.Default
     override fun ioDispatcher() = Dispatchers.IO

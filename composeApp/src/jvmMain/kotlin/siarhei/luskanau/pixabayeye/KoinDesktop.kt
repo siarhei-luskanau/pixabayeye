@@ -1,4 +1,4 @@
-package siarhei.luskanau.pixabayeye.di
+package siarhei.luskanau.pixabayeye
 
 import java.io.File
 import kotlinx.coroutines.runBlocking

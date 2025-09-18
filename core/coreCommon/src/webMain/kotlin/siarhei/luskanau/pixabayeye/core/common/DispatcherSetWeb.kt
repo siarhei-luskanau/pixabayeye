@@ -6,9 +6,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
-import org.koin.core.annotation.Single
 
-@Single
 internal class DispatcherSetWeb : DispatcherSet {
     override fun defaultDispatcher() = Dispatchers.Default
     override fun ioDispatcher() = Dispatchers.Default
