@@ -78,8 +78,8 @@ kotlin {
         commonTest.dependencies {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
+            implementation(libs.jetbrains.lifecycle.viewmodel.compose)
             implementation(kotlin("test"))
-            implementation(libs.jetbrains.navigation.compose)
         }
 
         androidMain.dependencies {
