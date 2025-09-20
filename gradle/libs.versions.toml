@@ -33,7 +33,7 @@ roborazzi = "1.50.0"
 zoomable = "2.8.1"
 
 [libraries]
-android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+android-tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 androidcontextprovider = { module = "io.github.kdroidfilter:androidcontextprovider", version.ref = "androidcontextprovider" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "androidx-datastore" }
