@@ -1,7 +1,7 @@
-import org.gradle.kotlin.dsl.create
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.compose.ExperimentalComposeLibrary
 
-val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
+val libs = the<LibrariesForLibs>()
 
 plugins {
     id("com.android.kotlin.multiplatform.library")
@@ -11,35 +11,20 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(libs.findVersion("build-jvmTarget").get().requiredVersion.toInt())
-
-//    androidTarget {
-//        // https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-test.html
-//        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-//        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
-//    }
+    jvmToolchain(libs.versions.build.jvmTarget.get().toInt())
 
     androidLibrary {
-        compileSdk = libs.findVersion("build-android-compileSdk").get().requiredVersion.toInt()
-        minSdk = libs.findVersion("build-android-minSdk").get().requiredVersion.toInt()
+        compileSdk = libs.versions.build.android.compileSdk.get().toInt()
+        minSdk = libs.versions.build.android.minSdk.get().toInt()
         withJava()
         withHostTestBuilder {}.configure {
             isIncludeAndroidResources = true
             enableCoverage = true
-//            all { test: org.gradle.api.tasks.testing.Test ->
-//                test.testLogging {
-//                    exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
-//                    events = org.gradle.api.tasks.testing.logging.TestLogEvent.values().toSet()
-//                }
-//            }
         }
         withDeviceTestBuilder {
         }.configure {
             instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             animationsDisabled = true
-//            emulatorSnapshots {
-//                enableForTestFailures = false
-//            }
             managedDevices.localDevices.create("managedVirtualDevice") {
                 device = "Pixel 2"
                 apiLevel = 33
@@ -59,16 +44,6 @@ kotlin {
                 )
             }
         }
-//        compileOptions {
-//            sourceCompatibility = JavaVersion.valueOf(
-//                libs.findVersion("build-javaVersion").get().requiredVersion
-//            )
-//            targetCompatibility = JavaVersion.valueOf(
-//                libs.findVersion("build-javaVersion").get().requiredVersion
-//            )
-//        }
-        // buildFeatures.compose = true
-        // packaging.resources.excludes.add("META-INF/**")
     }
 
     jvm()
@@ -102,14 +77,14 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.runtimeSaveable)
             implementation(compose.ui)
-            implementation(libs.findLibrary("coil-compose").get())
-            implementation(libs.findLibrary("coil-network-ktor3").get())
-            implementation(libs.findLibrary("jetbrains-lifecycle-viewmodel-compose").get())
-            implementation(libs.findLibrary("jetbrains-navigation-compose").get())
-            implementation(libs.findLibrary("koin-compose").get())
-            implementation(libs.findLibrary("kotlinx-coroutines-core").get())
-            implementation(project.dependencies.platform(libs.findLibrary("coil-bom").get()))
-            implementation(project.dependencies.platform(libs.findLibrary("koin-bom").get()))
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor3)
+            implementation(libs.jetbrains.lifecycle.viewmodel.compose)
+            implementation(libs.jetbrains.navigation.compose)
+            implementation(libs.koin.compose)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(project.dependencies.platform(libs.coil.bom))
+            implementation(project.dependencies.platform(libs.koin.bom))
         }
 
         commonTest.dependencies {
@@ -123,23 +98,23 @@ kotlin {
         }
 
         androidUnitTest.dependencies {
-            implementation(libs.findLibrary("androidx-test-core-ktx").get())
-            implementation(libs.findLibrary("androidx-uitest-junit4").get())
-            implementation(libs.findLibrary("androidx-uitest-testManifest").get())
-            implementation(libs.findLibrary("robolectric").get())
-            implementation(libs.findLibrary("roborazzi").get())
-            implementation(libs.findLibrary("roborazzi-compose").get())
-            implementation(libs.findLibrary("roborazzi-rule").get())
+            implementation(libs.androidx.test.core.ktx)
+            implementation(libs.androidx.uitest.junit4)
+            implementation(libs.androidx.uitest.testManifest)
+            implementation(libs.robolectric)
+            implementation(libs.roborazzi)
+            implementation(libs.roborazzi.compose)
+            implementation(libs.roborazzi.rule)
         }
 
         androidInstrumentedTest.dependencies {
             implementation(kotlin("test"))
-            implementation(libs.findLibrary("androidx-test-core-ktx").get())
-            implementation(libs.findLibrary("androidx-test-runner").get())
+            implementation(libs.androidx.test.core.ktx)
+            implementation(libs.androidx.test.runner)
         }
 
         jvmMain.dependencies {
-            implementation(libs.findLibrary("kotlinx-coroutines-swing").get())
+            implementation(libs.kotlinx.coroutines.swing)
         }
 
         iosMain.dependencies {
