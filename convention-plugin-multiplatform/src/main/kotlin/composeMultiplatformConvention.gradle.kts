@@ -77,6 +77,7 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.runtimeSaveable)
             implementation(compose.ui)
+            implementation(compose.uiUtil)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
             implementation(libs.jetbrains.lifecycle.viewmodel.compose)
