@@ -7,6 +7,7 @@ kotlin {
     androidLibrary.namespace = "siarhei.luskanau.pixabayeye.ui.image.details"
     sourceSets {
         commonMain.dependencies {
+            implementation(libs.zoomable)
             implementation(projects.core.coreCommon)
             implementation(projects.core.coreNetworkApi)
             implementation(projects.core.corePref)
@@ -15,15 +16,6 @@ kotlin {
         androidUnitTest.dependencies {
             implementation(projects.core.coreStubResources)
             implementation(projects.ui.uiScreenshotTest)
-        }
-        androidMain.dependencies {
-            implementation(libs.zoomable)
-        }
-        iosMain.dependencies {
-            implementation(libs.zoomable)
-        }
-        jvmMain.dependencies {
-            implementation(libs.zoomable)
         }
     }
 }

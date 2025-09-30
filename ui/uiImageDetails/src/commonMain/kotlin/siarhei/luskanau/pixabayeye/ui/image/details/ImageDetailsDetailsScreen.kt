@@ -13,7 +13,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +27,8 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
@@ -90,7 +91,7 @@ internal fun ImageDetailsContent(
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .fillMaxSize()
-                        .zoomableExp()
+                        .zoomable(rememberZoomState())
                 )
 
                 is ImageDetailsViewState.Error -> Text(
@@ -109,10 +110,6 @@ internal fun ImageDetailsContent(
         onEvent(ImageDetailsViewEvent.Launched)
     }
 }
-
-@Stable
-@Composable
-expect fun Modifier.zoomableExp(): Modifier
 
 @Preview
 @Composable
