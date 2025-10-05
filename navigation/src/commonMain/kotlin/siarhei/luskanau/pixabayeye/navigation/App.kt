@@ -24,7 +24,7 @@ import siarhei.luskanau.pixabayeye.ui.video.list.VideoListScreen
 
 @Preview
 @Composable
-fun App() = AppTheme {
+fun NavApp() = AppTheme {
     val koin = getKoin()
     setSingletonImageLoaderFactory { context ->
         ImageLoader.Builder(context)

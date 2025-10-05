@@ -9,7 +9,7 @@ import org.koin.dsl.module
 import siarhei.luskanau.pixabayeye.core.common.coreCommonModule
 import siarhei.luskanau.pixabayeye.core.network.coreNetworkModule
 import siarhei.luskanau.pixabayeye.core.pref.corePrefModule
-import siarhei.luskanau.pixabayeye.navigation.App
+import siarhei.luskanau.pixabayeye.navigation.NavApp
 import siarhei.luskanau.pixabayeye.ui.debug.uiDebugModule
 import siarhei.luskanau.pixabayeye.ui.image.details.ImageDetailsViewModel
 import siarhei.luskanau.pixabayeye.ui.image.list.ImageListViewModel
@@ -30,7 +30,7 @@ fun KoinApp() = KoinMultiplatformApplication(
         )
     }
 ) {
-    App()
+    NavApp()
 }
 
 expect val appPlatformModule: Module
