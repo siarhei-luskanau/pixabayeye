@@ -30,7 +30,7 @@ jobs:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
 
       - run: ./gradlew wrapper --gradle-version latest --stacktrace
       - run: ./gradlew wrapper --gradle-version latest --stacktrace
@@ -89,7 +89,7 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
 
       - run: ./gradlew ciSdkManagerLicenses --stacktrace
         if: matrix.emulator
@@ -109,7 +109,7 @@ jobs:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
 
       - run: ./gradlew ciAndroid --stacktrace
 
@@ -134,7 +134,7 @@ jobs:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
 
       - run: ./gradlew ciDesktop --stacktrace
 
@@ -151,7 +151,7 @@ jobs:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
 
       - run: ./gradlew ciWasmJsBrowser --stacktrace
 
@@ -170,6 +170,6 @@ jobs:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
 
       - run: ./gradlew ciIos --stacktrace
