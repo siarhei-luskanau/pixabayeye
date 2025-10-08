@@ -1,11 +1,16 @@
 package siarhei.luskanau.pixabayeye.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
+import androidx.compose.runtime.mutableStateListOf
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
+import androidx.navigation3.scene.rememberSceneSetupNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
 import coil3.ImageLoader
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.network.ktor3.KtorNetworkFetcherFactory
@@ -33,53 +38,56 @@ fun NavApp() = AppTheme {
             .addLastModifiedToFileCacheKey(false)
             .build()
     }
-    val navHostController: NavHostController = rememberNavController()
-    val appNavigation = AppNavigation(navHostController = navHostController)
-    NavHost(
-        navController = navHostController,
-        startDestination = AppRoutes.ImageList(searchTerm = null)
-    ) {
-        composable<AppRoutes.ImageList> {
-            val args: AppRoutes.ImageList = it.toRoute()
-            ImageListScreen(
-                viewModelProvider = { koin.get { parametersOf(appNavigation, args.searchTerm) } },
-                onImagesClick = { searchTerm ->
-                    navHostController.navigate(AppRoutes.ImageList(searchTerm = searchTerm))
-                },
-                onVideosClick = { searchTerm ->
-                    navHostController.navigate(AppRoutes.VideoList(searchTerm = searchTerm))
-                }
-            )
-        }
-        composable<AppRoutes.ImageDetails> {
-            val args: AppRoutes.ImageDetails = it.toRoute()
-            ImageDetailsScreen {
-                koin.get { parametersOf(args.imageId, appNavigation) }
+    val backStack = mutableStateListOf<NavKey>(AppRoutes.ImageList(searchTerm = null))
+    val appNavigation = AppNavigation(backStack = backStack)
+    NavDisplay(
+        backStack = backStack,
+        transitionSpec = {
+            fadeIn(tween(300)) togetherWith fadeOut(tween(300))
+        },
+        entryDecorators = listOf(
+            rememberSceneSetupNavEntryDecorator(),
+            rememberSavedStateNavEntryDecorator()
+        ),
+        entryProvider = entryProvider {
+            entry<AppRoutes.ImageList> {
+                ImageListScreen(
+                    viewModelProvider = { koin.get { parametersOf(appNavigation, it.searchTerm) } },
+                    onImagesClick = { searchTerm ->
+                        backStack.add(AppRoutes.ImageList(searchTerm = searchTerm))
+                    },
+                    onVideosClick = { searchTerm ->
+                        backStack.add(AppRoutes.VideoList(searchTerm = searchTerm))
+                    }
+                )
             }
-        }
-        composable<AppRoutes.VideoList> {
-            val args: AppRoutes.VideoList = it.toRoute()
-            VideoListScreen(
-                viewModelProvider = { koin.get { parametersOf(appNavigation, args.searchTerm) } },
-                onImagesClick = { searchTerm ->
-                    navHostController.navigate(AppRoutes.ImageList(searchTerm = searchTerm))
-                },
-                onVideosClick = { searchTerm ->
-                    navHostController.navigate(AppRoutes.VideoList(searchTerm = searchTerm))
+            entry<AppRoutes.ImageDetails> {
+                ImageDetailsScreen {
+                    koin.get { parametersOf(it.imageId, appNavigation) }
                 }
-            )
-        }
-        composable<AppRoutes.VideoDetails> {
-            val args: AppRoutes.VideoDetails = it.toRoute()
-            VideoDetailsScreen {
-                koin.get { parametersOf(args.videoId, appNavigation) }
             }
+            entry<AppRoutes.VideoList> {
+                VideoListScreen(
+                    viewModelProvider = { koin.get { parametersOf(appNavigation, it.searchTerm) } },
+                    onImagesClick = { searchTerm ->
+                        backStack.add(AppRoutes.ImageList(searchTerm = searchTerm))
+                    },
+                    onVideosClick = { searchTerm ->
+                        backStack.add(AppRoutes.VideoList(searchTerm = searchTerm))
+                    }
+                )
+            }
+            entry<AppRoutes.VideoDetails> {
+                VideoDetailsScreen {
+                    koin.get { parametersOf(it.videoId, appNavigation) }
+                }
+            }
+            debugGraph(backStack = backStack, koin = koin)
         }
-        debugGraph(koin = koin)
-    }
+    )
 }
 
-internal sealed interface AppRoutes {
+internal sealed interface AppRoutes : NavKey {
 
     @Serializable
     data class ImageList(val searchTerm: String?) : AppRoutes
