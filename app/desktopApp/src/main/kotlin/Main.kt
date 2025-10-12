@@ -14,6 +14,7 @@ fun main() = application {
         state = rememberWindowState(width = 800.dp, height = 600.dp),
         onCloseRequest = ::exitApplication
     ) {
+        @Suppress("MagicNumber")
         window.minimumSize = Dimension(350, 600)
         KoinApp()
     }

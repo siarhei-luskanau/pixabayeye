@@ -57,14 +57,14 @@ To run the application on android device/emulator:
 - open project in Android Studio and run imported android run configuration
 
 To build the application bundle:
-- run `./gradlew :composeApp:assembleDebug`
-- find `.apk` file in `composeApp/build/outputs/apk/debug/composeApp-debug.apk`
-  Run android UI tests on the connected device: `./gradlew :composeApp:managedVirtualDeviceAndroidDeviceTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect`
+- run `./gradlew :app:androidApp:assembleDebug :app:androidApp:assembleRelease`
+- find `.apk` file in `app/androidApp/build/outputs/apk/debug/androidApp-debug.apk`
+- Run android UI tests on the connected device: `./gradlew managedVirtualDeviceAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect`
 
 ### Desktop
-Run the desktop application: `./gradlew :composeApp:run`
-Run the desktop **hot reload** application: `./gradlew :composeApp:jvmRunHot`)
-Run desktop UI tests: `./gradlew :composeApp:jvmTest`
+Run the desktop application: `./gradlew :app:desktopApp:run`  
+Run the desktop **hot reload** application: `./gradlew :app:desktopApp:hotRun --auto`
+Run desktop UI tests: `./gradlew jvmTest`
 
 ### iOS
 To run the application on iPhone device/simulator:
@@ -73,15 +73,15 @@ To run the application on iPhone device/simulator:
   Run iOS simulator UI tests: `./gradlew :composeApp:iosSimulatorArm64Test`
 
 ### Web Distribution
-Build web distribution: `./gradlew :composeApp:composeCompatibilityBrowserDistribution`  
-Deploy a dir `composeApp/build/dist/composeWebCompatibility/productionExecutable` to a web server
+Build web distribution: `./gradlew :app:webApp:composeCompatibilityBrowserDistribution`  
+Deploy a dir `app/webApp/build/dist/composeWebCompatibility/productionExecutable` to a web server
 
 ### Wasm Browser
-Run the browser application: `./gradlew :composeApp:wasmJsBrowserDevelopmentRun --continue`  
-Run browser UI tests: `./gradlew :composeApp:wasmJsBrowserTest`
+Run the browser application: `./gradlew :app:webApp:wasmJsBrowserDevelopmentRun`  
+Run browser UI tests: `./gradlew :app:webApp:wasmJsBrowserTest`
 
 ### Screenshot Testing
-Record a screenshot: `./gradlew recordRoborazziDebug`
+Record a screenshot: `./gradlew recordRoborazzi`
 Output directory is `screenshots/`
 
 ---

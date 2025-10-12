@@ -1,6 +1,9 @@
 rootProject.name = "PixabayEye"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(
+    ":app:androidApp",
+    ":app:desktopApp",
+    ":app:webApp",
     ":composeApp",
     ":core:coreCommon",
     ":core:coreNetworkApi",

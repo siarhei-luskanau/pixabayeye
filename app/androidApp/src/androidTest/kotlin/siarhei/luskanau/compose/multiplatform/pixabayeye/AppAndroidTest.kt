@@ -1,4 +1,4 @@
-package app
+package siarhei.luskanau.compose.multiplatform.pixabayeye
 
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
@@ -11,7 +11,7 @@ class AppAndroidTest {
     fun useAppContext() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals(
-            expected = "siarhei.luskanau.compose.multiplatform.pixabayeye.androidApp",
+            expected = "siarhei.luskanau.compose.multiplatform.pixabayeye",
             actual = appContext.packageName
         )
     }

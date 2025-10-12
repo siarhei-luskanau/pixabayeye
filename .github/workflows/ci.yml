@@ -61,7 +61,7 @@ jobs:
         experimental: [ false ]
         emulator: [ false ]
         include:
-          - gradle-tasks: "managedVirtualDeviceAndroidDeviceTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect"
+          - gradle-tasks: "managedVirtualDeviceAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect"
             os: ubuntu-latest
             experimental: false
             emulator: true

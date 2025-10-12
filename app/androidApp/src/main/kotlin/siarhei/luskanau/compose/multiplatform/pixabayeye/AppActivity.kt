@@ -1,4 +1,4 @@
-package app
+package siarhei.luskanau.compose.multiplatform.pixabayeye
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

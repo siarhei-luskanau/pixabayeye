@@ -16,33 +16,11 @@ kotlin {
     androidLibrary {
         compileSdk = libs.versions.build.android.compileSdk.get().toInt()
         minSdk = libs.versions.build.android.minSdk.get().toInt()
+        androidResources.enable = true
         withJava()
         withHostTestBuilder {}.configure {
             isIncludeAndroidResources = true
             enableCoverage = true
-        }
-        withDeviceTestBuilder {
-        }.configure {
-            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-            animationsDisabled = true
-            managedDevices.localDevices.create("managedVirtualDevice") {
-                device = "Pixel 2"
-                apiLevel = 33
-                val systemImageConfig: Pair<String?, Boolean?> = when (apiLevel) {
-                    33, 34 -> "aosp-atd" to true
-                    else -> null to null
-                }
-                systemImageConfig.first?.also { systemImageSource = it }
-                systemImageConfig.second?.also { require64Bit = it }
-            }
-        }
-
-        compilations.configureEach {
-            compilerOptions.configure {
-                jvmTarget.set(
-                    org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
-                )
-            }
         }
     }
 
