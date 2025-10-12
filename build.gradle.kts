@@ -14,10 +14,12 @@ System.getenv().forEach { (key, value) -> println("System.getenv(): $key=$value"
 plugins {
     alias(libs.plugins.android.application).apply(false)
     alias(libs.plugins.compose.compiler).apply(false)
+    alias(libs.plugins.compose.hot.reload).apply(false)
+    alias(libs.plugins.compose.multiplatform).apply(false)
     alias(libs.plugins.detekt)
-    alias(libs.plugins.hotReload).apply(false)
-    alias(libs.plugins.jetbrains.compose).apply(false)
-    alias(libs.plugins.multiplatform).apply(false)
+    alias(libs.plugins.kotlin.android).apply(false)
+    alias(libs.plugins.kotlin.jvm).apply(false)
+    alias(libs.plugins.kotlin.multiplatform).apply(false)
 }
 
 allprojects {
@@ -56,7 +58,7 @@ tasks.register("ciAndroidEmulator") {
     val injected = project.objects.newInstance<Injected>()
     doLast {
         val tasks = mutableListOf(
-            "managedVirtualDeviceAndroidDeviceTest",
+            "managedVirtualDeviceDebugAndroidTest",
             "--no-parallel",
             "--max-workers=1",
             "-Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect",
@@ -74,7 +76,7 @@ tasks.register("ciDesktop") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()
     doLast {
-        injected.gradlew(":composeApp:jvmJar")
+        injected.gradlew(":app:desktopApp:jar")
     }
 }
 
@@ -82,7 +84,7 @@ tasks.register("ciWasmJsBrowser") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()
     doLast {
-        injected.gradlew(":composeApp:wasmJsMainClasses", ":composeApp:wasmJsBrowserDistribution")
+        injected.gradlew(":app:webApp:wasmJsMainClasses", ":app:webApp:wasmJsBrowserDistribution")
     }
 }
 

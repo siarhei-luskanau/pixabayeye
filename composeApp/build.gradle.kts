@@ -6,39 +6,11 @@ import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.hotReload)
-    alias(libs.plugins.jetbrains.compose)
-    alias(libs.plugins.multiplatform)
+    id("composeMultiplatformConvention")
 }
 
 kotlin {
-    jvmToolchain(libs.versions.build.jvmTarget.get().toInt())
-
-    androidTarget {
-        // https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-test.html
-        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
-    }
-
-    jvm()
-
-    wasmJs {
-        browser()
-        binaries.executable()
-    }
-
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
-        }
-    }
-
+    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.app"
     sourceSets {
         commonMain.dependencies {
             implementation(compose.animation)
@@ -102,62 +74,4 @@ kotlin {
         webMain.dependencies {
         }
     }
-}
-
-android {
-    namespace = "siarhei.luskanau.compose.multiplatform.pixabayeye"
-    compileSdk = libs.versions.build.android.compileSdk.get().toInt()
-    defaultConfig {
-        minSdk = libs.versions.build.android.minSdk.get().toInt()
-        targetSdk = libs.versions.build.android.targetSdk.get().toInt()
-        applicationId = "siarhei.luskanau.compose.multiplatform.pixabayeye.androidApp"
-        versionCode = 1
-        versionName = "1.0.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.valueOf(libs.versions.build.javaVersion.get())
-        targetCompatibility = JavaVersion.valueOf(libs.versions.build.javaVersion.get())
-    }
-    buildFeatures.compose = true
-    packaging.resources.excludes.add("META-INF/**")
-}
-
-compose.desktop {
-    application {
-        mainClass = "MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "PixabayEye"
-            packageVersion = "1.0.0"
-
-            linux {
-                iconFile.set(project.file("desktopAppIcons/LinuxIcon.png"))
-            }
-            windows {
-                iconFile.set(project.file("desktopAppIcons/WindowsIcon.ico"))
-            }
-            macOS {
-                iconFile.set(project.file("desktopAppIcons/MacosIcon.icns"))
-                bundleID = "org.company.app.desktopApp"
-            }
-        }
-    }
-}
-
-// https://github.com/JetBrains/compose-hot-reload
-composeCompiler {
-    featureFlags.add(ComposeFeatureFlag.OptimizeNonSkippingGroups)
-}
-tasks.withType<ComposeHotRun>().configureEach {
-    mainClass.set("MainKt")
-}
-
-dependencies {
-    // https://developer.android.com/develop/ui/compose/testing#setup
-    androidTestImplementation(libs.androidx.uitest.junit4)
-    debugImplementation(libs.androidx.uitest.testManifest)
-
-    debugImplementation(libs.leakcanary.android)
 }
