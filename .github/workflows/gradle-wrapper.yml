@@ -1,4 +1,4 @@
-name: Update screenshots
+name: Update Gradle Wrapper
 
 on:
   workflow_dispatch:  # Manual trigger
@@ -10,7 +10,7 @@ env:
 jobs:
 
 
-  UpdateScreenshot:
+  UpdateGradleWrapper:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -27,12 +27,8 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
-      - run: rm -rf screenshots
-
-      - run: ./gradlew recordRoborazzi -DIS_DATA_STUB_ENABLED=true --stacktrace
-
-      - run: ./gradlew ciPngCheck --stacktrace
-
+      - run: ./gradlew wrapper --gradle-version latest --stacktrace
+      - run: ./gradlew wrapper --gradle-version latest --stacktrace
       - uses: stefanzweifel/git-auto-commit-action@v7
         with:
-          commit_message: Update screenshots
+          commit_message: Update Gradle wrapper
