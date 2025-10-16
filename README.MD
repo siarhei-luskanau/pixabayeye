@@ -59,7 +59,7 @@ To run the application on android device/emulator:
 To build the application bundle:
 - run `./gradlew :app:androidApp:assembleDebug :app:androidApp:assembleRelease`
 - find `.apk` file in `app/androidApp/build/outputs/apk/debug/androidApp-debug.apk`
-- Run android UI tests on the connected device: `./gradlew managedVirtualDeviceDebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect`
+- Run android UI tests on the connected device: `./gradlew :app:androidApp:managedVirtualDeviceDebugAndroidTest :composeApp:managedVirtualDeviceAndroidDeviceTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect`
 
 ### Desktop
 Run the desktop application: `./gradlew :app:desktopApp:run`  
@@ -70,7 +70,7 @@ Run desktop UI tests: `./gradlew jvmTest`
 To run the application on iPhone device/simulator:
 - Open `iosApp/iosApp.xcproject` in Xcode and run standard configuration
 - Or use [Kotlin Multiplatform Mobile plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile) for Android Studio
-  Run iOS simulator UI tests: `./gradlew :composeApp:iosSimulatorArm64Test`
+  Run iOS simulator UI tests: `./gradlew iosSimulatorArm64Test`
 
 ### Web Distribution
 Build web distribution: `./gradlew :app:webApp:composeCompatibilityBrowserDistribution`  

@@ -11,6 +11,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import kotlin.test.Test
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import siarhei.luskanau.pixabayeye.KoinApp
 
 @OptIn(ExperimentalTestApi::class)
@@ -27,16 +29,14 @@ class ComposeTest {
                 KoinApp()
             }
         }
-        val testInput = "test123abc"
         onNodeWithTag("search_text_field").apply {
+            val testInput = "test123abc"
             performTextInput(text = testInput)
+            assertTextContains(value = testInput)
         }
-        onNodeWithTag("search_text_field").assertTextContains(value = testInput)
     }
 }
 
 private class LocalLifecycleOwnerFake : LifecycleOwner {
-    override val lifecycle: Lifecycle = LifecycleRegistry(this).apply {
-        currentState = Lifecycle.State.RESUMED
-    }
+    override val lifecycle: Lifecycle = LifecycleRegistry(this)
 }
