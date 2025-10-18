@@ -51,7 +51,8 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
             implementation(kotlin("test"))
-            implementation(libs.jetbrains.navigation.compose)
+            implementation(libs.jetbrains.lifecycle.viewmodel.compose)
+            implementation(libs.navigation3.ui)
         }
 
         androidMain.dependencies {
