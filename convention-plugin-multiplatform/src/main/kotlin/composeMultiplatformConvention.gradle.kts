@@ -19,7 +19,6 @@ kotlin {
         compileSdk = libs.versions.build.android.compileSdk.get().toInt()
         minSdk = libs.versions.build.android.minSdk.get().toInt()
         androidResources.enable = true
-        withJava()
         withHostTestBuilder {}.configure {
             isIncludeAndroidResources = true
             enableCoverage = true
@@ -67,20 +66,15 @@ kotlin {
             implementation(compose.uiTooling)
         }
 
-        androidUnitTest.dependencies {
-            implementation(libs.androidx.test.core.ktx)
-            implementation(libs.androidx.uitest.junit4)
-            implementation(libs.androidx.uitest.testManifest)
-            implementation(libs.robolectric)
-            implementation(libs.roborazzi)
-            implementation(libs.roborazzi.compose)
-            implementation(libs.roborazzi.rule)
-        }
-
-        androidInstrumentedTest.dependencies {
-            implementation(kotlin("test"))
-            implementation(libs.androidx.test.core.ktx)
-            implementation(libs.androidx.test.runner)
+        getByName("androidHostTest") {
+            dependencies {
+                implementation(libs.androidx.uitest.junit4)
+                implementation(libs.androidx.uitest.testManifest)
+                implementation(libs.robolectric)
+                implementation(libs.roborazzi)
+                implementation(libs.roborazzi.compose)
+                implementation(libs.roborazzi.rule)
+            }
         }
 
         jvmMain.dependencies {

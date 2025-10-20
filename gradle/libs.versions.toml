@@ -3,8 +3,6 @@ agp = "8.13.0"
 androidcontextprovider = "1.0.1"
 androidx-activity = "1.11.0"
 androidx-datastore = "1.1.7"
-androidx-test-core = "1.7.0"
-androidx-test-runner = "1.7.0"
 androidx-uiTest = "1.9.3"
 build-android-compileSdk = "36"
 build-android-minSdk = "30"
@@ -37,8 +35,6 @@ android-tools-gradle = { module = "com.android.tools.build:gradle", version.ref 
 androidcontextprovider = { module = "io.github.kdroidfilter:androidcontextprovider", version.ref = "androidcontextprovider" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "androidx-datastore" }
-androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core" }
-androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
 androidx-uitest-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-uiTest" }
 androidx-uitest-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-uiTest" }
 coil-bom = { module = "io.coil-kt.coil3:coil-bom", version.ref = "coil-bom" }
