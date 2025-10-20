@@ -1,7 +1,10 @@
 name: Update screenshots
 
 on:
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
 
 env:
   JAVA_VERSION: 21

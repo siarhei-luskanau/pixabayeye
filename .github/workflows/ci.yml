@@ -49,6 +49,7 @@ jobs:
       matrix:
         gradle-tasks: [
           "jvmTest",
+          # "testAndroid",
           "testDebugUnitTest",
           "wasmJsBrowserTest"
         ]
