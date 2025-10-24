@@ -8,11 +8,6 @@ plugins {
 
 kotlin {
     androidLibrary {
-        androidResources.enable = true
-        withHostTestBuilder {}.configure {
-            isIncludeAndroidResources = true
-            enableCoverage = true
-        }
         withDeviceTestBuilder {
         }.configure {
             instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
