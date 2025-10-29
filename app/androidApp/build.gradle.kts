@@ -1,9 +1,9 @@
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
+    alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.android.application)
 }
 
 android {

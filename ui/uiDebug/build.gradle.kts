@@ -10,6 +10,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.jetbrains.navigation3.ui)
             implementation(projects.core.coreCommon)
             implementation(projects.core.coreNetworkApi)
             implementation(projects.core.corePref)

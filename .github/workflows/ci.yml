@@ -49,14 +49,14 @@ jobs:
       matrix:
         gradle-tasks: [
           "jvmTest",
-          # "testAndroid",
-          "testDebugUnitTest",
-          "wasmJsBrowserTest"
+          # "testAndroidHostTest",
+          # "wasmJsBrowserTest"
         ]
         os: [ ubuntu-latest ]
         experimental: [ false ]
         emulator: [ false ]
         include:
+          # managedVirtualDeviceAndroidDeviceTest
           - gradle-tasks: "managedVirtualDeviceDebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect"
             os: ubuntu-latest
             experimental: false
@@ -87,6 +87,19 @@ jobs:
         if: matrix.emulator
 
       - run: ./gradlew clean ${{ matrix.gradle-tasks }} --stacktrace
+
+      - name: Get task name
+        id: get_task
+        run: echo "taskName=$(echo ${{ matrix.gradle-tasks }} | cut -d ' ' -f 1 | tr ':' '_')" >> $GITHUB_OUTPUT
+
+      - name: Collect reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-${{ steps.get_task.outputs.taskName }}-${{ matrix.os }}
+          path: |
+            **/build/reports/
+          retention-days: 7
 
 
 
