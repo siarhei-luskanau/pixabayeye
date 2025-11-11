@@ -28,7 +28,7 @@ lazy-pagination-compose = "1.7.1"
 leakcanary = "2.14"
 robolectric = "4.16"
 roborazzi = "1.51.0"
-zoomable = "2.8.2"
+zoomable = "2.9.0"
 
 [libraries]
 android-tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
