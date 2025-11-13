@@ -1,5 +1,4 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import org.jetbrains.compose.ExperimentalComposeLibrary
 
 plugins {
     id("androidTestConvention")
@@ -10,17 +9,17 @@ kotlin {
     androidLibrary.namespace = "siarhei.luskanau.pixabayeye.app"
     sourceSets {
         commonMain.dependencies {
-            implementation(compose.animation)
-            implementation(compose.animationGraphics)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.material3AdaptiveNavigationSuite)
-            implementation(compose.materialIconsExtended)
-            implementation(compose.runtime)
-            implementation(compose.runtimeSaveable)
-            implementation(compose.ui)
+            implementation(libs.jetbrains.compose.animation)
+            implementation(libs.jetbrains.compose.animation.graphics)
+            implementation(libs.jetbrains.compose.components.resources)
+            implementation(libs.jetbrains.compose.foundation)
+            implementation(libs.jetbrains.compose.material.icons.extended)
+            implementation(libs.jetbrains.compose.material3)
+            implementation(libs.jetbrains.compose.material3.adaptive.navigation.suite)
+            implementation(libs.jetbrains.compose.runtime)
+            implementation(libs.jetbrains.compose.runtime.saveable)
+            implementation(libs.jetbrains.compose.ui)
+            implementation(libs.jetbrains.compose.ui.tooling.preview)
             implementation(libs.koin.compose)
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(projects.core.coreCommon)
@@ -45,9 +44,8 @@ kotlin {
         }
 
         commonTest.dependencies {
-            @OptIn(ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
             implementation(kotlin("test"))
+            implementation(libs.jetbrains.compose.ui.test)
             implementation(libs.jetbrains.navigation3.ui)
         }
 

@@ -1,5 +1,4 @@
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 val libs = the<LibrariesForLibs>()
@@ -34,19 +33,19 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(compose.animation)
-            implementation(compose.animationGraphics)
-            implementation(compose.components.resources)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.material3AdaptiveNavigationSuite)
-            implementation(compose.materialIconsExtended)
-            implementation(compose.preview)
-            implementation(compose.runtime)
-            implementation(compose.runtimeSaveable)
-            implementation(compose.ui)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
+            implementation(libs.jetbrains.compose.animation)
+            implementation(libs.jetbrains.compose.animation.graphics)
+            implementation(libs.jetbrains.compose.components.resources)
+            implementation(libs.jetbrains.compose.foundation)
+            implementation(libs.jetbrains.compose.material.icons.extended)
+            implementation(libs.jetbrains.compose.material3)
+            implementation(libs.jetbrains.compose.material3.adaptive.navigation.suite)
+            implementation(libs.jetbrains.compose.runtime)
+            implementation(libs.jetbrains.compose.runtime.saveable)
+            implementation(libs.jetbrains.compose.ui)
+            implementation(libs.jetbrains.compose.ui.tooling.preview)
             implementation(libs.jetbrains.lifecycle.viewmodel.navigation3)
             implementation(libs.koin.compose)
             implementation(libs.kotlinx.coroutines.core)
@@ -55,8 +54,7 @@ kotlin {
         }
 
         commonTest.dependencies {
-            @OptIn(ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
+            implementation(libs.jetbrains.compose.ui.test)
             implementation(kotlin("test"))
         }
 
