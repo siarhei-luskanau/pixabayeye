@@ -22,11 +22,13 @@ class VideoDetailsViewModel(
                     is NetworkResult.Failure -> viewState.emit(
                         VideoDetailsViewState.Error(result.error)
                     )
+
                     is NetworkResult.Success -> viewState.emit(
                         VideoDetailsViewState.Success(result.result)
                     )
                 }
             }
+
             VideoDetailsViewEvent.NavigateBack -> videoDetailsNavigationCallback.goBack()
         }
     }

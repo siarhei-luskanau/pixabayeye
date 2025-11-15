@@ -30,16 +30,20 @@ class ImageListViewModel(
         when (event) {
             ImageListViewEvent.DebugScreenClicked ->
                 imageListNavigationCallback.onDebugScreenClicked()
+
             is ImageListViewEvent.ImageClicked ->
                 imageListNavigationCallback.onSearchScreenImageClicked(imageId = event.hitModel.id)
+
             is ImageListViewEvent.TagClicked -> viewModelScope.launch {
                 _searchTermFlow.emit(event.tag)
                 imageListNavigationCallback.onImageTagClicked(tag = event.tag)
             }
+
             is ImageListViewEvent.UpdateSearchTerm -> viewModelScope.launch {
                 _searchTermFlow.emit(event.searchTerm)
                 paginationState.refresh()
             }
+
             ImageListViewEvent.NavigateBack -> imageListNavigationCallback.goBack()
         }
     }
@@ -54,6 +58,7 @@ class ImageListViewModel(
                 )
             ) {
                 is NetworkResult.Failure -> paginationState.setError(result.error as Exception)
+
                 is NetworkResult.Success -> paginationState.appendPage(
                     items = result.result,
                     nextPageKey = pageKey + 1,

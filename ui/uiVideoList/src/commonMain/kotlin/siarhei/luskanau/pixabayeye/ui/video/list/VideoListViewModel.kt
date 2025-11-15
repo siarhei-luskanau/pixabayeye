@@ -30,17 +30,21 @@ class VideoListViewModel(
         when (event) {
             VideoListViewEvent.DebugScreenClicked ->
                 videoListNavigationCallback.onDebugScreenClicked()
+
             is VideoListViewEvent.VideoClicked ->
                 videoListNavigationCallback
                     .onVideoListScreenVideoClicked(videoId = event.hitModel.id)
+
             is VideoListViewEvent.TagClicked -> viewModelScope.launch {
                 _searchTermFlow.emit(event.tag)
                 paginationState.refresh()
             }
+
             is VideoListViewEvent.UpdateSearchTerm -> viewModelScope.launch {
                 _searchTermFlow.emit(event.searchTerm)
                 paginationState.refresh()
             }
+
             VideoListViewEvent.NavigateBack -> videoListNavigationCallback.goBack()
         }
     }
@@ -55,6 +59,7 @@ class VideoListViewModel(
                 )
             ) {
                 is NetworkResult.Failure -> paginationState.setError(result.error as Exception)
+
                 is NetworkResult.Success -> paginationState.appendPage(
                     items = result.result,
                     nextPageKey = pageKey + 1,
