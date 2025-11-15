@@ -33,8 +33,8 @@ android {
         }
         animationsDisabled = true
         managedDevices.localDevices.create("managedVirtualDevice") {
-            device = "Nexus 4"
-            apiLevel = 33
+            device = "Pixel 2"
+            apiLevel = 35
         }
     }
 }

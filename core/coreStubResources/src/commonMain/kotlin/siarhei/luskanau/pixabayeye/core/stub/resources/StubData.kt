@@ -13,8 +13,8 @@ val HIT_LIST = listOf(
         pageURL = "https://pixabay.com/photos/milky-way-universe-stars-night-sky-9767930/",
         type = "photo",
         tags =
-        "milky way, universe, stars, night sky, galaxy, heaven, cosmos, starry sky, " +
-            "star park, winklmoosalm, chiemgau alps, upper bavaria",
+            "milky way, universe, stars, night sky, galaxy, heaven, cosmos, starry sky, " +
+                "star park, winklmoosalm, chiemgau alps, upper bavaria",
         views = 8210,
         downloads = 7562,
         likes = 81,
@@ -48,8 +48,8 @@ val HIT_LIST = listOf(
         pageURL = "https://pixabay.com/illustrations/ai-generated-cat-feline-face-8359510/",
         type = "illustration",
         tags =
-        "ai generated, cat, feline, face, beauty, towel, bathrobe, care, bath, spa, hat, " +
-            "clean",
+            "ai generated, cat, feline, face, beauty, towel, bathrobe, care, bath, spa, hat, " +
+                "clean",
         views = 10274,
         downloads = 7127,
         likes = 101,

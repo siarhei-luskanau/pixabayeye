@@ -22,11 +22,13 @@ class ImageDetailsViewModel(
                     is NetworkResult.Failure -> viewState.emit(
                         ImageDetailsViewState.Error(result.error)
                     )
+
                     is NetworkResult.Success -> viewState.emit(
                         ImageDetailsViewState.Success(result.result)
                     )
                 }
             }
+
             ImageDetailsViewEvent.NavigateBack -> detailsNavigationCallback.goBack()
         }
     }

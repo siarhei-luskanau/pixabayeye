@@ -130,12 +130,12 @@ internal fun ImageListContent(
                                     .fillMaxWidth()
                                     .aspectRatio(
                                         ratio =
-                                        requireNotNull(
-                                            hitModel.imageModel?.webFormatWidth
-                                        ).toFloat() /
                                             requireNotNull(
-                                                hitModel.imageModel?.webFormatHeight
-                                            ).toFloat()
+                                                hitModel.imageModel?.webFormatWidth
+                                            ).toFloat() /
+                                                requireNotNull(
+                                                    hitModel.imageModel?.webFormatHeight
+                                                ).toFloat()
                                     )
                             ) {
                                 AsyncImage(
