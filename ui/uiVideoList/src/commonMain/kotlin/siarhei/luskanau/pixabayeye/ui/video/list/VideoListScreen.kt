@@ -245,6 +245,7 @@ private fun formatVideoDuration(durationSeconds: Int?): String {
             "$hours" +
                 ":${minutes.toString().padStart(2, '0')}" +
                 ":${seconds.toString().padStart(2, '0')}"
+
         else -> "$minutes:${seconds.toString().padStart(2, '0')}"
     }
 }
