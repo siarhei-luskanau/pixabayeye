@@ -50,7 +50,7 @@ jobs:
         gradle-tasks: [
           "jvmTest",
           "testAndroidHostTest",
-          # "wasmJsBrowserTest"
+          "wasmJsBrowserTest"
         ]
         os: [ ubuntu-latest ]
         experimental: [ false ]
