@@ -14,7 +14,7 @@ jobs:
 
 
   UpdateScreenshot:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     permissions:
       contents: write
     steps:
@@ -32,7 +32,7 @@ jobs:
 
       - run: rm -rf screenshots
 
-      - run: ./gradlew recordRoborazzi -DIS_DATA_STUB_ENABLED=true --stacktrace
+      - run: ./gradlew recordRoborazziAndroidHostTest -DIS_DATA_STUB_ENABLED=true --stacktrace
 
       - run: ./gradlew ciPngCheck --stacktrace
 
