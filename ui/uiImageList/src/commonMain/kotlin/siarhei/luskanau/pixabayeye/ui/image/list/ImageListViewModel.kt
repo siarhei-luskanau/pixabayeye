@@ -5,6 +5,11 @@ import androidx.lifecycle.viewModelScope
 import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import siarhei.luskanau.pixabayeye.core.network.api.HitModel
 import siarhei.luskanau.pixabayeye.core.network.api.NetworkResult
@@ -26,6 +31,17 @@ class ImageListViewModel(
         }
     )
 
+    init {
+        _searchTermFlow
+            .drop(1) // ignore initial value
+            .debounce(500)
+            .distinctUntilChanged()
+            .onEach {
+                paginationState.refresh()
+            }
+            .launchIn(viewModelScope)
+    }
+
     fun onEvent(event: ImageListViewEvent) {
         when (event) {
             ImageListViewEvent.DebugScreenClicked ->
@@ -41,7 +57,6 @@ class ImageListViewModel(
 
             is ImageListViewEvent.UpdateSearchTerm -> viewModelScope.launch {
                 _searchTermFlow.emit(event.searchTerm)
-                paginationState.refresh()
             }
 
             ImageListViewEvent.NavigateBack -> imageListNavigationCallback.goBack()
