@@ -1,5 +1,5 @@
 [versions]
-agp = "8.13.1"
+agp = "8.13.2"
 androidcontextprovider = "1.0.1"
 androidx-activity = "1.12.1"
 androidx-datastore = "1.2.0"
