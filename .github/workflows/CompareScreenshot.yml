@@ -1,0 +1,92 @@
+name: CompareScreenshot
+
+on:
+  pull_request:
+
+permissions: { }
+
+jobs:
+  compare-screenshot-test:
+    runs-on: macos-latest
+    timeout-minutes: 50
+
+    permissions:
+      contents: read # for clone
+      actions: write # for upload-artifact
+      checks: read # for wait-on-check-action
+
+    steps:
+      - name: Checkout base branch
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          ref: ${{ github.base_ref }}
+      - name: Set up JDK 17
+        uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v5.1.0
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@576fcbecfed70890e466eeffd7c78d93b30b0472 #
+
+      - name: Get base branch HEAD commit
+        id: get_base_branch_head
+        run: echo "sha=$(git rev-parse origin/${{ github.base_ref }})" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - name: Wait for base unit-test to succeed before downloading base branch screenshot artifact
+        uses: lewagon/wait-on-check-action@ccfb013c15c8afb7bf2b7c028fb74dc5a068cccc # v1.3.4
+        with:
+          ref: ${{ steps.get_base_branch_head.outputs.sha }}
+          check-name: 'store-screenshot-test'
+          repo-token: ${{ github.token }}
+          wait-interval: 10
+
+      - uses: dawidd6/action-download-artifact@268677152d06ba59fcec7a7f0b5d961b6ccd7e1e # v2.28.0
+        continue-on-error: true
+        with:
+          name: screenshot
+          workflow: StoreScreenshot.yml
+          commit: ${{ steps.get_base_branch_head.outputs.sha }}
+          if_no_artifact_found: fail
+
+      - name: compare screenshot test
+        id: compare-screenshot-test
+        run: |
+          ./gradlew compareRoborazziAndroidHostTest --stacktrace --info --profile
+
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        if: ${{ always() }}
+        with:
+          name: screenshot-diff
+          path: |
+            **/build/outputs/roborazzi
+          retention-days: 30
+
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        if: ${{ always() }}
+        with:
+          name: screenshot-diff-reports
+          path: |
+            **/build/reports
+            **/build/outputs/roborazzi
+          retention-days: 30
+
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        if: ${{ always() }}
+        with:
+          name: screenshot-diff-test-results
+          path: |
+            **/build/test-results
+          retention-days: 30
+
+      - name: Save PR number
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          mkdir -p ./pr
+          echo ${{ github.event.number }} > ./pr/NR
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: pr
+          path: pr/
