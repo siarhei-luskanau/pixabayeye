@@ -155,7 +155,7 @@ internal fun ImageListContent(
                                         modifier = Modifier
                                             .align(Alignment.TopEnd)
                                             .padding(8.dp)
-                                            .size(24.dp),
+                                            .size(48.dp),
                                         tint = Color.White
                                     )
                                 }
