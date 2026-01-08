@@ -159,7 +159,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Find Invalid Files Comment
-        uses: peter-evans/find-comment@a54c31d7fa095754bfef525c0c8e5e5674c4b4b1 # v2
+        uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4.0.0
         id: fc-invalid
         if: steps.check-if-there-are-valid-files.outputs.has_invalid_files == 'true'
         with:
@@ -177,7 +177,7 @@ jobs:
           edit-mode: replace
 
       - name: Find Comment
-        uses: peter-evans/find-comment@a54c31d7fa095754bfef525c0c8e5e5674c4b4b1 # v2
+        uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4.0.0
         id: fc
         if: steps.generate-diff-reports.outputs.reports != ''
         with:
