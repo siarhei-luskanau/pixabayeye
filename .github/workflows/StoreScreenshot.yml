@@ -30,7 +30,7 @@ jobs:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@4b530e369bfef1ac8fc2160ec97b9fda1ccd9901 # v5.0.0
+      - uses: gradle/actions/setup-gradle@576fcbecfed70890e466eeffd7c78d93b30b0472 #
 
       - name: record screenshot
         id: record-test

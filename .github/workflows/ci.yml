@@ -30,7 +30,7 @@ jobs:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@4b530e369bfef1ac8fc2160ec97b9fda1ccd9901 # v5.0.0
+      - uses: gradle/actions/setup-gradle@576fcbecfed70890e466eeffd7c78d93b30b0472 #
 
       - run: ./gradlew ktlintFormat --stacktrace
       - uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
@@ -81,7 +81,7 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@4b530e369bfef1ac8fc2160ec97b9fda1ccd9901 # v5.0.0
+      - uses: gradle/actions/setup-gradle@576fcbecfed70890e466eeffd7c78d93b30b0472 #
 
       - run: ./gradlew ciSdkManagerLicenses --stacktrace
         if: matrix.emulator
@@ -113,7 +113,7 @@ jobs:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@4b530e369bfef1ac8fc2160ec97b9fda1ccd9901 # v5.0.0
+      - uses: gradle/actions/setup-gradle@576fcbecfed70890e466eeffd7c78d93b30b0472 #
 
       - run: ./gradlew ciAndroid --stacktrace
 
@@ -138,7 +138,7 @@ jobs:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@4b530e369bfef1ac8fc2160ec97b9fda1ccd9901 # v5.0.0
+      - uses: gradle/actions/setup-gradle@576fcbecfed70890e466eeffd7c78d93b30b0472 #
 
       - run: ./gradlew ciDesktop --stacktrace
 
@@ -155,7 +155,7 @@ jobs:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@4b530e369bfef1ac8fc2160ec97b9fda1ccd9901 # v5.0.0
+      - uses: gradle/actions/setup-gradle@576fcbecfed70890e466eeffd7c78d93b30b0472 #
 
       - run: ./gradlew ciWasmJsBrowser --stacktrace
 
@@ -174,6 +174,6 @@ jobs:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@4b530e369bfef1ac8fc2160ec97b9fda1ccd9901 # v5.0.0
+      - uses: gradle/actions/setup-gradle@576fcbecfed70890e466eeffd7c78d93b30b0472 #
 
       - run: ./gradlew ciIos --stacktrace
