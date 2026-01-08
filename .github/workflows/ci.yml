@@ -21,19 +21,19 @@ jobs:
       contents: write
     steps:
 
-      - uses: actions/checkout@v6.0.1
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           ref: ${{ github.head_ref }}
 
-      - uses: actions/setup-java@v5.1.0
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v5.1.0
         with:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@v5
+      - uses: gradle/actions/setup-gradle@4b530e369bfef1ac8fc2160ec97b9fda1ccd9901 # v5.0.0
 
       - run: ./gradlew ktlintFormat --stacktrace
-      - uses: stefanzweifel/git-auto-commit-action@v7
+      - uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
         with:
           commit_message: Ktlint format
 
@@ -67,7 +67,7 @@ jobs:
             emulator: false
     steps:
 
-      - uses: actions/checkout@v6.0.1
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
       - name: Enable KVM group perms
         if: matrix.emulator
@@ -76,12 +76,12 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - uses: actions/setup-java@v5.1.0
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v5.1.0
         with:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@v5
+      - uses: gradle/actions/setup-gradle@4b530e369bfef1ac8fc2160ec97b9fda1ccd9901 # v5.0.0
 
       - run: ./gradlew ciSdkManagerLicenses --stacktrace
         if: matrix.emulator
@@ -92,9 +92,8 @@ jobs:
         id: get_task
         run: echo "taskName=$(echo ${{ matrix.gradle-tasks }} | cut -d ' ' -f 1 | tr ':' '_')" >> $GITHUB_OUTPUT
 
-      - name: Collect reports
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: always()
-        uses: actions/upload-artifact@v6.0.0
         with:
           name: reports-${{ steps.get_task.outputs.taskName }}-${{ matrix.os }}
           path: |
@@ -107,14 +106,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v6.0.1
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-      - uses: actions/setup-java@v5.1.0
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v5.1.0
         with:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@v5
+      - uses: gradle/actions/setup-gradle@4b530e369bfef1ac8fc2160ec97b9fda1ccd9901 # v5.0.0
 
       - run: ./gradlew ciAndroid --stacktrace
 
@@ -132,14 +131,14 @@ jobs:
         ]
     steps:
 
-      - uses: actions/checkout@v6.0.1
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-      - uses: actions/setup-java@v5.1.0
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v5.1.0
         with:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@v5
+      - uses: gradle/actions/setup-gradle@4b530e369bfef1ac8fc2160ec97b9fda1ccd9901 # v5.0.0
 
       - run: ./gradlew ciDesktop --stacktrace
 
@@ -149,14 +148,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v6.0.1
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-      - uses: actions/setup-java@v5.1.0
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v5.1.0
         with:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@v5
+      - uses: gradle/actions/setup-gradle@4b530e369bfef1ac8fc2160ec97b9fda1ccd9901 # v5.0.0
 
       - run: ./gradlew ciWasmJsBrowser --stacktrace
 
@@ -168,13 +167,13 @@ jobs:
     runs-on: macos-latest
     steps:
 
-      - uses: actions/checkout@v6.0.1
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-      - uses: actions/setup-java@v5.1.0
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v5.1.0
         with:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@v5
+      - uses: gradle/actions/setup-gradle@4b530e369bfef1ac8fc2160ec97b9fda1ccd9901 # v5.0.0
 
       - run: ./gradlew ciIos --stacktrace
