@@ -47,7 +47,7 @@ jobs:
           repo-token: ${{ github.token }}
           wait-interval: 10
 
-      - uses: dawidd6/action-download-artifact@09f2f74827fd3a8607589e5ad7f9398816f540fe # v3.1.4
+      - uses: dawidd6/action-download-artifact@0bd50d53a6d7fb5cb921e607957e9cc12b4ce392 # v12
         continue-on-error: true
         with:
           name: screenshot
