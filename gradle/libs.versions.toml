@@ -11,16 +11,14 @@ build-javaVersion = "VERSION_21"
 build-jvmTarget = "21"
 buildConfig = "6.0.7"
 coil-bom = "3.3.0"
-compose-multiplatform = "1.11.0-alpha01"
+compose-multiplatform = "1.10.0"
 composemediaplayer = "0.8.7"
 detekt = "1.23.8"
 inspektify = "1.0.0-beta10"
 jetbrains-compose-material-icons = "1.7.3"
-jetbrains-compose-material3 = "1.11.0-alpha01"
-jetbrains-compose-material3-adaptive = "1.3.0-alpha03"
+jetbrains-compose-material3 = "1.10.0-alpha05"
 jetbrains-lifecycle = "2.10.0-alpha07"
-jetbrains-navigation3 = "1.0.0"
-jetbrains-navigationevent = "1.0.0-rc02"
+jetbrains-navigation3 = "1.0.0-alpha06"
 jetbrains-savedstate = "1.4.0"
 jetbrains-window = "1.5.1"
 koin-bom = "4.1.1"
@@ -54,7 +52,6 @@ jetbrains-compose-components-resources = { module = "org.jetbrains.compose.compo
 jetbrains-compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform" }
 jetbrains-compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "jetbrains-compose-material-icons" }
 jetbrains-compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "jetbrains-compose-material3" }
-jetbrains-compose-material3-adaptive-navigation3 = { module = "org.jetbrains.compose.material3.adaptive:adaptive-navigation3", version.ref = "jetbrains-compose-material3-adaptive" }
 jetbrains-compose-plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 jetbrains-compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-multiplatform" }
 jetbrains-compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
@@ -62,7 +59,6 @@ jetbrains-compose-ui-test = { module = "org.jetbrains.compose.ui:ui-test", versi
 jetbrains-compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
 jetbrains-lifecycle-viewmodel-navigation3 = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "jetbrains-lifecycle" }
 jetbrains-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "jetbrains-navigation3" }
-jetbrains-navigationevent-compose = { module = "org.jetbrains.androidx.navigationevent:navigationevent-compose", version.ref = "jetbrains-navigationevent" }
 jetbrains-savedstate-compose = { module = "org.jetbrains.androidx.savedstate:savedstate-compose", version.ref = "jetbrains-savedstate" }
 jetbrains-window-core = { module = "org.jetbrains.androidx.window:window-core", version.ref = "jetbrains-window" }
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
