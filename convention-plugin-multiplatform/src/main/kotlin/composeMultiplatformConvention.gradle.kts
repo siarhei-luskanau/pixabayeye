@@ -21,6 +21,7 @@ kotlin {
             isIncludeAndroidResources = true
             enableCoverage = true
         }
+        packaging.resources.excludes.add("META-INF/**")
     }
 
     jvm()
@@ -41,12 +42,10 @@ kotlin {
             implementation(libs.jetbrains.compose.foundation)
             implementation(libs.jetbrains.compose.material.icons.extended)
             implementation(libs.jetbrains.compose.material3)
-            implementation(libs.jetbrains.compose.material3.adaptive.navigation3)
             implementation(libs.jetbrains.compose.runtime)
             implementation(libs.jetbrains.compose.ui)
             implementation(libs.jetbrains.compose.ui.tooling.preview)
             implementation(libs.jetbrains.lifecycle.viewmodel.navigation3)
-            implementation(libs.jetbrains.navigationevent.compose)
             implementation(libs.jetbrains.savedstate.compose)
             implementation(libs.jetbrains.window.core)
             implementation(libs.koin.compose)
@@ -61,7 +60,6 @@ kotlin {
         }
 
         androidMain.dependencies {
-            implementation(compose.uiTooling)
         }
 
         getByName("androidHostTest") {
