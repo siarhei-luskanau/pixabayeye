@@ -1,16 +1,14 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.compose.reload.gradle.ComposeHotRun
 
 plugins {
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.compose.hot.reload)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.jvm)
 }
 
 dependencies {
-    implementation(compose.components.resources)
-    implementation(compose.ui)
+    implementation(libs.jetbrains.compose.components.resources)
+    implementation(libs.jetbrains.compose.ui)
     implementation(projects.composeApp)
     implementation(projects.ui.uiCommon)
 }
@@ -31,8 +29,4 @@ compose.desktop {
             }
         }
     }
-}
-
-tasks.withType<ComposeHotRun>().configureEach {
-    mainClass = "MainKt"
 }

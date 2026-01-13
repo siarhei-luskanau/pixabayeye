@@ -13,7 +13,6 @@ System.getenv().forEach { (key, value) -> println("System.getenv(): $key=$value"
 plugins {
     alias(libs.plugins.android.application).apply(false)
     alias(libs.plugins.compose.compiler).apply(false)
-    alias(libs.plugins.compose.hot.reload).apply(false)
     alias(libs.plugins.compose.multiplatform).apply(false)
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotlin.android).apply(false)

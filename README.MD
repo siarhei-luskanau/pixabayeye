@@ -63,7 +63,6 @@ To build the application bundle:
 
 ### Desktop
 Run the desktop application: `./gradlew :app:desktopApp:run`  
-Run the desktop **hot reload** application: `./gradlew :app:desktopApp:hotRun --auto`
 Run desktop UI tests: `./gradlew jvmTest`
 
 ### iOS
