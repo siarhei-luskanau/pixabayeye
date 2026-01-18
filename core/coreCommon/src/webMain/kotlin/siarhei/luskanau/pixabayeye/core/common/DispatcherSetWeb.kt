@@ -15,7 +15,7 @@ internal class DispatcherSetWeb : DispatcherSet {
         context: CoroutineContext,
         block: suspend CoroutineScope.() -> T
     ): T =
-        @OptIn(DelicateCoroutinesApi::class)
+        @OptIn(DelicateCoroutinesApi::class, ExperimentalWasmJsInterop::class)
         GlobalScope.promise(
             context = context,
             block = block

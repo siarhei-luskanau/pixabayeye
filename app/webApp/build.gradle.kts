@@ -12,7 +12,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(compose.ui)
+            implementation(libs.jetbrains.compose.ui)
             implementation(projects.composeApp)
         }
     }
