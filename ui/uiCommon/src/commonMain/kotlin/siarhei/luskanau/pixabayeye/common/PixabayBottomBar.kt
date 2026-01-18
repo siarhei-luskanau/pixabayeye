@@ -1,8 +1,5 @@
 package siarhei.luskanau.pixabayeye.common
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -10,10 +7,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.bottombar_images
 import siarhei.luskanau.pixabayeye.ui.common.resources.bottombar_videos
+import siarhei.luskanau.pixabayeye.ui.common.resources.ic_image
+import siarhei.luskanau.pixabayeye.ui.common.resources.ic_video_library
 
 @Composable
 fun PixabayBottomBar(
@@ -27,7 +27,7 @@ fun PixabayBottomBar(
             onClick = { onImagesClick?.invoke() },
             icon = {
                 Icon(
-                    imageVector = Icons.Filled.Image,
+                    imageVector = vectorResource(Res.drawable.ic_image),
                     contentDescription = stringResource(Res.string.bottombar_images)
                 )
             },
@@ -38,7 +38,7 @@ fun PixabayBottomBar(
             onClick = { onVideosClick?.invoke() },
             icon = {
                 Icon(
-                    imageVector = Icons.Filled.VideoLibrary,
+                    imageVector = vectorResource(Res.drawable.ic_video_library),
                     contentDescription = stringResource(Res.string.bottombar_videos)
                 )
             },

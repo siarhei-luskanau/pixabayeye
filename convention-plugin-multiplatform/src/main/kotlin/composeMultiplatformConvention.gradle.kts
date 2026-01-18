@@ -40,7 +40,6 @@ kotlin {
             implementation(libs.jetbrains.compose.animation.graphics)
             implementation(libs.jetbrains.compose.components.resources)
             implementation(libs.jetbrains.compose.foundation)
-            implementation(libs.jetbrains.compose.material.icons.extended)
             implementation(libs.jetbrains.compose.material3)
             implementation(libs.jetbrains.compose.runtime)
             implementation(libs.jetbrains.compose.ui)
