@@ -6,6 +6,10 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
 }
 
+kotlin {
+    jvmToolchain(libs.versions.javaVersion.get().toInt())
+}
+
 dependencies {
     implementation(libs.jetbrains.compose.components.resources)
     implementation(libs.jetbrains.compose.ui)

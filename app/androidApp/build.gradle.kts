@@ -17,8 +17,18 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.valueOf(libs.versions.build.javaVersion.get())
-        targetCompatibility = JavaVersion.valueOf(libs.versions.build.javaVersion.get())
+        sourceCompatibility =
+            JavaVersion.toVersion(
+                libs.versions.javaVersion
+                    .get()
+                    .toInt()
+            )
+        targetCompatibility =
+            JavaVersion.toVersion(
+                libs.versions.javaVersion
+                    .get()
+                    .toInt()
+            )
     }
     buildFeatures.compose = true
     packaging.resources.excludes.add("META-INF/**")
@@ -39,7 +49,7 @@ android {
 }
 
 kotlin {
-    jvmToolchain(libs.versions.build.jvmTarget.get().toInt())
+    jvmToolchain(libs.versions.javaVersion.get().toInt())
 }
 
 dependencies {

@@ -11,7 +11,7 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(libs.versions.build.jvmTarget.get().toInt())
+    jvmToolchain(libs.versions.javaVersion.get().toInt())
 
     androidLibrary {
         compileSdk = libs.versions.build.android.compileSdk.get().toInt()
