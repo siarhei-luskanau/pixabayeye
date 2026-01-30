@@ -7,7 +7,7 @@ kotlin {
     androidLibrary.namespace = "siarhei.luskanau.pixabayeye.ui.image.list"
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.lazyPaginationCompose)
+            implementation(libs.androidx.paging.compose)
             implementation(projects.core.coreCommon)
             implementation(projects.core.coreNetworkApi)
             implementation(projects.core.corePref)

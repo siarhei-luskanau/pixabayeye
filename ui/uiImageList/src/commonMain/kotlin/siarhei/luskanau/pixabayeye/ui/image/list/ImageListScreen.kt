@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -34,11 +34,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
-import io.github.ahmad_hamwi.compose.pagination.PaginatedLazyVerticalStaggeredGrid
-import io.github.ahmad_hamwi.compose.pagination.PaginationState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
@@ -61,7 +61,7 @@ fun ImageListScreen(
 ) {
     val viewModel = viewModel { viewModelProvider() }
     ImageListContent(
-        paginationState = viewModel.paginationState,
+        pagingDataFlow = viewModel.pagingDataFlow,
         searchTermFlow = viewModel.searchTermFlow,
         onEvent = viewModel::onEvent,
         onImagesClick = onImagesClick,
@@ -71,13 +71,14 @@ fun ImageListScreen(
 
 @Composable
 internal fun ImageListContent(
-    paginationState: PaginationState<Int, HitModel>,
+    pagingDataFlow: Flow<PagingData<HitModel>>,
     searchTermFlow: Flow<String>,
     onEvent: (ImageListViewEvent) -> Unit,
     onImagesClick: ((String?) -> Unit)? = null,
     onVideosClick: ((String?) -> Unit)? = null
 ) {
     val searchTerm by searchTermFlow.collectAsState("")
+    val lazyPagingItems = pagingDataFlow.collectAsLazyPagingItems()
     Scaffold(
         topBar = {
             PixabayTopAppBar(
@@ -103,19 +104,13 @@ internal fun ImageListContent(
                 label = { Text("Search") },
                 modifier = Modifier.fillMaxWidth().padding(16.dp).testTag("search_text_field")
             )
-            PaginatedLazyVerticalStaggeredGrid(
+            LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Adaptive(minSize = 180.dp),
                 verticalItemSpacing = 4.dp,
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                paginationState = paginationState,
-                firstPageProgressIndicator = { },
-                newPageProgressIndicator = { },
-                firstPageErrorIndicator = { e -> },
-                newPageErrorIndicator = { e -> }
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                itemsIndexed(
-                    paginationState.allItems.orEmpty()
-                ) { _, hitModel ->
+                items(lazyPagingItems.itemCount) { index ->
+                    val hitModel = lazyPagingItems[index] ?: return@items
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -201,12 +196,7 @@ private fun TagsContent(tagsString: String?, onTagClick: (String) -> Unit) {
 @Composable
 internal fun ImageListContentPreview(hitList: List<HitModel> = listOf(testData)) = AppTheme {
     ImageListContent(
-        paginationState = PaginationState(
-            initialPageKey = 1,
-            onRequestPage = {
-                appendPage(items = hitList, nextPageKey = 2, isLastPage = true)
-            }
-        ),
+        pagingDataFlow = flowOf(PagingData.from(hitList)),
         searchTermFlow = flowOf("Search text"),
         onEvent = {}
     )
