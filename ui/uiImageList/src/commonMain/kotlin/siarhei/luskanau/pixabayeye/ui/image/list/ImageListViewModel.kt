@@ -2,7 +2,12 @@ package siarhei.luskanau.pixabayeye.ui.image.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.github.ahmad_hamwi.compose.pagination.PaginationState
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
+import androidx.paging.cachedIn
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
@@ -24,12 +29,15 @@ class ImageListViewModel(
     private val _searchTermFlow = MutableStateFlow(initialSearchTerm.orEmpty())
     val searchTermFlow: Flow<String> get() = _searchTermFlow
 
-    val paginationState: PaginationState<Int, HitModel> = PaginationState(
-        initialPageKey = 1,
-        onRequestPage = { pageKey ->
-            loadPage(searchTerm = _searchTermFlow.value, pageKey = pageKey)
+    private var currentPagingSource: ImagesPagingSource? = null
+
+    val pagingDataFlow: Flow<PagingData<HitModel>> = Pager(
+        config = PagingConfig(pageSize = 20)
+    ) {
+        ImagesPagingSource(pixabayApiService, _searchTermFlow.value).also {
+            currentPagingSource = it
         }
-    )
+    }.flow.cachedIn(viewModelScope)
 
     init {
         _searchTermFlow
@@ -37,7 +45,7 @@ class ImageListViewModel(
             .debounce(500)
             .distinctUntilChanged()
             .onEach {
-                paginationState.refresh()
+                currentPagingSource?.invalidate()
             }
             .launchIn(viewModelScope)
     }
@@ -62,24 +70,35 @@ class ImageListViewModel(
             ImageListViewEvent.NavigateBack -> imageListNavigationCallback.goBack()
         }
     }
+}
 
-    private fun loadPage(searchTerm: String, pageKey: Int) {
-        viewModelScope.launch {
-            when (
-                val result = pixabayApiService.getImages(
-                    query = searchTerm,
-                    perPage = 20,
-                    page = pageKey
-                )
-            ) {
-                is NetworkResult.Failure -> paginationState.setError(result.error as Exception)
+private class ImagesPagingSource(
+    private val pixabayApiService: PixabayApiService,
+    private val query: String
+) : PagingSource<Int, HitModel>() {
 
-                is NetworkResult.Success -> paginationState.appendPage(
-                    items = result.result,
-                    nextPageKey = pageKey + 1,
-                    isLastPage = result.result.size < 20
-                )
-            }
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, HitModel> {
+        val page = params.key ?: 1
+        return when (
+            val result = pixabayApiService.getImages(
+                query = query,
+                perPage = 20,
+                page = page
+            )
+        ) {
+            is NetworkResult.Failure -> LoadResult.Error(result.error as Exception)
+
+            is NetworkResult.Success -> LoadResult.Page(
+                data = result.result,
+                prevKey = if (page == 1) null else page - 1,
+                nextKey = if (result.result.size < 20) null else page + 1
+            )
         }
     }
+
+    override fun getRefreshKey(state: PagingState<Int, HitModel>): Int? =
+        state.anchorPosition?.let { pos ->
+            state.closestPageToPosition(pos)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(pos)?.nextKey?.minus(1)
+        }
 }
