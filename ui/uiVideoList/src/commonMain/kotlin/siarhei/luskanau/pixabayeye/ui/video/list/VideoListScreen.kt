@@ -56,11 +56,12 @@ import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 
 @Composable
 fun VideoListScreen(
+    key: String,
     viewModelProvider: () -> VideoListViewModel,
     onImagesClick: ((String?) -> Unit)? = null,
     onVideosClick: ((String?) -> Unit)? = null
 ) {
-    val viewModel = viewModel { viewModelProvider() }
+    val viewModel = viewModel(key = key) { viewModelProvider() }
     VideoListContent(
         pagingDataFlow = viewModel.pagingDataFlow,
         searchTermFlow = viewModel.searchTermFlow,

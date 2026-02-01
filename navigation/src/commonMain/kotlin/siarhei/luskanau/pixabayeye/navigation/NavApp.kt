@@ -38,9 +38,12 @@ fun NavApp() = AppTheme {
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
         entryProvider = entryProvider {
-            entry<AppRoutes.ImageList> {
+            entry<AppRoutes.ImageList> { route ->
                 ImageListScreen(
-                    viewModelProvider = { koin.get { parametersOf(appNavigation, it.searchTerm) } },
+                    key = "ImageList_${route.searchTerm}",
+                    viewModelProvider = {
+                        koin.get { parametersOf(appNavigation, route.searchTerm) }
+                    },
                     onImagesClick = { searchTerm ->
                         backStack.add(AppRoutes.ImageList(searchTerm = searchTerm))
                     },
@@ -49,14 +52,17 @@ fun NavApp() = AppTheme {
                     }
                 )
             }
-            entry<AppRoutes.ImageDetails> {
-                ImageDetailsScreen {
-                    koin.get { parametersOf(it.imageId, appNavigation) }
+            entry<AppRoutes.ImageDetails> { route ->
+                ImageDetailsScreen(key = "ImageDetails_${route.imageId}") {
+                    koin.get { parametersOf(route.imageId, appNavigation) }
                 }
             }
-            entry<AppRoutes.VideoList> {
+            entry<AppRoutes.VideoList> { route ->
                 VideoListScreen(
-                    viewModelProvider = { koin.get { parametersOf(appNavigation, it.searchTerm) } },
+                    key = "VideoList_${route.searchTerm}",
+                    viewModelProvider = {
+                        koin.get { parametersOf(appNavigation, route.searchTerm) }
+                    },
                     onImagesClick = { searchTerm ->
                         backStack.add(AppRoutes.ImageList(searchTerm = searchTerm))
                     },
@@ -65,9 +71,9 @@ fun NavApp() = AppTheme {
                     }
                 )
             }
-            entry<AppRoutes.VideoDetails> {
-                VideoDetailsScreen {
-                    koin.get { parametersOf(it.videoId, appNavigation) }
+            entry<AppRoutes.VideoDetails> { route ->
+                VideoDetailsScreen(key = "VideoDetails_${route.videoId}") {
+                    koin.get { parametersOf(route.videoId, appNavigation) }
                 }
             }
             debugGraph(koin = koin)

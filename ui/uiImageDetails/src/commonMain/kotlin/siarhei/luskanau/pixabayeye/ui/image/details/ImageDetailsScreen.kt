@@ -39,8 +39,8 @@ import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 
 @Composable
-fun ImageDetailsScreen(viewModelProvider: () -> ImageDetailsViewModel) {
-    val viewModel = viewModel { viewModelProvider() }
+fun ImageDetailsScreen(key: String, viewModelProvider: () -> ImageDetailsViewModel) {
+    val viewModel = viewModel(key = key) { viewModelProvider() }
     ImageDetailsContent(
         viewState = viewModel.viewState,
         onEvent = viewModel::onEvent
