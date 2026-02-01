@@ -14,7 +14,9 @@ internal class AppNavigation(private val backStack: MutableList<NavKey>) :
     ImageListNavigationCallback {
 
     override fun goBack() {
-        backStack.removeLastOrNull()
+        if (backStack.size > 1) {
+            backStack.removeLastOrNull()
+        }
     }
 
     override fun onSearchScreenImageClicked(imageId: Long) {

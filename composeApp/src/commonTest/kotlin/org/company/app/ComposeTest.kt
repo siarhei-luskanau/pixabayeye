@@ -3,6 +3,7 @@ package org.company.app
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
@@ -22,6 +23,7 @@ class ComposeTest {
             KoinApp()
         }
         onRoot().printToLog("StartTag")
+        onNodeWithContentDescription("Back").performClick()
         val testInput = "test123abc"
         onNodeWithTag("search_text_field").apply {
             performTextInput(text = testInput)
