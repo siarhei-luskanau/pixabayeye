@@ -24,7 +24,7 @@ jobs:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@576fcbecfed70890e466eeffd7c78d93b30b0472 #
+      - uses: gradle/actions/setup-gradle@f29f5a9d7b09a7c6b29859002d29d24e1674c884 # v5.0.1
 
       - run: ./gradlew :app:webApp:composeCompatibilityBrowserDistribution --stacktrace
         env:
