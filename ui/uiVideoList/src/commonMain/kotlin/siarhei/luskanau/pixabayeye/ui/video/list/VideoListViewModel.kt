@@ -26,21 +26,21 @@ class VideoListViewModel(
     private val pixabayApiService: PixabayApiService
 ) : ViewModel() {
 
-    private val _searchTermFlow = MutableStateFlow(initialSearchTerm.orEmpty())
-    val searchTermFlow: Flow<String> get() = _searchTermFlow
+    val searchTermFlow: Flow<String>
+        field = MutableStateFlow<String>(initialSearchTerm.orEmpty())
 
     private var currentPagingSource: VideosPagingSource? = null
 
     val pagingDataFlow: Flow<PagingData<HitModel>> = Pager(
         config = PagingConfig(pageSize = 20)
     ) {
-        VideosPagingSource(pixabayApiService, _searchTermFlow.value).also {
+        VideosPagingSource(pixabayApiService, searchTermFlow.value).also {
             currentPagingSource = it
         }
     }.flow.cachedIn(viewModelScope)
 
     init {
-        _searchTermFlow
+        searchTermFlow
             .drop(1) // ignore initial value
             .debounce(500)
             .distinctUntilChanged()
@@ -60,11 +60,11 @@ class VideoListViewModel(
                     .onVideoListScreenVideoClicked(videoId = event.hitModel.id)
 
             is VideoListViewEvent.TagClicked -> viewModelScope.launch {
-                _searchTermFlow.emit(event.tag)
+                searchTermFlow.emit(event.tag)
             }
 
             is VideoListViewEvent.UpdateSearchTerm -> viewModelScope.launch {
-                _searchTermFlow.emit(event.searchTerm)
+                searchTermFlow.emit(event.searchTerm)
             }
 
             VideoListViewEvent.NavigateBack -> videoListNavigationCallback.goBack()

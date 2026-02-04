@@ -26,21 +26,21 @@ class ImageListViewModel(
     private val pixabayApiService: PixabayApiService
 ) : ViewModel() {
 
-    private val _searchTermFlow = MutableStateFlow(initialSearchTerm.orEmpty())
-    val searchTermFlow: Flow<String> get() = _searchTermFlow
+    val searchTermFlow: Flow<String>
+        field = MutableStateFlow<String>(initialSearchTerm.orEmpty())
 
     private var currentPagingSource: ImagesPagingSource? = null
 
     val pagingDataFlow: Flow<PagingData<HitModel>> = Pager(
         config = PagingConfig(pageSize = 20)
     ) {
-        ImagesPagingSource(pixabayApiService, _searchTermFlow.value).also {
+        ImagesPagingSource(pixabayApiService, searchTermFlow.value).also {
             currentPagingSource = it
         }
     }.flow.cachedIn(viewModelScope)
 
     init {
-        _searchTermFlow
+        searchTermFlow
             .drop(1) // ignore initial value
             .debounce(500)
             .distinctUntilChanged()
@@ -59,12 +59,12 @@ class ImageListViewModel(
                 imageListNavigationCallback.onSearchScreenImageClicked(imageId = event.hitModel.id)
 
             is ImageListViewEvent.TagClicked -> viewModelScope.launch {
-                _searchTermFlow.emit(event.tag)
+                searchTermFlow.emit(event.tag)
                 imageListNavigationCallback.onImageTagClicked(tag = event.tag)
             }
 
             is ImageListViewEvent.UpdateSearchTerm -> viewModelScope.launch {
-                _searchTermFlow.emit(event.searchTerm)
+                searchTermFlow.emit(event.searchTerm)
             }
 
             ImageListViewEvent.NavigateBack -> imageListNavigationCallback.goBack()

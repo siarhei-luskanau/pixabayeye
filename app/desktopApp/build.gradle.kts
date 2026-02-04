@@ -8,6 +8,9 @@ plugins {
 
 kotlin {
     jvmToolchain(libs.versions.javaVersion.get().toInt())
+    compilerOptions {
+        freeCompilerArgs.add("-Xexplicit-backing-fields")
+    }
 }
 
 dependencies {

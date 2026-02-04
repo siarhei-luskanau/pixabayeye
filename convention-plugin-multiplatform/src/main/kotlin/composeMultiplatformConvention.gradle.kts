@@ -13,6 +13,10 @@ plugins {
 kotlin {
     jvmToolchain(libs.versions.javaVersion.get().toInt())
 
+    compilerOptions {
+        freeCompilerArgs.add("-Xexplicit-backing-fields")
+    }
+
     androidLibrary {
         compileSdk = libs.versions.build.android.compileSdk.get().toInt()
         minSdk = libs.versions.build.android.minSdk.get().toInt()

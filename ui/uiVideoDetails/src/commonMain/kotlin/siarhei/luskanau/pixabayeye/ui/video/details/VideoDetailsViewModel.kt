@@ -3,6 +3,7 @@ package siarhei.luskanau.pixabayeye.ui.video.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import siarhei.luskanau.pixabayeye.core.network.api.NetworkResult
 import siarhei.luskanau.pixabayeye.core.network.api.PixabayApiService
@@ -13,7 +14,8 @@ class VideoDetailsViewModel(
     private val pixabayApiService: PixabayApiService
 ) : ViewModel() {
 
-    val viewState = MutableStateFlow<VideoDetailsViewState>(VideoDetailsViewState.Loading)
+    val viewState: StateFlow<VideoDetailsViewState>
+        field = MutableStateFlow<VideoDetailsViewState>(VideoDetailsViewState.Loading)
 
     fun onEvent(event: VideoDetailsViewEvent) {
         when (event) {
