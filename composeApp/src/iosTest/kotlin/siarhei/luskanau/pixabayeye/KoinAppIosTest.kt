@@ -13,7 +13,7 @@ class KoinAppIosTest {
     fun preview() = runComposeUiTest {
         setContent { KoinApp() }
         onRoot().captureRoboImage(
-            this,
+            composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.KoinAppIosTest.preview.png"
         )
     }

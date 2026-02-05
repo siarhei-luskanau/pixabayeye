@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -35,6 +36,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.LoadState
+import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
@@ -47,6 +50,10 @@ import org.jetbrains.compose.resources.vectorResource
 import siarhei.luskanau.pixabayeye.common.BottomBarSelected
 import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
+import siarhei.luskanau.pixabayeye.common.paging.ErrorContent
+import siarhei.luskanau.pixabayeye.common.paging.ErrorItem
+import siarhei.luskanau.pixabayeye.common.paging.LoadingContent
+import siarhei.luskanau.pixabayeye.common.paging.LoadingItem
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.network.api.HitModel
 import siarhei.luskanau.pixabayeye.core.network.api.testData
@@ -106,78 +113,139 @@ internal fun VideoListContent(
                 label = { Text("Search Videos") },
                 modifier = Modifier.fillMaxWidth().padding(16.dp).testTag("search_video_text_field")
             )
-            LazyVerticalStaggeredGrid(
-                columns = StaggeredGridCells.Adaptive(minSize = 180.dp),
-                verticalItemSpacing = 4.dp,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                items(lazyPagingItems.itemCount) { index ->
-                    val hitModel = lazyPagingItems[index] ?: return@items
-                    val viewModel = hitModel.videosModel.orEmpty()["tiny"]
-                        ?: hitModel.videosModel.orEmpty()["small"]
-                        ?: hitModel.videosModel.orEmpty().values.first()
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                onEvent(VideoListViewEvent.VideoClicked(hitModel = hitModel))
-                            },
-                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+
+            // Handle refresh state (initial load)
+            when (val refreshState = lazyPagingItems.loadState.refresh) {
+                is LoadState.Loading -> {
+                    LoadingContent()
+                }
+
+                is LoadState.Error -> {
+                    ErrorContent(
+                        error = refreshState.error,
+                        onRetry = { lazyPagingItems.retry() }
+                    )
+                }
+
+                is LoadState.NotLoading -> {
+                    LazyVerticalStaggeredGrid(
+                        columns = StaggeredGridCells.Adaptive(minSize = 180.dp),
+                        verticalItemSpacing = 4.dp,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        Column {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .aspectRatio(
-                                        ratio = requireNotNull(viewModel.width).toFloat() /
-                                            requireNotNull(viewModel.height).toFloat()
-                                    )
-                            ) {
-                                AsyncImage(
-                                    model = ImageRequest.Builder(LocalPlatformContext.current)
-                                        .data(viewModel.thumbnail)
-                                        .build(),
-                                    contentDescription = hitModel.tags,
-                                    placeholder = ColorPainter(Color.Gray),
-                                    error = ColorPainter(Color.Red),
-                                    contentScale = ContentScale.FillWidth,
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                                if (hitModel.isAiGenerated) {
-                                    Icon(
-                                        imageVector = vectorResource(Res.drawable.ic_ai),
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .align(Alignment.TopEnd)
-                                            .padding(8.dp)
-                                            .size(24.dp),
-                                        tint = Color.White
-                                    )
+                        // Handle prepend state (loading previous items)
+                        when (val prependState = lazyPagingItems.loadState.prepend) {
+                            is LoadState.Loading -> {
+                                item(span = StaggeredGridItemSpan.FullLine) {
+                                    LoadingItem()
                                 }
-                                // Video duration overlay
-                                val durationText = formatVideoDuration(hitModel.duration)
-                                if (durationText.isNotEmpty()) {
-                                    Text(
-                                        text = durationText,
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = Color.White,
-                                        modifier = Modifier
-                                            .align(Alignment.BottomEnd)
-                                            .padding(8.dp)
-                                            .background(
-                                                color = Color.Black.copy(alpha = 0.7f),
-                                                shape = MaterialTheme.shapes.small
-                                            )
-                                            .padding(horizontal = 6.dp, vertical = 2.dp)
+                            }
+
+                            is LoadState.Error -> {
+                                item(span = StaggeredGridItemSpan.FullLine) {
+                                    ErrorItem(
+                                        error = prependState.error,
+                                        onRetry = { lazyPagingItems.retry() }
                                     )
                                 }
                             }
-                            TagsContent(
-                                tagsString = hitModel.tags,
-                                onTagClick = { tag ->
-                                    onEvent(VideoListViewEvent.TagClicked(tag = tag))
+
+                            is LoadState.NotLoading -> Unit
+                        }
+
+                        items(lazyPagingItems.itemCount) { index ->
+                            val hitModel = lazyPagingItems[index] ?: return@items
+                            val videoModel = hitModel.videosModel.orEmpty()["tiny"]
+                                ?: hitModel.videosModel.orEmpty()["small"]
+                                ?: hitModel.videosModel.orEmpty().values.first()
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        onEvent(
+                                            VideoListViewEvent.VideoClicked(hitModel = hitModel)
+                                        )
+                                    },
+                                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                            ) {
+                                Column {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .aspectRatio(
+                                                ratio = requireNotNull(videoModel.width).toFloat() /
+                                                    requireNotNull(videoModel.height).toFloat()
+                                            )
+                                    ) {
+                                        AsyncImage(
+                                            model = ImageRequest.Builder(
+                                                LocalPlatformContext.current
+                                            )
+                                                .data(videoModel.thumbnail)
+                                                .build(),
+                                            contentDescription = hitModel.tags,
+                                            placeholder = ColorPainter(Color.Gray),
+                                            error = ColorPainter(Color.Red),
+                                            contentScale = ContentScale.FillWidth,
+                                            modifier = Modifier.fillMaxWidth()
+                                        )
+                                        if (hitModel.isAiGenerated) {
+                                            Icon(
+                                                imageVector = vectorResource(Res.drawable.ic_ai),
+                                                contentDescription = null,
+                                                modifier = Modifier
+                                                    .align(Alignment.TopEnd)
+                                                    .padding(8.dp)
+                                                    .size(24.dp),
+                                                tint = Color.White
+                                            )
+                                        }
+                                        // Video duration overlay
+                                        val durationText = formatVideoDuration(hitModel.duration)
+                                        if (durationText.isNotEmpty()) {
+                                            Text(
+                                                text = durationText,
+                                                style = MaterialTheme.typography.labelSmall,
+                                                color = Color.White,
+                                                modifier = Modifier
+                                                    .align(Alignment.BottomEnd)
+                                                    .padding(8.dp)
+                                                    .background(
+                                                        color = Color.Black.copy(alpha = 0.7f),
+                                                        shape = MaterialTheme.shapes.small
+                                                    )
+                                                    .padding(horizontal = 6.dp, vertical = 2.dp)
+                                            )
+                                        }
+                                    }
+                                    TagsContent(
+                                        tagsString = hitModel.tags,
+                                        onTagClick = { tag ->
+                                            onEvent(VideoListViewEvent.TagClicked(tag = tag))
+                                        }
+                                    )
                                 }
-                            )
+                            }
+                        }
+
+                        // Handle append state (loading more items)
+                        when (val appendState = lazyPagingItems.loadState.append) {
+                            is LoadState.Loading -> {
+                                item(span = StaggeredGridItemSpan.FullLine) {
+                                    LoadingItem()
+                                }
+                            }
+
+                            is LoadState.Error -> {
+                                item(span = StaggeredGridItemSpan.FullLine) {
+                                    ErrorItem(
+                                        error = appendState.error,
+                                        onRetry = { lazyPagingItems.retry() }
+                                    )
+                                }
+                            }
+
+                            is LoadState.NotLoading -> Unit
                         }
                     }
                 }
@@ -209,16 +277,6 @@ private fun TagsContent(tagsString: String?, onTagClick: (String) -> Unit) {
     }
 }
 
-@Preview
-@Composable
-internal fun VideoListContentPreview(hitList: List<HitModel> = listOf(testData)) = AppTheme {
-    VideoListContent(
-        pagingDataFlow = flowOf(PagingData.from(hitList)),
-        searchTermFlow = flowOf("Search text"),
-        onEvent = {}
-    )
-}
-
 /**
  * Formats video duration in seconds to a human-readable string
  * @param durationSeconds Duration in seconds, can be null
@@ -240,3 +298,161 @@ private fun formatVideoDuration(durationSeconds: Int?): String {
         else -> "$minutes:${seconds.toString().padStart(2, '0')}"
     }
 }
+
+@Preview
+@Composable
+internal fun VideoListContentRefreshIsLoadingPreview() = AppTheme {
+    VideoListContent(
+        pagingDataFlow = flowOf(
+            PagingData.from(
+                data = emptyList(),
+                sourceLoadStates = LoadStates(
+                    refresh = LoadState.Loading,
+                    prepend = LoadState.NotLoading(endOfPaginationReached = false),
+                    append = LoadState.NotLoading(endOfPaginationReached = false)
+                )
+            )
+        ),
+        searchTermFlow = flowOf("Search text"),
+        onEvent = {}
+    )
+}
+
+@Preview
+@Composable
+internal fun VideoListContentRefreshIsErrorPreview() = AppTheme {
+    VideoListContent(
+        pagingDataFlow = flowOf(
+            PagingData.from(
+                data = emptyList(),
+                sourceLoadStates = LoadStates(
+                    refresh = LoadState.Error(Error("Something went wrong")),
+                    prepend = LoadState.NotLoading(endOfPaginationReached = false),
+                    append = LoadState.NotLoading(endOfPaginationReached = false)
+                )
+            )
+        ),
+        searchTermFlow = flowOf("Search text"),
+        onEvent = {}
+    )
+}
+
+@Preview
+@Composable
+internal fun VideoListContentDataPresentAndNotLoadingPreview(
+    hitList: List<HitModel> = listOf(testData)
+) = AppTheme {
+    VideoListContent(
+        pagingDataFlow = flowOf(
+            PagingData.from(
+                data = hitList,
+                sourceLoadStates = LoadStates(
+                    refresh = LoadState.NotLoading(endOfPaginationReached = false),
+                    prepend = LoadState.NotLoading(endOfPaginationReached = false),
+                    append = LoadState.NotLoading(endOfPaginationReached = false)
+                )
+            )
+        ),
+        searchTermFlow = flowOf("Search text"),
+        onEvent = {}
+    )
+}
+
+@Preview
+@Composable
+internal fun VideoListContentDataAbsentAndNotLoadingPreview() = AppTheme {
+    VideoListContent(
+        pagingDataFlow = flowOf(
+            PagingData.from(
+                data = emptyList(),
+                sourceLoadStates = LoadStates(
+                    refresh = LoadState.NotLoading(endOfPaginationReached = false),
+                    prepend = LoadState.NotLoading(endOfPaginationReached = false),
+                    append = LoadState.NotLoading(endOfPaginationReached = false)
+                )
+            )
+        ),
+        searchTermFlow = flowOf("Search text"),
+        onEvent = {}
+    )
+}
+
+@Preview
+@Composable
+internal fun VideoListContentPrependLoadingPreview(hitList: List<HitModel> = listOf(testData)) =
+    AppTheme {
+        VideoListContent(
+            pagingDataFlow = flowOf(
+                PagingData.from(
+                    data = hitList.take(1),
+                    sourceLoadStates = LoadStates(
+                        refresh = LoadState.NotLoading(endOfPaginationReached = false),
+                        prepend = LoadState.Loading,
+                        append = LoadState.NotLoading(endOfPaginationReached = false)
+                    )
+                )
+            ),
+            searchTermFlow = flowOf("Search text"),
+            onEvent = {}
+        )
+    }
+
+@Preview
+@Composable
+internal fun VideoListContentPrependErrorPreview(hitList: List<HitModel> = listOf(testData)) =
+    AppTheme {
+        VideoListContent(
+            pagingDataFlow = flowOf(
+                PagingData.from(
+                    data = hitList.take(1),
+                    sourceLoadStates = LoadStates(
+                        refresh = LoadState.NotLoading(endOfPaginationReached = false),
+                        prepend = LoadState.Error(Error("Something went wrong")),
+                        append = LoadState.NotLoading(endOfPaginationReached = false)
+                    )
+                )
+            ),
+            searchTermFlow = flowOf("Search text"),
+            onEvent = {}
+        )
+    }
+
+@Preview
+@Composable
+internal fun VideoListContentAppendLoadingPreview(hitList: List<HitModel> = listOf(testData)) =
+    AppTheme {
+        VideoListContent(
+            pagingDataFlow = flowOf(
+                PagingData.from(
+                    data = hitList.take(1),
+                    sourceLoadStates = LoadStates(
+                        refresh = LoadState.NotLoading(endOfPaginationReached = false),
+                        prepend = LoadState.NotLoading(endOfPaginationReached = false),
+                        append = LoadState.Loading
+                    )
+                )
+            ),
+            searchTermFlow = flowOf("Search text"),
+            onEvent = {}
+        )
+    }
+
+@Preview
+@Composable
+internal fun VideoListContentAppendErrorPreview(hitList: List<HitModel> = listOf(testData)) =
+    AppTheme {
+        VideoListContent(
+            pagingDataFlow = flowOf(
+                PagingData.from(
+                    data = hitList.take(1),
+                    sourceLoadStates = LoadStates(
+                        refresh = LoadState.NotLoading(endOfPaginationReached = false),
+                        prepend = LoadState.NotLoading(endOfPaginationReached = false),
+                        append = LoadState.Error(Error("Something went wrong"))
+                    )
+                )
+            ),
+            searchTermFlow = flowOf("Search text"),
+            onEvent = {}
+        )
+    }

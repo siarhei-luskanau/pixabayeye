@@ -17,8 +17,50 @@ class ImageListScreenJvmTest {
     }
 
     @Test
-    fun light() = runDesktopComposeUiTest {
-        setContent { ImageListContentPreview(hitList = hitList) }
+    fun lightRefreshIsLoading() = runDesktopComposeUiTest {
+        setContent { ImageListContentRefreshIsLoadingPreview() }
+        onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightRefreshIsError() = runDesktopComposeUiTest {
+        setContent { ImageListContentRefreshIsErrorPreview() }
+        onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightDataPresentAndNotLoading() = runDesktopComposeUiTest {
+        setContent { ImageListContentDataPresentAndNotLoadingPreview(hitList = hitList) }
+        onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightDataAbsentAndNotLoading() = runDesktopComposeUiTest {
+        setContent { ImageListContentDataAbsentAndNotLoadingPreview() }
+        onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightPrependLoading() = runDesktopComposeUiTest {
+        setContent { ImageListContentPrependLoadingPreview(hitList = hitList) }
+        onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightPrependError() = runDesktopComposeUiTest {
+        setContent { ImageListContentPrependErrorPreview(hitList = hitList) }
+        onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightAppendLoading() = runDesktopComposeUiTest {
+        setContent { ImageListContentAppendLoadingPreview(hitList = hitList) }
+        onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightAppendError() = runDesktopComposeUiTest {
+        setContent { ImageListContentAppendErrorPreview(hitList = hitList) }
         onRoot().captureRoboImage()
     }
 }

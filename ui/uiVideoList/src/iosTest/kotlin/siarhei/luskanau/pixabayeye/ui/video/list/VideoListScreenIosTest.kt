@@ -18,12 +18,82 @@ class VideoListScreenIosTest {
     }
 
     @Test
-    fun light() = runComposeUiTest {
-        setContent { VideoListContentPreview(hitList = hitList) }
+    fun lightRefreshIsLoading() = runComposeUiTest {
+        setContent { VideoListContentRefreshIsLoadingPreview() }
         onRoot().captureRoboImage(
-            this,
+            composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.video.list." +
-                "VideoListScreenIosTest.light.png"
+                "VideoListScreenIosTest.lightRefreshIsLoading.png"
+        )
+    }
+
+    @Test
+    fun lightRefreshIsError() = runComposeUiTest {
+        setContent { VideoListContentRefreshIsErrorPreview() }
+        onRoot().captureRoboImage(
+            composeUiTest = this,
+            filePath = "siarhei.luskanau.pixabayeye.ui.video.list." +
+                "VideoListScreenIosTest.lightRefreshIsError.png"
+        )
+    }
+
+    @Test
+    fun lightDataPresentAndNotLoading() = runComposeUiTest {
+        setContent { VideoListContentDataPresentAndNotLoadingPreview(hitList = hitList) }
+        onRoot().captureRoboImage(
+            composeUiTest = this,
+            filePath = "siarhei.luskanau.pixabayeye.ui.video.list." +
+                "VideoListScreenIosTest.lightDataPresentAndNotLoading.png"
+        )
+    }
+
+    @Test
+    fun lightDataAbsentAndNotLoading() = runComposeUiTest {
+        setContent { VideoListContentDataAbsentAndNotLoadingPreview() }
+        onRoot().captureRoboImage(
+            composeUiTest = this,
+            filePath = "siarhei.luskanau.pixabayeye.ui.video.list." +
+                "VideoListScreenIosTest.lightDataAbsentAndNotLoading.png"
+        )
+    }
+
+    @Test
+    fun lightPrependLoading() = runComposeUiTest {
+        setContent { VideoListContentPrependLoadingPreview(hitList = hitList) }
+        onRoot().captureRoboImage(
+            composeUiTest = this,
+            filePath = "siarhei.luskanau.pixabayeye.ui.video.list." +
+                "VideoListScreenIosTest.lightPrependLoading.png"
+        )
+    }
+
+    @Test
+    fun lightPrependError() = runComposeUiTest {
+        setContent { VideoListContentPrependErrorPreview(hitList = hitList) }
+        onRoot().captureRoboImage(
+            composeUiTest = this,
+            filePath = "siarhei.luskanau.pixabayeye.ui.video.list." +
+                "VideoListScreenIosTest.lightPrependError.png"
+        )
+    }
+
+    @Test
+    fun lightAppendLoading() = runComposeUiTest {
+        setContent { VideoListContentAppendLoadingPreview(hitList = hitList) }
+        onRoot().captureRoboImage(
+            composeUiTest = this,
+            filePath = "siarhei.luskanau.pixabayeye.ui.video.list." +
+                "VideoListScreenIosTest.lightAppendLoading.png"
+        )
+    }
+
+    @Test
+    fun lightAppendError() = runComposeUiTest {
+        setContent { VideoListContentAppendErrorPreview(hitList = hitList) }
+        onRoot().captureRoboImage(
+            composeUiTest = this,
+            filePath = "siarhei.luskanau.pixabayeye.ui.video.list." +
+                "VideoListScreenIosTest.lightAppendError.png"
         )
     }
 }
