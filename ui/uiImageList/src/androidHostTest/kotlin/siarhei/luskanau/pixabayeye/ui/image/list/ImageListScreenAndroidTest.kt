@@ -27,15 +27,110 @@ class ImageListScreenAndroidTest {
     }
 
     @Test
-    fun light() {
-        composeRule.setContent { ImageListContentPreview(hitList = hitList) }
+    fun lightRefreshIsLoading() {
+        composeRule.setContent { ImageListContentRefreshIsLoadingPreview() }
         composeRule.onRoot().captureRoboImage()
     }
 
     @Test
     @Config(qualifiers = "+night")
-    fun night() {
-        composeRule.setContent { ImageListContentPreview(hitList = hitList) }
+    fun nightRefreshIsLoading() {
+        composeRule.setContent { ImageListContentRefreshIsLoadingPreview() }
+        composeRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightRefreshIsError() {
+        composeRule.setContent { ImageListContentRefreshIsErrorPreview() }
+        composeRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    @Config(qualifiers = "+night")
+    fun nightRefreshIsError() {
+        composeRule.setContent { ImageListContentRefreshIsErrorPreview() }
+        composeRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightDataPresentAndNotLoading() {
+        composeRule.setContent {
+            ImageListContentDataPresentAndNotLoadingPreview(hitList = hitList)
+        }
+        composeRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    @Config(qualifiers = "+night")
+    fun nightDataPresentAndNotLoading() {
+        composeRule.setContent {
+            ImageListContentDataPresentAndNotLoadingPreview(hitList = hitList)
+        }
+        composeRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightDataAbsentAndNotLoading() {
+        composeRule.setContent { ImageListContentDataAbsentAndNotLoadingPreview() }
+        composeRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    @Config(qualifiers = "+night")
+    fun nightDataAbsentAndNotLoading() {
+        composeRule.setContent { ImageListContentDataAbsentAndNotLoadingPreview() }
+        composeRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightPrependLoading() {
+        composeRule.setContent { ImageListContentPrependLoadingPreview(hitList = hitList) }
+        composeRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    @Config(qualifiers = "+night")
+    fun nightPrependLoading() {
+        composeRule.setContent { ImageListContentPrependLoadingPreview(hitList = hitList) }
+        composeRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightPrependError() {
+        composeRule.setContent { ImageListContentPrependErrorPreview(hitList = hitList) }
+        composeRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    @Config(qualifiers = "+night")
+    fun nightPrependError() {
+        composeRule.setContent { ImageListContentPrependErrorPreview(hitList = hitList) }
+        composeRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightAppendLoading() {
+        composeRule.setContent { ImageListContentAppendLoadingPreview(hitList = hitList) }
+        composeRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    @Config(qualifiers = "+night")
+    fun nightAppendLoading() {
+        composeRule.setContent { ImageListContentAppendLoadingPreview(hitList = hitList) }
+        composeRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightAppendError() {
+        composeRule.setContent { ImageListContentAppendErrorPreview(hitList = hitList) }
+        composeRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    @Config(qualifiers = "+night")
+    fun nightAppendError() {
+        composeRule.setContent { ImageListContentAppendErrorPreview(hitList = hitList) }
         composeRule.onRoot().captureRoboImage()
     }
 }

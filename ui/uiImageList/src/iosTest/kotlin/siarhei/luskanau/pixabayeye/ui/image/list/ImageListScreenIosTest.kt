@@ -18,12 +18,82 @@ class ImageListScreenIosTest {
     }
 
     @Test
-    fun light() = runComposeUiTest {
-        setContent { ImageListContentPreview(hitList = hitList) }
+    fun lightRefreshIsLoading() = runComposeUiTest {
+        setContent { ImageListContentRefreshIsLoadingPreview() }
         onRoot().captureRoboImage(
-            this,
+            composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
-                "ImageListScreenIosTest.light.png"
+                "ImageListScreenIosTest.lightRefreshIsLoading.png"
+        )
+    }
+
+    @Test
+    fun lightRefreshIsError() = runComposeUiTest {
+        setContent { ImageListContentRefreshIsErrorPreview() }
+        onRoot().captureRoboImage(
+            composeUiTest = this,
+            filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
+                "ImageListScreenIosTest.lightRefreshIsError.png"
+        )
+    }
+
+    @Test
+    fun lightDataPresentAndNotLoading() = runComposeUiTest {
+        setContent { ImageListContentDataPresentAndNotLoadingPreview(hitList = hitList) }
+        onRoot().captureRoboImage(
+            composeUiTest = this,
+            filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
+                "ImageListScreenIosTest.lightDataPresentAndNotLoading.png"
+        )
+    }
+
+    @Test
+    fun lightDataAbsentAndNotLoading() = runComposeUiTest {
+        setContent { ImageListContentDataAbsentAndNotLoadingPreview() }
+        onRoot().captureRoboImage(
+            composeUiTest = this,
+            filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
+                "ImageListScreenIosTest.lightDataAbsentAndNotLoading.png"
+        )
+    }
+
+    @Test
+    fun lightPrependLoading() = runComposeUiTest {
+        setContent { ImageListContentPrependLoadingPreview(hitList = hitList) }
+        onRoot().captureRoboImage(
+            composeUiTest = this,
+            filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
+                "ImageListScreenIosTest.lightPrependLoading.png"
+        )
+    }
+
+    @Test
+    fun lightPrependError() = runComposeUiTest {
+        setContent { ImageListContentPrependErrorPreview(hitList = hitList) }
+        onRoot().captureRoboImage(
+            composeUiTest = this,
+            filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
+                "ImageListScreenIosTest.lightPrependError.png"
+        )
+    }
+
+    @Test
+    fun lightAppendLoading() = runComposeUiTest {
+        setContent { ImageListContentAppendLoadingPreview(hitList = hitList) }
+        onRoot().captureRoboImage(
+            composeUiTest = this,
+            filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
+                "ImageListScreenIosTest.lightAppendLoading.png"
+        )
+    }
+
+    @Test
+    fun lightAppendError() = runComposeUiTest {
+        setContent { ImageListContentAppendErrorPreview(hitList = hitList) }
+        onRoot().captureRoboImage(
+            composeUiTest = this,
+            filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
+                "ImageListScreenIosTest.lightAppendError.png"
         )
     }
 }

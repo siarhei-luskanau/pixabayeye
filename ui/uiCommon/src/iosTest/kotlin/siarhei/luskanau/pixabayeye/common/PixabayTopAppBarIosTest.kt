@@ -13,8 +13,8 @@ class PixabayTopAppBarIosTest {
     fun light() = runComposeUiTest {
         setContent { PixabayTopAppBarPreview() }
         onRoot().captureRoboImage(
-            this,
-            filePath = "siarhei.luskanau.pixabayeye.common.PixabayTopAppBarPreview.light.png"
+            composeUiTest = this,
+            filePath = "siarhei.luskanau.pixabayeye.common.PixabayTopAppBarIosTest.light.png"
         )
     }
 }
