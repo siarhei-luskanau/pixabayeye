@@ -4,4 +4,7 @@
     <string name="bottombar_images">Images</string>
     <string name="bottombar_videos">Videos</string>
     <string name="screen_name_search">PixabayEye - Search</string>
+    <string name="loading">Loading…</string>
+    <string name="retry">Retry</string>
+    <string name="error_loading">Failed to load</string>
 </resources>
