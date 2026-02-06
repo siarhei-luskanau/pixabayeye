@@ -19,7 +19,6 @@ include(
     ":ui:uiDebugEmpty",
     ":ui:uiImageDetails",
     ":ui:uiImageList",
-    ":ui:uiScreenshotTest",
     ":ui:uiVideoDetails",
     ":ui:uiVideoList"
 )

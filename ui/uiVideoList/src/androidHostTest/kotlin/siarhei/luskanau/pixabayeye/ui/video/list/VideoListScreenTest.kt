@@ -3,7 +3,7 @@ package siarhei.luskanau.pixabayeye.ui.video.list
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
 import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
-import kotlin.test.BeforeTest
+import com.github.takahirom.roborazzi.captureRoboImage
 import kotlin.test.Test
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -13,12 +13,11 @@ import org.robolectric.annotation.GraphicsMode
 import siarhei.luskanau.pixabayeye.core.network.api.HitModel
 import siarhei.luskanau.pixabayeye.core.stub.resources.HIT_LIST
 import siarhei.luskanau.pixabayeye.core.stub.resources.TYPES_VIDEO
-import siarhei.luskanau.pixabayeye.ui.screenshot.test.BaseScreenshotTest
 
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [34], qualifiers = RobolectricDeviceQualifiers.SmallPhone)
-class VideoListScreenTest : BaseScreenshotTest(group = "video_list") {
+@Config(sdk = [36], qualifiers = RobolectricDeviceQualifiers.SmallPhone)
+class VideoListScreenTest {
 
     @get:Rule
     val composeRule = createComposeRule()
@@ -27,27 +26,16 @@ class VideoListScreenTest : BaseScreenshotTest(group = "video_list") {
         HIT_LIST.filter { TYPES_VIDEO.contains(it.type) }
     }
 
-    @BeforeTest
-    fun setup() {
-        setupAndroidContextProvider()
-    }
-
     @Test
     fun lightTest() {
         composeRule.setContent { VideoListContentPreview(hitList = hitList) }
-        composeRule.onRoot().captureScreenshot(name = "light")
+        composeRule.onRoot().captureRoboImage()
     }
 
     @Test
     @Config(qualifiers = "+night")
     fun nightTest() {
         composeRule.setContent { VideoListContentPreview(hitList = hitList) }
-        composeRule.onRoot().captureScreenshot(name = "night")
-    }
-
-    @Test
-    fun dumpTest() {
-        composeRule.setContent { VideoListContentPreview(hitList = hitList) }
-        composeRule.onRoot().captureScreenshotDump(name = "dump")
+        composeRule.onRoot().captureRoboImage()
     }
 }

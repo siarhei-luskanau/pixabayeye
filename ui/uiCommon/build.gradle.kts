@@ -11,7 +11,6 @@ kotlin {
     sourceSets {
         androidHostTest.dependencies {
             implementation(projects.core.coreStubResources)
-            implementation(projects.ui.uiScreenshotTest)
         }
     }
 }
