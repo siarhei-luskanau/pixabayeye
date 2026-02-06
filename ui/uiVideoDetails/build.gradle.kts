@@ -13,12 +13,10 @@ kotlin {
             implementation(projects.core.corePref)
             implementation(projects.ui.uiCommon)
         }
-        getByName("androidHostTest") {
-            dependencies {
-                implementation(libs.androidcontextprovider)
-                implementation(projects.core.coreStubResources)
-                implementation(projects.ui.uiScreenshotTest)
-            }
+        androidHostTest.dependencies {
+            implementation(libs.androidcontextprovider)
+            implementation(projects.core.coreStubResources)
+            implementation(projects.ui.uiScreenshotTest)
         }
     }
 }

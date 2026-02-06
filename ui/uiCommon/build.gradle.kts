@@ -9,11 +9,9 @@ plugins {
 kotlin {
     androidLibrary.namespace = "siarhei.luskanau.pixabayeye.ui.common"
     sourceSets {
-        getByName("androidHostTest") {
-            dependencies {
-                implementation(projects.core.coreStubResources)
-                implementation(projects.ui.uiScreenshotTest)
-            }
+        androidHostTest.dependencies {
+            implementation(projects.core.coreStubResources)
+            implementation(projects.ui.uiScreenshotTest)
         }
     }
 }
