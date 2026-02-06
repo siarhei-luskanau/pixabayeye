@@ -14,9 +14,7 @@ kotlin {
             implementation(projects.ui.uiCommon)
         }
         androidHostTest.dependencies {
-            implementation(libs.androidcontextprovider)
             implementation(projects.core.coreStubResources)
-            implementation(projects.ui.uiScreenshotTest)
         }
     }
 }
