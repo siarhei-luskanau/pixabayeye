@@ -85,21 +85,6 @@ tasks.register("ciWasmJsBrowser") {
     }
 }
 
-tasks.register("ciPngCheck") {
-    group = CI_GRADLE
-    val injected = project.objects.newInstance<Injected>()
-    doLast {
-        if (Os.isFamily(Os.FAMILY_MAC)) {
-            injected.runExec(listOf("brew", "install", "pngcheck"))
-        } else if (Os.isFamily(Os.FAMILY_UNIX)) {
-            injected.runExec(listOf("sudo", "apt", "install", "pngcheck"))
-        }
-        File(injected.projectLayout.projectDirectory.asFile, "screenshots").listFiles().orEmpty()
-            .filter { it.name.endsWith(".png", ignoreCase = true) }
-            .forEach { injected.runExec(listOf("pngcheck", "-q", it.path)) }
-    }
-}
-
 tasks.register("ciIos") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()

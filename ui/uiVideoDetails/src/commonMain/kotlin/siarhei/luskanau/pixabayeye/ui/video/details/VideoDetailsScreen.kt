@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import io.github.kdroidfilter.composemediaplayer.VideoPlayerState
 import io.github.kdroidfilter.composemediaplayer.VideoPlayerSurface
 import io.github.kdroidfilter.composemediaplayer.rememberVideoPlayerState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -80,16 +81,20 @@ internal fun VideoDetailsContent(
 
                 is VideoDetailsViewState.Success -> {
                     val videoModel = result.hitModel.videosModel.orEmpty().values.first()
-                    val playerState = rememberVideoPlayerState()
+                    val playerState: VideoPlayerState? = if (!result.isTest) {
+                        rememberVideoPlayerState()
+                    } else {
+                        null
+                    }
                     LaunchedEffect(videoModel.url) {
-                        playerState.openUri(videoModel.url)
+                        playerState?.openUri(videoModel.url)
                     }
                     Column(modifier = Modifier.fillMaxSize()) {
                         Box(
                             modifier = Modifier.weight(1f).fillMaxWidth(),
                             contentAlignment = Alignment.Center
                         ) {
-                            if (!result.isTest) {
+                            if (playerState != null) {
                                 VideoPlayerSurface(
                                     playerState = playerState,
                                     modifier = Modifier.fillMaxSize()
@@ -101,9 +106,9 @@ internal fun VideoDetailsContent(
                             modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Button(onClick = { playerState.play() }) { Text("Play") }
+                            Button(onClick = { playerState?.play() }) { Text("Play") }
                             Spacer(modifier = Modifier.width(8.dp))
-                            Button(onClick = { playerState.pause() }) { Text("Pause") }
+                            Button(onClick = { playerState?.pause() }) { Text("Pause") }
                         }
                     }
                 }

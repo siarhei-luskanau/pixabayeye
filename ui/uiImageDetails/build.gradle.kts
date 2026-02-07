@@ -16,6 +16,12 @@ kotlin {
         androidHostTest.dependencies {
             implementation(projects.core.coreStubResources)
         }
+        iosTest.dependencies {
+            implementation(projects.core.coreStubResources)
+        }
+        jvmTest.dependencies {
+            implementation(projects.core.coreStubResources)
+        }
     }
 }
 
