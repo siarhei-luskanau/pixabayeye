@@ -3,6 +3,7 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     id("androidTestConvention")
     id("composeMultiplatformConvention")
+    alias(libs.plugins.roborazzi)
 }
 
 kotlin {
@@ -31,3 +32,6 @@ kotlin {
         }
     }
 }
+
+// Directory for reference images
+roborazzi.outputDir.set(rootProject.file("screenshots"))

@@ -71,7 +71,6 @@ kotlin {
                 implementation(libs.robolectric)
                 implementation(libs.roborazzi)
                 implementation(libs.roborazzi.compose)
-                implementation(libs.roborazzi.rule)
             }
         }
 
@@ -80,7 +79,15 @@ kotlin {
             implementation(libs.kotlinx.coroutines.swing)
         }
 
+        jvmTest.dependencies {
+            implementation(libs.roborazzi.compose.desktop)
+        }
+
         iosMain.dependencies {
+        }
+
+        iosTest.dependencies {
+            implementation(libs.roborazzi.compose.ios)
         }
 
         webMain.dependencies {
@@ -93,6 +100,10 @@ kotlin {
         .configureEach {
             binaries { framework { baseName = "ComposeApp" } }
         }
+}
+
+tasks.withType<Test>().matching { it.name.contains("AndroidHostTest") }.configureEach {
+    exclude("**/*CommonTest*")
 }
 
 tasks.withType<AbstractTestTask>().configureEach {

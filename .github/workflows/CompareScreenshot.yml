@@ -58,7 +58,7 @@ jobs:
       - name: compare screenshot test
         id: compare-screenshot-test
         run: |
-          ./gradlew compareRoborazziAndroidHostTest -DIS_DATA_STUB_ENABLED=true --stacktrace --info --profile
+          ./gradlew compareRoborazzi -DIS_DATA_STUB_ENABLED=true --stacktrace --info --profile
 
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: ${{ always() }}

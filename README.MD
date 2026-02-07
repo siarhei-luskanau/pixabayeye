@@ -80,7 +80,7 @@ Run the browser application: `./gradlew :app:webApp:wasmJsBrowserDevelopmentRun`
 Run browser UI tests: `./gradlew :app:webApp:wasmJsBrowserTest`
 
 ### Screenshot Testing
-Record a screenshot: `./gradlew recordRoborazziAndroidHostTest -DIS_DATA_STUB_ENABLED=true`
+Record a screenshot: `./gradlew recordRoborazzi -DIS_DATA_STUB_ENABLED=true`
 Output directory is `screenshots/`
 
 ---

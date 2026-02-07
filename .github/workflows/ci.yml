@@ -49,15 +49,18 @@ jobs:
       matrix:
         gradle-tasks: [
           "jvmTest",
-          # "testAndroidHostTest",
+          "testAndroidHostTest",
           # "wasmJsBrowserTest"
         ]
         os: [ ubuntu-latest ]
         experimental: [ false ]
         emulator: [ false ]
         include:
-          # managedVirtualDeviceAndroidDeviceTest
           - gradle-tasks: "managedVirtualDeviceDebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect"
+            os: ubuntu-latest
+            experimental: false
+            emulator: true
+          - gradle-tasks: "managedVirtualDeviceAndroidDeviceTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect"
             os: ubuntu-latest
             experimental: false
             emulator: true
@@ -99,6 +102,25 @@ jobs:
           path: |
             **/build/reports/
           retention-days: 7
+
+
+
+  VerifyScreenshot:
+    runs-on: macos-latest
+    steps:
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - uses: gradle/actions/setup-gradle@f29f5a9d7b09a7c6b29859002d29d24e1674c884 # v5.0.1
+
+      - run: ./gradlew verifyRoborazzi -DIS_DATA_STUB_ENABLED=true --stacktrace
 
 
 
