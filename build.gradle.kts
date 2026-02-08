@@ -193,8 +193,6 @@ tasks.register("devAll") {
 
 abstract class Injected {
 
-    @get:Inject abstract val fs: FileSystemOperations
-
     @get:Inject abstract val execOperations: ExecOperations
 
     @get:Inject abstract val projectLayout: ProjectLayout
