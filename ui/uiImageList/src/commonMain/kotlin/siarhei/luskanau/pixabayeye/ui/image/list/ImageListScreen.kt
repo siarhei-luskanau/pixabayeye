@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -34,6 +35,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
@@ -44,6 +46,10 @@ import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import siarhei.luskanau.pixabayeye.common.BottomBarSelected
+import siarhei.luskanau.pixabayeye.common.ErrorContent
+import siarhei.luskanau.pixabayeye.common.ErrorItem
+import siarhei.luskanau.pixabayeye.common.LoadingContent
+import siarhei.luskanau.pixabayeye.common.LoadingItem
 import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
 import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
@@ -105,63 +111,104 @@ internal fun ImageListContent(
                 label = { Text("Search") },
                 modifier = Modifier.fillMaxWidth().padding(16.dp).testTag("search_text_field")
             )
-            LazyVerticalStaggeredGrid(
-                columns = StaggeredGridCells.Adaptive(minSize = 180.dp),
-                verticalItemSpacing = 4.dp,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                items(lazyPagingItems.itemCount) { index ->
-                    val hitModel = lazyPagingItems[index] ?: return@items
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                onEvent(ImageListViewEvent.ImageClicked(hitModel = hitModel))
-                            },
-                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+
+            // Handle refresh state (initial load)
+            when (val refreshState = lazyPagingItems.loadState.refresh) {
+                is LoadState.Loading -> {
+                    LoadingContent()
+                }
+
+                is LoadState.Error -> {
+                    ErrorContent(
+                        error = refreshState.error,
+                        onRetry = { lazyPagingItems.retry() }
+                    )
+                }
+
+                is LoadState.NotLoading -> {
+                    LazyVerticalStaggeredGrid(
+                        columns = StaggeredGridCells.Adaptive(minSize = 180.dp),
+                        verticalItemSpacing = 4.dp,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        Column {
-                            Box(
+                        items(lazyPagingItems.itemCount) { index ->
+                            val hitModel = lazyPagingItems[index] ?: return@items
+                            Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .aspectRatio(
-                                        ratio =
-                                            requireNotNull(
-                                                hitModel.imageModel?.webFormatWidth
-                                            ).toFloat() /
-                                                requireNotNull(
-                                                    hitModel.imageModel?.webFormatHeight
-                                                ).toFloat()
-                                    )
+                                    .clickable {
+                                        onEvent(
+                                            ImageListViewEvent.ImageClicked(hitModel = hitModel)
+                                        )
+                                    },
+                                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                             ) {
-                                AsyncImage(
-                                    model = ImageRequest.Builder(LocalPlatformContext.current)
-                                        .data(hitModel.imageModel?.webFormatUrl.orEmpty())
-                                        .build(),
-                                    contentDescription = hitModel.tags,
-                                    placeholder = ColorPainter(Color.Gray),
-                                    error = ColorPainter(Color.Red),
-                                    contentScale = ContentScale.FillWidth,
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                                if (hitModel.isAiGenerated) {
-                                    Icon(
-                                        imageVector = vectorResource(Res.drawable.ic_ai),
-                                        contentDescription = null,
+                                Column {
+                                    Box(
                                         modifier = Modifier
-                                            .align(Alignment.TopEnd)
-                                            .padding(8.dp)
-                                            .size(24.dp),
-                                        tint = Color.White
+                                            .fillMaxWidth()
+                                            .aspectRatio(
+                                                ratio =
+                                                    requireNotNull(
+                                                        hitModel.imageModel?.webFormatWidth
+                                                    ).toFloat() /
+                                                        requireNotNull(
+                                                            hitModel.imageModel?.webFormatHeight
+                                                        ).toFloat()
+                                            )
+                                    ) {
+                                        AsyncImage(
+                                            model = ImageRequest.Builder(
+                                                LocalPlatformContext.current
+                                            )
+                                                .data(hitModel.imageModel?.webFormatUrl.orEmpty())
+                                                .build(),
+                                            contentDescription = hitModel.tags,
+                                            placeholder = ColorPainter(Color.Gray),
+                                            error = ColorPainter(Color.Red),
+                                            contentScale = ContentScale.FillWidth,
+                                            modifier = Modifier.fillMaxWidth()
+                                        )
+                                        if (hitModel.isAiGenerated) {
+                                            Icon(
+                                                imageVector = vectorResource(Res.drawable.ic_ai),
+                                                contentDescription = null,
+                                                modifier = Modifier
+                                                    .align(Alignment.TopEnd)
+                                                    .padding(8.dp)
+                                                    .size(24.dp),
+                                                tint = Color.White
+                                            )
+                                        }
+                                    }
+                                    TagsContent(
+                                        tagsString = hitModel.tags,
+                                        onTagClick = { tag ->
+                                            onEvent(ImageListViewEvent.TagClicked(tag = tag))
+                                        }
                                     )
                                 }
                             }
-                            TagsContent(
-                                tagsString = hitModel.tags,
-                                onTagClick = { tag ->
-                                    onEvent(ImageListViewEvent.TagClicked(tag = tag))
+                        }
+
+                        // Handle append state (loading more items)
+                        when (val appendState = lazyPagingItems.loadState.append) {
+                            is LoadState.Loading -> {
+                                item(span = StaggeredGridItemSpan.FullLine) {
+                                    LoadingItem()
                                 }
-                            )
+                            }
+
+                            is LoadState.Error -> {
+                                item(span = StaggeredGridItemSpan.FullLine) {
+                                    ErrorItem(
+                                        error = appendState.error,
+                                        onRetry = { lazyPagingItems.retry() }
+                                    )
+                                }
+                            }
+
+                            is LoadState.NotLoading -> Unit
                         }
                     }
                 }
