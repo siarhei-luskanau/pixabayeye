@@ -64,14 +64,12 @@ kotlin {
         androidMain.dependencies {
         }
 
-        getByName("androidHostTest") {
-            dependencies {
-                implementation(libs.androidx.uitest.junit4)
-                implementation(libs.androidx.uitest.testManifest)
-                implementation(libs.robolectric)
-                implementation(libs.roborazzi)
-                implementation(libs.roborazzi.compose)
-            }
+        getByName("androidHostTest").dependencies {
+            implementation(libs.androidx.uitest.junit4)
+            implementation(libs.androidx.uitest.testManifest)
+            implementation(libs.robolectric)
+            implementation(libs.roborazzi)
+            implementation(libs.roborazzi.compose)
         }
 
         jvmMain.dependencies {

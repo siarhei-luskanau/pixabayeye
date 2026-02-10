@@ -22,7 +22,7 @@ compose.resources {
 }
 
 // Directory for reference images
-roborazzi.outputDir.set(rootProject.file("screenshots"))
+roborazzi.outputDir.set(file("src/screenshots"))
 
 buildConfig {
     packageName(kotlin.androidLibrary.namespace.orEmpty())
