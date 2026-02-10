@@ -170,6 +170,34 @@ tasks.register("ciSdkManagerLicenses") {
     }
 }
 
+tasks.register("ciVerifyScreenshotJobsMatrixSetup") {
+    group = CI_GRADLE
+    val matrixJson =
+        getScreenshotMatrixJson(rootProject = rootProject, roborazziTask = "verifyRoborazzi")
+    val outputFile = layout.buildDirectory.file("verify_screenshot_jobs_matrix.json")
+    doLast {
+        outputFile.get().asFile.apply {
+            parentFile.mkdirs()
+            writeText(matrixJson)
+        }
+        println("screenshot_jobs_matrix: $matrixJson")
+    }
+}
+
+tasks.register("ciRecordScreenshotJobsMatrixSetup") {
+    group = CI_GRADLE
+    val matrixJson =
+        getScreenshotMatrixJson(rootProject = rootProject, roborazziTask = "recordRoborazzi")
+    val outputFile = layout.buildDirectory.file("record_screenshot_jobs_matrix.json")
+    doLast {
+        outputFile.get().asFile.apply {
+            parentFile.mkdirs()
+            writeText(matrixJson)
+        }
+        println("record_screenshot_jobs_matrix: $matrixJson")
+    }
+}
+
 tasks.register("devAll") {
     group = CI_GRADLE
     val injected = project.objects.newInstance<Injected>()

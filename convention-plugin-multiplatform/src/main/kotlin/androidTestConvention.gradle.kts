@@ -20,12 +20,10 @@ kotlin {
     }
 
     sourceSets {
-        getByName("androidHostTest") {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(libs.androidx.uitest.junit4)
-                implementation(libs.androidx.uitest.testManifest)
-            }
+        getByName("androidHostTest").dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.androidx.uitest.junit4)
+            implementation(libs.androidx.uitest.testManifest)
         }
     }
 }
