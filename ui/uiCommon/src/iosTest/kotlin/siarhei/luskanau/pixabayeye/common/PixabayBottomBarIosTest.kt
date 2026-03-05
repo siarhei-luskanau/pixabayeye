@@ -12,6 +12,7 @@ class PixabayBottomBarIosTest {
     @Test
     fun lightImages() = runComposeUiTest {
         setContent { PixabayBottomBarImagesPreview() }
+        waitForIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.common.PixabayBottomBarIosTest.lightImages.png"
@@ -21,6 +22,7 @@ class PixabayBottomBarIosTest {
     @Test
     fun lightVideos() = runComposeUiTest {
         setContent { PixabayBottomBarVideosPreview() }
+        waitForIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.common.PixabayBottomBarIosTest.lightVideos.png"

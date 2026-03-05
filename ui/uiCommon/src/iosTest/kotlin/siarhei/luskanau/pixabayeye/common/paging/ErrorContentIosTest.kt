@@ -12,6 +12,7 @@ class ErrorContentIosTest {
     @Test
     fun light() = runComposeUiTest {
         setContent { ErrorContentPreview() }
+        waitForIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.common.paging.ErrorContentIosTest.light.png"

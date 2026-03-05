@@ -11,6 +11,7 @@ class ErrorContentJvmTest {
     @Test
     fun light() = runDesktopComposeUiTest {
         setContent { ErrorContentPreview() }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 }

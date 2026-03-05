@@ -1,6 +1,6 @@
 package siarhei.luskanau.pixabayeye.ui.video.details
 
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onRoot
 import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import com.github.takahirom.roborazzi.captureRoboImage
@@ -27,6 +27,7 @@ class VideoDetailsScreenAndroidTest {
     @Test
     fun lightLoading() {
         composeRule.setContent { VideoDetailsLoadingContentPreview() }
+        composeRule.waitForIdle()
         composeRule.onRoot().captureRoboImage()
     }
 
@@ -34,12 +35,14 @@ class VideoDetailsScreenAndroidTest {
     @Config(qualifiers = "+night")
     fun nightLoading() {
         composeRule.setContent { VideoDetailsLoadingContentPreview() }
+        composeRule.waitForIdle()
         composeRule.onRoot().captureRoboImage()
     }
 
     @Test
     fun lightSuccess() {
         composeRule.setContent { VideoDetailsSuccessContentPreview(hitModel = stubData) }
+        composeRule.waitForIdle()
         composeRule.onRoot().captureRoboImage()
     }
 
@@ -47,12 +50,14 @@ class VideoDetailsScreenAndroidTest {
     @Config(qualifiers = "+night")
     fun nightSuccess() {
         composeRule.setContent { VideoDetailsSuccessContentPreview(hitModel = stubData) }
+        composeRule.waitForIdle()
         composeRule.onRoot().captureRoboImage()
     }
 
     @Test
     fun lightError() {
         composeRule.setContent { VideoDetailsErrorContentPreview() }
+        composeRule.waitForIdle()
         composeRule.onRoot().captureRoboImage()
     }
 
@@ -60,6 +65,7 @@ class VideoDetailsScreenAndroidTest {
     @Config(qualifiers = "+night")
     fun nightError() {
         composeRule.setContent { VideoDetailsErrorContentPreview() }
+        composeRule.waitForIdle()
         composeRule.onRoot().captureRoboImage()
     }
 }

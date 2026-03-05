@@ -11,6 +11,7 @@ class PixabayTopAppBarJvmTest {
     @Test
     fun light() = runDesktopComposeUiTest {
         setContent { PixabayTopAppBarPreview() }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 }

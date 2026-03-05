@@ -11,6 +11,7 @@ class LoadingContentJvmTest {
     @Test
     fun light() = runDesktopComposeUiTest {
         setContent { LoadingContentPreview() }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 }

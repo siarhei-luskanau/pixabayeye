@@ -18,6 +18,7 @@ class VideoDetailsScreenIosTest {
     @Test
     fun lightLoading() = runComposeUiTest {
         setContent { VideoDetailsLoadingContentPreview() }
+        waitForIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.video.details." +
@@ -28,6 +29,7 @@ class VideoDetailsScreenIosTest {
     @Test
     fun lightSuccess() = runComposeUiTest {
         setContent { VideoDetailsSuccessContentPreview(hitModel = stubData) }
+        waitForIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.video.details." +
@@ -38,6 +40,7 @@ class VideoDetailsScreenIosTest {
     @Test
     fun lightError() = runComposeUiTest {
         setContent { VideoDetailsErrorContentPreview() }
+        waitForIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.video.details." +
