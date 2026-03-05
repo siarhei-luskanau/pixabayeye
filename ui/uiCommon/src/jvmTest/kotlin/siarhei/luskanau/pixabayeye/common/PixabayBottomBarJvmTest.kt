@@ -11,12 +11,14 @@ class PixabayBottomBarJvmTest {
     @Test
     fun lightImages() = runDesktopComposeUiTest {
         setContent { PixabayBottomBarImagesPreview() }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
     fun lightVideos() = runDesktopComposeUiTest {
         setContent { PixabayBottomBarVideosPreview() }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 }

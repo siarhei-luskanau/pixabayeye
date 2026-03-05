@@ -17,18 +17,21 @@ class ImageDetailsScreenJvmTest {
     @Test
     fun lightLoading() = runDesktopComposeUiTest {
         setContent { ImageDetailsLoadingContentPreview() }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
     fun lightSuccess() = runDesktopComposeUiTest {
         setContent { ImageDetailsSuccessContentPreview(hitModel = stubData) }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
     fun lightError() = runDesktopComposeUiTest {
         setContent { ImageDetailsErrorContentPreview() }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 }

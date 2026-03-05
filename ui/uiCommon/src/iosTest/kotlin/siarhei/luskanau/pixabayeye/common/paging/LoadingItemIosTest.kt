@@ -12,6 +12,7 @@ class LoadingItemIosTest {
     @Test
     fun light() = runComposeUiTest {
         setContent { LoadingItemPreview() }
+        waitForIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.common.paging.LoadingItemIosTest.light.png"

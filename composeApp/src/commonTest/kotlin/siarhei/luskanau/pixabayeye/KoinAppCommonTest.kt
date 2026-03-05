@@ -21,12 +21,15 @@ class KoinAppCommonTest {
         setContent { KoinApp() }
         onRoot().printToLog("StartTag")
         onNodeWithContentDescription("Back").performClick()
+        waitForIdle()
         val testInput = "test123abc"
         onNodeWithTag("search_text_field").apply {
             performTextInput(text = testInput)
+            waitForIdle()
             assertTextContains(value = testInput)
         }
         onNodeWithText("Videos").performClick()
+        waitForIdle()
         onNodeWithText(testInput).assertIsDisplayed()
     }
 }

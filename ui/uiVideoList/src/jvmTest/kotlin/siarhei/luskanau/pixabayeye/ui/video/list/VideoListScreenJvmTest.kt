@@ -19,48 +19,56 @@ class VideoListScreenJvmTest {
     @Test
     fun lightRefreshIsLoading() = runDesktopComposeUiTest {
         setContent { VideoListContentRefreshIsLoadingPreview() }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
     fun lightRefreshIsError() = runDesktopComposeUiTest {
         setContent { VideoListContentRefreshIsErrorPreview() }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
     fun lightDataPresentAndNotLoading() = runDesktopComposeUiTest {
         setContent { VideoListContentDataPresentAndNotLoadingPreview(hitList = hitList) }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
     fun lightDataAbsentAndNotLoading() = runDesktopComposeUiTest {
         setContent { VideoListContentDataAbsentAndNotLoadingPreview() }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
     fun lightPrependLoading() = runDesktopComposeUiTest {
         setContent { VideoListContentPrependLoadingPreview(hitList = hitList) }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
     fun lightPrependError() = runDesktopComposeUiTest {
         setContent { VideoListContentPrependErrorPreview(hitList = hitList) }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
     fun lightAppendLoading() = runDesktopComposeUiTest {
         setContent { VideoListContentAppendLoadingPreview(hitList = hitList) }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
     fun lightAppendError() = runDesktopComposeUiTest {
         setContent { VideoListContentAppendErrorPreview(hitList = hitList) }
+        waitForIdle()
         onRoot().captureRoboImage()
     }
 }

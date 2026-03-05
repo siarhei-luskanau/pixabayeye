@@ -1,6 +1,6 @@
 package siarhei.luskanau.pixabayeye.common
 
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onRoot
 import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import com.github.takahirom.roborazzi.captureRoboImage
@@ -22,6 +22,7 @@ class PixabayBottomBarAndroidTest {
     @Test
     fun lightImages() {
         composeRule.setContent { PixabayBottomBarImagesPreview() }
+        composeRule.waitForIdle()
         composeRule.onRoot().captureRoboImage()
     }
 
@@ -29,12 +30,14 @@ class PixabayBottomBarAndroidTest {
     @Config(qualifiers = "+night")
     fun nightImages() {
         composeRule.setContent { PixabayBottomBarImagesPreview() }
+        composeRule.waitForIdle()
         composeRule.onRoot().captureRoboImage()
     }
 
     @Test
     fun lightVideos() {
         composeRule.setContent { PixabayBottomBarVideosPreview() }
+        composeRule.waitForIdle()
         composeRule.onRoot().captureRoboImage()
     }
 
@@ -42,6 +45,7 @@ class PixabayBottomBarAndroidTest {
     @Config(qualifiers = "+night")
     fun nightVideos() {
         composeRule.setContent { PixabayBottomBarVideosPreview() }
+        composeRule.waitForIdle()
         composeRule.onRoot().captureRoboImage()
     }
 }

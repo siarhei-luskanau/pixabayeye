@@ -20,6 +20,7 @@ class ImageListScreenIosTest {
     @Test
     fun lightRefreshIsLoading() = runComposeUiTest {
         setContent { ImageListContentRefreshIsLoadingPreview() }
+        waitForIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
@@ -30,6 +31,7 @@ class ImageListScreenIosTest {
     @Test
     fun lightRefreshIsError() = runComposeUiTest {
         setContent { ImageListContentRefreshIsErrorPreview() }
+        waitForIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
@@ -40,6 +42,7 @@ class ImageListScreenIosTest {
     @Test
     fun lightDataPresentAndNotLoading() = runComposeUiTest {
         setContent { ImageListContentDataPresentAndNotLoadingPreview(hitList = hitList) }
+        waitForIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
@@ -50,6 +53,7 @@ class ImageListScreenIosTest {
     @Test
     fun lightDataAbsentAndNotLoading() = runComposeUiTest {
         setContent { ImageListContentDataAbsentAndNotLoadingPreview() }
+        waitForIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
@@ -60,6 +64,7 @@ class ImageListScreenIosTest {
     @Test
     fun lightPrependLoading() = runComposeUiTest {
         setContent { ImageListContentPrependLoadingPreview(hitList = hitList) }
+        waitForIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
@@ -70,6 +75,7 @@ class ImageListScreenIosTest {
     @Test
     fun lightPrependError() = runComposeUiTest {
         setContent { ImageListContentPrependErrorPreview(hitList = hitList) }
+        waitForIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
@@ -80,6 +86,7 @@ class ImageListScreenIosTest {
     @Test
     fun lightAppendLoading() = runComposeUiTest {
         setContent { ImageListContentAppendLoadingPreview(hitList = hitList) }
+        waitForIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
@@ -90,6 +97,7 @@ class ImageListScreenIosTest {
     @Test
     fun lightAppendError() = runComposeUiTest {
         setContent { ImageListContentAppendErrorPreview(hitList = hitList) }
+        waitForIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.image.list." +
