@@ -1,11 +1,11 @@
 package siarhei.luskanau.pixabayeye.ui.image.list
 
-import androidx.compose.ui.test.junit4.v2.createComposeRule
+import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.v2.runComposeUiTest
 import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import com.github.takahirom.roborazzi.captureRoboImage
 import kotlin.test.Test
-import org.junit.Rule
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -14,139 +14,133 @@ import siarhei.luskanau.pixabayeye.core.network.api.HitModel
 import siarhei.luskanau.pixabayeye.core.stub.resources.HIT_LIST
 import siarhei.luskanau.pixabayeye.core.stub.resources.TYPES_IMAGE
 
+@OptIn(ExperimentalTestApi::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [36], qualifiers = RobolectricDeviceQualifiers.SmallPhone)
 class ImageListScreenAndroidTest {
-
-    @get:Rule
-    val composeRule = createComposeRule()
 
     private val hitList: List<HitModel> by lazy {
         HIT_LIST.filter { TYPES_IMAGE.contains(it.type) }
     }
 
     @Test
-    fun lightRefreshIsLoading() {
-        composeRule.setContent { ImageListContentRefreshIsLoadingPreview() }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
+    fun lightRefreshIsLoading() = runComposeUiTest {
+        setContent { ImageListContentRefreshIsLoadingPreview() }
+        waitForIdle()
+        onRoot().captureRoboImage()
     }
 
     @Test
     @Config(qualifiers = "+night")
-    fun nightRefreshIsLoading() {
-        composeRule.setContent { ImageListContentRefreshIsLoadingPreview() }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
+    fun nightRefreshIsLoading() = runComposeUiTest {
+        setContent { ImageListContentRefreshIsLoadingPreview() }
+        waitForIdle()
+        onRoot().captureRoboImage()
     }
 
     @Test
-    fun lightRefreshIsError() {
-        composeRule.setContent { ImageListContentRefreshIsErrorPreview() }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
-    }
-
-    @Test
-    @Config(qualifiers = "+night")
-    fun nightRefreshIsError() {
-        composeRule.setContent { ImageListContentRefreshIsErrorPreview() }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
-    }
-
-    @Test
-    fun lightDataPresentAndNotLoading() {
-        composeRule.setContent {
-            ImageListContentDataPresentAndNotLoadingPreview(hitList = hitList)
-        }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
+    fun lightRefreshIsError() = runComposeUiTest {
+        setContent { ImageListContentRefreshIsErrorPreview() }
+        waitForIdle()
+        onRoot().captureRoboImage()
     }
 
     @Test
     @Config(qualifiers = "+night")
-    fun nightDataPresentAndNotLoading() {
-        composeRule.setContent {
-            ImageListContentDataPresentAndNotLoadingPreview(hitList = hitList)
-        }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
+    fun nightRefreshIsError() = runComposeUiTest {
+        setContent { ImageListContentRefreshIsErrorPreview() }
+        waitForIdle()
+        onRoot().captureRoboImage()
     }
 
     @Test
-    fun lightDataAbsentAndNotLoading() {
-        composeRule.setContent { ImageListContentDataAbsentAndNotLoadingPreview() }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
-    }
-
-    @Test
-    @Config(qualifiers = "+night")
-    fun nightDataAbsentAndNotLoading() {
-        composeRule.setContent { ImageListContentDataAbsentAndNotLoadingPreview() }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
-    }
-
-    @Test
-    fun lightPrependLoading() {
-        composeRule.setContent { ImageListContentPrependLoadingPreview(hitList = hitList) }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
+    fun lightDataPresentAndNotLoading() = runComposeUiTest {
+        setContent { ImageListContentDataPresentAndNotLoadingPreview(hitList = hitList) }
+        waitForIdle()
+        onRoot().captureRoboImage()
     }
 
     @Test
     @Config(qualifiers = "+night")
-    fun nightPrependLoading() {
-        composeRule.setContent { ImageListContentPrependLoadingPreview(hitList = hitList) }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
+    fun nightDataPresentAndNotLoading() = runComposeUiTest {
+        setContent { ImageListContentDataPresentAndNotLoadingPreview(hitList = hitList) }
+        waitForIdle()
+        onRoot().captureRoboImage()
     }
 
     @Test
-    fun lightPrependError() {
-        composeRule.setContent { ImageListContentPrependErrorPreview(hitList = hitList) }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
-    }
-
-    @Test
-    @Config(qualifiers = "+night")
-    fun nightPrependError() {
-        composeRule.setContent { ImageListContentPrependErrorPreview(hitList = hitList) }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
-    }
-
-    @Test
-    fun lightAppendLoading() {
-        composeRule.setContent { ImageListContentAppendLoadingPreview(hitList = hitList) }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
+    fun lightDataAbsentAndNotLoading() = runComposeUiTest {
+        setContent { ImageListContentDataAbsentAndNotLoadingPreview() }
+        waitForIdle()
+        onRoot().captureRoboImage()
     }
 
     @Test
     @Config(qualifiers = "+night")
-    fun nightAppendLoading() {
-        composeRule.setContent { ImageListContentAppendLoadingPreview(hitList = hitList) }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
+    fun nightDataAbsentAndNotLoading() = runComposeUiTest {
+        setContent { ImageListContentDataAbsentAndNotLoadingPreview() }
+        waitForIdle()
+        onRoot().captureRoboImage()
     }
 
     @Test
-    fun lightAppendError() {
-        composeRule.setContent { ImageListContentAppendErrorPreview(hitList = hitList) }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
+    fun lightPrependLoading() = runComposeUiTest {
+        setContent { ImageListContentPrependLoadingPreview(hitList = hitList) }
+        waitForIdle()
+        onRoot().captureRoboImage()
     }
 
     @Test
     @Config(qualifiers = "+night")
-    fun nightAppendError() {
-        composeRule.setContent { ImageListContentAppendErrorPreview(hitList = hitList) }
-        composeRule.waitForIdle()
-        composeRule.onRoot().captureRoboImage()
+    fun nightPrependLoading() = runComposeUiTest {
+        setContent { ImageListContentPrependLoadingPreview(hitList = hitList) }
+        waitForIdle()
+        onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightPrependError() = runComposeUiTest {
+        setContent { ImageListContentPrependErrorPreview(hitList = hitList) }
+        waitForIdle()
+        onRoot().captureRoboImage()
+    }
+
+    @Test
+    @Config(qualifiers = "+night")
+    fun nightPrependError() = runComposeUiTest {
+        setContent { ImageListContentPrependErrorPreview(hitList = hitList) }
+        waitForIdle()
+        onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightAppendLoading() = runComposeUiTest {
+        setContent { ImageListContentAppendLoadingPreview(hitList = hitList) }
+        waitForIdle()
+        onRoot().captureRoboImage()
+    }
+
+    @Test
+    @Config(qualifiers = "+night")
+    fun nightAppendLoading() = runComposeUiTest {
+        setContent { ImageListContentAppendLoadingPreview(hitList = hitList) }
+        waitForIdle()
+        onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun lightAppendError() = runComposeUiTest {
+        setContent { ImageListContentAppendErrorPreview(hitList = hitList) }
+        waitForIdle()
+        onRoot().captureRoboImage()
+    }
+
+    @Test
+    @Config(qualifiers = "+night")
+    fun nightAppendError() = runComposeUiTest {
+        setContent { ImageListContentAppendErrorPreview(hitList = hitList) }
+        waitForIdle()
+        onRoot().captureRoboImage()
     }
 }
