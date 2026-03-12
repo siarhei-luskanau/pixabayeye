@@ -35,7 +35,7 @@ jobs:
 
   RecordScreenshot:
     needs: RecordScreenshotMatrixSetup
-    runs-on: macos-latest
+    runs-on: macos-26
     permissions:
       contents: write
     strategy:
