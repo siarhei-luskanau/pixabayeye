@@ -10,6 +10,7 @@ kotlin {
     android.namespace = "siarhei.luskanau.pixabayeye.app"
     sourceSets {
         commonMain.dependencies {
+            implementation(libs.androidx.datastore.core.okio)
             implementation(projects.core.coreCommon)
             implementation(projects.core.coreNetworkApi)
             implementation(projects.core.corePref)

@@ -2,13 +2,11 @@ package siarhei.luskanau.pixabayeye.core.pref
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
-import androidx.datastore.core.okio.OkioStorage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
-import okio.FileSystem
 
-internal class PrefServiceDataStore(private val prefPathProvider: PrefPathProvider) : PrefService {
+internal class PrefServiceDataStore(private val storageProvider: StorageProvider) : PrefService {
 
     private val parser by lazy { Json { prettyPrint = true } }
 
@@ -17,11 +15,7 @@ internal class PrefServiceDataStore(private val prefPathProvider: PrefPathProvid
 
     private val dataStore: DataStore<PrefData> by lazy {
         DataStoreFactory.create(
-            storage = OkioStorage(
-                fileSystem = FileSystem.SYSTEM,
-                serializer = PrefSerializer(),
-                producePath = { prefPathProvider.get() }
-            ),
+            storage = storageProvider.getStorage(serializer = PrefSerializer()),
             corruptionHandler = null,
             migrations = emptyList()
         )
