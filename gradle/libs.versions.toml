@@ -1,7 +1,7 @@
 [versions]
 agp = "9.1.0"
 androidx-activity = "1.13.0"
-androidx-datastore = "1.2.1"
+androidx-datastore = "1.3.0-alpha07"
 androidx-paging = "3.4.2"
 androidx-uiTest = "1.10.5"
 build-android-compileSdk = "36"

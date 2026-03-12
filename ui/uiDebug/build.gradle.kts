@@ -9,8 +9,9 @@ kotlin {
     android.namespace = "siarhei.luskanau.pixabayeye.ui.debug"
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.androidx.datastore.core.okio)
             implementation(libs.jetbrains.navigation3.ui)
+            implementation(libs.kotlinx.serialization.json)
             implementation(projects.core.coreCommon)
             implementation(projects.core.coreNetworkApi)
             implementation(projects.core.corePref)

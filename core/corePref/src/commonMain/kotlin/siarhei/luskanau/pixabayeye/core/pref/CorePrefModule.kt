@@ -1,5 +1,8 @@
 package siarhei.luskanau.pixabayeye.core.pref
 
-import org.koin.core.module.Module
+import org.koin.dsl.module
 
-expect val corePrefModule: Module
+val corePrefModule = module {
+    single { PrefSerializer() }
+    single<PrefService> { PrefServiceDataStore(storageProvider = get()) }
+}

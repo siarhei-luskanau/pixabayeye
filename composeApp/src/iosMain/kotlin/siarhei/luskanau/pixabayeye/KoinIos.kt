@@ -1,9 +1,13 @@
 package siarhei.luskanau.pixabayeye
 
+import androidx.datastore.core.Storage
+import androidx.datastore.core.okio.OkioSerializer
+import androidx.datastore.core.okio.OkioStorage
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.getOriginalKotlinClass
+import okio.FileSystem
 import okio.Path
 import okio.Path.Companion.toPath
 import org.koin.core.Koin
@@ -14,12 +18,12 @@ import org.koin.dsl.module
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
-import siarhei.luskanau.pixabayeye.core.pref.PrefPathProvider
+import siarhei.luskanau.pixabayeye.core.pref.StorageProvider
 
 @OptIn(ExperimentalForeignApi::class)
 actual val appPlatformModule: Module =
     module {
-        single<PrefPathProvider> {
+        single<StorageProvider> {
             val file =
                 NSFileManager.defaultManager.URLForDirectory(
                     directory = NSDocumentDirectory,
@@ -30,8 +34,13 @@ actual val appPlatformModule: Module =
                 )?.path +
                     Path.DIRECTORY_SEPARATOR +
                     "app.pref.json"
-            object : PrefPathProvider {
-                override fun get(): Path = file.toPath()
+            object : StorageProvider {
+                override fun <T> getStorage(serializer: OkioSerializer<T>): Storage<T> =
+                    OkioStorage(
+                        fileSystem = FileSystem.SYSTEM,
+                        serializer = serializer,
+                        producePath = { file.toPath() }
+                    )
             }
         }
     }
