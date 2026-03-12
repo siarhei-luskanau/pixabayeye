@@ -2,4 +2,4 @@ plugins {
     id("composeMultiplatformConvention")
 }
 
-kotlin.androidLibrary.namespace = "siarhei.luskanau.pixabayeye.core.common"
+kotlin.android.namespace = "siarhei.luskanau.pixabayeye.core.common"

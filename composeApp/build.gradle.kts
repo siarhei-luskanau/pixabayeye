@@ -7,7 +7,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.app"
+    android.namespace = "siarhei.luskanau.pixabayeye.app"
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.coreCommon)

@@ -3,7 +3,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.core.network.debug.logs"
+    android.namespace = "siarhei.luskanau.pixabayeye.core.network.debug.logs"
     sourceSets {
         commonMain.dependencies {
             implementation(libs.ktor.client.logging)

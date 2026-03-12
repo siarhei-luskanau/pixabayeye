@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.buildConfig)
 }
 
-kotlin.androidLibrary.namespace = "siarhei.luskanau.pixabayeye.core.network.ktor"
+kotlin.android.namespace = "siarhei.luskanau.pixabayeye.core.network.ktor"
 
 kotlin {
     sourceSets {
@@ -44,7 +44,7 @@ kotlin {
 }
 
 buildConfig {
-    packageName(kotlin.androidLibrary.namespace.orEmpty())
+    packageName(kotlin.android.namespace.orEmpty())
     useKotlinOutput {
         topLevelConstants = true
         internalVisibility = true

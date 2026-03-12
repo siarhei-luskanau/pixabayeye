@@ -7,7 +7,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary {
+    android {
         withDeviceTestBuilder {
         }.configure {
             instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

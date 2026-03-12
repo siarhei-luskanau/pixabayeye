@@ -7,7 +7,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.ui.common"
+    android.namespace = "siarhei.luskanau.pixabayeye.ui.common"
     sourceSets {
         androidHostTest.dependencies {
             implementation(projects.core.coreStubResources)
@@ -17,7 +17,7 @@ kotlin {
 
 compose.resources {
     publicResClass = true
-    packageOfResClass = "${kotlin.androidLibrary.namespace}.resources"
+    packageOfResClass = "${kotlin.android.namespace}.resources"
     generateResClass = always
 }
 
@@ -25,7 +25,7 @@ compose.resources {
 roborazzi.outputDir.set(file("src/screenshots"))
 
 buildConfig {
-    packageName(kotlin.androidLibrary.namespace.orEmpty())
+    packageName(kotlin.android.namespace.orEmpty())
     useKotlinOutput {
         topLevelConstants = true
         internalVisibility = true

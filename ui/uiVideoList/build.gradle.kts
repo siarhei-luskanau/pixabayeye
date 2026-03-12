@@ -4,7 +4,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.ui.video.list"
+    android.namespace = "siarhei.luskanau.pixabayeye.ui.video.list"
     sourceSets {
         commonMain.dependencies {
             implementation(libs.androidx.paging.compose)

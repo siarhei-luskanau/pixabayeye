@@ -6,7 +6,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.navigation"
+    android.namespace = "siarhei.luskanau.pixabayeye.navigation"
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.serialization.json)

@@ -4,7 +4,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.ui.image.details"
+    android.namespace = "siarhei.luskanau.pixabayeye.ui.image.details"
     sourceSets {
         commonMain.dependencies {
             implementation(libs.zoomable)

@@ -7,7 +7,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.core.pref"
+    android.namespace = "siarhei.luskanau.pixabayeye.core.pref"
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.serialization.json)
@@ -29,7 +29,7 @@ kotlin {
 }
 
 buildConfig {
-    packageName(kotlin.androidLibrary.namespace.orEmpty())
+    packageName(kotlin.android.namespace.orEmpty())
     useKotlinOutput {
         topLevelConstants = true
         internalVisibility = true

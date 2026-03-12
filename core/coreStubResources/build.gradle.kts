@@ -2,7 +2,7 @@ plugins {
     id("composeMultiplatformConvention")
 }
 
-kotlin.androidLibrary.namespace = "siarhei.luskanau.pixabayeye.core.stub.resources"
+kotlin.android.namespace = "siarhei.luskanau.pixabayeye.core.stub.resources"
 
 kotlin {
     sourceSets {
@@ -14,6 +14,6 @@ kotlin {
 
 compose.resources {
     publicResClass = false
-    packageOfResClass = "${kotlin.androidLibrary.namespace}.resources"
+    packageOfResClass = "${kotlin.android.namespace}.resources"
     generateResClass = always
 }

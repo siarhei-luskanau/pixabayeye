@@ -4,7 +4,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary.namespace = "siarhei.luskanau.pixabayeye.ui.video.details"
+    android.namespace = "siarhei.luskanau.pixabayeye.ui.video.details"
     sourceSets {
         commonMain.dependencies {
             implementation(libs.composemediaplayer)
