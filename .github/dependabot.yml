@@ -15,6 +15,7 @@ updates:
       jetbrains-compose:
         patterns:
           - "org.jetbrains.compose*"
+          - "org.jetbrains.androidx*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
