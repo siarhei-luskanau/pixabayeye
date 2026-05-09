@@ -1,18 +1,9 @@
 package siarhei.luskanau.pixabayeye.core.common
 
-import kotlin.coroutines.CoroutineContext
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 internal class DispatcherSetJvm : DispatcherSet {
     override fun defaultDispatcher() = Dispatchers.Default
     override fun ioDispatcher() = Dispatchers.IO
     override fun mainDispatcher() = Dispatchers.Main
-    override fun <T> runBlocking(
-        context: CoroutineContext,
-        block: suspend CoroutineScope.() -> T
-    ): T = kotlinx.coroutines.runBlocking(
-        context = context,
-        block = block
-    )
 }
