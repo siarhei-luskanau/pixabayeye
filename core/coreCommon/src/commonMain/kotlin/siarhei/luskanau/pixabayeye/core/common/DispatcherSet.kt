@@ -11,6 +11,4 @@ interface DispatcherSet {
     fun ioDispatcher(): CoroutineDispatcher
 
     fun mainDispatcher(): CoroutineDispatcher
-
-    fun <T> runBlocking(context: CoroutineContext, block: suspend CoroutineScope.() -> T): T
 }
