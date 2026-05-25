@@ -28,6 +28,7 @@ class ImageListScreenAndroidTest {
     fun lightRefreshIsLoading() = runComposeUiTest {
         setContent { ImageListContentRefreshIsLoadingPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -36,6 +37,7 @@ class ImageListScreenAndroidTest {
     fun nightRefreshIsLoading() = runComposeUiTest {
         setContent { ImageListContentRefreshIsLoadingPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -43,6 +45,7 @@ class ImageListScreenAndroidTest {
     fun lightRefreshIsError() = runComposeUiTest {
         setContent { ImageListContentRefreshIsErrorPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -51,6 +54,7 @@ class ImageListScreenAndroidTest {
     fun nightRefreshIsError() = runComposeUiTest {
         setContent { ImageListContentRefreshIsErrorPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -58,6 +62,7 @@ class ImageListScreenAndroidTest {
     fun lightDataPresentAndNotLoading() = runComposeUiTest {
         setContent { ImageListContentDataPresentAndNotLoadingPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -66,6 +71,7 @@ class ImageListScreenAndroidTest {
     fun nightDataPresentAndNotLoading() = runComposeUiTest {
         setContent { ImageListContentDataPresentAndNotLoadingPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -73,6 +79,7 @@ class ImageListScreenAndroidTest {
     fun lightDataAbsentAndNotLoading() = runComposeUiTest {
         setContent { ImageListContentDataAbsentAndNotLoadingPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -81,6 +88,7 @@ class ImageListScreenAndroidTest {
     fun nightDataAbsentAndNotLoading() = runComposeUiTest {
         setContent { ImageListContentDataAbsentAndNotLoadingPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -88,6 +96,7 @@ class ImageListScreenAndroidTest {
     fun lightPrependLoading() = runComposeUiTest {
         setContent { ImageListContentPrependLoadingPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -96,6 +105,7 @@ class ImageListScreenAndroidTest {
     fun nightPrependLoading() = runComposeUiTest {
         setContent { ImageListContentPrependLoadingPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -103,6 +113,7 @@ class ImageListScreenAndroidTest {
     fun lightPrependError() = runComposeUiTest {
         setContent { ImageListContentPrependErrorPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -111,6 +122,7 @@ class ImageListScreenAndroidTest {
     fun nightPrependError() = runComposeUiTest {
         setContent { ImageListContentPrependErrorPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -118,6 +130,7 @@ class ImageListScreenAndroidTest {
     fun lightAppendLoading() = runComposeUiTest {
         setContent { ImageListContentAppendLoadingPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -126,6 +139,7 @@ class ImageListScreenAndroidTest {
     fun nightAppendLoading() = runComposeUiTest {
         setContent { ImageListContentAppendLoadingPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -133,6 +147,7 @@ class ImageListScreenAndroidTest {
     fun lightAppendError() = runComposeUiTest {
         setContent { ImageListContentAppendErrorPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -141,6 +156,7 @@ class ImageListScreenAndroidTest {
     fun nightAppendError() = runComposeUiTest {
         setContent { ImageListContentAppendErrorPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 }

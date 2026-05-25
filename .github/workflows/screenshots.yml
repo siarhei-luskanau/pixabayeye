@@ -35,7 +35,7 @@ jobs:
 
   RecordScreenshot:
     needs: RecordScreenshotMatrixSetup
-    runs-on: macos-26
+    runs-on: ${{ matrix.variants.runner }}
     permissions:
       contents: write
     strategy:
@@ -57,17 +57,35 @@ jobs:
 
       - id: screenshots_path
         run: |
-          GRADLE_TASK="${{ matrix.variants.gradle_tasks }}"
-          MODULE_PATH=$(echo "$GRADLE_TASK" | sed 's/:[^:]*$//' | sed 's/^://' | tr ':' '/')
+          MODULE_PATH=$(echo "${{ matrix.variants.module_path }}" | sed 's/^://' | tr ':' '/')
           echo "path=${MODULE_PATH}/src/screenshots" >> $GITHUB_OUTPUT
 
-      - run: rm -rf ${{ steps.screenshots_path.outputs.path }}
+      - name: Remove platform screenshots
+        run: |
+          if [[ "${{ matrix.variants.runner }}" == "macOS-26" ]]; then
+            find "${{ steps.screenshots_path.outputs.path }}" -name "*IosTest*" -delete 2>/dev/null || true
+          else
+            find "${{ steps.screenshots_path.outputs.path }}" -name "*JvmTest*" -delete 2>/dev/null || true
+            find "${{ steps.screenshots_path.outputs.path }}" -name "*AndroidTest*" -delete 2>/dev/null || true
+          fi
 
       - run: ./gradlew ${{ matrix.variants.gradle_tasks }} -DIS_DATA_STUB_ENABLED=true --stacktrace
 
-      - run: brew install pngcheck
+      - name: Install pngcheck
+        run: |
+          if [[ "${{ matrix.variants.runner }}" == "macOS-26" ]]; then
+            brew install pngcheck
+          else
+            sudo apt-get install -y pngcheck
+          fi
 
-      - run: find ${{ steps.screenshots_path.outputs.path }} -name "*.png" | xargs pngcheck -q
+      - name: Check PNG files
+        run: |
+          if [[ "${{ matrix.variants.runner }}" == "macOS-26" ]]; then
+            find "${{ steps.screenshots_path.outputs.path }}" -name "*IosTest*.png" | xargs pngcheck -q
+          else
+            find "${{ steps.screenshots_path.outputs.path }}" \( -name "*JvmTest*.png" -o -name "*AndroidTest*.png" \) | xargs pngcheck -q
+          fi
 
       - run: git pull --rebase --autostash
 

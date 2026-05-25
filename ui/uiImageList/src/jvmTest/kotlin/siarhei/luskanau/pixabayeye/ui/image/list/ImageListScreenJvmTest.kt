@@ -2,7 +2,7 @@ package siarhei.luskanau.pixabayeye.ui.image.list
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.runDesktopComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import io.github.takahirom.roborazzi.captureRoboImage
 import kotlin.test.Test
 import siarhei.luskanau.pixabayeye.core.network.api.HitModel
@@ -17,58 +17,66 @@ class ImageListScreenJvmTest {
     }
 
     @Test
-    fun lightRefreshIsLoading() = runDesktopComposeUiTest {
+    fun lightRefreshIsLoading() = runComposeUiTest {
         setContent { ImageListContentRefreshIsLoadingPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
-    fun lightRefreshIsError() = runDesktopComposeUiTest {
+    fun lightRefreshIsError() = runComposeUiTest {
         setContent { ImageListContentRefreshIsErrorPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
-    fun lightDataPresentAndNotLoading() = runDesktopComposeUiTest {
+    fun lightDataPresentAndNotLoading() = runComposeUiTest {
         setContent { ImageListContentDataPresentAndNotLoadingPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
-    fun lightDataAbsentAndNotLoading() = runDesktopComposeUiTest {
+    fun lightDataAbsentAndNotLoading() = runComposeUiTest {
         setContent { ImageListContentDataAbsentAndNotLoadingPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
-    fun lightPrependLoading() = runDesktopComposeUiTest {
+    fun lightPrependLoading() = runComposeUiTest {
         setContent { ImageListContentPrependLoadingPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
-    fun lightPrependError() = runDesktopComposeUiTest {
+    fun lightPrependError() = runComposeUiTest {
         setContent { ImageListContentPrependErrorPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
-    fun lightAppendLoading() = runDesktopComposeUiTest {
+    fun lightAppendLoading() = runComposeUiTest {
         setContent { ImageListContentAppendLoadingPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
-    fun lightAppendError() = runDesktopComposeUiTest {
+    fun lightAppendError() = runComposeUiTest {
         setContent { ImageListContentAppendErrorPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 }

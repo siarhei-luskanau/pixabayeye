@@ -21,6 +21,7 @@ class PixabayBottomBarAndroidTest {
     fun lightImages() = runComposeUiTest {
         setContent { PixabayBottomBarImagesPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -29,6 +30,7 @@ class PixabayBottomBarAndroidTest {
     fun nightImages() = runComposeUiTest {
         setContent { PixabayBottomBarImagesPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -36,6 +38,7 @@ class PixabayBottomBarAndroidTest {
     fun lightVideos() = runComposeUiTest {
         setContent { PixabayBottomBarVideosPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -44,6 +47,7 @@ class PixabayBottomBarAndroidTest {
     fun nightVideos() = runComposeUiTest {
         setContent { PixabayBottomBarVideosPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 }

@@ -129,7 +129,7 @@ jobs:
 
   VerifyScreenshot:
     needs: VerifyScreenshotMatrixSetup
-    runs-on: macos-26
+    runs-on: ${{ matrix.variants.runner }}
     strategy:
       fail-fast: false
       matrix:

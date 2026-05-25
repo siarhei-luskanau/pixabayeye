@@ -28,6 +28,7 @@ class VideoListScreenAndroidTest {
     fun lightRefreshIsLoading() = runComposeUiTest {
         setContent { VideoListContentRefreshIsLoadingPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -36,6 +37,7 @@ class VideoListScreenAndroidTest {
     fun nightRefreshIsLoading() = runComposeUiTest {
         setContent { VideoListContentRefreshIsLoadingPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -43,6 +45,7 @@ class VideoListScreenAndroidTest {
     fun lightRefreshIsError() = runComposeUiTest {
         setContent { VideoListContentRefreshIsErrorPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -51,6 +54,7 @@ class VideoListScreenAndroidTest {
     fun nightRefreshIsError() = runComposeUiTest {
         setContent { VideoListContentRefreshIsErrorPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -58,6 +62,7 @@ class VideoListScreenAndroidTest {
     fun lightDataPresentAndNotLoading() = runComposeUiTest {
         setContent { VideoListContentDataPresentAndNotLoadingPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -66,6 +71,7 @@ class VideoListScreenAndroidTest {
     fun nightDataPresentAndNotLoading() = runComposeUiTest {
         setContent { VideoListContentDataPresentAndNotLoadingPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -73,6 +79,7 @@ class VideoListScreenAndroidTest {
     fun lightDataAbsentAndNotLoading() = runComposeUiTest {
         setContent { VideoListContentDataAbsentAndNotLoadingPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -81,6 +88,7 @@ class VideoListScreenAndroidTest {
     fun nightDataAbsentAndNotLoading() = runComposeUiTest {
         setContent { VideoListContentDataAbsentAndNotLoadingPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -88,6 +96,7 @@ class VideoListScreenAndroidTest {
     fun lightPrependLoading() = runComposeUiTest {
         setContent { VideoListContentPrependLoadingPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -96,6 +105,7 @@ class VideoListScreenAndroidTest {
     fun nightPrependLoading() = runComposeUiTest {
         setContent { VideoListContentPrependLoadingPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -103,6 +113,7 @@ class VideoListScreenAndroidTest {
     fun lightPrependError() = runComposeUiTest {
         setContent { VideoListContentPrependErrorPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -111,6 +122,7 @@ class VideoListScreenAndroidTest {
     fun nightPrependError() = runComposeUiTest {
         setContent { VideoListContentPrependErrorPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -118,6 +130,7 @@ class VideoListScreenAndroidTest {
     fun lightAppendLoading() = runComposeUiTest {
         setContent { VideoListContentAppendLoadingPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -126,6 +139,7 @@ class VideoListScreenAndroidTest {
     fun nightAppendLoading() = runComposeUiTest {
         setContent { VideoListContentAppendLoadingPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -133,6 +147,7 @@ class VideoListScreenAndroidTest {
     fun lightAppendError() = runComposeUiTest {
         setContent { VideoListContentAppendErrorPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -141,6 +156,7 @@ class VideoListScreenAndroidTest {
     fun nightAppendError() = runComposeUiTest {
         setContent { VideoListContentAppendErrorPreview(hitList = hitList) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 }

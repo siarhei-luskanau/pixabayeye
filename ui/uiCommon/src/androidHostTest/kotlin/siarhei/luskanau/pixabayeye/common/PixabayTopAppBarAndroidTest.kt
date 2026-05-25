@@ -21,6 +21,7 @@ class PixabayTopAppBarAndroidTest {
     fun light() = runComposeUiTest {
         setContent { PixabayTopAppBarPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -29,6 +30,7 @@ class PixabayTopAppBarAndroidTest {
     fun night() = runComposeUiTest {
         setContent { PixabayTopAppBarPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 }

@@ -26,6 +26,7 @@ class ImageDetailsScreenAndroidTest {
     fun lightLoading() = runComposeUiTest {
         setContent { ImageDetailsLoadingContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -34,6 +35,7 @@ class ImageDetailsScreenAndroidTest {
     fun nightLoading() = runComposeUiTest {
         setContent { ImageDetailsLoadingContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -41,6 +43,7 @@ class ImageDetailsScreenAndroidTest {
     fun lightSuccess() = runComposeUiTest {
         setContent { ImageDetailsSuccessContentPreview(hitModel = stubData) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -49,6 +52,7 @@ class ImageDetailsScreenAndroidTest {
     fun nightSuccess() = runComposeUiTest {
         setContent { ImageDetailsSuccessContentPreview(hitModel = stubData) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -56,6 +60,7 @@ class ImageDetailsScreenAndroidTest {
     fun lightError() = runComposeUiTest {
         setContent { ImageDetailsErrorContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -64,6 +69,7 @@ class ImageDetailsScreenAndroidTest {
     fun nightError() = runComposeUiTest {
         setContent { ImageDetailsErrorContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 }

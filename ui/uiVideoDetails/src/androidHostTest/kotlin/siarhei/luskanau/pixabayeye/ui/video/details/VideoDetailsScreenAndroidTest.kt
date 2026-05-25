@@ -26,6 +26,7 @@ class VideoDetailsScreenAndroidTest {
     fun lightLoading() = runComposeUiTest {
         setContent { VideoDetailsLoadingContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -34,6 +35,7 @@ class VideoDetailsScreenAndroidTest {
     fun nightLoading() = runComposeUiTest {
         setContent { VideoDetailsLoadingContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -41,6 +43,7 @@ class VideoDetailsScreenAndroidTest {
     fun lightSuccess() = runComposeUiTest {
         setContent { VideoDetailsSuccessContentPreview(hitModel = stubData) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -49,6 +52,7 @@ class VideoDetailsScreenAndroidTest {
     fun nightSuccess() = runComposeUiTest {
         setContent { VideoDetailsSuccessContentPreview(hitModel = stubData) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -56,6 +60,7 @@ class VideoDetailsScreenAndroidTest {
     fun lightError() = runComposeUiTest {
         setContent { VideoDetailsErrorContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -64,6 +69,7 @@ class VideoDetailsScreenAndroidTest {
     fun nightError() = runComposeUiTest {
         setContent { VideoDetailsErrorContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 }

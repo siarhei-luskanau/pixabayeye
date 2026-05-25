@@ -2,7 +2,7 @@ package siarhei.luskanau.pixabayeye.ui.image.details
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.runDesktopComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import io.github.takahirom.roborazzi.captureRoboImage
 import kotlin.test.Test
 import siarhei.luskanau.pixabayeye.core.network.api.HitModel
@@ -15,23 +15,26 @@ class ImageDetailsScreenJvmTest {
     private val stubData: HitModel by lazy { HIT_LIST.first { TYPES_IMAGE.contains(it.type) } }
 
     @Test
-    fun lightLoading() = runDesktopComposeUiTest {
+    fun lightLoading() = runComposeUiTest {
         setContent { ImageDetailsLoadingContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
-    fun lightSuccess() = runDesktopComposeUiTest {
+    fun lightSuccess() = runComposeUiTest {
         setContent { ImageDetailsSuccessContentPreview(hitModel = stubData) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
     @Test
-    fun lightError() = runDesktopComposeUiTest {
+    fun lightError() = runComposeUiTest {
         setContent { ImageDetailsErrorContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 }
