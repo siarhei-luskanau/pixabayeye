@@ -15,6 +15,7 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.core)
             implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(project.dependencies.platform(libs.ktor.bom))
             implementation(projects.core.coreCommon)
             implementation(projects.core.coreNetworkApi)
             implementation(projects.core.corePref)

@@ -7,6 +7,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.ktor.client.logging)
+            implementation(project.dependencies.platform(libs.ktor.bom))
         }
         jvmMain.dependencies {
             implementation(libs.inspektify.ktor3)
