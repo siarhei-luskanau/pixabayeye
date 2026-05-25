@@ -10,7 +10,7 @@ import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.printToLog
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -22,14 +22,17 @@ class KoinAppCommonTest {
         onRoot().printToLog("StartTag")
         onNodeWithContentDescription("Back").performClick()
         waitForIdle()
+        awaitIdle()
         val testInput = "test123abc"
         onNodeWithTag("search_text_field").apply {
             performTextInput(text = testInput)
             waitForIdle()
+            awaitIdle()
             assertTextContains(value = testInput)
         }
         onNodeWithText("Videos").performClick()
         waitForIdle()
+        awaitIdle()
         onNodeWithText(testInput).assertIsDisplayed()
     }
 }

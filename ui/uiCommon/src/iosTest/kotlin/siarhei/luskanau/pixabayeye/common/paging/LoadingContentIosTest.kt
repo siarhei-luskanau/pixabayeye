@@ -2,7 +2,7 @@ package siarhei.luskanau.pixabayeye.common.paging
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import io.github.takahirom.roborazzi.captureRoboImage
 import kotlin.test.Test
@@ -13,6 +13,7 @@ class LoadingContentIosTest {
     fun light() = runComposeUiTest {
         setContent { LoadingContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.common.paging.LoadingContentIosTest.light.png"

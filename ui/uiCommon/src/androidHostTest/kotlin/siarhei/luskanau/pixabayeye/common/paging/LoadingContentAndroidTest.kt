@@ -21,6 +21,7 @@ class LoadingContentAndroidTest {
     fun light() = runComposeUiTest {
         setContent { LoadingContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -29,6 +30,7 @@ class LoadingContentAndroidTest {
     fun night() = runComposeUiTest {
         setContent { LoadingContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 }

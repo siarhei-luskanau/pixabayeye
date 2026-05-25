@@ -21,6 +21,7 @@ class ErrorContentAndroidTest {
     fun light() = runComposeUiTest {
         setContent { ErrorContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 
@@ -29,6 +30,7 @@ class ErrorContentAndroidTest {
     fun night() = runComposeUiTest {
         setContent { ErrorContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 }

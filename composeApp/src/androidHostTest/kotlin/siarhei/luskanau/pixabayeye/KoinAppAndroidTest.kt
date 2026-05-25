@@ -20,6 +20,7 @@ class KoinAppAndroidTest {
     fun preview() = runComposeUiTest {
         setContent { KoinApp() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage()
     }
 }

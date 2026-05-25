@@ -2,7 +2,7 @@ package siarhei.luskanau.pixabayeye.common
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import io.github.takahirom.roborazzi.captureRoboImage
 import kotlin.test.Test
@@ -13,6 +13,7 @@ class PixabayBottomBarIosTest {
     fun lightImages() = runComposeUiTest {
         setContent { PixabayBottomBarImagesPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.common.PixabayBottomBarIosTest.lightImages.png"
@@ -23,6 +24,7 @@ class PixabayBottomBarIosTest {
     fun lightVideos() = runComposeUiTest {
         setContent { PixabayBottomBarVideosPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.common.PixabayBottomBarIosTest.lightVideos.png"

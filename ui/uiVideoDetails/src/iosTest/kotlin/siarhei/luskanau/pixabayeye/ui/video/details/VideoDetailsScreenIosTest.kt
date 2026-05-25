@@ -2,7 +2,7 @@ package siarhei.luskanau.pixabayeye.ui.video.details
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import io.github.takahirom.roborazzi.captureRoboImage
 import kotlin.test.Test
@@ -19,6 +19,7 @@ class VideoDetailsScreenIosTest {
     fun lightLoading() = runComposeUiTest {
         setContent { VideoDetailsLoadingContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.video.details." +
@@ -30,6 +31,7 @@ class VideoDetailsScreenIosTest {
     fun lightSuccess() = runComposeUiTest {
         setContent { VideoDetailsSuccessContentPreview(hitModel = stubData) }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.video.details." +
@@ -41,6 +43,7 @@ class VideoDetailsScreenIosTest {
     fun lightError() = runComposeUiTest {
         setContent { VideoDetailsErrorContentPreview() }
         waitForIdle()
+        awaitIdle()
         onRoot().captureRoboImage(
             composeUiTest = this,
             filePath = "siarhei.luskanau.pixabayeye.ui.video.details." +
