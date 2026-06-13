@@ -173,7 +173,11 @@ tasks.register("ciSdkManagerLicenses") {
 tasks.register("ciVerifyScreenshotJobsMatrixSetup") {
     group = CI_GRADLE
     val matrixJson =
-        getScreenshotMatrixJson(rootProject = rootProject, roborazziTask = "verifyRoborazzi")
+        getScreenshotMatrixJson(
+            rootProject = rootProject,
+            roborazziTask = "verifyRoborazzi",
+            includeMacOS = false
+        )
     val outputFile = layout.buildDirectory.file("verify_screenshot_jobs_matrix.json")
     doLast {
         outputFile.get().asFile.apply {
@@ -187,7 +191,11 @@ tasks.register("ciVerifyScreenshotJobsMatrixSetup") {
 tasks.register("ciRecordScreenshotJobsMatrixSetup") {
     group = CI_GRADLE
     val matrixJson =
-        getScreenshotMatrixJson(rootProject = rootProject, roborazziTask = "recordRoborazzi")
+        getScreenshotMatrixJson(
+            rootProject = rootProject,
+            roborazziTask = "recordRoborazzi",
+            includeMacOS = true
+        )
     val outputFile = layout.buildDirectory.file("record_screenshot_jobs_matrix.json")
     doLast {
         outputFile.get().asFile.apply {
