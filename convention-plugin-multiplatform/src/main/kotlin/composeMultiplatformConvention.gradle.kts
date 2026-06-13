@@ -13,10 +13,6 @@ plugins {
 kotlin {
     jvmToolchain(libs.versions.javaVersion.get().toInt())
 
-    compilerOptions {
-        freeCompilerArgs.add("-Xexplicit-backing-fields")
-    }
-
     android {
         compileSdk = libs.versions.build.android.compileSdk.get().toInt()
         minSdk = libs.versions.build.android.minSdk.get().toInt()
@@ -103,8 +99,4 @@ kotlin {
 
 tasks.withType<Test>().matching { it.name.contains("AndroidHostTest") }.configureEach {
     exclude("**/*CommonTest*")
-}
-
-tasks.withType<AbstractTestTask>().configureEach {
-    failOnNoDiscoveredTests = false
 }
