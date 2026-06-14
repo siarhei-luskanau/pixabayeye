@@ -20,12 +20,12 @@ import org.koin.android.ext.android.getKoin
 import org.koin.compose.KoinMultiplatformApplication
 import org.koin.dsl.KoinConfiguration
 import org.koin.dsl.module
-import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.core.common.coreCommonModule
 import siarhei.luskanau.pixabayeye.core.network.coreNetworkModule
 import siarhei.luskanau.pixabayeye.core.pref.StorageProvider
 import siarhei.luskanau.pixabayeye.core.pref.corePrefModule
+import siarhei.luskanau.pixabayeye.ui.common.theme.AppTheme
 
 class DebugActivity : ComponentActivity() {
 

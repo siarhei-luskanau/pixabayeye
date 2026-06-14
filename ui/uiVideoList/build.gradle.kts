@@ -1,6 +1,8 @@
+import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
+
 plugins {
     id("composeMultiplatformConvention")
-    alias(libs.plugins.roborazzi)
+    id("roborazziConvention")
 }
 
 kotlin {
@@ -25,5 +27,5 @@ kotlin {
     }
 }
 
-// Directory for reference images
-roborazzi.outputDir.set(file("src/screenshots"))
+@OptIn(ExperimentalRoborazziApi::class)
+roborazzi.generateComposePreviewRobolectricTests.packages = listOfNotNull(kotlin.android.namespace)

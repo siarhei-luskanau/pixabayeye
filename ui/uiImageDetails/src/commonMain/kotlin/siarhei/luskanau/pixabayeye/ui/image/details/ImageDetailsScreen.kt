@@ -31,12 +31,12 @@ import kotlinx.coroutines.flow.StateFlow
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import org.jetbrains.compose.resources.stringResource
-import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
-import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.network.api.HitModel
 import siarhei.luskanau.pixabayeye.core.network.api.testData
+import siarhei.luskanau.pixabayeye.ui.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
+import siarhei.luskanau.pixabayeye.ui.common.theme.AppTheme
 
 @Composable
 fun ImageDetailsScreen(key: String, viewModelProvider: () -> ImageDetailsViewModel) {

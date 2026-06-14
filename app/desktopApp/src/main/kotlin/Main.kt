@@ -4,7 +4,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import java.awt.Dimension
 import org.jetbrains.compose.resources.stringResource
-import siarhei.luskanau.pixabayeye.KoinApp
+import siarhei.luskanau.pixabayeye.app.KoinApp
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.app_name
 

@@ -46,19 +46,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
-import siarhei.luskanau.pixabayeye.common.BottomBarSelected
-import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
-import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
-import siarhei.luskanau.pixabayeye.common.paging.ErrorContent
-import siarhei.luskanau.pixabayeye.common.paging.ErrorItem
-import siarhei.luskanau.pixabayeye.common.paging.LoadingContent
-import siarhei.luskanau.pixabayeye.common.paging.LoadingItem
-import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.network.api.HitModel
 import siarhei.luskanau.pixabayeye.core.network.api.testData
+import siarhei.luskanau.pixabayeye.ui.common.BottomBarSelected
+import siarhei.luskanau.pixabayeye.ui.common.PixabayBottomBar
+import siarhei.luskanau.pixabayeye.ui.common.PixabayTopAppBar
+import siarhei.luskanau.pixabayeye.ui.common.paging.ErrorContent
+import siarhei.luskanau.pixabayeye.ui.common.paging.ErrorItem
+import siarhei.luskanau.pixabayeye.ui.common.paging.LoadingContent
+import siarhei.luskanau.pixabayeye.ui.common.paging.LoadingItem
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.ic_ai
 import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
+import siarhei.luskanau.pixabayeye.ui.common.theme.AppTheme
 
 @Composable
 fun ImageListScreen(

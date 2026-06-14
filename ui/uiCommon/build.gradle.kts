@@ -1,8 +1,9 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 
 plugins {
     id("composeMultiplatformConvention")
-    alias(libs.plugins.roborazzi)
+    id("roborazziConvention")
     alias(libs.plugins.buildConfig)
 }
 
@@ -21,9 +22,6 @@ compose.resources {
     generateResClass = always
 }
 
-// Directory for reference images
-roborazzi.outputDir.set(file("src/screenshots"))
-
 buildConfig {
     packageName(kotlin.android.namespace.orEmpty())
     useKotlinOutput {
@@ -33,3 +31,6 @@ buildConfig {
     val isDebugScreenEnabled = isDebugScreenEnabled { gradleLocalProperties(rootDir, providers) }
     buildConfigField("Boolean", "IS_DEBUG_SCREEN_ENABLED", "$isDebugScreenEnabled")
 }
+
+@OptIn(ExperimentalRoborazziApi::class)
+roborazzi.generateComposePreviewRobolectricTests.packages = listOfNotNull(kotlin.android.namespace)
