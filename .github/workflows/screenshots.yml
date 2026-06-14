@@ -13,11 +13,15 @@ jobs:
 
   RecordScreenshotMatrixSetup:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
 
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          ref: ${{ github.head_ref }}
 
       - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
         with:
@@ -31,6 +35,13 @@ jobs:
       - id: matrix
         run: echo "matrix=$(cat build/record_screenshot_jobs_matrix.json | jq -c .)" >> $GITHUB_OUTPUT
 
+      - name: Remove screenshots
+        run: find . -type d -path "*/src/screenshots" -exec rm -rf {} +
+
+      - uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
+        with:
+          commit_message: Remove screenshots
+
 
 
   RecordScreenshot:
@@ -40,6 +51,7 @@ jobs:
       contents: write
     strategy:
       fail-fast: false
+      max-parallel: 2
       matrix:
         variants: ${{ fromJson(needs.RecordScreenshotMatrixSetup.outputs.matrix) }}
     steps:
@@ -55,20 +67,6 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
 
-      - id: screenshots_path
-        run: |
-          MODULE_PATH=$(echo "${{ matrix.variants.module_path }}" | sed 's/^://' | tr ':' '/')
-          echo "path=${MODULE_PATH}/src/screenshots" >> $GITHUB_OUTPUT
-
-      - name: Remove platform screenshots
-        run: |
-          if [[ "${{ matrix.variants.runner }}" == "macOS-26" ]]; then
-            find "${{ steps.screenshots_path.outputs.path }}" -name "*IosTest*" -delete 2>/dev/null || true
-          else
-            find "${{ steps.screenshots_path.outputs.path }}" -name "*JvmTest*" -delete 2>/dev/null || true
-            find "${{ steps.screenshots_path.outputs.path }}" -name "*AndroidTest*" -delete 2>/dev/null || true
-          fi
-
       - run: ./gradlew ${{ matrix.variants.gradle_tasks }} -DIS_DATA_STUB_ENABLED=true --stacktrace
 
       - name: Install pngcheck
@@ -81,11 +79,8 @@ jobs:
 
       - name: Check PNG files
         run: |
-          if [[ "${{ matrix.variants.runner }}" == "macOS-26" ]]; then
-            find "${{ steps.screenshots_path.outputs.path }}" -name "*IosTest*.png" | xargs pngcheck -q
-          else
-            find "${{ steps.screenshots_path.outputs.path }}" \( -name "*JvmTest*.png" -o -name "*AndroidTest*.png" \) | xargs pngcheck -q
-          fi
+          MODULE_PATH=$(echo "${{ matrix.variants.module_path }}" | sed 's/^://' | tr ':' '/')
+          find "${MODULE_PATH}/src/screenshots" -name "*.png" | xargs pngcheck -q
 
       - run: git pull --rebase --autostash
 

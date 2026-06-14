@@ -1,6 +1,6 @@
 import androidx.compose.ui.window.ComposeUIViewController
 import platform.UIKit.UIViewController
-import siarhei.luskanau.pixabayeye.KoinApp
+import siarhei.luskanau.pixabayeye.app.KoinApp
 
 fun mainViewController(): UIViewController = ComposeUIViewController {
     KoinApp()
