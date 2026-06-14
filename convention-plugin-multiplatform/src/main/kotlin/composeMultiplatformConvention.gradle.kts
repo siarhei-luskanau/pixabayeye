@@ -64,9 +64,6 @@ kotlin {
         getByName("androidHostTest").dependencies {
             implementation(libs.androidx.uitest.junit4)
             implementation(libs.androidx.uitest.testManifest)
-            implementation(libs.robolectric)
-            implementation(libs.roborazzi)
-            implementation(libs.roborazzi.compose)
         }
 
         jvmMain.dependencies {
@@ -74,15 +71,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.swing)
         }
 
-        jvmTest.dependencies {
-            implementation(libs.roborazzi.compose.desktop)
-        }
-
         iosMain.dependencies {
-        }
-
-        iosTest.dependencies {
-            implementation(libs.roborazzi.compose.ios)
         }
 
         webMain.dependencies {
@@ -99,4 +88,5 @@ kotlin {
 
 tasks.withType<Test>().matching { it.name.contains("AndroidHostTest") }.configureEach {
     exclude("**/*CommonTest*")
+    systemProperties["robolectric.pixelCopyRenderMode"] = "hardware"
 }

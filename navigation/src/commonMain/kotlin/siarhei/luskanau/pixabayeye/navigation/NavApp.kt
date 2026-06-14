@@ -2,7 +2,6 @@ package siarhei.luskanau.pixabayeye.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
@@ -13,15 +12,14 @@ import coil3.request.addLastModifiedToFileCacheKey
 import kotlinx.serialization.Serializable
 import org.koin.compose.getKoin
 import org.koin.core.parameter.parametersOf
-import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
+import siarhei.luskanau.pixabayeye.ui.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.ui.debug.debugGraph
 import siarhei.luskanau.pixabayeye.ui.image.details.ImageDetailsScreen
 import siarhei.luskanau.pixabayeye.ui.image.list.ImageListScreen
 import siarhei.luskanau.pixabayeye.ui.video.details.VideoDetailsScreen
 import siarhei.luskanau.pixabayeye.ui.video.list.VideoListScreen
 
-@Preview
 @Composable
 fun NavApp() = AppTheme {
     val koin = getKoin()

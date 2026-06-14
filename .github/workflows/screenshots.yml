@@ -13,11 +13,15 @@ jobs:
 
   RecordScreenshotMatrixSetup:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
 
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          ref: ${{ github.head_ref }}
 
       - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
         with:
@@ -31,6 +35,13 @@ jobs:
       - id: matrix
         run: echo "matrix=$(cat build/record_screenshot_jobs_matrix.json | jq -c .)" >> $GITHUB_OUTPUT
 
+      - name: Remove screenshots
+        run: find . -type d -path "*/src/screenshots" -exec rm -rf {} +
+
+      - uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
+        with:
+          commit_message: Remove screenshots
+
 
 
   RecordScreenshot:
@@ -40,6 +51,7 @@ jobs:
       contents: write
     strategy:
       fail-fast: false
+      # max-parallel: 2
       matrix:
         variants: ${{ fromJson(needs.RecordScreenshotMatrixSetup.outputs.matrix) }}
     steps:
@@ -55,20 +67,6 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
 
-      - id: screenshots_path
-        run: |
-          MODULE_PATH=$(echo "${{ matrix.variants.module_path }}" | sed 's/^://' | tr ':' '/')
-          echo "path=${MODULE_PATH}/src/screenshots" >> $GITHUB_OUTPUT
-
-      - name: Remove platform screenshots
-        run: |
-          if [[ "${{ matrix.variants.runner }}" == "macOS-26" ]]; then
-            find "${{ steps.screenshots_path.outputs.path }}" -name "*IosTest*" -delete 2>/dev/null || true
-          else
-            find "${{ steps.screenshots_path.outputs.path }}" -name "*JvmTest*" -delete 2>/dev/null || true
-            find "${{ steps.screenshots_path.outputs.path }}" -name "*AndroidTest*" -delete 2>/dev/null || true
-          fi
-
       - run: ./gradlew ${{ matrix.variants.gradle_tasks }} -DIS_DATA_STUB_ENABLED=true --stacktrace
 
       - name: Install pngcheck
@@ -79,13 +77,55 @@ jobs:
             sudo apt-get install -y pngcheck
           fi
 
+      - name: Fix PNG files
+        run: |
+          MODULE_PATH=$(echo "${{ matrix.variants.module_path }}" | sed 's/^://' | tr ':' '/')
+          find "${MODULE_PATH}/src/screenshots" -name "*.png" | while read -r f; do
+            python3 - "$f" <<'EOF'
+          import struct, sys, zlib
+
+          STANDARD_CHUNKS = {
+              b'IHDR', b'PLTE', b'IDAT', b'IEND',
+              b'cHRM', b'gAMA', b'iCCP', b'sBIT', b'sRGB', b'bKGD',
+              b'hIST', b'tRNS', b'pHYs', b'sPLT', b'tIME',
+              b'iTXt', b'tEXt', b'zTXt', b'eXIf',
+          }
+
+          path = sys.argv[1]
+          with open(path, 'rb') as fh:
+              data = fh.read()
+
+          sig = data[:8]
+          assert sig == b'\x89PNG\r\n\x1a\n', f"Not a PNG: {path}"
+
+          chunks = []
+          pos = 8
+          while pos < len(data):
+              length = struct.unpack('>I', data[pos:pos+4])[0]
+              chunk_type = data[pos+4:pos+8]
+              chunk_data = data[pos+8:pos+8+length]
+              pos += 12 + length
+              if chunk_type in STANDARD_CHUNKS:
+                  chunks.append((length, chunk_type, chunk_data))
+
+          out = bytearray(sig)
+          for length, chunk_type, chunk_data in chunks:
+              crc = zlib.crc32(chunk_type + chunk_data) & 0xFFFFFFFF
+              out += struct.pack('>I', length) + chunk_type + chunk_data + struct.pack('>I', crc)
+
+          with open(path, 'wb') as fh:
+              fh.write(out)
+          EOF
+          done
+
       - name: Check PNG files
         run: |
-          if [[ "${{ matrix.variants.runner }}" == "macOS-26" ]]; then
-            find "${{ steps.screenshots_path.outputs.path }}" -name "*IosTest*.png" | xargs pngcheck -q
-          else
-            find "${{ steps.screenshots_path.outputs.path }}" \( -name "*JvmTest*.png" -o -name "*AndroidTest*.png" \) | xargs pngcheck -q
-          fi
+          MODULE_PATH=$(echo "${{ matrix.variants.module_path }}" | sed 's/^://' | tr ':' '/')
+          find "${MODULE_PATH}/src/screenshots" -name "*.png" | xargs pngcheck -q
+
+      - name: Resolve git conflicts
+        run: |
+          git reset --hard HEAD
 
       - run: git pull --rebase --autostash
 

@@ -9,6 +9,7 @@ build-android-minSdk = "30"
 build-android-targetSdk = "37"
 buildConfig = "6.0.10"
 coil-bom = "3.5.0"
+composable-preview-scanner = "0.9.0"
 compose-multiplatform = "1.11.1"
 composemediaplayer = "0.10.0"
 detekt = "1.23.8"
@@ -19,6 +20,7 @@ jetbrains-lifecycle = "2.11.0-beta01"
 jetbrains-navigation3 = "1.1.1"
 jetbrains-savedstate = "1.4.0"
 jetbrains-window = "1.5.1"
+junit = "4.13.2"
 koin-bom = "4.2.1"
 kotlin = "2.4.0"
 kotlinx-coroutines = "1.11.0"
@@ -34,12 +36,13 @@ zoomable = "2.12.0"
 android-tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "androidx-datastore" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
 androidx-uitest-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-uiTest" }
 androidx-uitest-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-uiTest" }
-androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
 coil-bom = { module = "io.coil-kt.coil3:coil-bom", version.ref = "coil-bom" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3" }
+composable-preview-scanner-android = { module = "io.github.sergio-sastre.ComposablePreviewScanner:android", version.ref = "composable-preview-scanner" }
 composemediaplayer = { module = "io.github.kdroidfilter:composemediaplayer", version.ref = "composemediaplayer" }
 inspektify-ktor3 = { module = "io.github.bvantur:inspektify-ktor3", version.ref = "inspektify" }
 jetbrains-compose-animation = { module = "org.jetbrains.compose.animation:animation", version.ref = "compose-multiplatform" }
@@ -58,6 +61,7 @@ jetbrains-lifecycle-viewmodel-navigation3 = { module = "org.jetbrains.androidx.l
 jetbrains-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "jetbrains-navigation3" }
 jetbrains-savedstate-compose = { module = "org.jetbrains.androidx.savedstate:savedstate-compose", version.ref = "jetbrains-savedstate" }
 jetbrains-window-core = { module = "org.jetbrains.androidx.window:window-core", version.ref = "jetbrains-window" }
+junit = { module = "junit:junit", version.ref = "junit" }
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
 koin-compose = { module = "io.insert-koin:koin-compose" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -79,6 +83,8 @@ roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = 
 roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose", version.ref = "roborazzi" }
 roborazzi-compose-desktop = { module = "io.github.takahirom.roborazzi:roborazzi-compose-desktop", version.ref = "roborazzi" }
 roborazzi-compose-ios = { module = "io.github.takahirom.roborazzi:roborazzi-compose-ios", version.ref = "roborazzi" }
+roborazzi-compose-preview-scanner-support = { module = "io.github.takahirom.roborazzi:roborazzi-compose-preview-scanner-support", version.ref = "roborazzi" }
+roborazzi-gradle-plugin = { module = "io.github.takahirom.roborazzi:roborazzi-gradle-plugin", version.ref = "roborazzi" }
 zoomable = { module = "net.engawapg.lib:zoomable", version.ref = "zoomable" }
 
 [plugins]
@@ -90,4 +96,3 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
