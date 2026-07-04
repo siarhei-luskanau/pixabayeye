@@ -28,7 +28,7 @@ ktor = "3.5.1"
 leakcanary = "2.14"
 robolectric = "4.16.1"
 roborazzi = "1.64.0"
-zoomable = "2.12.0"
+zoomable = "2.13.0"
 
 [libraries]
 android-tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
