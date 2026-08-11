@@ -5,6 +5,7 @@ val libs = the<LibrariesForLibs>()
 
 plugins {
     id("com.android.kotlin.multiplatform.library")
+    id("io.insert-koin.compiler.plugin")
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     kotlin("plugin.compose")
@@ -46,7 +47,9 @@ kotlin {
             implementation(libs.jetbrains.lifecycle.viewmodel.navigation3)
             implementation(libs.jetbrains.savedstate.compose)
             implementation(libs.jetbrains.window.core)
+            implementation(libs.koin.annotations)
             implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
             implementation(libs.kotlinx.coroutines.core)
             implementation(project.dependencies.platform(libs.coil.bom))
             implementation(project.dependencies.platform(libs.koin.bom))
@@ -99,4 +102,5 @@ kotlin {
 
 tasks.withType<Test>().matching { it.name.contains("AndroidHostTest") }.configureEach {
     exclude("**/*CommonTest*")
+    failOnNoDiscoveredTests = false
 }

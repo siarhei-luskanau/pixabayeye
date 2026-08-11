@@ -5,13 +5,17 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.koin.core.annotation.InjectedParam
+import org.koin.core.annotation.KoinViewModel
+import org.koin.core.annotation.Provided
 import siarhei.luskanau.pixabayeye.core.network.api.NetworkResult
 import siarhei.luskanau.pixabayeye.core.network.api.PixabayApiService
 
+@KoinViewModel
 class ImageDetailsViewModel(
-    private val imageId: Long,
-    private val detailsNavigationCallback: ImageDetailsNavigationCallback,
-    private val pixabayApiService: PixabayApiService
+    @InjectedParam private val imageId: Long,
+    @InjectedParam private val detailsNavigationCallback: ImageDetailsNavigationCallback,
+    @Provided private val pixabayApiService: PixabayApiService
 ) : ViewModel() {
 
     val viewState: StateFlow<ImageDetailsViewState>

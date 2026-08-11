@@ -2,30 +2,18 @@ package siarhei.luskanau.pixabayeye.core.network.ktor
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
-import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.serialization.json.Json
+import org.koin.core.annotation.Single
 import siarhei.luskanau.pixabayeye.core.network.ktor.model.HitsResponse
 import siarhei.luskanau.pixabayeye.core.pref.PrefService
 
-internal class PixabayApiClient(private val prefService: PrefService) {
-
-    private val httpClient: HttpClient by lazy {
-        HttpClient {
-            install(ContentNegotiation) {
-                json(
-                    Json {
-                        ignoreUnknownKeys = !IS_DEBUG_SCREEN_ENABLED
-                        prettyPrint = true
-                    }
-                )
-            }
-            configureHttpClientDebug()
-        }
-    }
+@Single
+internal class PixabayApiClient(
+    private val httpClient: HttpClient,
+    private val prefService: PrefService
+) {
 
     internal suspend fun isApiKeyOk(apiKey: String?): Boolean =
         httpClient.get(PIXABAY_BASE_URL + "api/") {
