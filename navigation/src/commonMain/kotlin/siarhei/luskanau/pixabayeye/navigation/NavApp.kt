@@ -16,9 +16,13 @@ import org.koin.core.parameter.parametersOf
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
 import siarhei.luskanau.pixabayeye.ui.debug.debugGraph
+import siarhei.luskanau.pixabayeye.ui.image.details.ImageDetailsNavigationCallback
 import siarhei.luskanau.pixabayeye.ui.image.details.ImageDetailsScreen
+import siarhei.luskanau.pixabayeye.ui.image.list.ImageListNavigationCallback
 import siarhei.luskanau.pixabayeye.ui.image.list.ImageListScreen
+import siarhei.luskanau.pixabayeye.ui.video.details.VideoDetailsNavigationCallback
 import siarhei.luskanau.pixabayeye.ui.video.details.VideoDetailsScreen
+import siarhei.luskanau.pixabayeye.ui.video.list.VideoListNavigationCallback
 import siarhei.luskanau.pixabayeye.ui.video.list.VideoListScreen
 
 @Preview
@@ -42,7 +46,12 @@ fun NavApp() = AppTheme {
                 ImageListScreen(
                     key = "ImageList_${route.searchTerm}",
                     viewModelProvider = {
-                        koin.get { parametersOf(appNavigation, route.searchTerm) }
+                        koin.get {
+                            parametersOf(
+                                appNavigation as ImageListNavigationCallback,
+                                route.searchTerm
+                            )
+                        }
                     },
                     onImagesClick = { searchTerm ->
                         backStack.add(AppRoutes.ImageList(searchTerm = searchTerm))
@@ -54,14 +63,21 @@ fun NavApp() = AppTheme {
             }
             entry<AppRoutes.ImageDetails> { route ->
                 ImageDetailsScreen(key = "ImageDetails_${route.imageId}") {
-                    koin.get { parametersOf(route.imageId, appNavigation) }
+                    koin.get {
+                        parametersOf(route.imageId, appNavigation as ImageDetailsNavigationCallback)
+                    }
                 }
             }
             entry<AppRoutes.VideoList> { route ->
                 VideoListScreen(
                     key = "VideoList_${route.searchTerm}",
                     viewModelProvider = {
-                        koin.get { parametersOf(appNavigation, route.searchTerm) }
+                        koin.get {
+                            parametersOf(
+                                appNavigation as VideoListNavigationCallback,
+                                route.searchTerm
+                            )
+                        }
                     },
                     onImagesClick = { searchTerm ->
                         backStack.add(AppRoutes.ImageList(searchTerm = searchTerm))
@@ -73,7 +89,9 @@ fun NavApp() = AppTheme {
             }
             entry<AppRoutes.VideoDetails> { route ->
                 VideoDetailsScreen(key = "VideoDetails_${route.videoId}") {
-                    koin.get { parametersOf(route.videoId, appNavigation) }
+                    koin.get {
+                        parametersOf(route.videoId, appNavigation as VideoDetailsNavigationCallback)
+                    }
                 }
             }
             debugGraph(koin = koin)

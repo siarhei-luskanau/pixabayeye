@@ -1,5 +1,6 @@
 package siarhei.luskanau.pixabayeye.ui.debug
 
-import org.koin.dsl.module
+import org.koin.core.annotation.Module
 
-val uiDebugModule = module {}
+@Module
+class UiDebugModule

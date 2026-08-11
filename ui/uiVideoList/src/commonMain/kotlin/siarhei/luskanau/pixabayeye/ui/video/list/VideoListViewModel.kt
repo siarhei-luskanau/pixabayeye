@@ -16,14 +16,18 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.core.annotation.InjectedParam
+import org.koin.core.annotation.KoinViewModel
+import org.koin.core.annotation.Provided
 import siarhei.luskanau.pixabayeye.core.network.api.HitModel
 import siarhei.luskanau.pixabayeye.core.network.api.NetworkResult
 import siarhei.luskanau.pixabayeye.core.network.api.PixabayApiService
 
+@KoinViewModel
 class VideoListViewModel(
-    private val videoListNavigationCallback: VideoListNavigationCallback,
-    initialSearchTerm: String?,
-    private val pixabayApiService: PixabayApiService
+    @InjectedParam private val videoListNavigationCallback: VideoListNavigationCallback,
+    @InjectedParam initialSearchTerm: String?,
+    @Provided private val pixabayApiService: PixabayApiService
 ) : ViewModel() {
 
     val searchTermFlow: Flow<String>

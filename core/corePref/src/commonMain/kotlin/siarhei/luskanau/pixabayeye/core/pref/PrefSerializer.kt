@@ -4,7 +4,9 @@ import androidx.datastore.core.okio.OkioSerializer
 import kotlinx.serialization.json.Json
 import okio.BufferedSink
 import okio.BufferedSource
+import org.koin.core.annotation.Single
 
+@Single
 internal class PrefSerializer : OkioSerializer<PrefData> {
     private val parser = Json { ignoreUnknownKeys = true }
 

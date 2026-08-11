@@ -1,7 +1,9 @@
 package siarhei.luskanau.pixabayeye.core.common
 
 import android.os.StrictMode
+import org.koin.core.annotation.Single
 
+@Single
 internal class PlatformServiceAndroid : PlatformService {
 
     override fun setStrictMode(isEnabled: Boolean) {

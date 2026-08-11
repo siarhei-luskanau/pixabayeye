@@ -59,6 +59,7 @@ To run the application on android device/emulator:
 To build the application bundle:
 - run `./gradlew :app:androidApp:assembleDebug :app:androidApp:assembleRelease`
 - find `.apk` file in `app/androidApp/build/outputs/apk/debug/androidApp-debug.apk`
+- Run android unit tests: `./gradlew testAndroidHostTest`
 - Run android UI tests on the connected device: `./gradlew :app:androidApp:managedVirtualDeviceDebugAndroidTest :composeApp:managedVirtualDeviceAndroidDeviceTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect`
 
 ### Desktop

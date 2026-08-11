@@ -20,9 +20,11 @@ jetbrains-navigation3 = "1.1.1"
 jetbrains-savedstate = "1.4.0"
 jetbrains-window = "1.5.1"
 koin-bom = "4.2.2"
+koin-plugin = "1.1.0"
 kotlin = "2.4.10"
 kotlinx-coroutines = "1.11.0"
 kotlinx-serialization = "1.11.0"
+ksp = "2.3.11"
 ktlint = "1.8.0"
 ktor = "3.5.2"
 leakcanary = "2.14"
@@ -58,8 +60,11 @@ jetbrains-lifecycle-viewmodel-navigation3 = { module = "org.jetbrains.androidx.l
 jetbrains-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "jetbrains-navigation3" }
 jetbrains-savedstate-compose = { module = "org.jetbrains.androidx.savedstate:savedstate-compose", version.ref = "jetbrains-savedstate" }
 jetbrains-window-core = { module = "org.jetbrains.androidx.window:window-core", version.ref = "jetbrains-window" }
+koin-annotations = { module = "io.insert-koin:koin-annotations" }
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
 koin-compose = { module = "io.insert-koin:koin-compose" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
+koin-plugin = { module = "io.insert-koin.compiler.plugin:io.insert-koin.compiler.plugin.gradle.plugin", version.ref = "koin-plugin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
@@ -71,6 +76,7 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin" }
 ktor-client-js-wasm-js = { module = "io.ktor:ktor-client-js-wasm-js" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging" }
+ktor-client-mock = { module = "io.ktor:ktor-client-mock" }
 ktor-core = { module = "io.ktor:ktor-client-core" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
@@ -87,6 +93,7 @@ buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+koin-compiler = { id = "io.insert-koin.compiler.plugin", version.ref = "koin-plugin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
