@@ -39,7 +39,7 @@ Built with love for developers who believe in writing code once and deploying ev
 ```bash
 git clone https://github.com/siarhei-luskanau/pixabayeye.git
 cd pixabayeye
-./gradlew doctor
+kdoctor
 ```
 
 Create a `local.properties` file with:
