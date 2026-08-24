@@ -54,3 +54,25 @@ Exact commands and the 3-layer gate (static → unit/host → runtime/E2E) are i
 ## Conventions
 
 Koin annotation patterns, convention-plugin usage, ktlint rule source: `docs/CONVENTIONS.md`.
+
+## Clock-in routine (start of session)
+
+1. Read `PROGRESS.md` (current state, in-progress work, next steps) and
+   `DECISIONS.md` (don't re-litigate a settled decision or repeat a rejected
+   alternative).
+2. Run `./gradlew jvmTest` to confirm a consistent, green starting state before
+   making changes. If it's red, that's the actual starting point — fix or note it in
+   `PROGRESS.md` before starting new work, don't build on top of an unverified state.
+
+## Session Exit Checklist (end of session)
+
+Before ending a session, confirm all of the following:
+
+- [ ] `./gradlew ktlintFormat` clean.
+- [ ] `./gradlew jvmTest` and `./gradlew testAndroidHostTest` pass.
+- [ ] `PROGRESS.md` updated (current state, verified-green state, in-progress/blockers,
+      next steps).
+- [ ] No stray debug artifacts (temp files, commented-out code, leftover
+      `println`/log statements added for debugging).
+- [ ] Working tree committed or explicitly stashed with a note — never left dirty and
+      undocumented.
