@@ -55,6 +55,16 @@ Exact commands and the 3-layer gate (static → unit/host → runtime/E2E) are i
 
 Koin annotation patterns, convention-plugin usage, ktlint rule source: `docs/CONVENTIONS.md`.
 
+## Task tracking
+
+Per-task behavior/verification/state entries live in `TASKS.md`. A task's `state` only
+becomes `passing` after its listed verification command actually succeeds — never by
+self-assessment.
+
+**WIP = 1**: exactly one task may be `active` at a time. Finish or explicitly mark it
+`blocked` (with a reason) before starting another — no "while I'm here" scope creep into
+a second task or an unrelated module.
+
 ## Clock-in routine (start of session)
 
 1. Read `PROGRESS.md` (current state, in-progress work, next steps) and

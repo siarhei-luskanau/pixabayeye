@@ -18,17 +18,17 @@ This file answers: what branch/commit, what's verified, what's in flight, what's
 
 ## In progress
 
-- Implementing the Harness Engineering Improvement Plan phase by phase (Phase 0 and
-  Phase 1 already landed: `docs/ARCHITECTURE.md`, `docs/VERIFICATION.md`,
-  `docs/CONVENTIONS.md`, `AGENTS.md`). Currently on Phase 2 (state & continuity):
-  this file, `DECISIONS.md`, and the Session Exit Checklist / clock-in routine in
-  `AGENTS.md`.
-- No blockers.
+- Implementing the Harness Engineering Improvement Plan phase by phase (Phase 0, 1,
+  and 2 landed: `docs/ARCHITECTURE.md`, `docs/VERIFICATION.md`, `docs/CONVENTIONS.md`,
+  `AGENTS.md`, `DECISIONS.md`, this file). Phase 3 (task tracking) landed this
+  session: `TASKS.md` with per-task behavior/verification/state fields and a WIP=1
+  rule in `AGENTS.md`.
+- No blockers. Working tree not yet committed (see task's instructions: file changes
+  only this session, no commit).
 
 ## Next steps
 
-- Phase 3: add `TASKS.md` with per-task behavior/verification/state fields and a
-  WIP=1 rule in `AGENTS.md`.
 - Phase 4: fold the 3-layer verification gate explicitly into the maker/checker
-  routing (already partly done in `docs/VERIFICATION.md`).
-- Phase 5: stand up the Dependabot triage loop.
+  routing (already partly done in `docs/VERIFICATION.md`); see `TASKS.md`.
+- Phase 5: stand up the Dependabot triage loop; see `TASKS.md`.
+- Phase 6: schedule the monthly harness review cadence; see `TASKS.md`.
