@@ -70,3 +70,21 @@ are correctly set up — this is a standalone CLI tool, not a Gradle task. See
 `iosSimulatorArm64Test`) → `VerifyScreenshotMatrixSetup` + `VerifyScreenshot` → parallel
 `Android` / `Desktop` / `WasmJsBrowser` / `iOS` release-build jobs. All run on every
 push/PR to `main`; `workflow_dispatch` allows manual triggering.
+
+## Maker/checker routing
+
+An implementer (junior/middle/senior-backend-engineer, per the global agent roster)
+never flips a `TASKS.md` entry to `passing` on its own run — that's a self-certification
+and doesn't count. A validator (`middle-code-validator` for standard changes,
+`senior-code-validator` for complex/interdependent ones) re-runs the task's listed
+verification command(s) independently and only then marks it `passing`.
+
+Which layer the validator must run is not optional:
+
+- Change confined to one module, no UI: validator confirming layer 2 is sufficient.
+- Change touching more than one module, or any UI code: validator must run layer 3.
+  A validator report that only reached layer 2 does not authorize `passing` for these —
+  send it back, don't downgrade the requirement.
+
+This is the existing generator/evaluator split from the global orchestrator config,
+routed explicitly at the layer that matters for this repo — not a separate mechanism.

@@ -59,7 +59,11 @@ Koin annotation patterns, convention-plugin usage, ktlint rule source: `docs/CON
 
 Per-task behavior/verification/state entries live in `TASKS.md`. A task's `state` only
 becomes `passing` after its listed verification command actually succeeds — never by
-self-assessment.
+self-assessment. Concretely: an implementer runs verification to check its own work,
+but only a validator's independent re-run flips `state` to `passing` — see the
+maker/checker routing in `docs/VERIFICATION.md`. For any task touching more than one
+module or any UI code, that re-run must reach layer 3; a validator that only ran layer
+2 does not authorize `passing`.
 
 **WIP = 1**: exactly one task may be `active` at a time. Finish or explicitly mark it
 `blocked` (with a reason) before starting another — no "while I'm here" scope creep into

@@ -22,12 +22,13 @@ creep into a second task or an unrelated module. See the WIP rule in `AGENTS.md`
 
 ## Harness plan Phase 4 — Verification tiering explicit in maker/checker routing
 
-- **behavior**: confirm `docs/VERIFICATION.md`'s 3-layer gate is what implementers and
-  validators both route through, and that layer 3 (not layer 2) is required before any
-  cross-module/UI change is marked `passing` here.
-- **verification**: n/a (docs-only; `docs/VERIFICATION.md` already states the rule
-  explicitly as of Phase 1).
-- **state**: `not_started`.
+- **behavior**: `docs/VERIFICATION.md` now has an explicit "Maker/checker routing"
+  section — implementers never self-certify `passing`; a validator's independent
+  re-run does, and that re-run must reach layer 3 for any cross-module/UI change.
+  `AGENTS.md`'s Task tracking section links to it.
+- **verification**: n/a (docs-only change; existence + cross-link is the completion
+  signal, same as Phase 3).
+- **state**: `passing`.
 
 ## Harness plan Phase 5 — Dependabot triage loop
 
