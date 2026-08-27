@@ -5,19 +5,15 @@ updates:
     schedule:
       interval: "weekly"
     groups:
-      kotlin-ecosystem:
+      gradle:
         patterns:
-          - "org.jetbrains.kotlin*"
-          - "org.jetbrains.kotlinx*"
-      ktor:
-        patterns:
-          - "io.ktor*"
-      jetbrains-compose:
-        patterns:
-          - "org.jetbrains.compose*"
-          - "org.jetbrains.androidx*"
+          - "*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
