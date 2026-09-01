@@ -9,10 +9,10 @@ DSL anywhere in this repo — don't add one.
 Per-feature module, one per UI/core module, scanning its own package:
 
 ```kotlin
-// ui/uiImageList/.../UiImageListModule.kt
+// ui/uiMediaList/.../UiMediaListModule.kt
 @Module
-@ComponentScan(value = ["siarhei.luskanau.pixabayeye.ui.image.list"])
-class UiImageListModule
+@ComponentScan(value = ["siarhei.luskanau.pixabayeye.ui.media.list"])
+class UiMediaListModule
 ```
 
 ViewModels use `@KoinViewModel`. Constructor params injected at call-site (e.g. a
@@ -20,10 +20,11 @@ navigation callback, an initial search term) are `@InjectedParam`; params resolv
 the DI graph are `@Provided`:
 
 ```kotlin
-// ui/uiImageList/.../ImageListViewModel.kt
+// ui/uiMediaList/.../MediaListViewModel.kt
 @KoinViewModel
-class ImageListViewModel(
-    @InjectedParam private val imageListNavigationCallback: ImageListNavigationCallback,
+class MediaListViewModel(
+    @InjectedParam mediaType: MediaType,
+    @InjectedParam private val mediaListNavigationCallback: MediaListNavigationCallback,
     @InjectedParam initialSearchTerm: String?,
     @Provided private val pixabayApiService: PixabayApiService,
     ...
@@ -58,9 +59,9 @@ If a module needs a dependency only it uses, add it in that module's own
 unless every module genuinely needs it.
 
 Build-time variant selection (`isDebugScreenEnabled()`, `isDataStubEnabled()`) lives in
-`buildSrc/src/main/kotlin/LocalPropertiesUtils.kt` and reads `local.properties` first,
-falling back to `-D` Gradle system properties. See `docs/ARCHITECTURE.md` for why these
-variants exist.
+`buildSrc/src/main/kotlin/LocalPropertiesUtils.kt` and reads the `-D` Gradle system
+property first, falling back to `local.properties` only if the system property isn't
+set. See `docs/ARCHITECTURE.md` for why these variants exist.
 
 ## ktlint
 

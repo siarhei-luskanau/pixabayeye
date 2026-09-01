@@ -5,30 +5,23 @@ This file answers: what branch/commit, what's verified, what's in flight, what's
 
 ## Current state
 
-- Branch: `harness`, on top of `main` (up to date with `origin/harness`).
-- Last commit: `f5de83f` "docs: add Harness Engineering Improvement Plan".
+- Branch: `main`, ahead of `origin/main` by 1 commit (not yet pushed).
+- Last commit: "refactor: merge uiImage*/uiVideo* modules into unified
+  uiMedia* modules".
 - Working tree: clean.
 
 ## Last verified-green state
 
-- `./gradlew jvmTest` — passed (2026-08-24, this session).
-- Layers 1 (`ktlintFormat`/`ciLint`) and 3 (E2E/platform builds) not re-run this
-  session — don't assume they're green without running them; see
-  `docs/VERIFICATION.md`.
+- Layer 1-3 gate for the uiMedia merge (see `TASKS.md`) was independently re-verified
+  by a validator with `--rerun-tasks`, genuine fresh pass on every command.
+- Not re-run since as a whole-repo check this session — don't assume layers 1-3 are
+  green on top of the latest commit without running them; see `docs/VERIFICATION.md`.
 
 ## In progress
 
-- Implementing the harness improvement plan phase by phase (Phase 0, 1, 2, and 3
-  landed and committed: `docs/ARCHITECTURE.md`, `docs/VERIFICATION.md`,
-  `docs/CONVENTIONS.md`, `AGENTS.md`, `DECISIONS.md`, `TASKS.md`, this file). Phase 4
-  landed this session: `docs/VERIFICATION.md` gained an explicit "Maker/checker
-  routing" section (implementers never self-certify `passing`; a validator's
-  independent re-run does, and must reach layer 3 for cross-module/UI changes),
-  cross-linked from `AGENTS.md`'s Task tracking section.
-- No blockers. Working tree not yet committed (file changes only this session, no
-  commit).
+- No active task (`TASKS.md` has no entry in `active` state).
 
 ## Next steps
 
-- Phase 5: stand up the Dependabot triage loop; see `TASKS.md`.
-- Phase 6: schedule the monthly harness review cadence; see `TASKS.md`.
+- Phase 5 (Dependabot triage loop) and Phase 6 (monthly harness review cadence) remain
+  `not_started`; see `TASKS.md`.

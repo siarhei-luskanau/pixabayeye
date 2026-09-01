@@ -15,15 +15,12 @@ import org.koin.compose.getKoin
 import org.koin.core.parameter.parametersOf
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.common.DispatcherSet
+import siarhei.luskanau.pixabayeye.core.common.MediaType
 import siarhei.luskanau.pixabayeye.ui.debug.debugGraph
-import siarhei.luskanau.pixabayeye.ui.image.details.ImageDetailsNavigationCallback
-import siarhei.luskanau.pixabayeye.ui.image.details.ImageDetailsScreen
-import siarhei.luskanau.pixabayeye.ui.image.list.ImageListNavigationCallback
-import siarhei.luskanau.pixabayeye.ui.image.list.ImageListScreen
-import siarhei.luskanau.pixabayeye.ui.video.details.VideoDetailsNavigationCallback
-import siarhei.luskanau.pixabayeye.ui.video.details.VideoDetailsScreen
-import siarhei.luskanau.pixabayeye.ui.video.list.VideoListNavigationCallback
-import siarhei.luskanau.pixabayeye.ui.video.list.VideoListScreen
+import siarhei.luskanau.pixabayeye.ui.media.details.MediaDetailsNavigationCallback
+import siarhei.luskanau.pixabayeye.ui.media.details.MediaDetailsScreen
+import siarhei.luskanau.pixabayeye.ui.media.list.MediaListNavigationCallback
+import siarhei.luskanau.pixabayeye.ui.media.list.MediaListScreen
 
 @Preview
 @Composable
@@ -36,63 +33,58 @@ fun NavApp() = AppTheme {
             .addLastModifiedToFileCacheKey(false)
             .build()
     }
-    val backStack = mutableStateListOf<NavKey>(AppRoutes.ImageList(searchTerm = null))
+    val backStack = mutableStateListOf<NavKey>(
+        AppRoutes.MediaList(searchTerm = null, mediaType = MediaType.IMAGE)
+    )
     val appNavigation = AppNavigation(backStack = backStack)
     NavDisplay(
         backStack = backStack,
         onBack = { if (backStack.size > 1) backStack.removeLastOrNull() },
         entryProvider = entryProvider {
-            entry<AppRoutes.ImageList> { route ->
-                ImageListScreen(
-                    key = "ImageList_${route.searchTerm}",
+            entry<AppRoutes.MediaList> { route ->
+                MediaListScreen(
+                    key = "MediaList_${route.mediaType}_${route.searchTerm}",
+                    mediaType = route.mediaType,
                     viewModelProvider = {
                         koin.get {
                             parametersOf(
-                                appNavigation as ImageListNavigationCallback,
+                                route.mediaType,
+                                appNavigation as MediaListNavigationCallback,
                                 route.searchTerm
                             )
                         }
                     },
                     onImagesClick = { searchTerm ->
-                        backStack.add(AppRoutes.ImageList(searchTerm = searchTerm))
+                        backStack.add(
+                            AppRoutes.MediaList(
+                                searchTerm = searchTerm,
+                                mediaType = MediaType.IMAGE
+                            )
+                        )
                     },
                     onVideosClick = { searchTerm ->
-                        backStack.add(AppRoutes.VideoList(searchTerm = searchTerm))
+                        backStack.add(
+                            AppRoutes.MediaList(
+                                searchTerm = searchTerm,
+                                mediaType = MediaType.VIDEO
+                            )
+                        )
                     }
                 )
             }
-            entry<AppRoutes.ImageDetails> { route ->
-                ImageDetailsScreen(key = "ImageDetails_${route.imageId}") {
-                    koin.get {
-                        parametersOf(route.imageId, appNavigation as ImageDetailsNavigationCallback)
-                    }
-                }
-            }
-            entry<AppRoutes.VideoList> { route ->
-                VideoListScreen(
-                    key = "VideoList_${route.searchTerm}",
+            entry<AppRoutes.MediaDetails> { route ->
+                MediaDetailsScreen(
+                    key = "MediaDetails_${route.mediaType}_${route.id}",
                     viewModelProvider = {
                         koin.get {
                             parametersOf(
-                                appNavigation as VideoListNavigationCallback,
-                                route.searchTerm
+                                route.mediaType,
+                                route.id,
+                                appNavigation as MediaDetailsNavigationCallback
                             )
                         }
-                    },
-                    onImagesClick = { searchTerm ->
-                        backStack.add(AppRoutes.ImageList(searchTerm = searchTerm))
-                    },
-                    onVideosClick = { searchTerm ->
-                        backStack.add(AppRoutes.VideoList(searchTerm = searchTerm))
                     }
                 )
-            }
-            entry<AppRoutes.VideoDetails> { route ->
-                VideoDetailsScreen(key = "VideoDetails_${route.videoId}") {
-                    koin.get {
-                        parametersOf(route.videoId, appNavigation as VideoDetailsNavigationCallback)
-                    }
-                }
             }
             debugGraph(koin = koin)
         }
@@ -102,14 +94,8 @@ fun NavApp() = AppTheme {
 internal sealed interface AppRoutes : NavKey {
 
     @Serializable
-    data class ImageList(val searchTerm: String?) : AppRoutes
+    data class MediaList(val searchTerm: String?, val mediaType: MediaType) : AppRoutes
 
     @Serializable
-    data class ImageDetails(val imageId: Long) : AppRoutes
-
-    @Serializable
-    data class VideoList(val searchTerm: String?) : AppRoutes
-
-    @Serializable
-    data class VideoDetails(val videoId: Long) : AppRoutes
+    data class MediaDetails(val id: Long, val mediaType: MediaType) : AppRoutes
 }

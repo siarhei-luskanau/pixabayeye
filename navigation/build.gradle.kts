@@ -13,10 +13,8 @@ kotlin {
             implementation(libs.jetbrains.navigation3.ui)
             implementation(projects.core.coreCommon)
             implementation(projects.ui.uiCommon)
-            implementation(projects.ui.uiImageDetails)
-            implementation(projects.ui.uiImageList)
-            implementation(projects.ui.uiVideoDetails)
-            implementation(projects.ui.uiVideoList)
+            implementation(projects.ui.uiMediaDetails)
+            implementation(projects.ui.uiMediaList)
             if (isDebugScreenEnabled { gradleLocalProperties(rootDir, providers) }) {
                 implementation(projects.ui.uiDebug)
             } else {

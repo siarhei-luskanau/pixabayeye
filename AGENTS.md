@@ -16,9 +16,9 @@ touches that area.
 - `core:coreNetworkDebugLogs` / `core:coreNetworkDebugEmpty` — pluggable HTTP logging (Inspektify); Logs when the debug screen is enabled, Empty otherwise.
 - `core:corePref` — DataStore-backed preferences.
 - `core:coreStubResources` — canned JSON fixtures consumed by `coreNetworkStub`.
-- `navigation` — Nav3-based app graph; wires the four feature UI modules plus `uiDebug`/`uiDebugEmpty`.
+- `navigation` — Nav3-based app graph; wires the two feature UI modules plus `uiDebug`/`uiDebugEmpty`.
 - `ui:uiCommon` — shared Compose components/theme; owns the Roborazzi screenshot infra.
-- `ui:uiImageList`, `ui:uiImageDetails`, `ui:uiVideoList`, `ui:uiVideoDetails` — feature screens.
+- `ui:uiMediaList`, `ui:uiMediaDetails` — feature screens.
 - `ui:uiDebug` / `ui:uiDebugEmpty` — in-app debug/dev-tools screen; Debug when enabled, Empty otherwise (same swap pattern as network).
 - `app:androidApp`, `app:desktopApp`, `app:webApp` — per-platform app shells.
 - `composeApp` — shared app composition root wiring `navigation` + all UI + network variant; consumed by each `app:*` shell.

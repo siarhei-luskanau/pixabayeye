@@ -4,9 +4,9 @@
 
 ```
 core:coreCommon ─────────────────────┐
-core:coreNetworkApi ─┬─ core:coreNetworkKtor ──┬─ ui:uiCommon ─┬─ ui:uiImageList ──┐
-                      ├─ core:coreNetworkStub   ├─ ui:uiDebug   ├─ ui:uiImageDetails│
-                      │                         └─ ui:uiDebugEmpty ui:uiVideoList  │
+core:coreNetworkApi ─┬─ core:coreNetworkKtor ──┬─ ui:uiCommon ─┬─ ui:uiMediaList ──┐
+                      ├─ core:coreNetworkStub   ├─ ui:uiDebug   ├─ ui:uiMediaDetails│
+                      │                         └─ ui:uiDebugEmpty              │
 core:coreNetworkDebugLogs / core:coreNetworkDebugEmpty (into coreNetworkKtor)      ├─ navigation ─┬─ composeApp ─┬─ app:androidApp
 core:corePref ────────────────────────────────────────────────────────────────────┘               │              ├─ app:desktopApp
 core:coreStubResources ── (fixtures for coreNetworkStub) ──────────────────────────────────────────┘              └─ app:webApp
@@ -27,15 +27,16 @@ new `implementation(projects.*)` lines against this rule by hand.
 | `core:coreNetworkStub` | coreNetworkApi, coreStubResources | Fake `PixabayApiService` returning canned JSON. Used for screenshot tests (`-DIS_DATA_STUB_ENABLED=true`) and offline dev. |
 | `core:coreNetworkDebugLogs` | Inspektify + Ktor logging | HTTP call inspector, compiled in only when the debug screen is enabled. |
 | `core:coreNetworkDebugEmpty` | — | No-op stand-in for `coreNetworkDebugLogs` in release builds — keeps `coreNetworkKtor` buildable without the debug tooling. |
-| `core:corePref` | coreCommon | DataStore-backed preference storage, Koin module `CorePrefCommonModule`. |
-| `core:coreStubResources` | — | Bundled JSON fixtures consumed by `coreNetworkStub`. |
+| `core:corePref` | — | DataStore-backed preference storage, Koin module `CorePrefCommonModule`. |
+| `core:coreStubResources` | coreNetworkApi | Bundled JSON fixtures consumed by `coreNetworkStub`. |
 | `ui:uiCommon` | — | Shared Compose theme/components; owns Roborazzi screenshot config (`src/screenshots` output dir) used by every UI module. |
-| `ui:uiImageList`, `ui:uiImageDetails`, `ui:uiVideoList`, `ui:uiVideoDetails` | uiCommon, coreNetworkApi | One feature screen each: Composable + `*ViewModel` (`@KoinViewModel`) + `*Module.kt` (`@Module`). |
+| `ui:uiMediaList`, `ui:uiMediaDetails` | coreCommon, coreNetworkApi, corePref, uiCommon | One feature screen each: Composable + `*ViewModel` (`@KoinViewModel`) + `*Module.kt` (`@Module`). |
 | `ui:uiDebug` | coreCommon, coreNetworkApi, corePref, uiCommon, + (coreNetworkStub \| coreNetworkKtor) | In-app debug/dev-tools screen (datastore inspector, etc.), compiled in only when `isDebugScreenEnabled`. |
 | `ui:uiDebugEmpty` | uiCommon | No-op stand-in for `uiDebug` when the debug screen is disabled — keeps `navigation`/`composeApp` buildable either way. |
-| `navigation` | coreCommon, uiCommon, the 4 feature UI modules, + (uiDebug \| uiDebugEmpty) | Nav3 (`androidx.navigation3`) graph wiring every screen together. |
-| `composeApp` | coreCommon, coreNetworkApi, corePref, navigation, the 4 feature UI modules, + (coreNetworkStub \| coreNetworkKtor), + (uiDebug \| uiDebugEmpty) | Composition root: assembles the concrete network/debug variants and hands a ready `App()` composable to each platform shell. Also owns the top-level Roborazzi screenshot output. |
-| `app:androidApp` / `app:desktopApp` / `app:webApp` | composeApp | Per-platform entry points (Activity / `main()` / Wasm `main()`). Thin — no business logic. |
+| `navigation` | coreCommon, uiCommon, the 2 feature UI modules, + (uiDebug \| uiDebugEmpty) | Nav3 (`androidx.navigation3`) graph wiring every screen together. |
+| `composeApp` | coreCommon, coreNetworkApi, corePref, uiCommon, navigation, the 2 feature UI modules, + (coreNetworkStub \| coreNetworkKtor), + (uiDebug \| uiDebugEmpty) | Composition root: assembles the concrete network/debug variants and hands a ready `App()` composable to each platform shell. Also owns the top-level Roborazzi screenshot output. |
+| `app:androidApp` / `app:webApp` | composeApp | Per-platform entry points (Activity / Wasm `main()`). Thin — no business logic. |
+| `app:desktopApp` | composeApp, uiCommon | Per-platform entry point (`main()`). Thin — no business logic. |
 | `convention-plugin-multiplatform` (included build) | — | `composeMultiplatformConvention.gradle.kts` (KMP targets, Compose, Koin compiler plugin, common deps) and `androidTestConvention.gradle.kts`, applied by nearly every module's `build.gradle.kts`. |
 | `buildSrc` | — | `LocalPropertiesUtils.kt`: `isDebugScreenEnabled()` / `isDataStubEnabled()` read `local.properties` (or `-D` system props) to pick build-time variants. |
 

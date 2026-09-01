@@ -16,10 +16,8 @@ kotlin {
             implementation(projects.core.corePref)
             implementation(projects.navigation)
             implementation(projects.ui.uiCommon)
-            implementation(projects.ui.uiImageDetails)
-            implementation(projects.ui.uiImageList)
-            implementation(projects.ui.uiVideoDetails)
-            implementation(projects.ui.uiVideoList)
+            implementation(projects.ui.uiMediaDetails)
+            implementation(projects.ui.uiMediaList)
             if (isDataStubEnabled { gradleLocalProperties(rootDir, providers) }) {
                 implementation(projects.core.coreNetworkStub)
             } else {

@@ -17,10 +17,8 @@ include(
     ":ui:uiCommon",
     ":ui:uiDebug",
     ":ui:uiDebugEmpty",
-    ":ui:uiImageDetails",
-    ":ui:uiImageList",
-    ":ui:uiVideoDetails",
-    ":ui:uiVideoList"
+    ":ui:uiMediaDetails",
+    ":ui:uiMediaList"
 )
 
 pluginManagement {

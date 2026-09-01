@@ -5,10 +5,8 @@ import siarhei.luskanau.pixabayeye.core.common.CoreCommonCommonModule
 import siarhei.luskanau.pixabayeye.core.network.CoreNetworkModule
 import siarhei.luskanau.pixabayeye.core.pref.CorePrefCommonModule
 import siarhei.luskanau.pixabayeye.ui.debug.UiDebugModule
-import siarhei.luskanau.pixabayeye.ui.image.details.UiImageDetailsModule
-import siarhei.luskanau.pixabayeye.ui.image.list.UiImageListModule
-import siarhei.luskanau.pixabayeye.ui.video.details.UiVideoDetailsModule
-import siarhei.luskanau.pixabayeye.ui.video.list.UiVideoListModule
+import siarhei.luskanau.pixabayeye.ui.media.details.UiMediaDetailsModule
+import siarhei.luskanau.pixabayeye.ui.media.list.UiMediaListModule
 
 @KoinApplication(
     modules = [
@@ -17,10 +15,8 @@ import siarhei.luskanau.pixabayeye.ui.video.list.UiVideoListModule
         CoreNetworkModule::class,
         CorePrefCommonModule::class,
         UiDebugModule::class,
-        UiImageDetailsModule::class,
-        UiImageListModule::class,
-        UiVideoDetailsModule::class,
-        UiVideoListModule::class
+        UiMediaDetailsModule::class,
+        UiMediaListModule::class
     ]
 )
 internal class AppKoinApplication

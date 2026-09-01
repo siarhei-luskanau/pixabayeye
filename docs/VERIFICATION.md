@@ -24,6 +24,15 @@ clean up after you.
 CI runs these (plus `wasmJsBrowserTest`, currently commented out in the matrix) on
 every push/PR.
 
+**AI agents**: don't run `testAndroidHostTest` as-is — it includes Roborazzi screenshot
+verification, which agents must not launch (see "Screenshot testing (Roborazzi)"
+below). Exclude the screenshot-bearing modules instead, e.g. `./gradlew testAndroidHostTest
+-x :ui:uiMediaList:testAndroidHostTest -x :ui:uiMediaDetails:testAndroidHostTest
+-x :composeApp:testAndroidHostTest -x :ui:uiCommon:testAndroidHostTest` (adjust the
+exclusion list to whichever modules the change touches). A validator's layer 3 sign-off
+does not need a local Roborazzi run either — CI's `VerifyScreenshot` job is the
+authority on screenshot correctness.
+
 ## Layer 3 — Runtime / E2E and platform builds
 
 ```
@@ -42,6 +51,14 @@ platform builds — treat it as the actual finish line for anything touching mor
 one module or any UI code, not "unit tests are green."
 
 ## Screenshot testing (Roborazzi)
+
+**AI agents must not launch Roborazzi tests.** Recording or verifying screenshots is
+GitHub Actions' job only (the `VerifyScreenshot` CI job). Don't run `recordRoborazzi`,
+and don't run a test task that would execute Roborazzi checks (see the Layer 2
+exclusion note above) — let CI produce and verify screenshot results; review those
+instead of running them locally.
+
+Commands below are for human reference only:
 
 ```
 ./gradlew recordRoborazzi -DIS_DATA_STUB_ENABLED=true   # (re)generate reference images
@@ -66,10 +83,13 @@ are correctly set up — this is a standalone CLI tool, not a Gradle task. See
 
 ## CI jobs, for reference
 
-`Lint` → `Tests` (matrix: `jvmTest`, `testAndroidHostTest`, Android emulator tests,
-`iosSimulatorArm64Test`) → `VerifyScreenshotMatrixSetup` + `VerifyScreenshot` → parallel
-`Android` / `Desktop` / `WasmJsBrowser` / `iOS` release-build jobs. All run on every
-push/PR to `main`; `workflow_dispatch` allows manual triggering.
+`Lint` → parallel `Android` / `Desktop` / `WasmJsBrowser` / `iOS` release-build jobs →
+parallel `Tests` (matrix: `jvmTest`, `testAndroidHostTest`, Android emulator tests,
+`iosSimulatorArm64Test`) + `VerifyScreenshotMatrixSetup` → `VerifyScreenshot`. All run
+on every push/PR to `main`; `workflow_dispatch` allows manual triggering. (`Tests` and
+`VerifyScreenshotMatrixSetup` both depend on the four release-build jobs completing
+first, per `.github/workflows/ci.yml`'s `needs:` graph — the release builds are not the
+last stage.)
 
 ## Maker/checker routing
 
