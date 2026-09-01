@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.AndroidUiModes
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -354,7 +355,8 @@ private fun formatVideoDuration(durationSeconds: Int?): String {
     }
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentImageRefreshIsLoadingPreview() = AppTheme {
     MediaListContent(
@@ -374,7 +376,8 @@ internal fun MediaListContentImageRefreshIsLoadingPreview() = AppTheme {
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentImageRefreshIsErrorPreview() = AppTheme {
     MediaListContent(
@@ -394,7 +397,8 @@ internal fun MediaListContentImageRefreshIsErrorPreview() = AppTheme {
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentImageDataPresentAndNotLoadingPreview(
     hitList: List<HitModel> = listOf(testData)
@@ -416,7 +420,8 @@ internal fun MediaListContentImageDataPresentAndNotLoadingPreview(
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentImageDataAbsentAndNotLoadingPreview() = AppTheme {
     MediaListContent(
@@ -436,7 +441,8 @@ internal fun MediaListContentImageDataAbsentAndNotLoadingPreview() = AppTheme {
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentImagePrependLoadingPreview(
     hitList: List<HitModel> = listOf(testData)
@@ -458,7 +464,8 @@ internal fun MediaListContentImagePrependLoadingPreview(
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentImagePrependErrorPreview(hitList: List<HitModel> = listOf(testData)) =
     AppTheme {
@@ -479,7 +486,8 @@ internal fun MediaListContentImagePrependErrorPreview(hitList: List<HitModel> = 
         )
     }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentImageAppendLoadingPreview(hitList: List<HitModel> = listOf(testData)) =
     AppTheme {
@@ -500,7 +508,8 @@ internal fun MediaListContentImageAppendLoadingPreview(hitList: List<HitModel> =
         )
     }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentImageAppendErrorPreview(hitList: List<HitModel> = listOf(testData)) =
     AppTheme {
@@ -521,7 +530,8 @@ internal fun MediaListContentImageAppendErrorPreview(hitList: List<HitModel> = l
         )
     }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentVideoRefreshIsLoadingPreview() = AppTheme {
     MediaListContent(
@@ -541,7 +551,8 @@ internal fun MediaListContentVideoRefreshIsLoadingPreview() = AppTheme {
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentVideoRefreshIsErrorPreview() = AppTheme {
     MediaListContent(
@@ -561,7 +572,8 @@ internal fun MediaListContentVideoRefreshIsErrorPreview() = AppTheme {
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentVideoDataPresentAndNotLoadingPreview(
     hitList: List<HitModel> = listOf(testData)
@@ -583,7 +595,8 @@ internal fun MediaListContentVideoDataPresentAndNotLoadingPreview(
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentVideoDataAbsentAndNotLoadingPreview() = AppTheme {
     MediaListContent(
@@ -603,7 +616,8 @@ internal fun MediaListContentVideoDataAbsentAndNotLoadingPreview() = AppTheme {
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentVideoPrependLoadingPreview(
     hitList: List<HitModel> = listOf(testData)
@@ -625,7 +639,8 @@ internal fun MediaListContentVideoPrependLoadingPreview(
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentVideoPrependErrorPreview(hitList: List<HitModel> = listOf(testData)) =
     AppTheme {
@@ -646,7 +661,8 @@ internal fun MediaListContentVideoPrependErrorPreview(hitList: List<HitModel> = 
         )
     }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentVideoAppendLoadingPreview(hitList: List<HitModel> = listOf(testData)) =
     AppTheme {
@@ -667,7 +683,8 @@ internal fun MediaListContentVideoAppendLoadingPreview(hitList: List<HitModel> =
         )
     }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaListContentVideoAppendErrorPreview(hitList: List<HitModel> = listOf(testData)) =
     AppTheme {

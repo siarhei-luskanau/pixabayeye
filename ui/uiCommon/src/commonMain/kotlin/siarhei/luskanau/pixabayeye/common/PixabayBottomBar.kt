@@ -5,6 +5,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.AndroidUiModes
 import androidx.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -49,7 +50,8 @@ fun PixabayBottomBar(
 
 enum class BottomBarSelected { Images, Videos }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun PixabayBottomBarImagesPreview() = AppTheme {
     PixabayBottomBar(
@@ -59,7 +61,8 @@ internal fun PixabayBottomBarImagesPreview() = AppTheme {
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun PixabayBottomBarVideosPreview() = AppTheme {
     PixabayBottomBar(

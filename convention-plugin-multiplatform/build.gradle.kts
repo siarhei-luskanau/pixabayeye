@@ -4,10 +4,11 @@ plugins {
 
 dependencies {
     implementation(libs.android.tools.gradle)
+    implementation(libs.jetbrains.compose.compiler.plugin)
     implementation(libs.jetbrains.compose.plugin)
     implementation(libs.koin.plugin)
     implementation(libs.kotlin.gradle.plugin)
-    implementation(libs.jetbrains.compose.compiler.plugin)
+    implementation(libs.roborazzi.gradle.plugin)
 
     // Somewhat hacky way to access libs.version.toml in convention plugins.
     // IntelliJ can mark this code red, but it actually compiles.

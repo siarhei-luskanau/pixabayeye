@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.AndroidUiModes
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -161,7 +162,8 @@ private fun VideoDetailsContent(hitModel: HitModel, isTest: Boolean) {
     }
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaDetailsImageLoadingPreview() = AppTheme {
     MediaDetailsContent(
@@ -170,7 +172,8 @@ internal fun MediaDetailsImageLoadingPreview() = AppTheme {
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaDetailsImageSuccessPreview(hitModel: HitModel = testData) = AppTheme {
     MediaDetailsContent(
@@ -181,7 +184,8 @@ internal fun MediaDetailsImageSuccessPreview(hitModel: HitModel = testData) = Ap
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaDetailsImageErrorPreview() = AppTheme {
     MediaDetailsContent(
@@ -190,7 +194,8 @@ internal fun MediaDetailsImageErrorPreview() = AppTheme {
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaDetailsVideoLoadingPreview() = AppTheme {
     MediaDetailsContent(
@@ -199,7 +204,8 @@ internal fun MediaDetailsVideoLoadingPreview() = AppTheme {
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaDetailsVideoSuccessPreview(
     hitModel: HitModel = testData.copy(imageModel = null)
@@ -212,7 +218,8 @@ internal fun MediaDetailsVideoSuccessPreview(
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MediaDetailsVideoErrorPreview() = AppTheme {
     MediaDetailsContent(

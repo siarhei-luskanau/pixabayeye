@@ -1,9 +1,10 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 
 plugins {
     id("androidTestConvention")
     id("composeMultiplatformConvention")
-    alias(libs.plugins.roborazzi)
+    id("roborazziConvention")
 }
 
 kotlin {
@@ -32,8 +33,8 @@ kotlin {
     }
 }
 
-// Directory for reference images
-roborazzi.outputDir.set(file("src/screenshots"))
+@OptIn(ExperimentalRoborazziApi::class)
+roborazzi.generateComposePreviewRobolectricTests.packages = listOfNotNull(kotlin.android.namespace)
 
 koinCompiler {
     // iosMain's Koin.get(ObjCClass) bridge for Swift interop resolves by dynamic

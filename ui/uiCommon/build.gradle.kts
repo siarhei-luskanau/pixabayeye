@@ -1,8 +1,9 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 
 plugins {
     id("composeMultiplatformConvention")
-    alias(libs.plugins.roborazzi)
+    id("roborazziConvention")
     alias(libs.plugins.buildConfig)
 }
 
@@ -21,8 +22,8 @@ compose.resources {
     generateResClass = always
 }
 
-// Directory for reference images
-roborazzi.outputDir.set(file("src/screenshots"))
+@OptIn(ExperimentalRoborazziApi::class)
+roborazzi.generateComposePreviewRobolectricTests.packages = listOfNotNull(kotlin.android.namespace)
 
 buildConfig {
     packageName(kotlin.android.namespace.orEmpty())

@@ -18,6 +18,8 @@ jobs:
     steps:
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.ref_name }}
 
       - uses: actions/setup-java@dd06d9cba3e5552c54d9f8ea23572deb30010f7c # v6.0.0
         with:
@@ -36,8 +38,6 @@ jobs:
   RecordScreenshot:
     needs: RecordScreenshotMatrixSetup
     runs-on: ${{ matrix.variants.runner }}
-    permissions:
-      contents: write
     strategy:
       fail-fast: false
       matrix:
@@ -46,7 +46,7 @@ jobs:
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.ref_name }}
 
       - uses: actions/setup-java@dd06d9cba3e5552c54d9f8ea23572deb30010f7c # v6.0.0
         with:
@@ -55,21 +55,23 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
 
-      - id: screenshots_path
-        run: |
-          MODULE_PATH=$(echo "${{ matrix.variants.module_path }}" | sed 's/^://' | tr ':' '/')
-          echo "path=${MODULE_PATH}/src/screenshots" >> $GITHUB_OUTPUT
-
-      - name: Remove platform screenshots
-        run: |
-          if [[ "${{ matrix.variants.runner }}" == "macOS-26" ]]; then
-            find "${{ steps.screenshots_path.outputs.path }}" -name "*IosTest*" -delete 2>/dev/null || true
-          else
-            find "${{ steps.screenshots_path.outputs.path }}" -name "*JvmTest*" -delete 2>/dev/null || true
-            find "${{ steps.screenshots_path.outputs.path }}" -name "*AndroidTest*" -delete 2>/dev/null || true
-          fi
+      - name: Remove screenshots
+        run: find . -type d -path "*/src/screenshots" -exec rm -rf {} +
 
       - run: ./gradlew ${{ matrix.variants.gradle_tasks }} -DIS_DATA_STUB_ENABLED=true --stacktrace
+
+      - name: Get task name
+        if: always()
+        id: get_task
+        run: echo "taskName=$(echo ${{ matrix.variants.gradle_tasks }} | cut -d ' ' -f 1 | tr ':' '_')" >> $GITHUB_OUTPUT
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: reports-${{ steps.get_task.outputs.taskName }}-${{ matrix.variants.runner }}
+          path: |
+            **/build/reports/
+          retention-days: 7
 
       - name: Install pngcheck
         run: |
@@ -81,11 +83,42 @@ jobs:
 
       - name: Check PNG files
         run: |
-          if [[ "${{ matrix.variants.runner }}" == "macOS-26" ]]; then
-            find "${{ steps.screenshots_path.outputs.path }}" -name "*IosTest*.png" | xargs pngcheck -q
-          else
-            find "${{ steps.screenshots_path.outputs.path }}" \( -name "*JvmTest*.png" -o -name "*AndroidTest*.png" \) | xargs pngcheck -q
-          fi
+          MODULE_PATH=$(echo "${{ matrix.variants.module_path }}" | sed 's/^://' | tr ':' '/')
+          find "${MODULE_PATH}/src/screenshots" -name "*.png" | xargs pngcheck -q
+
+      - name: Stage screenshots for artifact
+        run: |
+          MODULE_PATH=$(echo "${{ matrix.variants.module_path }}" | sed 's/^://' | tr ':' '/')
+          mkdir -p "artifact-screenshots/${MODULE_PATH}/src/screenshots"
+          cp -r "${MODULE_PATH}/src/screenshots/." "artifact-screenshots/${MODULE_PATH}/src/screenshots/"
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: screenshots-${{ steps.get_task.outputs.taskName }}-${{ matrix.variants.runner }}
+          path: artifact-screenshots/
+          retention-days: 1
+
+
+
+  CombineScreenshots:
+    needs: RecordScreenshot
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Remove screenshots
+        run: find . -type d -path "*/src/screenshots" -exec rm -rf {} +
+
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          pattern: screenshots-*
+          merge-multiple: true
 
       - run: git pull --rebase --autostash
 

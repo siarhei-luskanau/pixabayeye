@@ -8,6 +8,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.AndroidUiModes
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
@@ -27,7 +28,8 @@ fun LoadingItem(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun LoadingItemPreview() = AppTheme {
     LoadingItem()

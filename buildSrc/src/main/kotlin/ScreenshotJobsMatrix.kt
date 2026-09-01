@@ -10,7 +10,7 @@ fun getScreenshotMatrixJson(
         rootProject.subprojects
             .filter { subproject ->
                 subproject.file("build.gradle.kts").let { file ->
-                    file.exists() && file.readText().contains("alias(libs.plugins.roborazzi)")
+                    file.exists() && file.readText().contains("id(\"roborazziConvention\")")
                 }
             }.sortedBy { it.path }
     val matrix =

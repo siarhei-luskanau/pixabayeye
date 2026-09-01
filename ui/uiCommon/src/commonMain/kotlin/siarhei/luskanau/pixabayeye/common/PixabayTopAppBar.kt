@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.AndroidUiModes
 import androidx.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -18,7 +19,6 @@ import siarhei.luskanau.pixabayeye.ui.common.resources.back_button
 import siarhei.luskanau.pixabayeye.ui.common.resources.ic_arrow_back
 import siarhei.luskanau.pixabayeye.ui.common.resources.ic_public
 
-@Preview
 @Composable
 fun PixabayTopAppBar(title: String, onBackClick: (() -> Unit)?, onDebugScreenClick: (() -> Unit)?) {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -50,7 +50,8 @@ fun PixabayTopAppBar(title: String, onBackClick: (() -> Unit)?, onDebugScreenCli
     )
 }
 
-@Preview
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_NO)
+@Preview(uiMode = AndroidUiModes.UI_MODE_NIGHT_YES)
 @Composable
 internal fun PixabayTopAppBarPreview() = AppTheme {
     PixabayTopAppBar(
