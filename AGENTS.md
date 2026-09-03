@@ -16,13 +16,20 @@ touches that area.
 - `core:coreNetworkDebugLogs` / `core:coreNetworkDebugEmpty` — pluggable HTTP logging (Inspektify); Logs when the debug screen is enabled, Empty otherwise.
 - `core:corePref` — DataStore-backed preferences.
 - `core:coreStubResources` — canned JSON fixtures consumed by `coreNetworkStub`.
-- `navigation` — Nav3-based app graph; wires the two feature UI modules plus `uiDebug`/`uiDebugEmpty`.
-- `ui:uiCommon` — shared Compose components/theme; owns the Roborazzi screenshot infra.
-- `ui:uiMediaList`, `ui:uiMediaDetails` — feature screens.
+- `navigation` — Nav3-based app graph with Material3 Adaptive navigation
+  (`NavigationSuiteScaffold` switches bottom bar/rail/drawer by window size;
+  `ListDetailSceneStrategy` gives adaptive list/detail panes); wires the two feature UI
+  modules plus `uiDebug`/`uiDebugEmpty`; owns its own Koin module (`NavigationCommonModule`).
+- `ui:uiCommon` — shared Compose components/theme.
+- `ui:uiMediaList`, `ui:uiMediaDetails` — feature screens (content-only composables;
+  screen chrome — top bar, nav bar/rail/drawer — lives in `navigation`).
 - `ui:uiDebug` / `ui:uiDebugEmpty` — in-app debug/dev-tools screen; Debug when enabled, Empty otherwise (same swap pattern as network).
 - `app:androidApp`, `app:desktopApp`, `app:webApp` — per-platform app shells.
 - `composeApp` — shared app composition root wiring `navigation` + all UI + network variant; consumed by each `app:*` shell.
-- `convention-plugin-multiplatform` (included build) — `composeMultiplatformConvention` and `androidTestConvention` Gradle plugins every module applies.
+- `convention-plugin-multiplatform` (included build) — `composeMultiplatformConvention`,
+  `androidTestConvention`, and `roborazziConvention` Gradle plugins. The latter (applied
+  by `uiCommon`, `uiMediaList`, `uiMediaDetails`, `composeApp`) owns each module's
+  Roborazzi screenshot config and the Android `@Preview`-scanning setup.
 - `buildSrc` — shared build logic (`LocalPropertiesUtils.kt` defines `isDebugScreenEnabled` / `isDataStubEnabled`).
 
 Full dependency graph and the reasoning behind the swappable variants: `docs/ARCHITECTURE.md`.

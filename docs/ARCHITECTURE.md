@@ -29,15 +29,15 @@ new `implementation(projects.*)` lines against this rule by hand.
 | `core:coreNetworkDebugEmpty` | — | No-op stand-in for `coreNetworkDebugLogs` in release builds — keeps `coreNetworkKtor` buildable without the debug tooling. |
 | `core:corePref` | — | DataStore-backed preference storage, Koin module `CorePrefCommonModule`. |
 | `core:coreStubResources` | coreNetworkApi | Bundled JSON fixtures consumed by `coreNetworkStub`. |
-| `ui:uiCommon` | — | Shared Compose theme/components; owns Roborazzi screenshot config (`src/screenshots` output dir) used by every UI module. |
+| `ui:uiCommon` | — | Shared Compose theme/components. |
 | `ui:uiMediaList`, `ui:uiMediaDetails` | coreCommon, coreNetworkApi, corePref, uiCommon | One feature screen each: Composable + `*ViewModel` (`@KoinViewModel`) + `*Module.kt` (`@Module`). |
 | `ui:uiDebug` | coreCommon, coreNetworkApi, corePref, uiCommon, + (coreNetworkStub \| coreNetworkKtor) | In-app debug/dev-tools screen (datastore inspector, etc.), compiled in only when `isDebugScreenEnabled`. |
 | `ui:uiDebugEmpty` | uiCommon | No-op stand-in for `uiDebug` when the debug screen is disabled — keeps `navigation`/`composeApp` buildable either way. |
-| `navigation` | coreCommon, uiCommon, the 2 feature UI modules, + (uiDebug \| uiDebugEmpty) | Nav3 (`androidx.navigation3`) graph wiring every screen together. |
-| `composeApp` | coreCommon, coreNetworkApi, corePref, uiCommon, navigation, the 2 feature UI modules, + (coreNetworkStub \| coreNetworkKtor), + (uiDebug \| uiDebugEmpty) | Composition root: assembles the concrete network/debug variants and hands a ready `App()` composable to each platform shell. Also owns the top-level Roborazzi screenshot output. |
+| `navigation` | coreCommon, uiCommon, the 2 feature UI modules, + (uiDebug \| uiDebugEmpty) | Nav3 (`androidx.navigation3`) graph wiring every screen together, via Material3 Adaptive `NavigationSuiteScaffold` (bottom bar/rail/drawer by window size) and `ListDetailSceneStrategy` (adaptive list/detail panes). Owns Koin module `NavigationCommonModule` and screen chrome (top app bar) that used to live in each feature screen. See "Adaptive navigation" below. |
+| `composeApp` | coreCommon, coreNetworkApi, corePref, uiCommon, navigation, the 2 feature UI modules, + (coreNetworkStub \| coreNetworkKtor), + (uiDebug \| uiDebugEmpty) | Composition root: assembles the concrete network/debug variants and hands a ready `App()` composable to each platform shell. Also applies `roborazziConvention` for its own screenshot coverage. |
 | `app:androidApp` / `app:webApp` | composeApp | Per-platform entry points (Activity / Wasm `main()`). Thin — no business logic. |
 | `app:desktopApp` | composeApp, uiCommon | Per-platform entry point (`main()`). Thin — no business logic. |
-| `convention-plugin-multiplatform` (included build) | — | `composeMultiplatformConvention.gradle.kts` (KMP targets, Compose, Koin compiler plugin, common deps) and `androidTestConvention.gradle.kts`, applied by nearly every module's `build.gradle.kts`. |
+| `convention-plugin-multiplatform` (included build) | — | `composeMultiplatformConvention.gradle.kts` (KMP targets, Compose, Koin compiler plugin, Material3 Adaptive, common deps), `androidTestConvention.gradle.kts`, and `roborazziConvention.gradle.kts` (Roborazzi screenshot config + Android `@Preview`-scanning, applied by `uiCommon`/`uiMediaList`/`uiMediaDetails`/`composeApp`). |
 | `buildSrc` | — | `LocalPropertiesUtils.kt`: `isDebugScreenEnabled()` / `isDataStubEnabled()` read `local.properties` (or `-D` system props) to pick build-time variants. |
 
 ## Why the variant modules exist
@@ -59,3 +59,26 @@ zero-dependency stand-in selected via `isDebugScreenEnabled()`.
 Both flags are read from `local.properties` by default and can be overridden with
 `-DIS_DEBUG_SCREEN_ENABLED=true` / `-DIS_DATA_STUB_ENABLED=true` on the Gradle command
 line (this is how CI's screenshot verification job forces the stub variant).
+
+## Adaptive navigation
+
+`navigation` is built on Material3 Adaptive rather than a fixed bottom bar and
+single-pane push navigation:
+
+- `AppNavigationSuiteScaffold` wraps `NavigationSuiteScaffold`, choosing the chrome by
+  window width: `NavigationDrawer` at ≥1200dp, otherwise
+  `NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo` collapsed to
+  `NavigationRail`-or-`NavigationBar`. It also owns the top app bar — replacing the
+  per-screen `Scaffold`/`PixabayTopAppBar` that `MediaListScreen`/`MediaDetailsScreen`
+  used to instantiate themselves.
+- `NavApp` wraps its Nav3 `NavDisplay` with `rememberListDetailSceneStrategy`, tagging
+  the list route (`ListDetailSceneStrategy.listPane`) and the details route
+  (`ListDetailSceneStrategy.detailPane`) so wide windows can show both panes side by
+  side (with a placeholder string when nothing is selected), while narrow windows fall
+  back to ordinary push navigation.
+- `AppNavigation` (the Nav3 `backStack` owner) is now a Koin `@Single` resolved via a
+  new `NavigationCommonModule`, rather than being constructed manually inside `NavApp`.
+
+`ui:uiMediaList`/`ui:uiMediaDetails` screens are content-only as a result — they no
+longer own a `Scaffold` or navigate directly; new screens should follow the same
+pattern and let `navigation` own the chrome.

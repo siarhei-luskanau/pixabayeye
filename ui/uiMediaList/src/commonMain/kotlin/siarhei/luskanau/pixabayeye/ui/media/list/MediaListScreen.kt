@@ -20,7 +20,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -46,11 +45,7 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
-import siarhei.luskanau.pixabayeye.common.BottomBarSelected
-import siarhei.luskanau.pixabayeye.common.PixabayBottomBar
-import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.common.paging.ErrorContent
 import siarhei.luskanau.pixabayeye.common.paging.ErrorItem
 import siarhei.luskanau.pixabayeye.common.paging.LoadingContent
@@ -61,24 +56,19 @@ import siarhei.luskanau.pixabayeye.core.network.api.HitModel
 import siarhei.luskanau.pixabayeye.core.network.api.testData
 import siarhei.luskanau.pixabayeye.ui.common.resources.Res
 import siarhei.luskanau.pixabayeye.ui.common.resources.ic_ai
-import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 
 @Composable
 fun MediaListScreen(
     key: String,
     mediaType: MediaType,
-    viewModelProvider: () -> MediaListViewModel,
-    onImagesClick: (String?) -> Unit,
-    onVideosClick: (String?) -> Unit
+    viewModelProvider: () -> MediaListViewModel
 ) {
     val viewModel = viewModel(key = key) { viewModelProvider() }
     MediaListContent(
         mediaType = mediaType,
         pagingDataFlow = viewModel.pagingDataFlow,
         searchTermFlow = viewModel.searchTermFlow,
-        onEvent = viewModel::onEvent,
-        onImagesClick = onImagesClick,
-        onVideosClick = onVideosClick
+        onEvent = viewModel::onEvent
     )
 }
 
@@ -87,9 +77,7 @@ internal fun MediaListContent(
     mediaType: MediaType,
     pagingDataFlow: Flow<PagingData<HitModel>>,
     searchTermFlow: Flow<String>,
-    onEvent: (MediaListViewEvent) -> Unit,
-    onImagesClick: (String?) -> Unit = {},
-    onVideosClick: (String?) -> Unit = {}
+    onEvent: (MediaListViewEvent) -> Unit
 ) {
     val searchTerm by searchTermFlow.collectAsState("")
     val lazyPagingItems = pagingDataFlow.collectAsLazyPagingItems()
@@ -99,122 +87,101 @@ internal fun MediaListContent(
     } else {
         "search_video_text_field"
     }
-    Scaffold(
-        topBar = {
-            PixabayTopAppBar(
-                title = stringResource(Res.string.screen_name_search),
-                onBackClick = { onEvent(MediaListViewEvent.NavigateBack) },
-                onDebugScreenClick = { onEvent(MediaListViewEvent.DebugScreenClicked) }
-            )
-        },
-        bottomBar = {
-            PixabayBottomBar(
-                onImagesClick = { onImagesClick(searchTerm) },
-                onVideosClick = { onVideosClick(searchTerm) },
-                selected = if (mediaType == MediaType.IMAGE) {
-                    BottomBarSelected.Images
-                } else {
-                    BottomBarSelected.Videos
-                }
-            )
-        }
-    ) { contentPadding ->
-        Column(modifier = Modifier.padding(contentPadding).fillMaxWidth()) {
-            OutlinedTextField(
-                value = searchTerm,
-                onValueChange = {
-                    onEvent(MediaListViewEvent.UpdateSearchTerm(searchTerm = it))
-                },
-                label = { Text(searchFieldLabel) },
-                modifier = Modifier.fillMaxWidth().padding(16.dp).testTag(searchFieldTestTag)
-            )
+    Column(modifier = Modifier.fillMaxWidth()) {
+        OutlinedTextField(
+            value = searchTerm,
+            onValueChange = {
+                onEvent(MediaListViewEvent.UpdateSearchTerm(searchTerm = it))
+            },
+            label = { Text(searchFieldLabel) },
+            modifier = Modifier.fillMaxWidth().padding(16.dp).testTag(searchFieldTestTag)
+        )
 
-            // Handle refresh state (initial load)
-            when (val refreshState = lazyPagingItems.loadState.refresh) {
-                is LoadState.Loading -> {
-                    LoadingContent()
-                }
+        // Handle refresh state (initial load)
+        when (val refreshState = lazyPagingItems.loadState.refresh) {
+            is LoadState.Loading -> {
+                LoadingContent()
+            }
 
-                is LoadState.Error -> {
-                    ErrorContent(
-                        error = refreshState.error,
-                        onRetry = { lazyPagingItems.retry() }
-                    )
-                }
+            is LoadState.Error -> {
+                ErrorContent(
+                    error = refreshState.error,
+                    onRetry = { lazyPagingItems.retry() }
+                )
+            }
 
-                is LoadState.NotLoading -> {
-                    LazyVerticalStaggeredGrid(
-                        columns = StaggeredGridCells.Adaptive(minSize = 180.dp),
-                        verticalItemSpacing = 4.dp,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        // Handle prepend state (loading previous items)
-                        when (val prependState = lazyPagingItems.loadState.prepend) {
-                            is LoadState.Loading -> {
-                                item(span = StaggeredGridItemSpan.FullLine) {
-                                    LoadingItem()
-                                }
+            is LoadState.NotLoading -> {
+                LazyVerticalStaggeredGrid(
+                    columns = StaggeredGridCells.Adaptive(minSize = 180.dp),
+                    verticalItemSpacing = 4.dp,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    // Handle prepend state (loading previous items)
+                    when (val prependState = lazyPagingItems.loadState.prepend) {
+                        is LoadState.Loading -> {
+                            item(span = StaggeredGridItemSpan.FullLine) {
+                                LoadingItem()
                             }
-
-                            is LoadState.Error -> {
-                                item(span = StaggeredGridItemSpan.FullLine) {
-                                    ErrorItem(
-                                        error = prependState.error,
-                                        onRetry = { lazyPagingItems.retry() }
-                                    )
-                                }
-                            }
-
-                            is LoadState.NotLoading -> Unit
                         }
 
-                        items(lazyPagingItems.itemCount) { index ->
-                            val hitModel = lazyPagingItems[index] ?: return@items
-                            Card(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        onEvent(
-                                            MediaListViewEvent.ItemClicked(hitModel = hitModel)
-                                        )
-                                    },
-                                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-                            ) {
-                                Column {
-                                    if (hitModel.imageModel != null) {
-                                        MediaImageCardContent(hitModel = hitModel)
-                                    } else {
-                                        MediaVideoCardContent(hitModel = hitModel)
+                        is LoadState.Error -> {
+                            item(span = StaggeredGridItemSpan.FullLine) {
+                                ErrorItem(
+                                    error = prependState.error,
+                                    onRetry = { lazyPagingItems.retry() }
+                                )
+                            }
+                        }
+
+                        is LoadState.NotLoading -> Unit
+                    }
+
+                    items(lazyPagingItems.itemCount) { index ->
+                        val hitModel = lazyPagingItems[index] ?: return@items
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    onEvent(
+                                        MediaListViewEvent.ItemClicked(hitModel = hitModel)
+                                    )
+                                },
+                            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                        ) {
+                            Column {
+                                if (hitModel.imageModel != null) {
+                                    MediaImageCardContent(hitModel = hitModel)
+                                } else {
+                                    MediaVideoCardContent(hitModel = hitModel)
+                                }
+                                TagsContent(
+                                    tagsString = hitModel.tags,
+                                    onTagClick = { tag ->
+                                        onEvent(MediaListViewEvent.TagClicked(tag = tag))
                                     }
-                                    TagsContent(
-                                        tagsString = hitModel.tags,
-                                        onTagClick = { tag ->
-                                            onEvent(MediaListViewEvent.TagClicked(tag = tag))
-                                        }
-                                    )
-                                }
+                                )
+                            }
+                        }
+                    }
+
+                    // Handle append state (loading more items)
+                    when (val appendState = lazyPagingItems.loadState.append) {
+                        is LoadState.Loading -> {
+                            item(span = StaggeredGridItemSpan.FullLine) {
+                                LoadingItem()
                             }
                         }
 
-                        // Handle append state (loading more items)
-                        when (val appendState = lazyPagingItems.loadState.append) {
-                            is LoadState.Loading -> {
-                                item(span = StaggeredGridItemSpan.FullLine) {
-                                    LoadingItem()
-                                }
+                        is LoadState.Error -> {
+                            item(span = StaggeredGridItemSpan.FullLine) {
+                                ErrorItem(
+                                    error = appendState.error,
+                                    onRetry = { lazyPagingItems.retry() }
+                                )
                             }
-
-                            is LoadState.Error -> {
-                                item(span = StaggeredGridItemSpan.FullLine) {
-                                    ErrorItem(
-                                        error = appendState.error,
-                                        onRetry = { lazyPagingItems.retry() }
-                                    )
-                                }
-                            }
-
-                            is LoadState.NotLoading -> Unit
                         }
+
+                        is LoadState.NotLoading -> Unit
                     }
                 }
             }

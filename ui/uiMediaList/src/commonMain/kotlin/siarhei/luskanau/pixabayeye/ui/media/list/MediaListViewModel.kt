@@ -54,6 +54,10 @@ class MediaListViewModel(
                 currentPagingSource?.invalidate()
             }
             .launchIn(viewModelScope)
+
+        searchTermFlow
+            .onEach { mediaListNavigationCallback.onSearchTermChanged(searchTerm = it) }
+            .launchIn(viewModelScope)
     }
 
     fun onEvent(event: MediaListViewEvent) {

@@ -10,6 +10,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.jetbrains.compose.material3.adaptive.navigation3)
+            implementation(libs.jetbrains.compose.ui.backhandler)
             implementation(libs.jetbrains.navigation3.ui)
             implementation(projects.core.coreCommon)
             implementation(projects.ui.uiCommon)

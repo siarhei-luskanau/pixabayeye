@@ -6,5 +6,6 @@ interface MediaListNavigationCallback {
     fun onMediaListScreenItemClicked(id: Long, mediaType: MediaType)
     fun onImageTagClicked(tag: String)
     fun onDebugScreenClicked()
+    fun onSearchTermChanged(searchTerm: String)
     fun goBack()
 }

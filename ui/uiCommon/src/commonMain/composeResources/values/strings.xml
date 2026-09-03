@@ -7,4 +7,5 @@
     <string name="loading">Loading…</string>
     <string name="retry">Retry</string>
     <string name="error_loading">Failed to load</string>
+    <string name="no_media_selected">Select an item to view details</string>
 </resources>

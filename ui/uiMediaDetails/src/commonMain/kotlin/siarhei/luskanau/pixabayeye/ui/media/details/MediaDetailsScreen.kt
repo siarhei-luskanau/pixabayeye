@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,13 +37,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
-import org.jetbrains.compose.resources.stringResource
-import siarhei.luskanau.pixabayeye.common.PixabayTopAppBar
 import siarhei.luskanau.pixabayeye.common.theme.AppTheme
 import siarhei.luskanau.pixabayeye.core.network.api.HitModel
 import siarhei.luskanau.pixabayeye.core.network.api.testData
-import siarhei.luskanau.pixabayeye.ui.common.resources.Res
-import siarhei.luskanau.pixabayeye.ui.common.resources.screen_name_search
 
 @Composable
 fun MediaDetailsScreen(key: String, viewModelProvider: () -> MediaDetailsViewModel) {
@@ -61,49 +56,38 @@ internal fun MediaDetailsContent(
     onEvent: (MediaDetailsViewEvent) -> Unit
 ) {
     val viewState = viewState.collectAsState()
-    Scaffold(
-        topBar = {
-            PixabayTopAppBar(
-                title = stringResource(Res.string.screen_name_search),
-                onBackClick = { onEvent(MediaDetailsViewEvent.NavigateBack) },
-                onDebugScreenClick = null
-            )
-        }
-    ) { contentPadding ->
-        Column(
-            modifier = Modifier
-                .padding(contentPadding)
-                .fillMaxWidth()
-                .fillMaxHeight()
-        ) {
-            when (val result = viewState.value) {
-                MediaDetailsViewState.Loading -> Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.width(64.dp),
-                        color = MaterialTheme.colorScheme.secondary,
-                        trackColor = MaterialTheme.colorScheme.surfaceVariant
-                    )
-                }
-
-                is MediaDetailsViewState.Success -> if (result.hitModel.imageModel != null) {
-                    ImageDetailsContent(hitModel = result.hitModel)
-                } else {
-                    VideoDetailsContent(hitModel = result.hitModel, isTest = result.isTest)
-                }
-
-                is MediaDetailsViewState.Error -> Text(
-                    text = "Something went wrong\n${result.error.message.orEmpty()}",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+    ) {
+        when (val result = viewState.value) {
+            MediaDetailsViewState.Loading -> Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.width(64.dp),
+                    color = MaterialTheme.colorScheme.secondary,
+                    trackColor = MaterialTheme.colorScheme.surfaceVariant
                 )
             }
+
+            is MediaDetailsViewState.Success -> if (result.hitModel.imageModel != null) {
+                ImageDetailsContent(hitModel = result.hitModel)
+            } else {
+                VideoDetailsContent(hitModel = result.hitModel, isTest = result.isTest)
+            }
+
+            is MediaDetailsViewState.Error -> Text(
+                text = "Something went wrong\n${result.error.message.orEmpty()}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
     LaunchedEffect(Unit) {

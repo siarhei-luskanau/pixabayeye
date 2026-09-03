@@ -74,7 +74,7 @@ To run the application on iPhone device/simulator:
 
 ### Web Distribution
 Build web distribution: `./gradlew :app:webApp:composeCompatibilityBrowserDistribution`  
-Deploy a dir `app/webApp/build/dist/composeWebCompatibility/productionExecutable` to a web server
+Deploy a dir `app/webApp/build/dist/wasmJs/productionExecutable` to a web server
 
 ### Wasm Browser
 Run the browser application: `./gradlew :app:webApp:wasmJsBrowserDevelopmentRun`  
@@ -83,7 +83,11 @@ Run browser UI tests: `./gradlew :app:webApp:wasmJsBrowserTest`
 ### Screenshot Testing
 Record a screenshot: `./gradlew recordRoborazzi -DIS_DATA_STUB_ENABLED=true`
 Verify a screenshot: `./gradlew verifyRoborazzi -DIS_DATA_STUB_ENABLED=true`
-Output directory is `screenshots/`
+Output directory is each module's own `src/screenshots/` (e.g. `ui/uiCommon/src/screenshots`)
+
+These commands are for human/manual reference only — CI owns recording and verification
+in practice (`.github/workflows/screenshots.yml` / `ci.yml`'s `VerifyScreenshot` job).
+AI agents must not run them locally; see `docs/VERIFICATION.md`.
 
 ---
 
