@@ -25,8 +25,9 @@ CI runs these (plus `wasmJsBrowserTest`, currently commented out in the matrix) 
 every push/PR.
 
 **AI agents**: don't run `testAndroidHostTest` as-is — it includes Roborazzi screenshot
-verification, which agents must not launch (see "Screenshot testing (Roborazzi)"
-below). Exclude the screenshot-bearing modules instead, e.g. `./gradlew testAndroidHostTest
+verification (on Android, auto-generated from `@Preview` functions — see
+`docs/CONVENTIONS.md`), which agents must not launch (see "Screenshot testing
+(Roborazzi)" below). Exclude the screenshot-bearing modules instead, e.g. `./gradlew testAndroidHostTest
 -x :ui:uiMediaList:testAndroidHostTest -x :ui:uiMediaDetails:testAndroidHostTest
 -x :composeApp:testAndroidHostTest -x :ui:uiCommon:testAndroidHostTest` (adjust the
 exclusion list to whichever modules the change touches). A validator's layer 3 sign-off
@@ -43,7 +44,9 @@ authority on screenshot correctness.
 ./gradlew ciAndroid       # assembleDebug + assembleRelease
 ./gradlew ciDesktop       # :app:desktopApp:jar
 ./gradlew ciWasmJsBrowser # :app:webApp:wasmJsMainClasses + wasmJsBrowserDistribution
-./gradlew ciIos           # kdoctor + boots an iOS 26 simulator sanity check (macOS only)
+./gradlew ciIos           # kdoctor + boots a simulator (any "iPhone 1*" device on
+                          # whatever iOS runtime the macOS runner ships) as a sanity
+                          # check (macOS only)
 ```
 
 This layer is what catches defects layer 2 misses on emulators/simulators and real
@@ -53,10 +56,18 @@ one module or any UI code, not "unit tests are green."
 ## Screenshot testing (Roborazzi)
 
 **AI agents must not launch Roborazzi tests.** Recording or verifying screenshots is
-GitHub Actions' job only (the `VerifyScreenshot` CI job). Don't run `recordRoborazzi`,
-and don't run a test task that would execute Roborazzi checks (see the Layer 2
-exclusion note above) — let CI produce and verify screenshot results; review those
-instead of running them locally.
+GitHub Actions' job only — verification via the `VerifyScreenshot` job in `ci.yml`,
+recording via the separate, `workflow_dispatch`-only `screenshots.yml` ("Update
+screenshots": `RecordScreenshotMatrixSetup` → `RecordScreenshot` matrix, running
+`recordRoborazzi*` per module → `CombineScreenshots`, which merges artifacts and
+auto-commits). Don't run `recordRoborazzi`, and don't run a test task that would execute
+Roborazzi checks (see the Layer 2 exclusion note above) — let CI produce and verify
+screenshot results; review those instead of running them locally.
+
+Android screenshot coverage is auto-generated from `@Preview` functions (Roborazzi's
+Compose Preview scanner) — there are no hand-written Android screenshot test classes to
+edit; see `docs/CONVENTIONS.md`'s Screenshot tests section for how to add coverage. JVM
+and iOS screenshot tests are still hand-written per preview.
 
 Commands below are for human reference only:
 
@@ -90,6 +101,11 @@ on every push/PR to `main`; `workflow_dispatch` allows manual triggering. (`Test
 `VerifyScreenshotMatrixSetup` both depend on the four release-build jobs completing
 first, per `.github/workflows/ci.yml`'s `needs:` graph — the release builds are not the
 last stage.)
+
+Recording new reference images is a separate workflow, `.github/workflows/screenshots.yml`
+("Update screenshots"), `workflow_dispatch`-only and not part of the push/PR pipeline
+above: `RecordScreenshotMatrixSetup` → `RecordScreenshot` (matrix, runs
+`recordRoborazzi*` per module) → `CombineScreenshots` (merges artifacts, auto-commits).
 
 ## Maker/checker routing
 

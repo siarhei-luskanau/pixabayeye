@@ -4,6 +4,48 @@ Architectural/dependency decisions with rationale and rejected alternatives. Add
 entry whenever a decision would otherwise have to be re-derived from git archaeology.
 Newest first.
 
+## Material3 Adaptive `NavigationSuiteScaffold` + `ListDetailSceneStrategy` instead of a fixed bottom bar
+
+**Decision**: `bf18234` "feat(navigation): migrate to Material 3 Adaptive Navigation" replaced the fixed `PixabayBottomBar`
+(deleted, along with its tests) with Material3 Adaptive's `NavigationSuiteScaffold`
+(bottom bar / nav rail / nav drawer, chosen by window width — drawer at ≥1200dp, else
+`calculateFromAdaptiveInfo` collapsed to rail-or-bar) wrapping a Nav3 `NavDisplay` that
+uses `rememberListDetailSceneStrategy` for adaptive list/detail panes. Screen chrome
+(top app bar, nav bar/rail/drawer) moved out of `MediaListScreen`/`MediaDetailsScreen`
+and up into a new `AppNavigationSuiteScaffold` at the `NavApp` composition root;
+`navigation` gained its own Koin module (`NavigationCommonModule`) since `AppNavigation`
+became a `@Single` Koin-managed class instead of being constructed manually in
+`NavApp.kt`. See `docs/ARCHITECTURE.md`'s "Adaptive navigation" section.
+
+**Why**: a fixed bottom bar and single-pane push navigation don't use the extra space
+on tablets/desktop/web; Material3 Adaptive is Compose Multiplatform's supported answer
+to that, and Nav3's list-detail scene strategy lets wide windows show the media list and
+its detail pane side by side without a second navigation model.
+
+**Consequence**: `MediaListScreen`/`MediaDetailsScreen` no longer own a `Scaffold`; they
+are content-only composables now, meant to be hosted inside `AppNavigationSuiteScaffold`
++ `NavDisplay`. Don't reintroduce a per-screen `Scaffold`/top-bar when adding new
+screens — wire them through the shared scaffold instead.
+
+## Roborazzi Compose Preview scanner instead of hand-written Android screenshot tests
+
+**Decision**: `d0c77ae` "test: migrate to automated preview-based Roborazzi
+screenshots" replaced hand-written `*AndroidTest.kt` Roborazzi test classes with
+Roborazzi's experimental Compose Preview scanner
+(`generateComposePreviewRobolectricTests`, `@OptIn(ExperimentalRoborazziApi::class)`),
+which generates `androidHostTest` (Robolectric) tests directly from each module's own
+`@Preview` composables. Config moved out of individual modules into a new shared
+`roborazziConvention.gradle.kts` plugin (applied by `uiCommon`, `uiMediaList`,
+`uiMediaDetails`, `composeApp`).
+
+**Why**: removes the duplication of maintaining a `@Preview` and a matching
+`*AndroidTest.kt` by hand for every composable that needs Android screenshot coverage —
+adding coverage is now "add an `@Preview`," not "add a test class too."
+
+**Scope**: Android-only. JVM (`*JvmTest.kt`) and iOS (`*IosTest.kt`) screenshot tests
+are still hand-written per preview — the scanner doesn't cover those targets. See
+`docs/CONVENTIONS.md`'s Screenshot tests section.
+
 ## Koin DI: compile-time annotations (koin-annotations/KSP), not manual `module {}`
 
 **Decision**: DI wiring is generated via `io.insert-koin.compiler.plugin`

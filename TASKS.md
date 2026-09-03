@@ -106,6 +106,37 @@ creep into a second task or an unrelated module. See the WIP rule in `AGENTS.md`
   re-ran the full layer 1-3 gate with `--rerun-tasks` on every test command and got a
   genuine fresh pass on every one (0 failures on both managed-device test suites).
 
+## Migrate to automated preview-based Roborazzi screenshots
+
+- **behavior**: Android Roborazzi screenshot tests are generated automatically from
+  `@Preview` composables via Roborazzi's experimental Compose Preview scanner
+  (`generateComposePreviewRobolectricTests`), replacing hand-written `*AndroidTest.kt`
+  test classes; config centralized in a new `roborazziConvention` plugin applied by
+  `uiCommon`, `uiMediaList`, `uiMediaDetails`, `composeApp`. JVM/iOS screenshot tests are
+  unaffected (still hand-written). See `DECISIONS.md` and `docs/CONVENTIONS.md`.
+- **verification**: layer 1-2 per `docs/VERIFICATION.md` (`ktlintFormat ciLint`,
+  `jvmTest`, `testAndroidHostTest` with screenshot-bearing modules excluded per the
+  agent-Roborazzi rule); CI's `VerifyScreenshot` job is the authority on the generated
+  screenshots themselves.
+- **state**: `not_started` — commit `d0c77ae` landed without a `TASKS.md` entry or
+  validator re-run; no independent verification is recorded for it yet.
+
+## AdaptiveUi-navigation
+
+- **behavior**: `navigation` now uses Material3 Adaptive (`NavigationSuiteScaffold` +
+  `ListDetailSceneStrategy`) instead of a fixed `PixabayBottomBar` and single-pane push
+  navigation; screen chrome (top app bar, nav bar/rail/drawer) moved out of
+  `MediaListScreen`/`MediaDetailsScreen` into a new `AppNavigationSuiteScaffold`;
+  `AppNavigation` became a Koin `@Single` via a new `NavigationCommonModule`. See
+  `DECISIONS.md` and `docs/ARCHITECTURE.md`'s "Adaptive navigation" section.
+- **verification**: full layer 1-3 gate per `docs/VERIFICATION.md` — this touches more
+  than one module (`navigation`, `uiMediaList`, `uiMediaDetails`, `composeApp`) and UI
+  code, so a validator must reach layer 3 before this can be marked `passing`.
+- **state**: `not_started` — commit `bf18234` "feat(navigation): migrate to Material 3
+  Adaptive Navigation" landed without a `TASKS.md` entry or
+  validator re-run; no independent verification is recorded for it yet. `PROGRESS.md`
+  flags this as required before merging to `main`.
+
 ## Template for new feature/bug tasks
 
 ```markdown
