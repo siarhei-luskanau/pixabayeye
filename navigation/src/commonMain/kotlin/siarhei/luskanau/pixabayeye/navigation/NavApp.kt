@@ -43,9 +43,13 @@ fun NavApp() = AppTheme {
     }
     val appNavigation = koin.get<AppNavigation>()
     val listDetailStrategy = rememberListDetailSceneStrategy<NavKey>()
-    val currentMediaListRoute = appNavigation.backStack.lastOrNull() as? AppRoutes.MediaList
+    val selectedMediaType = when (val currentRoute = appNavigation.backStack.lastOrNull()) {
+        is AppRoutes.MediaList -> currentRoute.mediaType
+        is AppRoutes.MediaDetails -> currentRoute.mediaType
+        else -> null
+    }
     AppNavigationSuiteScaffold(
-        selectedMediaType = currentMediaListRoute?.mediaType,
+        selectedMediaType = selectedMediaType,
         onImagesClick = {
             appNavigation.backStack.add(
                 AppRoutes.MediaList(
@@ -64,11 +68,7 @@ fun NavApp() = AppTheme {
         },
         title = stringResource(Res.string.screen_name_search),
         onBackClick = { appNavigation.goBack() },
-        onDebugScreenClick = if (currentMediaListRoute != null) {
-            { appNavigation.onDebugScreenClicked() }
-        } else {
-            null
-        }
+        onDebugScreenClick = { appNavigation.onDebugScreenClicked() }
     ) {
         NavDisplay(
             backStack = appNavigation.backStack,
