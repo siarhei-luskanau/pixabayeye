@@ -43,7 +43,7 @@ kotlin {
         }
 
         webMain.dependencies {
-            implementation(libs.ktor.client.js.wasm.js)
+            implementation(libs.ktor.client.js)
         }
     }
 }
