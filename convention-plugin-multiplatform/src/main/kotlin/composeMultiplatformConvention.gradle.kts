@@ -100,6 +100,10 @@ kotlin {
 }
 
 tasks.withType<Test>().matching { it.name.contains("AndroidHostTest") }.configureEach {
+    systemProperties["robolectric.pixelCopyRenderMode"] = "hardware"
+}
+
+tasks.withType<Test>().matching { it.name.contains("AndroidHostTest") }.configureEach {
     exclude("**/*CommonTest*")
     failOnNoDiscoveredTests = false
 }
