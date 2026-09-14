@@ -8,6 +8,7 @@ plugins {
 android {
     namespace = "siarhei.luskanau.compose.multiplatform.pixabayeye"
     compileSdk = libs.versions.build.android.compileSdk.get().toInt()
+    compileSdkMinor = libs.versions.build.android.compileSdkMinor.get().toInt()
     defaultConfig {
         minSdk = libs.versions.build.android.minSdk.get().toInt()
         targetSdk = libs.versions.build.android.targetSdk.get().toInt()
