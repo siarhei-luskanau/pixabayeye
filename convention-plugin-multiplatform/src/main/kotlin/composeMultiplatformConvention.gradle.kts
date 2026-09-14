@@ -15,7 +15,12 @@ kotlin {
     jvmToolchain(libs.versions.javaVersion.get().toInt())
 
     android {
-        compileSdk = libs.versions.build.android.compileSdk.get().toInt()
+        compileSdk {
+            version =
+                release(libs.versions.build.android.compileSdk.get().toInt()) {
+                    minorApiLevel = libs.versions.build.android.compileSdkMinor.get().toInt()
+                }
+        }
         minSdk = libs.versions.build.android.minSdk.get().toInt()
         androidResources.enable = true
         withHostTestBuilder {}.configure {
