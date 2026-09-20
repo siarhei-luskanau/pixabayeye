@@ -13,6 +13,7 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.engine.defaults)
             implementation(libs.ktor.core)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(project.dependencies.platform(libs.ktor.bom))
@@ -28,22 +29,6 @@ kotlin {
 
         commonTest.dependencies {
             implementation(libs.ktor.client.mock)
-        }
-
-        jvmMain.dependencies {
-            implementation(libs.ktor.client.cio)
-        }
-
-        androidMain.dependencies {
-            implementation(libs.ktor.client.cio)
-        }
-
-        iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
-        }
-
-        webMain.dependencies {
-            implementation(libs.ktor.client.js)
         }
     }
 }
