@@ -8,6 +8,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
+import kotlinx.coroutines.test.runTest
 
 private const val SINGLE_HIT_JSON = """
 {
@@ -39,7 +40,7 @@ private const val SINGLE_HIT_JSON = """
 class PixabayApiClientCommonTest {
 
     @Test
-    fun isApiKeyOk_returnsTrue_onHttpOk() = kotlinx.coroutines.runBlocking {
+    fun isApiKeyOk_returnsTrue_onHttpOk() = runTest {
         val client = PixabayApiClient(
             httpClient = mockHttpClient { request ->
                 assertTrue(request.url.parameters["key"] == "test-api-key")
@@ -56,7 +57,7 @@ class PixabayApiClientCommonTest {
     }
 
     @Test
-    fun isApiKeyOk_throws_onHttpError() = kotlinx.coroutines.runBlocking {
+    fun isApiKeyOk_throws_onHttpError() = runTest {
         val client = PixabayApiClient(
             httpClient = mockHttpClient { request ->
                 respond(
@@ -73,25 +74,24 @@ class PixabayApiClientCommonTest {
     }
 
     @Test
-    fun getImages_parsesResponse_andAppliesApiKeyFromPrefService() =
-        kotlinx.coroutines.runBlocking {
-            var capturedKey: String? = null
-            val client = PixabayApiClient(
-                httpClient = mockHttpClient { request ->
-                    capturedKey = request.url.parameters["key"]
-                    respond(
-                        content = SINGLE_HIT_JSON,
-                        status = HttpStatusCode.OK,
-                        headers = headersOf(HttpHeaders.ContentType, "application/json")
-                    )
-                },
-                prefService = FakePrefService(apiKey = "key-from-prefs")
-            )
+    fun getImages_parsesResponse_andAppliesApiKeyFromPrefService() = runTest {
+        var capturedKey: String? = null
+        val client = PixabayApiClient(
+            httpClient = mockHttpClient { request ->
+                capturedKey = request.url.parameters["key"]
+                respond(
+                    content = SINGLE_HIT_JSON,
+                    status = HttpStatusCode.OK,
+                    headers = headersOf(HttpHeaders.ContentType, "application/json")
+                )
+            },
+            prefService = FakePrefService(apiKey = "key-from-prefs")
+        )
 
-            val result = client.getImages(query = "cats", perPage = 20, page = 1)
+        val result = client.getImages(query = "cats", perPage = 20, page = 1)
 
-            assertEquals("key-from-prefs", capturedKey)
-            assertEquals(1, result.hits.size)
-            assertEquals(1L, result.hits.first().id)
-        }
+        assertEquals("key-from-prefs", capturedKey)
+        assertEquals(1, result.hits.size)
+        assertEquals(1L, result.hits.first().id)
+    }
 }
