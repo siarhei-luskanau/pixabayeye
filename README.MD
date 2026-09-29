@@ -76,6 +76,10 @@ To run the application on iPhone device/simulator:
 Build web distribution: `./gradlew :app:webApp:composeCompatibilityBrowserDistribution`  
 Deploy a dir `app/webApp/build/dist/wasmJs/productionExecutable` to a web server
 
+### Js Browser
+Run the browser application: `./gradlew :app:webApp:jsBrowserDevelopmentRun`  
+Run browser UI tests: `./gradlew :app:webApp:jsBrowserTest`
+
 ### Wasm Browser
 Run the browser application: `./gradlew :app:webApp:wasmJsBrowserDevelopmentRun`  
 Run browser UI tests: `./gradlew :app:webApp:wasmJsBrowserTest`

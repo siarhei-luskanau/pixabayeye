@@ -1,9 +1,11 @@
 package siarhei.luskanau.pixabayeye
 
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextContains
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
@@ -20,9 +22,6 @@ class KoinAppCommonTest {
     fun simpleCheck() = runComposeUiTest {
         setContent { KoinApp() }
         onRoot().printToLog("StartTag")
-        onNodeWithContentDescription("Back").performClick()
-        waitForIdle()
-        awaitIdle()
         val testInput = "test123abc"
         onNodeWithTag("search_text_field").apply {
             performTextInput(text = testInput)
@@ -30,9 +29,12 @@ class KoinAppCommonTest {
             awaitIdle()
             assertTextContains(value = testInput)
         }
-        onNodeWithText("Videos").performClick()
+        onAllNodes(
+            SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Tab)
+        )[1].performClick()
         waitForIdle()
         awaitIdle()
+        onNodeWithText("Search Videos").assertIsDisplayed()
         onNodeWithText(testInput).assertIsDisplayed()
     }
 }

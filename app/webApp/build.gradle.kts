@@ -7,6 +7,11 @@ plugins {
 kotlin {
     jvmToolchain(libs.versions.javaVersion.get().toInt())
 
+    js {
+        browser()
+        binaries.executable()
+    }
+
     wasmJs {
         browser()
         binaries.executable()

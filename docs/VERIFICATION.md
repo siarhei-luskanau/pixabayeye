@@ -44,6 +44,7 @@ authority on screenshot correctness.
 ./gradlew ciAndroid       # assembleDebug + assembleRelease
 ./gradlew ciDesktop       # :app:desktopApp:jar
 ./gradlew ciWasmJsBrowser # :app:webApp:wasmJsMainClasses + wasmJsBrowserDistribution
+./gradlew ciJsBrowser     # :app:webApp:jsMainClasses + jsBrowserDistribution
 ./gradlew ciIos           # kdoctor + boots a simulator (any "iPhone 1*" device on
                           # whatever iOS runtime the macOS runner ships) as a sanity
                           # check (macOS only)
