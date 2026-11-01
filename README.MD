@@ -78,11 +78,11 @@ Deploy a dir `app/webApp/build/dist/wasmJs/productionExecutable` to a web server
 
 ### Js Browser
 Run the browser application: `./gradlew :app:webApp:jsBrowserDevelopmentRun`  
-Run browser UI tests: `./gradlew :app:webApp:jsBrowserTest`
+Run browser UI tests: `./gradlew jsBrowserTest`
 
 ### Wasm Browser
 Run the browser application: `./gradlew :app:webApp:wasmJsBrowserDevelopmentRun`  
-Run browser UI tests: `./gradlew :app:webApp:wasmJsBrowserTest`
+Run browser UI tests: `./gradlew wasmJsBrowserTest`
 
 ### Screenshot Testing
 Record a screenshot: `./gradlew recordRoborazzi -DIS_DATA_STUB_ENABLED=true`
